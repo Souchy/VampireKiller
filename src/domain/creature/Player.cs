@@ -2,7 +2,7 @@
 
 namespace VampireKiller;
 
-public class Mob
+public class Player : Creature
 {
 
 }

@@ -6,7 +6,11 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="src\domain\stats\OldEnumStats.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="src\ai\" />
     <Folder Include="src\data\" />
+    <Folder Include="src\ui\" />
   </ItemGroup>
 </Project>

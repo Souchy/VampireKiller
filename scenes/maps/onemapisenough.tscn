@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cg7eswhrsra16"]
+[gd_scene load_steps=3 format=3 uid="uid://cg7eswhrsra16"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cw2bb"]
+albedo_color = Color(0.00784314, 0.219608, 0.0823529, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_d7rg8"]
+material = SubResource("StandardMaterial3D_cw2bb")
 size = Vector2(8.715, 9.29)
 
 [node name="onemapisenough" type="Node3D"]
