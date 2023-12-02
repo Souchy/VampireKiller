@@ -1,3 +1,7 @@
-[gd_scene format=3 uid="uid://d3u1oxakhp5hr"]
+[gd_scene load_steps=2 format=3 uid="uid://d3u1oxakhp5hr"]
+
+[ext_resource type="PackedScene" uid="uid://cg7eswhrsra16" path="res://scenes/maps/onemapisenough.tscn" id="1_lsyc5"]
 
 [node name="Game" type="Node3D"]
+
+[node name="onemapisenough" parent="." instance=ExtResource("1_lsyc5")]
