@@ -9,7 +9,7 @@ public record Action(CreatureInstance caster, Vector3 positionTarget) { }
 public record ActionSpell(CreatureInstance caster, SpellModel spell, Vector3 positionTarget) { }
 public record ActionMove(CreatureInstance caster, Vector3 positionTarget) { }
 public record ActionEffectZone(CreatureInstance caster, Vector3 positionTarget, Statement effect, List<CreatureInstance> possibleTargets) : Action(caster, positionTarget) { }
-public record ActionEffectTarget(CreatureInstance caster, Vector3 positionTarget, Statement effect, CreatureInstance target) : Action(caster, positionTarget) { }
+public record ActionEffectTarget(CreatureInstance caster, Vector3 positionTarget, Statement statement, CreatureInstance target) : Action(caster, positionTarget) { }
 
 
 public abstract class Statement
