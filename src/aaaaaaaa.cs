@@ -241,6 +241,9 @@ class FireballSpellModel : SpellModel
     // private PackedScene projectileScene = GD.Load<PackedScene>("res://fireball_projectile.tscn");
     // private PackedScene explosionScene = GD.Load<PackedScene>("res://fireball_explosion.tscn");
     // private PackedScene burningStatusScene = GD.Load<PackedScene>("res://fireball_burning.tscn");
+    /// <summary>
+    /// Setup statements
+    /// </summary>
     public FireballSpellModel()
     {
         var projectile = new SpawnProjectileEffect() { 
@@ -275,8 +278,10 @@ class FireballSpellModel : SpellModel
         burningStatus.children.Add(dot);
     }
 }
+
+// ----------------------------------------------------------------------------- Glaceon side
 /// <summary>
-/// PARTIAL SCENE: vfx + hitbox 
+/// PARTIAL SCENE: vfx + hitbox. Dont need these classes unless you want additional code to control the vfx
 /// </summary>
 partial class FireballProjectile : ProjectileEffect
 {
