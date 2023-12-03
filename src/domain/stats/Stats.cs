@@ -134,6 +134,7 @@ namespace EffectStats
 
 namespace ProjectileStats
 {
+    public record ProjectileAdditional(int value) : StatInt(value) { }
     public record ProjectileSpeed(double value) : StatDouble(value) { }
     public record ProjectileFork(int value) : StatInt(value) { }
     public record ProjectileChain(int value) : StatInt(value) { }

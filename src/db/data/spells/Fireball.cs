@@ -5,7 +5,7 @@ public class FireballSpell : SpellModel
 
     public FireballSpell()
     {
-        this.effects.Add(new Damage()
+        this.statements.Add(new Damage()
         {
             damage = 120
         });

@@ -10,7 +10,7 @@ namespace VampireKiller;
 public class SpellModel
 {
     public SpellModelStatsDictionary spellStats { get; set; } = new();
-    public List<Effect> effects { get; set; } = new();
+    public List<Statement> statements { get; set; } = new();
 }
 
 

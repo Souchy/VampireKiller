@@ -5,7 +5,7 @@ namespace VampireKiller;
 public class Status
 {
     public StatusStats stats = new();
-    public List<Effect> effects { get; set; }
+    public List<Statement> effects { get; set; }
 }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Godot;
 
 namespace VampireKiller;
 
@@ -13,7 +14,7 @@ public class CreatureModel
     }
 }
 
-public class CreatureInstance
+public partial class CreatureInstance : Node3D
 {
     public CreatureModel model;
     public CreatureInstanceStats resources { get; set; } = new();
@@ -27,4 +28,7 @@ public class CreatureInstance
         var result = new StatsDictionary();
         return result;
     }
+    // public Vector3 getPosition() {
+    //     return new();
+    // }
 }

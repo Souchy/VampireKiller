@@ -6,7 +6,7 @@ namespace VampireKiller;
 public class ItemModel
 {
     // public Stats bonusStats { get; set; } = new();
-    public List<Effect> effects { get; set; } = new();
+    public List<Statement> effects { get; set; } = new();
     public SpellModel attachedSpell;
 }
 

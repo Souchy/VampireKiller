@@ -8,25 +8,29 @@ namespace VampireKiller;
 public record Action(CreatureInstance caster, Vector3 positionTarget) { }
 public record ActionSpell(CreatureInstance caster, SpellModel spell, Vector3 positionTarget) { }
 public record ActionMove(CreatureInstance caster, Vector3 positionTarget) { }
-public record ActionEffectZone(CreatureInstance caster, Vector3 positionTarget, Effect effect, List<CreatureInstance> possibleTargets) : Action(caster, positionTarget) { }
-public record ActionEffectTarget(CreatureInstance caster, Vector3 positionTarget, Effect effect, CreatureInstance target) : Action(caster, positionTarget) { }
+public record ActionEffectZone(CreatureInstance caster, Vector3 positionTarget, Statement effect, List<CreatureInstance> possibleTargets) : Action(caster, positionTarget) { }
+public record ActionEffectTarget(CreatureInstance caster, Vector3 positionTarget, Statement effect, CreatureInstance target) : Action(caster, positionTarget) { }
 
 
-public abstract class Effect
+public abstract class Statement
 {
-
-    public List<Effect> children { get; set; } = new();
+    // public Vector3 aoeSize = new();
+    public List<Statement> children { get; set; } = new();
     public List<Trigger> triggers { get; set; } = new();
 
     public abstract void apply(ActionEffectTarget action);
 }
 
-public class Trigger
+public enum Trigger
 {
-
+    OnReady,
+    OnProcess,
+    OnHit,
+    OnExpire,
+    // OnDeath, ?
 }
 
-public class EffectAddStats : Effect
+public class StatementAddStats : Statement
 {
     public Stats bonusStats { get; set; }
 
@@ -38,14 +42,13 @@ public class EffectAddStats : Effect
 
 // public class Projectile : Effect
 // {
-    
 //     public override void apply(ActionEffectTarget action)
 //     {
 //         throw new NotImplementedException();
 //     }
 // }
 
-public class Damage : Effect
+public class Damage : Statement
 {
     public int damage { get; set; }
     public override void apply(ActionEffectTarget action)
@@ -65,3 +68,4 @@ public class Damage : Effect
         }
     }
 }
+
