@@ -1,12 +1,13 @@
 namespace VampireKiller;
 
-public class SpellStats : Stats
-{
-    public new SpellStatsDictionary flat => (SpellStatsDictionary)base.baseFlat;
-    public new SpellStatsDictionary increase => (SpellStatsDictionary)base.increase;
-}
+// public class SpellStats : Stats
+// {
+//     public new SpellStatsDictionary flat => (SpellStatsDictionary)base.flat;
+//     public new SpellStatsDictionary increase => (SpellStatsDictionary)base.increase;
+//     public SpellStatsDictionary fight = new();
+// }
 
-public class SpellStatsDictionary : StatsDictionary
+public class SpellModelStatsDictionary : StatsDictionary
 {
     public SpellRepeat GetSpellRepeat() => this.get<SpellRepeat>();
     public SpellResourceCostType GetSpellResourceCostType() => this.get<SpellResourceCostType>();

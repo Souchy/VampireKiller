@@ -2,7 +2,7 @@
 
 namespace VampireKiller;
 
-public class Player : Creature
+public class Player
 {
-
+    public CreatureInstance creatureInstance { get; set; }
 }

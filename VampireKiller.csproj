@@ -13,4 +13,14 @@
     <Folder Include="src\data\" />
     <Folder Include="src\ui\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="scenes\creature.tscn" />
+    <None Include="scenes\creatures\orc.tscn" />
+    <None Include="scenes\game.tscn" />
+    <None Include="scenes\maps\onemapisenough.tscn" />
+    <None Include="scenes\player.tscn" />
+    <None Include="scenes\ui\ui_hud.tscn" />
+    <None Include="scenes\ui\ui_main.tscn" />
+    <None Include="scenes\ui\ui_settings.tscn" />
+  </ItemGroup>
 </Project>

@@ -2,29 +2,26 @@
 using System;
 using System.Collections.Generic;
 
-public class CompoundStats {
-    
+public class CompoundStats
+{
+
 }
 
 public class Stats
 {
-    public StatsDictionary baseFlat = new();
+    public StatsDictionary flat = new();
     public StatsDictionary increase = new();
-    /// <summary>
-    /// 
-    /// </summary>
-    public StatsDictionary moreFlat = new();
-    public StatsDictionary set = new();
-    public T get<T>() where T : Stat
-    {
-        if (set.has<T>())
-            return set.get<T>();
-        T flat = baseFlat.get<T>();
-        T inc = increase.get<T>();
-        T more = moreFlat.get<T>();
-        return default;
-    }
+    // public T get<T>() where T : Stat
+    // {
+    //     if (set.has<T>())
+    //         return set.get<T>();
+    //     T flat = baseFlat.get<T>();
+    //     T inc = increase.get<T>();
+    //     T more = fight.get<T>();
+    //     return default;
+    // }
 }
+
 
 // public class StatsFlat : StatsDictionary { }
 // public class StatsIncrease : StatsDictionary { }
@@ -119,10 +116,12 @@ public record StatBool : Stat
 {
     public bool value { get; set; }
     public StatBool(bool value = false) => this.value = value;
-    public void and(StatBool stat) {
+    public void and(StatBool stat)
+    {
         this.value &= stat.value;
     }
-    public void or(StatBool stat) {
+    public void or(StatBool stat)
+    {
         this.value |= stat.value;
     }
 }

@@ -5,11 +5,11 @@ namespace VampireKiller;
 /// <summary>
 /// 
 /// </summary>
-public class SpellInstanceStats : Stats
-{
-    public new SpellInstanceStatsDictionary flat => (SpellInstanceStatsDictionary)base.baseFlat;
-    public new SpellInstanceStatsDictionary increase => (SpellInstanceStatsDictionary)base.increase;
-}
+// public class SpellInstanceStats : Stats
+// {
+//     public new SpellInstanceStatsDictionary flat => (SpellInstanceStatsDictionary)base.flat;
+//     public new SpellInstanceStatsDictionary increase => (SpellInstanceStatsDictionary)base.increase;
+// }
 
 public class SpellInstanceStatsDictionary : StatsDictionary
 {

@@ -2,11 +2,10 @@
 
 namespace VampireKiller;
 
-public class Enemy : Creature
+public class Enemy
 {
-
-    // public AI ai; // Behaviour
-
-
+    public CreatureInstance creatureInstance { get; set; }
+    
+    // public AiController ai; // Behaviour
 
 }
