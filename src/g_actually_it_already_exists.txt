@@ -1,0 +1,49 @@
+
+
+
+just check Umbreon.sapphire.CreatureNode
+and Umbreon.Sapphire
+
+
+just change IStatResource for StatSimple Life and LifeMax
+
+Coming from the server, you have to keep the same client object and just set the stat.value to fire the event
+could also listen to "replace" events then update everything on the ui
+
+
+public partial class CreatureNode : Node3D
+{
+    public Creature Creature { get; set; }
+
+    #region Nodes
+    [NodePath] public Node3D Model { get; set; } 
+    [NodePath] public MeshInstance3D TeamIndicator { get; set; }
+    [NodePath] public AnimationPlayer AnimationPlayer { get; set; }
+    [NodePath] public Healthbar Healthbar { get; set; }
+    #endregion
+
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        this.OnReady();
+    }
+
+    [Subscribe(nameof(Resource.Life))]
+    public void onLifeChanged(IStatResource life)
+    {
+        Healthbar.set(life.current, life.currentMax);
+    }
+
+    public void init(ICreature c, ICreatureSkin skin, int team) //string name)
+    {
+        // Sub
+        c.GetTotalStats(null).Get<IStatResource>(Resource.Life).GetEntityBus().subscribe(this);
+
+        // Set Model
+        GD.Print("CreatureNode_init: " + skin.meshModel);
+        if (!skin.meshModel.EndsWith(".tscn")) skin.meshModel += ".tscn";
+        PackedScene modelScene = GD.Load<PackedScene>("res://assets/creatures/" + skin.meshModel);
+        var characterNode = modelScene.Instantiate<Node3D>();
+        characterNode.Name = "model";
+        var previousModel = this.GetNode("Model");
+        previousModel.ReplaceBy(characterNode);

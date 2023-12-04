@@ -1,0 +1,38 @@
+
+
+
+1. update ui on update()/process() loop
+2. update ui on event
+
+
+1. Fight contains the CreatureEntity contains the CreatureScene           /// ModelInstance3D, AnimationController, etc
+2. GameScene/System contains the CreatureScene contains the CreatureEntity
+
+
+1. process loop check creatures
+    1. if there's a creature that doesnt have a Scene, then new CreatureScene(creature)
+2. glaceon can listen to fight.creatures.events
+    1. onAdd -> new CreatureScene(creature)
+    2. onRemove -> delete CreatureScene(creature)
+
+
+
+RenderableSystem {
+    public Dictionary<ObjectId, CreatureScene> renderables;
+
+    ctor() {
+        fight.creatures.subscribe(this);
+    }
+    @subscribe
+    public void onAdd(Creature c) {
+        var packedscene = GD.load(c.model.modelAssetId);
+        var creaturescene = packedscene.instantiate();
+        renderables[c.id] = creaturescene;
+    }
+    @subscribe
+    public void onRemove(Creature c) {
+        var creaturescene = renderables[c.id];
+        renderables.remove(c.id);
+        creaturescene.destroy();
+    }
+}

@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using EffectStats;
 using Godot;
 using ProjectileStats;
 using VampireKiller;
+
+namespace aaaaaaaa;
 
 // ------------------------------------------------------------------------------------------------------ Code
 class Item
@@ -41,6 +45,7 @@ class SpellScroll : Item, Active
 }
 
 // ------------------------------------------------------------------------------------------------------ World Effects
+
 public interface IEffect
 {
     public CreatureInstance caster { get; set; }
@@ -247,16 +252,16 @@ class FireballSpellModel : SpellModel
     public FireballSpellModel()
     {
         var projectile = new SpawnProjectileEffect() { 
-            effectSceneName = "fireball_projectile",
+            effectSceneName = "res://fireball_projectile.tscn",
             // effectscene = projectileScene,
             initialVelocity = 10 
         };
         var explosion = new SpawnEffect() { 
-            effectSceneName = "fireball_explosion",
+            effectSceneName = "res://fireball_explosion.tscn",
             // effectscene = explosionScene
         };
         var burningStatus = new SpawnStatusEffect() { 
-            effectSceneName = "fireball_burning",
+            effectSceneName = "res://fireball_burning.tscn",
             // effectscene = burningStatusScene,
             duration = 3,
             frequency = 1,
