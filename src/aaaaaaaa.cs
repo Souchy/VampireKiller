@@ -52,7 +52,7 @@ public interface IEffect
     public Vector3 velocity { get; set; }
     public long activationFrequency { get; set; }
     public long duration { get; set; }
-    public List<Statement> statements { get; set; }
+    public Statement sourceStatement { get; set; }
 }
 partial class Effect : Node, IEffect
 {
@@ -60,7 +60,8 @@ partial class Effect : Node, IEffect
     public Vector3 velocity { get; set; }
     public long activationFrequency { get; set; }
     public long duration { get; set; }
-    public List<Statement> statements { get; set; } = new();
+    public Statement sourceStatement { get; set; }
+    // public List<Statement> statements { get; set; } = new();
     // 3d model / vfx
     // duration..?
     // colision hitbox aoe, or null if single target
@@ -71,7 +72,7 @@ partial class Effect : Node, IEffect
     // onRemove/Expire() -> foreach statements -> filter trigger onExpire
     public void onCollisionDetected(CreatureInstance target)
     {
-        foreach (var statement in statements)
+        foreach (var statement in sourceStatement.children)
         {
             if (statement.triggers.Contains(Trigger.OnHit))
             {
@@ -97,7 +98,7 @@ partial class StatusEffect : Effect
     public override void onActivation()
     {
         base.onActivation();
-        foreach (var statement in statements)
+        foreach (var statement in sourceStatement.children)
         {
             if (statement.triggers.Contains(Trigger.OnProcess))
             {
@@ -123,7 +124,7 @@ class Diamonds {
 ///     SpawnFireballProjectile
 ///     SpawnFireballExplosion
 /// </summary>
-class SpawnEffect : Statement
+class SpawnEffectStatement : Statement
 {
     public int spawnCount;
     
@@ -156,6 +157,7 @@ class SpawnEffect : Statement
 
         for(int i = 0; i < spawnCount; i++) {
             Effect effect = effectScene.Instantiate<Effect>();
+            effect.sourceStatement = this;
             effect.caster = action.caster;
             effect.velocity = destinationVector *= initialVelocity; // FIXME
             // effect.collisionBox *= radiusBoost.value; // TODO
@@ -192,20 +194,21 @@ class SpawnEffect : Statement
 //     }
 // }
 static class ClientSideSpawnEffectExtension {
-    public static PackedScene GetScene(this SpawnEffect spawnEffect) => Diamonds.scenes[spawnEffect.effectSceneName];
+    public static PackedScene GetScene(this SpawnEffectStatement spawnEffect) => Diamonds.scenes[spawnEffect.effectSceneName];
 }
 
-class SpawnStatusEffect : SpawnEffect
+class SpawnStatusEffectStatement : SpawnEffectStatement
 {
     public override void apply(ActionEffectTarget action)
     {
         var effectScene = this.GetScene();
         StatusEffect status = effectScene.Instantiate<StatusEffect>();
+        status.sourceStatement = this;
         // Add to scene tree
         action.caster.AddChild(status);
     }
 }
-class SpawnProjectileEffect : SpawnEffect
+class SpawnProjectileEffectStatement : SpawnEffectStatement
 {
     public override void apply(ActionEffectTarget action)
     {
@@ -225,6 +228,7 @@ class SpawnProjectileEffect : SpawnEffect
         {
             // Node node = effect.Duplicate();
             ProjectileEffect proj = effectScene.Instantiate<ProjectileEffect>();
+            proj.sourceStatement = this;
             proj.caster = action.caster;
             proj.velocity = destinationVector *= initialVelocity; // FIXME
             // TODO: proj.collisionBox *= radiusBoost.value;
@@ -236,6 +240,17 @@ class SpawnProjectileEffect : SpawnEffect
     }
 }
 
+class Object {
+
+}
+class Projectile : Object {}
+
+
+public class GlaceonSceneSpawner {
+    public void onSpawnEvent() {
+
+    }
+}
 
 // ------------------------------------------------------------------------------------------------------ Fireball implementation (statements + effects)
 /// <summary>
@@ -251,16 +266,16 @@ class FireballSpellModel : SpellModel
     /// </summary>
     public FireballSpellModel()
     {
-        var projectile = new SpawnProjectileEffect() { 
+        var projectile = new SpawnProjectileEffectStatement() { 
             effectSceneName = "res://fireball_projectile.tscn",
             // effectscene = projectileScene,
             initialVelocity = 10 
         };
-        var explosion = new SpawnEffect() { 
+        var explosion = new SpawnEffectStatement() { 
             effectSceneName = "res://fireball_explosion.tscn",
             // effectscene = explosionScene
         };
-        var burningStatus = new SpawnStatusEffect() { 
+        var burningStatus = new SpawnStatusEffectStatement() { 
             effectSceneName = "res://fireball_burning.tscn",
             // effectscene = burningStatusScene,
             duration = 3,

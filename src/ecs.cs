@@ -8,14 +8,14 @@ static class ECS {
     public static Dictionary<ObjectId, Dictionary<Type, object>> entities = new();
     public static void add(this Entity entity, object component)
     {
-        if (!entities.ContainsKey(entity.id))
-            entities[entity.id] = new();
-        entities[entity.id].Add(component.GetType(), component);
+        if (!entities.ContainsKey(entity.entityUid))
+            entities[entity.entityUid] = new();
+        entities[entity.entityUid].Add(component.GetType(), component);
     }
 }
-class ObjectId { }
-class Entity {
-    public ObjectId id;
+public class ObjectId { }
+public class Entity {
+    public ObjectId entityUid;
 	// private readonly Dictionary<Type, object> components = new();
 }
 abstract class System {
