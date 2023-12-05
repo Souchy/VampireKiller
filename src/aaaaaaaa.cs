@@ -8,42 +8,6 @@ using VampireKiller;
 
 namespace aaaaaaaa;
 
-// ------------------------------------------------------------------------------------------------------ Code
-class Item
-{
-    public object icon;
-    public Node3D model3d;
-    public int quantity = 0;
-    public List<Statement> statements;
-}
-
-interface Active
-{
-    public void cast();
-}
-
-class Weapon : Item, Active
-{
-    public int ammo;
-
-    public void cast()
-    {
-        // spawn Projectile Effects
-    }
-}
-
-class SpellScroll : Item, Active
-{
-    public SpellModel spell;
-    public int cooldown;
-    public int charges;
-
-    public void cast()
-    {
-        // spawn Aoe Effect
-    }
-}
-
 // ------------------------------------------------------------------------------------------------------ World Effects
 
 public interface IEffect
@@ -253,6 +217,13 @@ public class GlaceonSceneSpawner {
 }
 
 // ------------------------------------------------------------------------------------------------------ Fireball implementation (statements + effects)
+public class FireballScroll : SpellScrollModel {
+    public FireballScroll() {
+        this.icon = "res://fireball_icon.png";
+        this.equipementScenePath = "res://fireball_book.tscn";
+        this.spellModel = new FireballSpellModel();
+    }
+}
 /// <summary>
 /// CODE ONLY
 /// </summary>

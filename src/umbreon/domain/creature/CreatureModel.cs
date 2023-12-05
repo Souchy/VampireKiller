@@ -14,7 +14,7 @@ public class CreatureModel
     }
 }
 
-public partial class CreatureInstance : Node3D
+public class CreatureInstance //: Node3D
 {
     public CreatureModel model;
     public CreatureInstanceStats resources { get; set; } = new();

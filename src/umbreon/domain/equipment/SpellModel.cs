@@ -4,18 +4,17 @@ using System.Collections.Generic;
 namespace VampireKiller;
 
 /// <summary>
-/// A spell can also be a weapon. Ak it's any kind of active ability/skill
 /// Spells are given by items
 /// </summary>
 public class SpellModel
 {
-    public SpellModelStatsDictionary spellStats { get; set; } = new();
+    public SpellModelStatsDictionary modelStats { get; set; } = new();
     public List<Statement> statements { get; set; } = new();
 }
 
 
 /// <summary>
-/// SpellInstance can also be a weapon
+/// SpellInstance
 /// </summary>
 public class SpellInstance
 {

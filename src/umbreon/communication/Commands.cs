@@ -4,7 +4,7 @@ public class Command
 
 }
 
-public class CommandHandler
+public class CommandHandler<T>
 {
 
 }
