@@ -1,0 +1,54 @@
+@startuml 1: Data replication with Engine on server
+' component Commons {
+'     package Data {}
+'     package DataClasses {}
+' }
+component Server #Application {
+    package Server.GameInstance {}
+    package Server.Engine {}
+    Server.GameInstance ..down.> Client.GameInstance : replication
+    Server.GameInstance -> Server.Engine : events
+    Server.Engine -> Server.GameInstance : physics
+}
+component Client #Application {
+    package Client.GameInstance {}
+    package Client.Engine {}
+    Client.GameInstance -> Client.Engine : events
+    Client.Engine .up.> Server.GameInstance : commands
+}
+@enduml
+
+@startuml 1: Engine replication with Engine on server
+' component Commons {
+'     package Data {}
+'     package DataClasses {}
+' }
+component Server #Application {
+    package Server.GameInstance {}
+    package Server.Engine {}
+    Server.Engine ..down.> Client.Engine : replication
+    Server.GameInstance -> Server.Engine : events
+    Server.Engine -> Server.GameInstance : physics
+}
+component Client #Application {
+    package Client.Engine {}
+    Client.Engine ..up.> Server.GameInstance : commands
+}
+@enduml
+
+@startuml 1: Data replication without Engine on server
+' component Commons {
+'     package Data {}
+'     package DataClasses {}
+' }
+component Server #Application {
+    package Server.GameInstance {}
+    Server.GameInstance ..down.> Client.GameInstance : replication
+}
+component Client #Application {
+    package Client.GameInstance {}
+    package Client.Engine {}
+    Client.GameInstance -> Client.Engine : events
+    Client.Engine .up.> Server.GameInstance : commands
+}
+@enduml
