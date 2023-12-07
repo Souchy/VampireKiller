@@ -1,0 +1,30 @@
+
+
+Example for Creatures, then it's the same for spells, items, weapons, effects, statuses....
+
+
+1. Creating creatures:
+  1. Eevee:
+    CreatureInstance.create()
+    getID()
+    makeEventBus(id)
+    CreatureInstance c = new();
+    GlobalEventBus.publish("new", creature)
+    Fight.creatures.add(creature);
+        this.eventbus.publish("add", creature);
+
+  2. Glaceon:
+    Glaceon.renderableFamily = new();
+    RenderableFamily() -> GlobalEventBus.subscribe("new", creature.type)
+    onNewCreature(c)
+      entities.add(new CreatureNode(c))
+    RenderableFamily() -> GlobalEventBus.subscribe("add", creature.type)
+    onAddCreature(c)
+      sceneTree.creatures.add(entities[c])
+    RenderableFamily() -> GlobalEventBus.subscribe("remove", creature.type)
+    onRemoveCreature(c)
+      sceneTree.creatures.remove(entities[c])
+    RenderableFamily() -> GlobalEventBus.subscribe("dispose", creature.type)
+    onDisposeCreature(c)
+      onRemoveCreature(c)
+      entities[c].dispose();
