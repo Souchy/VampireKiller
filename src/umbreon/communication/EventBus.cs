@@ -39,33 +39,50 @@ using aaaaaaaa;
 public static class CentralBus {
     private static Dictionary<ObjectId, EventBus> eventBuses = new();
     public static readonly EventBus centralBus = new();
-    public static bool RegisterEventBus(ObjectId id)
+
+    
+    public static bool RegisterEventBus(this Entity e) {
+        var result = RegisterEventBus(e.entityUid);
+        centralBus.publish(nameof(RegisterEventBus), e);
+        return result;
+    }
+    public static bool DisposeEventBus(this Entity e) {
+        var result = DisposeEventBus(e.entityUid);
+        centralBus.publish(nameof(DisposeEventBus), e);
+        return result;
+    }
+    public static EventBus GetEntityBus(this Entity e) => GetEntityBus(e.entityUid);
+    public static bool RegisterEventBus(this ObjectId id)
     {
         lock (eventBuses)
         {
             if (eventBuses.ContainsKey(id))
                 throw new ArgumentException("Id already exists");
-            eventBuses.Add(id, new EventBus());
+            var e = new EventBus();
+            centralBus.publish(nameof(RegisterEventBus), id, e);
+            eventBuses.Add(id, e);
         }
         return true;
     }
-    public static bool DisposeEventBus(ObjectId id)
+    public static bool DisposeEventBus(this ObjectId id)
     {
         lock (eventBuses)
         {
             if (!eventBuses.ContainsKey(id))
                 return false;
+            var e = eventBuses[id];
             eventBuses[id].Dispose();
             eventBuses.Remove(id);
+            centralBus.publish(nameof(DisposeEventBus), id, e);
         }
         return true;
     }
-    public static EventBus GetEntityBus(this Entity e)
+    public static EventBus GetEntityBus(this ObjectId id)
     {
         lock (eventBuses)
         {
-            if (eventBuses.ContainsKey(e.entityUid))
-                return eventBuses[e.entityUid];
+            if (eventBuses.ContainsKey(id))
+                return eventBuses[id];
         }
         return null; // when NewtonsoftJson deserializes objects, it sets properties which calls the event bus before the entities' id are registered
                      //throw new Exception("You made a mistake in type or method called. Maybe call iid.GetEventBus<T>()");

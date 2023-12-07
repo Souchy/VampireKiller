@@ -14,9 +14,14 @@ static class ECS {
     }
 }
 public class ObjectId { }
-public class Entity {
-    public ObjectId entityUid;
-	// private readonly Dictionary<Type, object> components = new();
+public interface Entity {
+    public static ObjectId RegisterObjectId() {
+        var id = new ObjectId(); // ObjectId.GenerateNewId();
+        id.RegisterEventBus();
+        return id;
+    }
+    public ObjectId entityUid { get; set; }
+    // private readonly Dictionary<Type, object> components = new();
 }
 abstract class System {
     public abstract void update();
