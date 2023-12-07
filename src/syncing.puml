@@ -18,7 +18,7 @@ component Client #Application {
 }
 @enduml
 
-@startuml 1: Engine replication with Engine on server
+@startuml 2: Engine replication with Engine on server
 ' component Commons {
 '     package Data {}
 '     package DataClasses {}
@@ -36,7 +36,7 @@ component Client #Application {
 }
 @enduml
 
-@startuml 1: Data replication without Engine on server
+@startuml 3: Data replication without Engine on server
 ' component Commons {
 '     package Data {}
 '     package DataClasses {}
