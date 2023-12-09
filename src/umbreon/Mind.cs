@@ -13,7 +13,13 @@ public static class Mind {
     }
 
     public static void castSpell(CreatureInstance caster, Vector3 cursor, SpellScroll active) {
-        if(caster.resources.GetMana() < active.spellScrollModel.spellModel.)
+        var spellStats = active.spellScrollModel.spellModel.modelStats;
+        var resourceType = spellStats.GetSpellResourceCostType().value;
+        var casterResource = (StatInt) caster.resources.get(resourceType);
+        var resourceCost = spellStats.GetSpellResourceCost();
+        if(casterResource.value < resourceCost.value) {
+            return;
+        }
     }
 
 }

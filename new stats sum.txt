@@ -1,0 +1,61 @@
+
+--- Projects
+Data (models implementation)
+DataClasses (models)
+Server + Flareon (same as glaceon but headless + server authorization role + colision events?)
+Client + Glaceon
+
+
+------ Stats
+
+getTotal<IncreasedAttack>() = natural + items + status
+getTotal<MaximumLife>() = //(naturalFlat + itemsFlat + statusFlat) * (naturalIncrease + itemsInc + statusInc)
+ //T t = natural.get<T>().copy();
+ T t = new T();
+ t.add(naturalStats)
+ //t.add(item.bonusStats : items);
+  foreach(item : items)
+    
+ //t.add(status.bonusStats : statuses);
+
+
+MaximumLife : StatInt {
+  int totalFlat = 0
+  int totalIncrease = 0
+  int value => flat * increase
+  add(StatsDic)
+    totalFlat += dic[typeof(MaximumLifeFlat)]
+    totalInc += dic[typeofMaximumLifeIncrease)]
+}
+MaximumLifeFlat : StatInt {} // garde la fonction d'add de base
+MaximumLifeIncrease : StatInt {} // garde la fonction d'add de base
+IsInvisible : StatBool {} // garde la fonction d'add de base
+
+StatInt : Stat<int> {
+  int value;
+  add(StatsDic)
+    value += dic[this.getType()]
+}
+StatBool : Stat<bool> {
+  bool hasValue = false;
+  bool value
+  add(StatsDic)
+   if(hasValue)
+     value &= dic[this.getType()]
+     hasValue = true
+   else
+     value = dic[this.getType()]
+}
+
+
+//Stat {
+//  Condition cond...
+//}
+Statement {
+  Condition cond
+}
+StatementAddStats : Statement {
+   void apply();
+}
+
+

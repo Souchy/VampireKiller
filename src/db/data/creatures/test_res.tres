@@ -1,0 +1,16 @@
+[gd_resource type="Resource" load_steps=5 format=3 uid="uid://uinrgmekmoa7"]
+
+[ext_resource type="Script" path="res://src/db/Creature_res.cs" id="1_glu62"]
+
+[sub_resource type="Gradient" id="Gradient_duh0d"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4re4a"]
+gradient = SubResource("Gradient_duh0d")
+
+[sub_resource type="PrismMesh" id="PrismMesh_17tc5"]
+
+[resource]
+script = ExtResource("1_glu62")
+lifeMax = 10
+icon = SubResource("GradientTexture2D_4re4a")
+mesh = SubResource("PrismMesh_17tc5")

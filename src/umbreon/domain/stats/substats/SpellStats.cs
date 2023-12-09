@@ -1,3 +1,5 @@
+using System;
+
 namespace VampireKiller;
 
 // public class SpellStats : Stats
@@ -22,7 +24,7 @@ public interface SpellStat { }
 
 public record SpellRepeat(double value) : StatDouble(value), SpellStat { }
 
-public record SpellResourceCostType(int value) : StatInt(value), SpellStat { }
+public record SpellResourceCostType(Type value) : StatType(value), SpellStat { }
 public record SpellResourceCost(int value) : StatInt(value), SpellStat { }
 public record SpellCastTime(double value) : StatDouble(value), SpellStat { }
 public record SpellBaseCooldown(double value) : StatDouble(value), SpellStat { }
