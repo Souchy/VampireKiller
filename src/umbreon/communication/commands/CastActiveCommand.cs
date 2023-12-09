@@ -3,7 +3,7 @@
 using aaaaaaaa;
 using Godot;
 
-public class CastActiveCommand : Command
+public class CastActiveCommand : ICommand
 {
     public int slot;
     public ObjectId playerId;

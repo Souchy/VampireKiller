@@ -3,7 +3,7 @@
 using aaaaaaaa;
 using VampireKiller;
 
-public class CastActiveHandler : CommandHandler<CastActiveCommand>
+public class CastActiveHandler : ICommandHandler<CastActiveCommand>
 {
 
     public void handle(CastActiveCommand command) {

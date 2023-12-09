@@ -36,17 +36,20 @@ using aaaaaaaa;
  * 
  */
 
-public static class CentralBus {
+public static class CentralBus
+{
     private static Dictionary<ObjectId, EventBus> eventBuses = new();
     public static readonly EventBus centralBus = new();
 
-    
-    public static bool RegisterEventBus(this Entity e) {
+
+    public static bool RegisterEventBus(this Entity e)
+    {
         var result = RegisterEventBus(e.entityUid);
         centralBus.publish(nameof(RegisterEventBus), e);
         return result;
     }
-    public static bool DisposeEventBus(this Entity e) {
+    public static bool DisposeEventBus(this Entity e)
+    {
         var result = DisposeEventBus(e.entityUid);
         centralBus.publish(nameof(DisposeEventBus), e);
         return result;
@@ -87,7 +90,7 @@ public static class CentralBus {
         return null; // when NewtonsoftJson deserializes objects, it sets properties which calls the event bus before the entities' id are registered
                      //throw new Exception("You made a mistake in type or method called. Maybe call iid.GetEventBus<T>()");
     }
- }
+}
 
 
 /// <summary>
@@ -105,7 +108,6 @@ public class SubscribeAttribute : Attribute
 {
     public string[] paths = { "" };
     public SubscribeAttribute() { }
-    //public SubscribeAttribute(int id) => this.paths[0] = id.ToString();
     public SubscribeAttribute(params object[] paths)
     {
         if (paths != null && paths.Length > 0)
@@ -122,7 +124,15 @@ public class Subscription
     public List<Type> eventParameterTypes = new List<Type>();
 }
 
-public class EventBus //: IEventBus
+public interface IEventBus : IDisposable
+{
+    public void subscribe(object subscriber, params string[] methodNames);
+    public void unsubscribe(object subscriber, params string[] methodNames);
+    public void publish(string path = "", params object[] param);
+    public void publish(params object[] param);
+}
+
+public class EventBus : IEventBus
 {
     private List<Subscription> subs { get; set; } = new List<Subscription>();
 
