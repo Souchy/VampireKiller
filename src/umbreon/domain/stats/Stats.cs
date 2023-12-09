@@ -39,9 +39,15 @@ public class StatsDictionary
     }
     public T get<T>() where T : Stat
     {
-        if (!stats.ContainsKey(typeof(T)))
+        return (T) get(typeof(T));
+        // if (!stats.ContainsKey(typeof(T)))
+        //     return default;
+        // return (T)stats[typeof(T)];
+    }
+    public Stat get(Type t) {
+        if (!stats.ContainsKey(t))
             return default;
-        return (T)stats[typeof(T)];
+        return stats[t];
     }
 }
 
@@ -72,6 +78,10 @@ public record StatInt : Stat
     {
         throw new NotImplementedException();
     }
+}
+public record StatType : Stat {
+    public Type value { get; set; }
+    public StatType(Type value) => this.value = value;
 }
 public record StatDate : Stat
 {

@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://cryytfcqq286x"]
+[gd_scene load_steps=4 format=3 uid="uid://cryytfcqq286x"]
 
-[ext_resource type="Script" path="res://scenes/creature.cs" id="1_6dkwu"]
+[ext_resource type="Script" path="res://scenes/Creature.cs" id="1_depgm"]
+[ext_resource type="Resource" uid="uid://uinrgmekmoa7" path="res://src/db/data/creatures/test_res.tres" id="2_tn0wj"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_12o30"]
 
 [node name="creature" type="Node3D"]
-script = ExtResource("1_6dkwu")
+script = ExtResource("1_depgm")
+apple = ExtResource("2_tn0wj")
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
 
