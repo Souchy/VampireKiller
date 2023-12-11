@@ -1,12 +1,66 @@
 
 --- Projects
-Data (models implementation)
-DataClasses (models)
-Server + Flareon (same as glaceon but headless + server authorization role + colision events?)
-Client + Glaceon
+.github/
+.vscode/
+docs/
+	dev-wiki/
+		architecture/
+	game-wiki/
+		creatures/
+		items/
+		spells/
+	temp/
+			
+projects/
+	Domain.Eevee/ 		(data classes / models)
+		StatementDamageSchema
+	DB/ 			(models implementation: hardcode, mongodb, godot resources?)
+		FireballModel
+	Logic.Fight?/		(logic implementation)
+		Fight: creatures[], etc
+		StatementDamageScript
+	Application/
+		GameServer/	(espeon)
+			players[]
+			redis connection -> cache fight data
+		GameClient/	(umbreon)
+			// maybe not much/nothing, communication is done through godot's rpc
+			things like authenticate
+			updater
+			chat connection?
+		Spark/		(webapi)
+	Presentation/
+		Flareon/ (same as glaceon but headless + server authorization role + colision events?)
+		Glaceon/	(client ui)
+			FireballProjScene
+			FireballExplosionScene
+			FireballBurnStatusScene
+		Leafeon/Jolteon/	(web sites)
 
+------ DDD
 
------- Stats
+class EffectScene : Node3D
+   onCollision(sceneCollided: CreatureScene)
+     eventbus.publish("colision", sceneColided.getCreatureRef())
+class ProjScene : EffectScene
+class FireballProjScene : ProjScene (Glaceon)
+  ...
+
+class FireballModel (DB)
+   ctor()
+     ...
+     new DamageStatement() {
+        triggers.add(OnColision)
+     }
+     onColision(targetCreaInstance) -> damageEffect.apply(target) -> target.addFightStat<life>(-10) -> bus.publish("statchange") 
+                  //publish("stat.life", getTotal<life>()) // dont need it all the time, but maybe the damage effect can give it since it already calculates
+class CreatureScene (Glaceon)
+  ObjectId creatureRef
+  CreatureInstance getCrea() => Fight.getCrea(creatureRef)
+  onStat(Stat s)
+    refreshResourceBars()
+
+------ Stats compilation
 
 getTotal<IncreasedAttack>() = natural + items + status
 getTotal<MaximumLife>() = //(naturalFlat + itemsFlat + statusFlat) * (naturalIncrease + itemsInc + statusInc)
@@ -14,10 +68,33 @@ getTotal<MaximumLife>() = //(naturalFlat + itemsFlat + statusFlat) * (naturalInc
  T t = new T();
  t.add(naturalStats)
  //t.add(item.bonusStats : items);
-  foreach(item : items)
-    
  //t.add(status.bonusStats : statuses);
+ foreach(item : items)
+   item.addStat(t);
+ foreach(status : statuses)
+   status.addStat(t);
 
+class StatementHolder
+  List<Statement> statements
+class Statement : StatementHolder
+
+class StatementRootHolder : StatementHolder
+  ObjectId creatureHolder
+  addStat<T>(T t)
+    for(statement : statements)
+      addStat(t, s)
+  addStat<T>(T t, Statement s)
+    if(!s.condition(holder, fight)
+      return;
+    for(statement : s.children)
+      addStat(t, s)
+    if(s is StatementAddStats adds)
+      s.add(adds.get<T>())
+class ItemInstance : StatementHolder
+class Spell : StatementRootHolder 
+class StatusInstance : StatementRootHolder 
+
+------ Stats
 
 MaximumLife : StatInt {
   int totalFlat = 0
@@ -46,16 +123,4 @@ StatBool : Stat<bool> {
    else
      value = dic[this.getType()]
 }
-
-
-//Stat {
-//  Condition cond...
-//}
-Statement {
-  Condition cond
-}
-StatementAddStats : Statement {
-   void apply();
-}
-
 
