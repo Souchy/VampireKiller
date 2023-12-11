@@ -12,9 +12,9 @@ docs/
 	temp/
 			
 projects/
-	Domain.Eevee/ 		(data classes / models)
+	Domain.Eevee/ 		(data classes / models / godot resource templates?)
 		StatementDamageSchema
-	DB/ 			(models implementation: hardcode, mongodb, godot resources?)
+	DB/ 			(models implementation: hardcode, mongodb, godot resource instances?)
 		FireballModel
 	Logic.Fight?/		(logic implementation)
 		Fight: creatures[], etc
