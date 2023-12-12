@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://y4taei5hmpa5"]
+
+[ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_en7m8"]
+[ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/Orc.tscn" id="2_e2pfm"]
+[ext_resource type="PackedScene" uid="uid://bee7s2ovvqou5" path="res://scenes/ui/ui_main.tscn" id="3_vgl6g"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8a1fc"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_osoqg"]
+sky_material = SubResource("ProceduralSkyMaterial_8a1fc")
+
+[sub_resource type="Environment" id="Environment_4vfno"]
+background_mode = 2
+sky = SubResource("Sky_osoqg")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="UiMain" type="Node3D"]
+
+[node name="Background" type="Node" parent="."]
+
+[node name="Environment" type="Node" parent="Background"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Background/Environment"]
+environment = SubResource("Environment_4vfno")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Background/Environment"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="Background/Environment"]
+transform = Transform3D(0.976224, 0, 0.216763, 0, 1, 0, -0.216763, 0, 0.976224, 1.43077, 1.96739, 5.84156)
+
+[node name="Objects" type="Node" parent="Background"]
+
+[node name="onemapisenough" parent="Background/Objects" instance=ExtResource("1_en7m8")]
+
+[node name="Orc" parent="Background/Objects" instance=ExtResource("2_e2pfm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.30734, 0, 0)
+
+[node name="Orc2" parent="Background/Objects" instance=ExtResource("2_e2pfm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79683, 0, 0)
+
+[node name="Hud" type="Node" parent="."]
+
+[node name="UiMain" parent="Hud" instance=ExtResource("3_vgl6g")]

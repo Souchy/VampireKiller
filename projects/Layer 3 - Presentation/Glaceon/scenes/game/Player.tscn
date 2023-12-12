@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://bom0kubl7xo2v"]
+
+[ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/game/Creature.tscn" id="1_pqufn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sfya3"]
+albedo_color = Color(1, 0.52549, 0.337255, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_8vcab"]
+material = SubResource("StandardMaterial3D_sfya3")
+
+[node name="Player" instance=ExtResource("1_pqufn")]
+
+[node name="MeshInstance3D" parent="." index="1"]
+mesh = SubResource("CapsuleMesh_8vcab")
