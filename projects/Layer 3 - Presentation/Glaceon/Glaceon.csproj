@@ -20,6 +20,10 @@
     <None Include="scenes\ui\ui_settings.tscn" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="GodotSharpExtras" Version="0.4.0" />
+    <PackageReference Include="GodotSharpKit.Generator" Version="1.2.1" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\Layer 0 - Domain\Eevee\Eevee.csproj" />
   </ItemGroup>
 </Project>
