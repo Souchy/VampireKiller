@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d2p107wfvpyw"]
 
-[ext_resource type="PackedScene" uid="uid://c6lsjokg5j7m8" path="res://scenes/ui/components/ui_slot_active.tscn" id="1_74isw"]
+[ext_resource type="PackedScene" uid="uid://c6lsjokg5j7m8" path="res://scenes/ui/components/UiSlotActive.tscn" id="1_74isw"]
 
 [node name="UiGame" type="Control"]
 layout_mode = 3

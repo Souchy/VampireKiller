@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://blovcywatgmkk"]
+[gd_scene load_steps=9 format=3 uid="uid://blovcywatgmkk"]
 
 [ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_4bi0r"]
-[ext_resource type="PackedScene" uid="uid://bom0kubl7xo2v" path="res://scenes/game/Player.tscn" id="2_kpsgh"]
+[ext_resource type="Script" path="res://scenes/game/Game.cs" id="1_wcjfi"]
+[ext_resource type="PackedScene" uid="uid://bom0kubl7xo2v" path="res://scenes/game/PlayerNode.tscn" id="2_kpsgh"]
 [ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/Orc.tscn" id="3_ncqtn"]
-[ext_resource type="PackedScene" uid="uid://d2p107wfvpyw" path="res://scenes/ui/ui_game.tscn" id="4_27r0r"]
+[ext_resource type="PackedScene" uid="uid://d2p107wfvpyw" path="res://scenes/ui/UiGame.tscn" id="4_27r0r"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kfsoe"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -19,6 +20,7 @@ tonemap_mode = 2
 glow_enabled = true
 
 [node name="Game" type="Node3D"]
+script = ExtResource("1_wcjfi")
 
 [node name="Environment" type="Node" parent="."]
 unique_name_in_owner = true
@@ -38,7 +40,7 @@ transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 
 [node name="Players" type="Node" parent="."]
 unique_name_in_owner = true
 
-[node name="Player" parent="Players" instance=ExtResource("2_kpsgh")]
+[node name="PlayerNode" parent="Players" instance=ExtResource("2_kpsgh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.63614, 0, 0)
 
 [node name="Creatures" type="Node" parent="."]

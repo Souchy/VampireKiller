@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://bsd6h30mrgy4u"]
+[gd_scene load_steps=2 format=3 uid="uid://bsd6h30mrgy4u"]
+
+[ext_resource type="Script" path="res://scenes/ui/UiLobby.cs" id="1_mxu70"]
 
 [node name="UiLobby" type="Control"]
 layout_mode = 3
@@ -7,8 +9,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_mxu70")
 
-[node name="Button" type="Button" parent="."]
+[node name="BtnHost" type="Button" parent="."]
 layout_mode = 0
 offset_left = 56.0
 offset_top = 150.0
@@ -16,7 +19,8 @@ offset_right = 283.0
 offset_bottom = 219.0
 text = "Host"
 
-[node name="Button2" type="Button" parent="."]
+[node name="BtnJoin" type="Button" parent="."]
+layout_mode = 0
 offset_left = 61.0
 offset_top = 298.0
 offset_right = 288.0

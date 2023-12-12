@@ -1,10 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://mmu2tpnln6i1"]
+[gd_scene load_steps=4 format=3 uid="uid://mmu2tpnln6i1"]
+
+[ext_resource type="Script" path="res://scenes/game/CreatureNode.cs" id="1_4o42t"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pwek4"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_f2l0y"]
 
-[node name="Creature" type="CharacterBody3D"]
+[node name="CreatureNode" type="CharacterBody3D"]
+script = ExtResource("1_4o42t")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://y4taei5hmpa5"]
+[gd_scene load_steps=8 format=3 uid="uid://y4taei5hmpa5"]
 
+[ext_resource type="Script" path="res://scenes/game/Main.cs" id="1_2xubm"]
 [ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_en7m8"]
 [ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/Orc.tscn" id="2_e2pfm"]
-[ext_resource type="PackedScene" uid="uid://bee7s2ovvqou5" path="res://scenes/ui/ui_main.tscn" id="3_vgl6g"]
+[ext_resource type="PackedScene" uid="uid://bee7s2ovvqou5" path="res://scenes/ui/UiMain.tscn" id="3_vgl6g"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8a1fc"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -17,7 +18,8 @@ sky = SubResource("Sky_osoqg")
 tonemap_mode = 2
 glow_enabled = true
 
-[node name="UiMain" type="Node3D"]
+[node name="Main" type="Node3D"]
+script = ExtResource("1_2xubm")
 
 [node name="Background" type="Node" parent="."]
 

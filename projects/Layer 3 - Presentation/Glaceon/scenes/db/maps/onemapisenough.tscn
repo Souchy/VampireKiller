@@ -5,7 +5,7 @@ albedo_color = Color(0.0784314, 0.0980392, 0.0823529, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_d7rg8"]
 material = SubResource("StandardMaterial3D_cw2bb")
-size = Vector2(8.715, 9.29)
+size = Vector2(30, 30)
 
 [node name="onemapisenough" type="Node3D"]
 
