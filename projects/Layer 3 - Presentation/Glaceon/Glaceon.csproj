@@ -1,6 +1,6 @@
 <Project Sdk="Godot.NET.Sdk/4.2.0">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
@@ -18,5 +18,8 @@
     <None Include="scenes\ui\ui_hud.tscn" />
     <None Include="scenes\ui\ui_main.tscn" />
     <None Include="scenes\ui\ui_settings.tscn" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Layer 0 - Domain\Eevee\Eevee.csproj" />
   </ItemGroup>
 </Project>
