@@ -6,20 +6,6 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="src\**" />
-    <EmbeddedResource Remove="src\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="scenes\creature.tscn" />
-    <None Include="scenes\creatures\orc.tscn" />
-    <None Include="scenes\game.tscn" />
-    <None Include="scenes\maps\onemapisenough.tscn" />
-    <None Include="scenes\player.tscn" />
-    <None Include="scenes\ui\ui_hud.tscn" />
-    <None Include="scenes\ui\ui_main.tscn" />
-    <None Include="scenes\ui\ui_settings.tscn" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="GodotSharpExtras" Version="0.4.0" />
     <PackageReference Include="GodotSharpKit.Generator" Version="1.2.1" />
   </ItemGroup>
