@@ -6,11 +6,11 @@ namespace VampireKiller.scenes;
 // [Tool]
 public partial class Creature : Node3D
 {
-	public StatsDictionary stats { get; set; } = new();
+	//public StatsDictionary stats { get; set; } = new();
 
-    [ExportGroup("My asdf")]
-    [Export]
-    public Creature_res apple { get; set; }
+    //[ExportGroup("My asdf")]
+    //[Export]
+    //public Creature_res apple { get; set; }
 
     [ExportGroup("Some Tests")]
     [Export(PropertyHint.Range, "-10,20,")]
