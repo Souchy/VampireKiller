@@ -32,9 +32,11 @@ projects/
 	Presentation/
 		Flareon/ (same as glaceon but headless + server authorization role + colision events?)
 		Glaceon/	(client ui)
-			FireballProjScene
-			FireballExplosionScene
-			FireballBurnStatusScene
+			db/			
+				FireballProjScene
+				FireballExplosionScene
+				FireballBurnStatusScene
+			.../
 		Leafeon/Jolteon/	(web sites)
 
 ------ DDD

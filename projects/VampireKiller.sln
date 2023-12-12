@@ -1,12 +1,15 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VampireKiller", "VampireKiller.csproj", "{8E26D490-47B4-42B7-A649-D614215027B4}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glaceon", "Layer 3 - Presentation\Glaceon\Glaceon.csproj", "{8E26D490-47B4-42B7-A649-D614215027B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8E26D490-47B4-42B7-A649-D614215027B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -15,5 +18,11 @@ Global
 		{8E26D490-47B4-42B7-A649-D614215027B4}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{8E26D490-47B4-42B7-A649-D614215027B4}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{8E26D490-47B4-42B7-A649-D614215027B4}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {74333837-D743-4EB1-BD95-5970B0196D92}
 	EndGlobalSection
 EndGlobal

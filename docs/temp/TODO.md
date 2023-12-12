@@ -26,7 +26,7 @@
     - Keys for spells + Wasd movement + mouse aim
     - Keys for spells + Mouse movement + mouse aim
     - Controller (can test with ps2)
-10. Horny sex sells
+10. Horny sells
 11. Ridiculous is funny (disgaea)
 
 ## Effect Types
