@@ -1,0 +1,39 @@
+
+
+https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html
+https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_dedicated_servers.html
+
+
+Database should be in [hardcode or files] to be able to run [locally without internet]
+
+
+Game should include both the client and the server
+People can host games on their pc to play with others (COOP)
+
+We may have a central server (WebAPI?) to list public lobbies and friends lobbies
+	and connect people to the right IP without them having to input it
+	put the server port in the settings
+	(must include a guide/instructions on how to open a port in UDP)
+
+
+So Server and Client code should live in the same project/application. (in layer 2 app, before presentation?)
+
+
+Node.multiplayer = MultiplayerAPI 
+MultiplayerAPI: singleton?
+
+Server class: setup a multiplayer object
+Client class: setup a multiplayer object
+
+
+///We have a strong dependancy on Godot for our server communication
+///So we may as well use Godot Resources for our data
+Just use Godot as a UDP library (ENet implementation), but nothing else on the layer 2
+Keep the events+commands separation from scenes
+
+Rpc(..) = broadcast
+RpcId(x, ..) = send to 1 peer
+
+
+
+
