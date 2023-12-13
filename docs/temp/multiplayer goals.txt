@@ -7,7 +7,7 @@ https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_dedicated_
 Database should be in [hardcode or files] to be able to run [locally without internet]
 
 
-Game should include both the client and the server
+Game app should include both the client and the server
 People can host games on their pc to play with others (COOP)
 
 We may have a central server (WebAPI?) to list public lobbies and friends lobbies
@@ -19,9 +19,9 @@ We may have a central server (WebAPI?) to list public lobbies and friends lobbie
 So Server and Client code should live in the same project/application. (in layer 2 app, before presentation?)
 
 
+// Godot doc
 Node.multiplayer = MultiplayerAPI 
 MultiplayerAPI: singleton?
-
 Server class: setup a multiplayer object
 Client class: setup a multiplayer object
 
@@ -35,5 +35,76 @@ Rpc(..) = broadcast
 RpcId(x, ..) = send to 1 peer
 
 
+CreatureNode
+	Should not contain a reference to CreatureInstance
+	Should only subscribe to CreatureInstance's eventBus
+Because yes the server may have this CreatureInstance object, but the client won't. 
+	The MultiplayerSynchronizer will sync only the Scene's state
+Alternatively, we could sync data instead of scenes, with our own packets protocol (See syncing options)
+	If every entity (even little Stat objects) has an ID, 
+	it could be easy to update singular objects via packets and trigger eventBuses
+	(Or use paths like {"player:1:fight_stats:maxlife" = 30})
+	A packet would contain a list of things to update since 
+		the last action (1packet/action) (good for long-lived changes like turn-by-turn combat)
+		or tick (timed loop) (good for continually updating very fast things like position and bullets)
+	Client would have a timer that sends his position every 60x/s
+	
 
+
+Simplify saves:
+- Save state only during pauses in between waves of enemies
+- So it contains player info only, no projectiles, no enemies
+
+
+
+Entity:
+	- scene.position	-> need to test this : dataEntity.addComponent(scene.position)
+	- scene.angle
+	- scene.speed
+	- datamodel.stats
+	- datamodel.equipment
+	- datamodel.spells
+	- etc
+
+Each entity must have a reflecting class in data and in scenes : 
+EeveeGame
+	list<entityData> entities
+GlaceonGame
+	list<entityScene> scenes
+(example: creatureInstance - creatureNode)
+They subscribe to each other's events
+Adding an entity to Eevee list will automatically create & add an entityScene to Glaceon
+	- in this process, the Scene can set its position as a component of the data entity
+	- dataEntity.addComponent(thisScene.position)
+	- then we're able to use it in calculations, packets updates & save states.
+Same with removing (death)
+
+But the question is
+Why have those 2 objects CreatureInstance and CreatureNode
+Why make a separation when they could be 1
+Just have CreatureModel and CreatureNode/Instance
+You can have a CreatureSave more-or-less equivalent to the old CreatureInstance
+	just to serialize data to save.json files etc
+	redis doesn't need anything, just save the fields you want with "creature:1:fightstats:maxlife:30"
+Ok how about scene reconstructing from save:
+	load save
+		foreach creature
+			var scene = GD.load<CreatureNode>("").Instantiate().initFromSave(json)
+			root.addChild(scene)
+	pretty simple
+
+It's just nice to have a place (CreatureInstance) that has all the data you want and only that
+And because your state data doesn't depend on a renderer and loop process stuff
+Like if I load a game to see the state, I dont want to run it necessarily (physics, rendering, inputs...)
+It can also inherit other classes
+But you can use components for scenes like:
+	- Equipment
+		- Items
+		- ActiveSlots
+	- FightStats
+	- modelId	-> original creaturemodel.stats, creaturemodel.scene3dAsset, creaturemodel.iconPng..
+	- that's it? 
+	- how do we get TotalStats ? 
+But they might have to be Scenes because we can't extend Entity since we extend Node3D
+	which is also annoying
 
