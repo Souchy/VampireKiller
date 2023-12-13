@@ -40,7 +40,7 @@ public partial class Game : Node3D
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {
-
+        // faut référence à creaInst.entityUid dans CreatureNode
     }
 
     [Subscribe(nameof(SmartSet<Projectile>.add))]
@@ -48,10 +48,11 @@ public partial class Game : Node3D
     {
         // TODO projetile nodes
         // CreatureInstance inst = inst.getParent
-        // CreatureNode node = this.get...
-        // ProjectileNode node = GD.Load<PackedScene>(inst.model.meshScenePath).Instantiate<ProjectileNode>();
-        // node.init(inst);
-        // node.addChild(node)
+        // CreatureNode creaNode = this.get...
+        // ProjectileNode projNode = GD.Load<PackedScene>(inst.model.meshScenePath).Instantiate<ProjectileNode>();
+        // projNode.init(inst);
+        // Ajoute le proj à la créature? pour on death ça clear au complet
+        // creaNode.addChild(projNode)
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveProjectile(SmartSet<Projectile> list, Projectile inst)
