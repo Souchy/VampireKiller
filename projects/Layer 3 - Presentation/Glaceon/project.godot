@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="VampireKiller"
-run/main_scene="res://scenes/game/Main.tscn"
+run/main_scene="res://scenes/Glaceon.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Main="*res://Main.cs"
 
 [dotnet]
 

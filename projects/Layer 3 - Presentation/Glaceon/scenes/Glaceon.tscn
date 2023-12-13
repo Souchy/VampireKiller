@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfwpiktimyeoc"]
+
+[ext_resource type="Script" path="res://scenes/Glaceon.cs" id="1_ftd5y"]
+[ext_resource type="PackedScene" uid="uid://y4taei5hmpa5" path="res://scenes/ui/UiMainMenu.tscn" id="1_lww8c"]
+[ext_resource type="PackedScene" uid="uid://blovcywatgmkk" path="res://scenes/game/Game.tscn" id="2_rr871"]
+
+[node name="Glaceon" type="Node3D"]
+script = ExtResource("1_ftd5y")
+
+[node name="UiMainMenu" parent="." instance=ExtResource("1_lww8c")]
+unique_name_in_owner = true
+visible = false
+
+[node name="Game" parent="." instance=ExtResource("2_rr871")]
+unique_name_in_owner = true
+visible = false

@@ -1,6 +1,9 @@
-[gd_scene format=3 uid="uid://c6lsjokg5j7m8"]
+[gd_scene load_steps=2 format=3 uid="uid://c6lsjokg5j7m8"]
+
+[ext_resource type="Script" path="res://scenes/ui/components/UiSlotActive.cs" id="1_5cvac"]
 
 [node name="UiSlotActive" type="VBoxContainer"]
+script = ExtResource("1_5cvac")
 
 [node name="CooldownBar" type="ProgressBar" parent="."]
 unique_name_in_owner = true

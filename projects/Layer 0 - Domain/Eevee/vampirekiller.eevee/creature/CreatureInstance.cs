@@ -5,17 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.communication.events;
+using Util.ecs;
 using Util.entity;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
 
 namespace VampireKiller.eevee.creature;
 
-public class CreatureInstance : Identifiable // : Node3D
+
+public class CreatureInstance : Identifiable
 {
     public ID entityUid { get; set; }
     public CreatureModel model { get; set; }
-    public Vector3 position { get => positionHook(); }
-    public Func<Vector3> positionHook { get; set; }
+
+    public Vector3 position { get => getPositionHook();  set => setPositionHook(value); }
+    public Func<Vector3> getPositionHook { get; set; }
+    public Action<Vector3> setPositionHook { get; set; }
 
     public CreatureFightStats fightStats = new();
     // public CreatureInstanceStats resources { get; set; } = new();

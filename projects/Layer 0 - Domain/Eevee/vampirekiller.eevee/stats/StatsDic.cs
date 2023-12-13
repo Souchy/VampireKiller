@@ -20,7 +20,7 @@ public class StatsDic : SmartDictionary<Type, Stat>
 
     public T? get<T>(Type t) where T : Stat
     {
-        return (T?)get(t);
+        return (T?) get(t);
     }
 
     public T? get<T>() where T : Stat
@@ -36,11 +36,10 @@ public class StatsDic : SmartDictionary<Type, Stat>
     /// <summary>
     /// When the value of a stat changes
     /// </summary>
-    /// <param name="stat"></param>
     [Subscribe(Stat.EventSet)]
     private void onChangedStat(Stat stat)
     {
-       this.GetEntityBus().publish(EventUpdate, dic);
+        this.GetEntityBus().publish(EventUpdate, dic);
     }
     /// <summary>
     /// When a stat is added/set in the dictionary
@@ -54,9 +53,6 @@ public class StatsDic : SmartDictionary<Type, Stat>
     /// <summary>
     /// When a stat is removed/replaced in the dictionary
     /// </summary>
-    /// <param name="dic"></param>
-    /// <param name="t"></param>
-    /// <param name="s"></param>
     [Subscribe(StatsDic.EventRemove)]
     public void onRemoveStat(StatsDic dic, Type t, Stat s)
     {

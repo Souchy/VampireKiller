@@ -13,7 +13,23 @@ public class CreatureModel : Identifiable
     public string iconPath;
 
     public StatsDic baseStats = new();
-    // public CreatureModelStatsDictionary stats { get; set; } = new();
+
+    /*
+     TODO growth:
+     {
+        0: {
+            "_type": "Linear" / "Logarithm"
+            a: 1
+            b: 10
+        }
+        10: {
+            "_type": "Logarithm"
+            a: 0
+            power: 0
+            b: 0
+        }
+     }
+     */
 
     public CreatureInstance createInstance()
     {

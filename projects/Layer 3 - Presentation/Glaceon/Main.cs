@@ -15,6 +15,7 @@ namespace Glaceon;
 /// </summary>
 public class Main
 {
+    // public Diamonds diamonds = new();
     public static readonly Fight fight = new Fight();
     public static readonly SceneManager sceneManager = SceneManager.instance;
 

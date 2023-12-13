@@ -5,12 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.communication.events;
+using Util.ecs;
 using Util.entity;
 using Util.structures;
 using VampireKiller.eevee;
 using VampireKiller.eevee.creature;
+using VampireKiller.eevee.vampirekiller.eevee.stats;
 
 namespace Glaceon.scenes.game;
+
+
 public class SceneManager
 {
     public static readonly SceneManager instance = new SceneManager();
@@ -18,11 +22,26 @@ public class SceneManager
     //public SmartSet<ProjectileNode> projectiles { get; init; } = SmartSet<ProjectileNode>.Create<ProjectileNode>();
     private SceneManager() {}
 
+    public void tet()
+    {
+        var en = new Entity(); // CreatureInstance : Entity
+        en.set(new Vector3());
+        en.set(new CreatureModel());
+        en.set(new CreatureFightStats());
+
+        en.set(new Node3D()); // mesh
+        en.set(new AnimationPlayer()); // animation
+        en.get<Node3D>(); // mesh
+        en.get<CreatureFightStats>();
+    }
+
     [Subscribe(nameof(SmartSet<CreatureInstance>.add))]
     public void onAddCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {
+        
         CreatureNode node = GD.Load<PackedScene>(inst.model.meshScenePath).Instantiate<CreatureNode>();
         inst.GetEntityBus().subscribe(node);
+        node.init(inst);
         creatures.add(node);
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]

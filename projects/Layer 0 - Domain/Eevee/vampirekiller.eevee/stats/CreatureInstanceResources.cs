@@ -8,9 +8,11 @@ using Util.entity;
 using Util.structures;
 
 namespace VampireKiller.eevee.vampirekiller.eevee.stats;
+
 public class CreatureFightStats : IDisposable
 {
     public StatsDic dic { get; init; } = Register.Create<StatsDic>();
+
 
     public CreatureFlatLife life
     {
