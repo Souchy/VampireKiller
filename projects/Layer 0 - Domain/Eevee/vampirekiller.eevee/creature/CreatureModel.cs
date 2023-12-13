@@ -8,11 +8,18 @@ namespace VampireKiller.eevee.creature;
 public class CreatureModel : Identifiable
 {
     public ID entityUid { get; set; }
-
-    public string meshScenePath;
-    public string iconPath;
+    public string meshScenePath { get; set; }
+    public string iconPath { get; set; }
 
     public StatsDic baseStats = new();
+
+    public CreatureModel()
+    {
+        baseStats.set(Register.Create<CreatureBaseLife>());
+        baseStats.set(Register.Create<CreatureBaseLifeMax>());
+        baseStats.set(Register.Create<CreatureIncreaseLife>());
+        baseStats.set(Register.Create<CreatureIncreaseLifeMax>());
+    }
 
     /*
      TODO growth:
