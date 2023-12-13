@@ -7,7 +7,14 @@ using Util.communication.events;
 
 namespace Util.entity;
 
-public interface IEntity : IDisposable
+public interface Identifiable : IDisposable
 {
     public ID entityUid { get; set; }
+
+    /// <summary>
+    /// Hook called after registering the ID and EventBus in the Register
+    /// </summary>
+    public void initialize()
+    {
+    }
 }

@@ -3,13 +3,13 @@ using Util.entity;
 
 namespace Util.structures;
 
-public class SmartList<T> : IEntity
+public class SmartList<T> : Identifiable
 {
     public ID entityUid { get; set; }
     private List<T> list { get; set; } = new();
 
-    private SmartList() { }
-    private SmartList(ID entityUid) : base()
+    protected SmartList() { }
+    protected SmartList(ID entityUid) : base()
     {
         this.entityUid = entityUid;
     }
@@ -19,6 +19,16 @@ public class SmartList<T> : IEntity
         list.RegisterEventBus();
         return list;
     }
+
+    public IEnumerable<T> values => list;
+
+    /// <summary>
+    /// Let child class implement this
+    /// </summary>
+    public virtual void initialize() { }
+
+    public T? get(Func<T, bool> predicate) => list.First(predicate);
+    public T? get(int index) => list[index];
 
     public void setAt(int index, T value)
     {
@@ -49,6 +59,6 @@ public class SmartList<T> : IEntity
 
     public void Dispose()
     {
-        throw new NotImplementedException();
+        this.DisposeEventBus();
     }
 }

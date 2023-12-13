@@ -76,13 +76,13 @@ public class Subscription
 public interface IEventBus : IDisposable
 {
     /// <summary>
-    /// Adds a subscription using the subscriber and all of its annoted methods or only the specified ones
+    /// Creates a new Subscription for each method that has the [Subscribe] attribute and for each path in the attribute.
     /// </summary>
     /// <param name="subscriber">Subscriber object who will receive events</param>
     /// <param name="methodNames">Leave empty if you want to subcsribe all methods. Add method names to subscribe only few.</param>
     public void subscribe(object subscriber, params string[] methodNames);
     /// <summary>
-    /// Removes a subscription
+    /// Removes every Subscription for the subscriber (1 per path/method)
     /// </summary>
     /// <param name="subscriber"></param>
     /// <param name="methodNames"></param>
@@ -102,9 +102,14 @@ public interface IEventBus : IDisposable
 
 public class EventBus : IEventBus
 {
-    private List<Subscription> subs { get; set; } = new List<Subscription>();
+    public static Func<IEventBus> factory = () => new EventBus();
+    public static readonly IEventBus centralBus = EventBus.factory();
 
-    public void subscribe(object subscriber, params string[] methodNames)
+
+    protected List<Subscription> subs { get; set; } = new List<Subscription>();
+    protected EventBus() { }
+
+    public virtual void subscribe(object subscriber, params string[] methodNames)
     {
         lock (subs)
         {
@@ -114,14 +119,14 @@ public class EventBus : IEventBus
             types.Add(stype);
 
             var methods = types.SelectMany(t => t
-                    .GetMethods()
+                    .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                     .Where(m => methodNames.Length == 0 || methodNames.Contains(m.Name))
                     .Where(f => f.GetCustomAttributes(at, true).Any()))
                     .Distinct();
             foreach (var m in methods)
             {
                 var @params = m.GetParameters();
-                var attr = (SubscribeAttribute)m.GetCustomAttribute(at, true);
+                var attr = (SubscribeAttribute) m.GetCustomAttribute(at, true);
                 foreach (var path in attr.paths)
                 {
                     var sub = new Subscription();
@@ -136,7 +141,7 @@ public class EventBus : IEventBus
         }
     }
 
-    public void unsubscribe(object subscriber, params string[] methodNames)
+    public virtual void unsubscribe(object subscriber, params string[] methodNames)
     {
         lock (subs)
         {
@@ -144,8 +149,8 @@ public class EventBus : IEventBus
         }
     }
 
-    public void publish(params object[] param) => publish("", param);
-    public void publish(string path = "", params object[] param)
+    public virtual void publish(params object[] param) => publish("", param);
+    public virtual void publish(string path = "", params object[] param)
     {
         lock (subs)
         {
@@ -165,7 +170,7 @@ public class EventBus : IEventBus
         }
     }
 
-    public void Dispose()
+    public virtual void Dispose()
     {
         lock (subs)
         {

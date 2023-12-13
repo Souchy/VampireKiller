@@ -1,15 +1,16 @@
-﻿using Util.communication.events;
+﻿using System.Linq;
+using Util.communication.events;
 using Util.entity;
 
 namespace Util.structures;
 
-public class SmartSet<T> : IEntity
+public class SmartSet<T> : Identifiable
 {
     public ID entityUid { get; set; }
     private HashSet<T> list { get; set; } = new();
 
-    private SmartSet() { }
-    private SmartSet(ID entityUid) : base()
+    protected SmartSet() { }
+    protected SmartSet(ID entityUid) : base()
     {
         this.entityUid = entityUid;
     }
@@ -19,6 +20,15 @@ public class SmartSet<T> : IEntity
         set.RegisterEventBus();
         return set;
     }
+
+    public IEnumerable<T> values => list;
+
+    /// <summary>
+    /// Let child class implement this
+    /// </summary>
+    public virtual void initialize() { }
+
+    public T? get(Func<T, bool> predicate) => list.First(predicate);
 
     public bool add(T value)
     {
@@ -39,6 +49,6 @@ public class SmartSet<T> : IEntity
 
     public void Dispose()
     {
-        throw new NotImplementedException();
+        this.DisposeEventBus();
     }
 }

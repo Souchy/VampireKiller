@@ -8,13 +8,16 @@ using Util.entity;
 
 namespace Util.structures;
 
-public class SmartDictionary<K, V> : IEntity
+public class SmartDictionary<K, V> : Identifiable
 {
+    public const string EventSet = "SmartDictionary." + nameof(set);
+    public const string EventRemove = "SmartDictionary." + nameof(remove);
+
     public ID entityUid { get; set; }
     public Dictionary<K, V> dic { get; set; } = new();
 
-    private SmartDictionary() { }
-    private SmartDictionary(ID entityUid) : base()
+    protected SmartDictionary() { }
+    protected SmartDictionary(ID entityUid) : base()
     {
         this.entityUid = entityUid;
     }
@@ -25,35 +28,59 @@ public class SmartDictionary<K, V> : IEntity
         return dic;
     }
 
-    public void set(K key, V value)
+    public IEnumerable<K> keys => dic.Keys;
+    public IEnumerable<V> values => dic.Values;
+    public IEnumerable<KeyValuePair<K, V>> pairs => dic;
+
+    /// <summary>
+    /// Let child class implement this
+    /// </summary>
+    public virtual void initialize() { }
+
+    public virtual V? get(K key)
+    {
+        if (!dic.ContainsKey(key))
+            return default;
+        return dic[key];
+    }
+    /// <summary>
+    /// Sets a key-value pair, removing existing pair if necessary
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="value"></param>
+    public virtual void set(K key, V value)
     {
         if (dic.ContainsKey(key))
             remove(key);
         dic[key] = value;
         this.GetEntityBus().subscribe(value);
-        this.GetEntityBus().publish(nameof(set), this, key, value);
+        this.GetEntityBus().publish(EventSet, this, key, value);
     }
-    public bool add(K key, V value)
+    /// <summary>
+    /// Sets only if there's no existing pair already
+    /// </summary>
+    public virtual bool add(K key, V value)
     {
         if (dic.ContainsKey(key)) return false;
         set(key, value);
-        this.GetEntityBus().subscribe(value);
-        this.GetEntityBus().publish(nameof(add), this, key, value);
         return true;
     }
-    public bool remove(K key)
+    public virtual bool remove(K key)
     {
         if (!dic.ContainsKey(key))
             return false;
         var value = dic[key];
         var result = dic.Remove(key);
-        this.GetEntityBus().publish(nameof(remove), this, key);
-        this.GetEntityBus().unsubscribe(value);
+        if(result)
+        {
+            this.GetEntityBus().publish(EventRemove, this, key, value);
+            this.GetEntityBus().unsubscribe(value);
+        }
         return result;
     }
 
-    public void Dispose()
+    public virtual void Dispose()
     {
-        throw new NotImplementedException();
+        this.DisposeEventBus();
     }
 }
