@@ -105,6 +105,6 @@ But you can use components for scenes like:
 	- modelId	-> original creaturemodel.stats, creaturemodel.scene3dAsset, creaturemodel.iconPng..
 	- that's it? 
 	- how do we get TotalStats ? 
-But they might have to be Scenes because we can't extend Entity since we extend Node3D
+But the components might have to be Scenes because we can't extend Entity since we extend Node3D
 	which is also annoying
 
