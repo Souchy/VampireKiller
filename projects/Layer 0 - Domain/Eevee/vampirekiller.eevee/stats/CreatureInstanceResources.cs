@@ -35,7 +35,7 @@ public class CreatureFightStats : IDisposable
         dic.set(Register.Create<CreatureIncreaseLife>());
         dic.set(Register.Create<CreatureIncreaseLifeMax>());
         // Si on veut un arbre de passifs avec des choix,
-        //      alors faudrait un objet dans creature: PassiveTree { list<Passive> } et Passive { StatsDic bonus; }
+        //      alors faudrait un objet dans creature: PassiveTree { list<Passive> } et Passive { StatsDic bonus; ou List<Statement> statements; }
         //      de la même manière que les items et status
     }
     public IEventBus GetEntityBus() => this.dic.GetEntityBus();
