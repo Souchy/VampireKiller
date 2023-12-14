@@ -11,8 +11,8 @@ namespace VampireKiller.eevee.vampirekiller.eevee;
 public class Fight
 {
     
-    public SmartSet<CreatureInstance> creatures { get; init; } = SmartSet<CreatureInstance>.Create<CreatureInstance>();
-    public SmartSet<Projectile> projectiles { get; init; } = SmartSet<Projectile>.Create<Projectile>();
+    public SmartSet<CreatureInstance> creatures { get; init; } = SmartSet<CreatureInstance>.Create();
+    public SmartSet<Projectile> projectiles { get; init; } = SmartSet<Projectile>.Create();
 
 
 }

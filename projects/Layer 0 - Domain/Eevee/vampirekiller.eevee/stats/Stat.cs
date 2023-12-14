@@ -5,20 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Util.communication.events;
 using Util.entity;
+using VampireKiller.eevee.vampirekiller.eevee.conditions;
 
 namespace VampireKiller.eevee.vampirekiller.eevee.stats;
 
-public interface Stat : Identifiable
+public interface IStat : Identifiable
 {
     public const string EventSet = "stat.set";
-    public Stat copy();
+    public List<ICondition> conditions { get; set; }
+    public IStat copy();
     public void add(StatsDic dic);
 }
 
 
-public class StatInt : Stat
+public class StatInt : IStat
 {
     public ID entityUid { get; set; }
+    public List<ICondition> conditions { get; set; } = new();
     private int _value;
     public virtual int value
     {
@@ -30,8 +33,8 @@ public class StatInt : Stat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(Stat.EventSet, this, before);
-            this.GetEntityBus().publish(Stat.EventSet, this);
+            this.GetEntityBus().publish(IStat.EventSet, this, before);
+            this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
 
@@ -50,10 +53,12 @@ public class StatInt : Stat
     //{
     //    this.value *= (statPercentage.value + 100) / 100;
     //}
-    public Stat copy()
+    public IStat copy()
     {
         var copy = new StatInt();
         copy.value = this.value;
+        foreach(var cond in conditions)
+            copy.conditions.Add(cond.copy());
         return copy;
     }
 
@@ -63,9 +68,10 @@ public class StatInt : Stat
     }
 
 }
-public class StatType : Stat
+public class StatType : IStat
 {
     public ID entityUid { get; set; }
+    public List<ICondition> conditions { get; set; } = new();
     private Type _value;
     public virtual Type value
     {
@@ -77,8 +83,8 @@ public class StatType : Stat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(Stat.EventSet, this, before);
-            this.GetEntityBus().publish(Stat.EventSet, this);
+            this.GetEntityBus().publish(IStat.EventSet, this, before);
+            this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
     public StatType() { }
@@ -87,10 +93,12 @@ public class StatType : Stat
     {
         throw new NotImplementedException();
     }
-    public Stat copy()
+    public IStat copy()
     {
         var copy = new StatType();
         copy.value = this.value;
+        foreach (var cond in conditions)
+            copy.conditions.Add(cond.copy());
         return copy;
     }
 
@@ -99,9 +107,10 @@ public class StatType : Stat
         this.DisposeEventBus();
     }
 }
-public class StatDate : Stat
+public class StatDate : IStat
 {
     public ID entityUid { get; set; }
+    public List<ICondition> conditions { get; set; } = new();
     private DateTime _value;
     public virtual DateTime value
     {
@@ -113,8 +122,8 @@ public class StatDate : Stat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(Stat.EventSet, this, before);
-            this.GetEntityBus().publish(Stat.EventSet, this);
+            this.GetEntityBus().publish(IStat.EventSet, this, before);
+            this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
     public StatDate() { }
@@ -122,22 +131,13 @@ public class StatDate : Stat
     public virtual void add(StatsDic dic)
     {
         throw new NotImplementedException();
-        //var val = dic.get<StatDate>(this.GetType());
-        //if (val != null)
-        //    this.value += val.value;
     }
-    //public void add(StatTimeSpan flat)
-    //{
-    //    this.value.Add(flat.value);
-    //}
-    //public void increase(StatInt statPercentage)
-    //{
-    //    // this.value *= (statPercentage.value + 100) / 100;
-    //}
-    public Stat copy()
+    public IStat copy()
     {
         var copy = new StatDate();
         copy.value = this.value;
+        foreach (var cond in conditions)
+            copy.conditions.Add(cond.copy());
         return copy;
     }
 
@@ -146,9 +146,10 @@ public class StatDate : Stat
         this.DisposeEventBus();
     }
 }
-public class StatTimeSpan : Stat
+public class StatTimeSpan : IStat
 {
     public ID entityUid { get; set; }
+    public List<ICondition> conditions { get; set; } = new();
     private TimeSpan _value;
     public virtual TimeSpan value
     {
@@ -160,8 +161,8 @@ public class StatTimeSpan : Stat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(Stat.EventSet, this, before);
-            this.GetEntityBus().publish(Stat.EventSet, this);
+            this.GetEntityBus().publish(IStat.EventSet, this, before);
+            this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
     public StatTimeSpan() { }
@@ -172,18 +173,12 @@ public class StatTimeSpan : Stat
         if (val != null)
             this.value += val.value;
     }
-    //public void add(StatTimeSpan flat)
-    //{
-    //    this.value.Add(flat.value);
-    //}
-    //public void increase(StatInt statPercentage)
-    //{
-    //    // this.value *= (statPercentage.value + 100) / 100;
-    //}
-    public Stat copy()
+    public IStat copy()
     {
         var copy = new StatTimeSpan();
         copy.value = this.value;
+        foreach (var cond in conditions)
+            copy.conditions.Add(cond.copy());
         return copy;
     }
 
@@ -192,9 +187,10 @@ public class StatTimeSpan : Stat
         this.DisposeEventBus();
     }
 }
-public class StatDouble : Stat
+public class StatDouble : IStat
 {
     public ID entityUid { get; set; }
+    public List<ICondition> conditions { get; set; } = new();
     private double _value;
     public virtual double value
     {
@@ -206,8 +202,8 @@ public class StatDouble : Stat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(Stat.EventSet, this, before);
-            this.GetEntityBus().publish(Stat.EventSet, this);
+            this.GetEntityBus().publish(IStat.EventSet, this, before);
+            this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
     public StatDouble(double value = 0) => this.value = value;
@@ -217,18 +213,12 @@ public class StatDouble : Stat
         if (val != null)
             this.value += val.value;
     }
-    //public void add(StatDouble statFlat)
-    //{
-    //    this.value += statFlat.value;
-    //}
-    //public void increase(StatDouble statPercentage)
-    //{
-    //    this.value *= (statPercentage.value + 100) / 100;
-    //}
-    public Stat copy()
+    public IStat copy()
     {
         var copy = new StatDouble();
         copy.value = this.value;
+        foreach (var cond in conditions)
+            copy.conditions.Add(cond.copy());
         return copy;
     }
 
@@ -237,9 +227,10 @@ public class StatDouble : Stat
         this.DisposeEventBus();
     }
 }
-public class StatBool : Stat
+public class StatBool : IStat
 {
     public ID entityUid { get; set; }
+    public List<ICondition> conditions { get; set; } = new();
     private bool _value;
     public virtual bool value
     {
@@ -249,8 +240,8 @@ public class StatBool : Stat
         set {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(Stat.EventSet, this, before);
-            this.GetEntityBus().publish(Stat.EventSet, this);
+            this.GetEntityBus().publish(IStat.EventSet, this, before);
+            this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
     public StatBool(bool value = false) => this.value = value;
@@ -268,10 +259,12 @@ public class StatBool : Stat
     {
         this.value |= stat.value;
     }
-    public Stat copy()
+    public IStat copy()
     {
         var copy = new StatBool();
         copy.value = this.value;
+        foreach (var cond in conditions)
+            copy.conditions.Add(cond.copy());
         return copy;
     }
 

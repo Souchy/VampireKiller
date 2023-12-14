@@ -9,7 +9,7 @@ using Util.structures;
 
 namespace VampireKiller.eevee.vampirekiller.eevee.stats;
 
-public class StatsDic : SmartDictionary<Type, Stat>
+public class StatsDic : SmartDictionary<Type, IStat>
 {
     public const string EventUpdate = nameof(StatsDic) + ".changed";
 
@@ -18,17 +18,17 @@ public class StatsDic : SmartDictionary<Type, Stat>
         this.GetEntityBus().subscribe(this);
     }
 
-    public T? get<T>(Type t) where T : Stat
+    public T? get<T>(Type t) where T : IStat
     {
         return (T?) get(t);
     }
 
-    public T? get<T>() where T : Stat
+    public T? get<T>() where T : IStat
     {
         return (T?) get(typeof(T));
     }
 
-    public void set(Stat s)
+    public void set(IStat s)
     {
         this.set(s.GetType(), s);
     }
@@ -36,8 +36,8 @@ public class StatsDic : SmartDictionary<Type, Stat>
     /// <summary>
     /// When the value of a stat changes
     /// </summary>
-    [Subscribe(Stat.EventSet)]
-    private void onChangedStat(Stat stat)
+    [Subscribe(IStat.EventSet)]
+    private void onChangedStat(IStat stat)
     {
         this.GetEntityBus().publish(EventUpdate, dic);
     }
@@ -45,7 +45,7 @@ public class StatsDic : SmartDictionary<Type, Stat>
     /// When a stat is added/set in the dictionary
     /// </summary>
     [Subscribe(StatsDic.EventSet)]
-    private void onSetStat(StatsDic dic, Type t, Stat s)
+    private void onSetStat(StatsDic dic, Type t, IStat s)
     {
         s.GetEntityBus().subscribe(this);
         this.GetEntityBus().publish(EventUpdate, dic);
@@ -54,7 +54,7 @@ public class StatsDic : SmartDictionary<Type, Stat>
     /// When a stat is removed/replaced in the dictionary
     /// </summary>
     [Subscribe(StatsDic.EventRemove)]
-    public void onRemoveStat(StatsDic dic, Type t, Stat s)
+    public void onRemoveStat(StatsDic dic, Type t, IStat s)
     {
         s.GetEntityBus().unsubscribe(this);
         this.GetEntityBus().publish(EventUpdate, dic);

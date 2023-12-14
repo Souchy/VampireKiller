@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <Folder Include="vampirekiller.eevee\equipment\" />
-    <Folder Include="vampirekiller.eevee\statements\" />
+    <Folder Include="vampirekiller.eevee\triggers\schemas\" />
   </ItemGroup>
 
 

@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using Util.communication.events;
 using Util.ecs;
 using Util.entity;
+using VampireKiller.eevee.vampirekiller.eevee.equipment;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
+using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 
 namespace VampireKiller.eevee.creature;
 
@@ -22,8 +24,8 @@ public class CreatureInstance : Identifiable
     public Action<Vector3> setPositionHook { get; set; }
 
     public CreatureFightStats fightStats = new();
+     public Inventory inventory { get; set; } = new();
     // public CreatureInstanceStats resources { get; set; } = new();
-    // public Inventory inventory { get; set; } = new();
     // public List<StatusInstance> statuses { get; set; } = new();
 
     public CreatureInstance() { }
@@ -39,11 +41,13 @@ public class CreatureInstance : Identifiable
         fightStats.Dispose();
     }
 
-    public Stat getTotalStat<T>() where T : Stat, new()
+    public IStat getTotalStat<T>() where T : IStat, new()
     {
         var t = new T();
         t.add(this.model.baseStats);
         t.add(this.fightStats.dic);
+        foreach(var item in inventory.items.values)
+            item.addStat<T>(t);
         // TODO getTotalStat: items & statuses
         return t;
     }

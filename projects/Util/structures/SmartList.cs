@@ -1,4 +1,5 @@
-﻿using Util.communication.events;
+﻿using Newtonsoft.Json.Linq;
+using Util.communication.events;
 using Util.entity;
 
 namespace Util.structures;
@@ -13,9 +14,9 @@ public class SmartList<T> : Identifiable
     {
         this.entityUid = entityUid;
     }
-    public static SmartList<V> Create<V>()
+    public static SmartList<T> Create()
     {
-        var list = new SmartList<V>();
+        var list = new SmartList<T>();
         list.RegisterEventBus();
         return list;
     }

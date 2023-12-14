@@ -21,9 +21,9 @@ public class SmartDictionary<K, V> : Identifiable
     {
         this.entityUid = entityUid;
     }
-    public static SmartDictionary<A, B> Create<A, B>()
+    public static SmartDictionary<K, V> Create()
     {
-        var dic = new SmartDictionary<A, B>();
+        var dic = new SmartDictionary<K, V>();
         dic.RegisterEventBus();
         return dic;
     }

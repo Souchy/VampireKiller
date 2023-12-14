@@ -7,7 +7,7 @@ using Util.communication.events;
 using Util.entity;
 using Util.structures;
 
-namespace VampireKiller.eevee.vampirekiller.eevee.stats;
+namespace VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 
 /// <summary>
 /// Lorsqu'on prend du dommage ou du heal, on va généralement utiliser CreatureAddedLife pour l'ajotuer à la fin du calcul de vie total
@@ -38,7 +38,7 @@ public class CreatureFightStats : IDisposable
         //      alors faudrait un objet dans creature: PassiveTree { list<Passive> } et Passive { StatsDic bonus; ou List<Statement> statements; }
         //      de la même manière que les items et status
     }
-    public IEventBus GetEntityBus() => this.dic.GetEntityBus();
+    public IEventBus GetEntityBus() => dic.GetEntityBus();
 
     public void Dispose() => dic.Dispose();
 }
@@ -60,7 +60,7 @@ public class CreatureTotalLife : StatInt
     {
         get
         {
-            return (int) (totalBase * ((100.0 + totalIncrease) / 100.0)) + totalAdded;
+            return (int)(totalBase * ((100.0 + totalIncrease) / 100.0)) + totalAdded;
         }
         set { }
     }
@@ -83,7 +83,7 @@ public class CreatureTotalLifeMax : StatInt
     {
         get
         {
-            return (int) (totalFlat * ((100.0 + totalIncrease) / 100.0)) + totalAdded;
+            return (int)(totalFlat * ((100.0 + totalIncrease) / 100.0)) + totalAdded;
         }
         set { }
     }

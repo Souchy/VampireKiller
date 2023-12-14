@@ -14,9 +14,9 @@ public class SmartSet<T> : Identifiable
     {
         this.entityUid = entityUid;
     }
-    public static SmartSet<V> Create<V>()
+    public static SmartSet<T> Create()
     {
-        var set = new SmartSet<V>();
+        var set = new SmartSet<T>();
         set.RegisterEventBus();
         return set;
     }
