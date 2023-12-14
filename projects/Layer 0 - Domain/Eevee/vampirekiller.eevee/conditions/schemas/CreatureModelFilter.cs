@@ -12,7 +12,7 @@ public class CreatureModelFilter : IConditionSchema
     public List<ID> acceptedModelIds { get; set; } = new();
     public List<ID> rejectedModelIds { get; set; } = new();
 
-    public override IConditionSchema copy()
+    public IConditionSchema copy()
     {
         var copy = new CreatureModelFilter();
         foreach(var item in acceptedModelIds)

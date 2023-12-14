@@ -1,8 +1,6 @@
-﻿using souchy.celebi.eevee.face.shared.zones;
-using souchy.celebi.eevee.face.util.math;
-using souchy.celebi.eevee.impl.objects.zones;
+﻿using Godot;
 using System.Reflection;
-using static souchy.celebi.eevee.impl.objects.zones.AreaGenerator;
+using VampireKiller.eevee.vampirekiller.eevee.zones;
 
 namespace souchy.celebi.eevee.enums
 {
@@ -47,7 +45,7 @@ namespace souchy.celebi.eevee.enums
         public IZoneSize create(IZone zone)
         {
             var t = (IZoneSize) Activator.CreateInstance(type());
-            t.sizeParams = zone.size.value;
+            t.sizeParams = zone.size;
             return t;
         }
     }
@@ -56,7 +54,7 @@ namespace souchy.celebi.eevee.enums
         public override Type type() => typeof(T); 
         public T createT(IZone zone) {
             var t = (T) Activator.CreateInstance(typeof(T));
-            t.sizeParams = zone.size.value;
+            t.sizeParams = zone.size;
             return t;
         }
     }
@@ -65,34 +63,34 @@ namespace souchy.celebi.eevee.enums
         public static T GetSize<T>(this IZone zone) where T : IZoneSize
         {
             var attr = (ZoneSizeAttribute<T>) typeof(ZoneType)
-                    .GetField(Enum.GetName(zone.zoneType.value))
+                    .GetField(Enum.GetName(zone.zoneType))
                     .GetCustomAttribute(typeof(ZoneSizeAttribute<T>), true);
             return attr.createT(zone);
         }
         public static IZoneSize GetSize(this IZone zone)
         {
             var attr = (IZoneSizeAttribute) typeof(ZoneType)
-                    .GetField(Enum.GetName(zone.zoneType.value))
+                    .GetField(Enum.GetName(zone.zoneType))
                     .GetCustomAttribute(typeof(IZoneSizeAttribute), true);
             return attr.create(zone);
         }
-        public static Points GeneratePoints(this IZone zone)
-        {
-            var methodName = Enum.GetName(zone.zoneType.value) + (zone.GetRingWidth() != 0 ? "Ring" : "");
-            var points = (Points) typeof(AreaGenerator)
-                .GetMethod(methodName)
-                .Invoke(null, new object[] { zone });
-            return points
-                .anchor()
-                .rotate()
-                .offset();
-        }
+        //public static Points GeneratePoints(this IZone zone)
+        //{
+        //    var methodName = Enum.GetName(zone.zoneType) + (zone.GetRingWidth() != 0 ? "Ring" : "");
+        //    var points = (Points) typeof(AreaGenerator)
+        //        .GetMethod(methodName)
+        //        .Invoke(null, new object[] { zone });
+        //    return points
+        //        .anchor()
+        //        .rotate()
+        //        .offset();
+        //}
     }
 
     public abstract class IZoneSize
     {
-        public IVector3 sizeParams;
-        public int ringWidth { get => sizeParams.y; set => sizeParams.y = value; }
+        public Vector3 sizeParams;
+        public float ringWidth { get => sizeParams.Y; set => sizeParams.Y = value; }
     }
     public class ZoneSizePoint : IZoneSize
     {
@@ -100,18 +98,18 @@ namespace souchy.celebi.eevee.enums
     // line, diagonal
     public class ZoneSizeLength : IZoneSize
     {
-        public int length { get => sizeParams.x; set => sizeParams.x = value; }
+        public float length { get => sizeParams.X; set => sizeParams.X = value; }
     }
     // circle O, square [], halfcircle /_\, v  /\
     public class ZoneSizeRadius : IZoneSize
     {
-        public int radius { get => sizeParams.x; set => sizeParams.x = value; }
+        public float radius { get => sizeParams.X; set => sizeParams.X = value; }
     }
     // cross, xcross, star, rectangle, ellipse, ellipseHalf
     public class ZoneSizeRadius2 : IZoneSize
     {
-        public int radiusForward { get => sizeParams.x; set => sizeParams.x = value; }
-        public int radiusSide { get => sizeParams.z; set => sizeParams.z = value; }
+        public float radiusForward { get => sizeParams.X; set => sizeParams.X = value; }
+        public float radiusSide { get => sizeParams.Z; set => sizeParams.Z = value; }
     }
 
 
