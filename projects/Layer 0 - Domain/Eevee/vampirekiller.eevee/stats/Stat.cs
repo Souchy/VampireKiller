@@ -38,21 +38,13 @@ public class StatInt : IStat
         }
     }
 
-    public StatInt(int value = 0) => this.value = value;
+    public StatInt() { }
     public virtual void add(StatsDic dic)
     {
         var val = dic.get<StatInt>(this.GetType());
         if(val != null) 
             this.value += val.value;
     }
-    //public void add(StatInt statFlat)
-    //{
-    //    this.value += statFlat.value;
-    //}
-    //public void increase(StatInt statPercentage)
-    //{
-    //    this.value *= (statPercentage.value + 100) / 100;
-    //}
     public IStat copy()
     {
         var copy = new StatInt();
@@ -88,7 +80,6 @@ public class StatType : IStat
         }
     }
     public StatType() { }
-    public StatType(Type value) => this.value = value;
     public virtual void add(StatsDic dic)
     {
         throw new NotImplementedException();
@@ -127,7 +118,6 @@ public class StatDate : IStat
         }
     }
     public StatDate() { }
-    public StatDate(DateTime value) => this.value = value;
     public virtual void add(StatsDic dic)
     {
         throw new NotImplementedException();
@@ -166,7 +156,6 @@ public class StatTimeSpan : IStat
         }
     }
     public StatTimeSpan() { }
-    public StatTimeSpan(TimeSpan value) => this.value = value;
     public virtual void add(StatsDic dic)
     {
         var val = dic.get<StatTimeSpan>(this.GetType());
@@ -206,7 +195,7 @@ public class StatDouble : IStat
             this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
-    public StatDouble(double value = 0) => this.value = value;
+    public StatDouble() { }
     public virtual void add(StatsDic dic)
     {
         var val = dic.get<StatDouble>(this.GetType());
@@ -244,7 +233,7 @@ public class StatBool : IStat
             this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
-    public StatBool(bool value = false) => this.value = value;
+    public StatBool() { }
     public virtual void add(StatsDic dic)
     {
         var val = dic.get<StatBool>(this.GetType());
