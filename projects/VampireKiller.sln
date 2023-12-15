@@ -17,13 +17,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layer 3 - Presentation", "L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Util", "Util\Util.csproj", "{DA556948-334D-4519-BA10-5DE0C233FA67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "Test\TestProject1\TestProject1.csproj", "{1EB4378E-A2D3-410A-B8AB-B49620DD2E3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject1", "Test\TestProject1\TestProject1.csproj", "{1EB4378E-A2D3-410A-B8AB-B49620DD2E3A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{7B2ACE15-8585-483B-94B9-8199E26D0C8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGems", "Layer 1 - Data\TestGems\TestGems.csproj", "{DFA63F45-8F02-4083-8967-4E0A93AED74D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestGems", "Layer 1 - Data\TestGems\TestGems.csproj", "{DFA63F45-8F02-4083-8967-4E0A93AED74D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logia", "Layer 2 - Application\Logia\Logia.csproj", "{6C0DE98D-9245-4F84-B38D-E237C166BABE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logia", "Layer 2 - Application\Logia\Logia.csproj", "{6C0DE98D-9245-4F84-B38D-E237C166BABE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Espeon", "Layer 2 - Application\Espeon\Espeon.csproj", "{B10B9118-9DFE-4779-8AB8-2F08D09440EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,14 @@ Global
 		{6C0DE98D-9245-4F84-B38D-E237C166BABE}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
 		{6C0DE98D-9245-4F84-B38D-E237C166BABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C0DE98D-9245-4F84-B38D-E237C166BABE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B10B9118-9DFE-4779-8AB8-2F08D09440EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B10B9118-9DFE-4779-8AB8-2F08D09440EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B10B9118-9DFE-4779-8AB8-2F08D09440EE}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B10B9118-9DFE-4779-8AB8-2F08D09440EE}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{B10B9118-9DFE-4779-8AB8-2F08D09440EE}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{B10B9118-9DFE-4779-8AB8-2F08D09440EE}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
+		{B10B9118-9DFE-4779-8AB8-2F08D09440EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B10B9118-9DFE-4779-8AB8-2F08D09440EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +102,7 @@ Global
 		{1EB4378E-A2D3-410A-B8AB-B49620DD2E3A} = {7B2ACE15-8585-483B-94B9-8199E26D0C8B}
 		{DFA63F45-8F02-4083-8967-4E0A93AED74D} = {39560A03-7A25-45ED-B7E2-9DE9C963AB84}
 		{6C0DE98D-9245-4F84-B38D-E237C166BABE} = {591F1EB2-30A7-4A93-A31E-AE141D208B85}
+		{B10B9118-9DFE-4779-8AB8-2F08D09440EE} = {591F1EB2-30A7-4A93-A31E-AE141D208B85}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74333837-D743-4EB1-BD95-5970B0196D92}

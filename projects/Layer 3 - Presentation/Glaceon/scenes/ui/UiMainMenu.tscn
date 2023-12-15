@@ -17,7 +17,7 @@ sky = SubResource("Sky_osoqg")
 tonemap_mode = 2
 glow_enabled = true
 
-[node name="UiMainMenu" type="Node3D"]
+[node name="UiMainMenu" type="Node"]
 script = ExtResource("1_ivhjp")
 
 [node name="Background" type="Node" parent="."]
@@ -32,7 +32,9 @@ transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="Background/Environment"]
+unique_name_in_owner = true
 transform = Transform3D(0.976224, 0, 0.216763, 0, 1, 0, -0.216763, 0, 0.976224, 1.43077, 1.96739, 5.84156)
+current = true
 
 [node name="Objects" type="Node" parent="Background"]
 

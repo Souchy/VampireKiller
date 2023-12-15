@@ -19,7 +19,7 @@ sky = SubResource("Sky_ssxgm")
 tonemap_mode = 2
 glow_enabled = true
 
-[node name="Game" type="Node3D"]
+[node name="Game" type="Node"]
 script = ExtResource("1_wcjfi")
 
 [node name="Environment" type="Node" parent="."]
@@ -35,13 +35,14 @@ transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="Environment"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 14.336, 3.95403)
 
 [node name="Players" type="Node" parent="."]
 unique_name_in_owner = true
 
 [node name="PlayerNode" parent="Players" instance=ExtResource("2_kpsgh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.63614, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.63614, 1.2554, 0)
 
 [node name="Creatures" type="Node" parent="."]
 unique_name_in_owner = true

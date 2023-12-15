@@ -1,33 +1,69 @@
-using Glaceon;
 using Godot;
 using Godot.Sharp.Extras;
-using System;
 using Util.communication.events;
 using Util.entity;
 using Util.structures;
 using VampireKiller.eevee;
 using VampireKiller.eevee.creature;
+using VampireKiller.eevee.vampirekiller.eevee;
 
-public partial class Game : Node3D
+public partial class Game : Node
 {
     [NodePath]
     public Node Players { get; set; }
 
     [NodePath]
     public Node Creatures { get; set; }
+    
+    [NodePath("%Camera3D")]
+    public Camera3D camera3D { get; set; }
+
+    private Fight fight; // Only kept around so we can unsubscribe when fight ends
+    private bool isActivated = false;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        Main.fight.creatures.GetEntityBus().subscribe(this);
-        Main.fight.projectiles.GetEntityBus().subscribe(this);
+        this.OnReady();
+        //Main.fight.creatures.GetEntityBus().subscribe(this);
+        //Main.fight.projectiles.GetEntityBus().subscribe(this);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
-	{
-	}
+    {
+    }
 
+    public void startFight(Fight newFight)
+    {
+        // Cleanup if fight is currently active
+        if (this.fight != null)
+        {
+            this.stopFight();
+        }
+
+        this.fight = newFight;
+        this.fight.creatures.GetEntityBus().subscribe(this);
+        this.fight.projectiles.GetEntityBus().subscribe(this);
+
+        // Instantiate already existing creatures
+        foreach (var creature in this.fight.creatures.values)
+        {
+            this.onAddCreatureInstance(this.fight.creatures, creature);
+        }
+    }
+
+    public void stopFight()
+    {
+        // Unsuscribe
+        this.fight.creatures.GetEntityBus().unsubscribe(this);
+        this.fight.projectiles.GetEntityBus().unsubscribe(this);
+        this.fight = null;
+
+        // Cleanup old nodes
+        Game.clearChildren(this.Creatures);
+        //Game.clearChildren(this.Projectiles);
+    }
 
     [Subscribe(nameof(SmartSet<CreatureInstance>.add))]
     public void onAddCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
@@ -40,7 +76,7 @@ public partial class Game : Node3D
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {
-        // faut référence à creaInst.entityUid dans CreatureNode
+        // faut rï¿½fï¿½rence ï¿½ creaInst.entityUid dans CreatureNode
     }
 
     [Subscribe(nameof(SmartSet<Projectile>.add))]
@@ -51,7 +87,7 @@ public partial class Game : Node3D
         // CreatureNode creaNode = this.get...
         // ProjectileNode projNode = GD.Load<PackedScene>(inst.model.meshScenePath).Instantiate<ProjectileNode>();
         // projNode.init(inst);
-        // Ajoute le proj à la créature? pour on death ça clear au complet
+        // Ajoute le proj ï¿½ la crï¿½ature? pour on death ï¿½a clear au complet
         // creaNode.addChild(projNode)
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
@@ -60,4 +96,12 @@ public partial class Game : Node3D
 
     }
 
+    private static void clearChildren(Node node)
+    {
+        foreach (var item in node.GetChildren())
+        {
+            node.RemoveChild(item);
+            item.QueueFree();
+        }
+    }
 }
