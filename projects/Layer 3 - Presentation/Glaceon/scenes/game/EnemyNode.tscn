@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://hdx0iag2udn1"]
+
+[ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/game/CreatureNode.tscn" id="1_ion10"]
+[ext_resource type="Script" path="res://scenes/game/EnemyNode.cs" id="2_lkian"]
+
+[node name="EnemyNode" instance=ExtResource("1_ion10")]
+script = ExtResource("2_lkian")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." index="2"]
+debug_path_custom_color = Color(1, 0.172549, 1, 1)

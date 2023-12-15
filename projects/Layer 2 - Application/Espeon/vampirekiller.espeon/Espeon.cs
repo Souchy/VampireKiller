@@ -38,13 +38,14 @@ public class EspeonState : Identifiable
         testCreatureModel.iconPath = "res://icon.svg";
 
         var testCreature1 = Register.Create<CreatureInstance>();
-        var testCreature2 = Register.Create<CreatureInstance>();
+        // Removed second creature because they're spawning on top of each other
+        //var testCreature2 = Register.Create<CreatureInstance>();
         testCreature1.model = testCreatureModel;
-        testCreature2.model = testCreatureModel;
+        //testCreature2.model = testCreatureModel;
 
         var testFight = new Fight();
         testFight.creatures.add(testCreature1);
-        testFight.creatures.add(testCreature2);
+        //testFight.creatures.add(testCreature2);
         return testFight;
     }
 }

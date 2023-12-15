@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c4xb7jni5e0r2"]
 
-[ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/game/CreatureNode.tscn" id="1_hcihu"]
+[ext_resource type="PackedScene" uid="uid://hdx0iag2udn1" path="res://scenes/game/EnemyNode.tscn" id="69"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6dxij"]
 albedo_color = Color(0.117647, 0.529412, 0.239216, 1)
@@ -8,7 +8,7 @@ albedo_color = Color(0.117647, 0.529412, 0.239216, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_r85mu"]
 material = SubResource("StandardMaterial3D_6dxij")
 
-[node name="Orc" instance=ExtResource("1_hcihu")]
+[node name="Orc" instance=ExtResource("69")]
 
 [node name="MeshInstance3D" parent="." index="1"]
 mesh = SubResource("CapsuleMesh_r85mu")

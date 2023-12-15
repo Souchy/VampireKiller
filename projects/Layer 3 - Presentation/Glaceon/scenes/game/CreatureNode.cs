@@ -22,6 +22,7 @@ public partial class CreatureNode : CharacterBody3D
     public override void _Ready() 
     {
         base._Ready();
+        this.OnReady();
     }
 
     public override void _Process(double delta)

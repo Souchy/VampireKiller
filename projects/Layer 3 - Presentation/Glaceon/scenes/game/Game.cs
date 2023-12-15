@@ -72,6 +72,11 @@ public partial class Game : Node
         inst.GetEntityBus().subscribe(node);
         node.init(inst);
         Creatures.AddChild(node);
+        if (node is EnemyNode)
+        {
+            EnemyNode enemyNode = (EnemyNode) node;
+            enemyNode.setTrackingTarget((Node3D) this.Players.GetChild(0));
+        }
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
