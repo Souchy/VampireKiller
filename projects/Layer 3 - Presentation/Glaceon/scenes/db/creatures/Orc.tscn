@@ -1,13 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4xb7jni5e0r2"]
+[gd_scene load_steps=6 format=3 uid="uid://c4xb7jni5e0r2"]
 
 [ext_resource type="ArrayMesh" path="res://scenes/db/synty/orc/SM_Bean_Cowboy_01_4300000.mesh" id="2_3yh3x"]
 [ext_resource type="Texture2D" path="res://scenes/db/synty/PolygonStarter_Texture_01.tex" id="3_r8noc"]
 [ext_resource type="PackedScene" uid="uid://hdx0iag2udn1" path="res://scenes/game/EnemyNode.tscn" id="69"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_p5lgb"]
+viewport_path = NodePath("SubViewport")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_10t1l"]
 albedo_texture = ExtResource("3_r8noc")
 
 [node name="Orc" instance=ExtResource("69")]
+
+[node name="ResourceBars" parent="CollisionShape3D" index="0"]
+texture = SubResource("ViewportTexture_p5lgb")
 
 [node name="MeshInstance3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)

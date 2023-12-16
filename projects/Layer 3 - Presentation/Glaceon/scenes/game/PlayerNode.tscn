@@ -1,12 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bom0kubl7xo2v"]
+[gd_scene load_steps=9 format=3 uid="uid://bom0kubl7xo2v"]
 
 [ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/game/CreatureNode.tscn" id="1_pqufn"]
 [ext_resource type="Script" path="res://scenes/game/PlayerNode.cs" id="2_eiksd"]
 [ext_resource type="ArrayMesh" path="res://scenes/db/synty/player/SM_Bean_Female_01_4300000.mesh" id="3_uyt3g"]
 [ext_resource type="Texture2D" path="res://scenes/db/synty/PolygonStarter_Texture_01.tex" id="4_4jg7x"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g5mfc"]
-height = 1.7
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_g7nte"]
 viewport_path = NodePath("SubViewport")
@@ -24,9 +21,6 @@ outer_radius = 0.75
 
 [node name="PlayerNode" instance=ExtResource("1_pqufn")]
 script = ExtResource("2_eiksd")
-
-[node name="CollisionShape3D" parent="." index="0"]
-shape = SubResource("CapsuleShape3D_g5mfc")
 
 [node name="ResourceBars" parent="CollisionShape3D" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12, 0)
