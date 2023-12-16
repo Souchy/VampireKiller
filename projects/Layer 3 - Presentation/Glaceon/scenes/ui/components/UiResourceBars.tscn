@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvmjjemmg48w3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r1ivg"]
+bg_color = Color(0.164706, 0.164706, 0.164706, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+expand_margin_right = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4r8c1"]
+bg_color = Color(0.6, 0.262745, 0.27451, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_bottom = 2
+
+[node name="UiResourceBars" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Healthbar" type="ProgressBar" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_r1ivg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4r8c1")
+value = 50.0

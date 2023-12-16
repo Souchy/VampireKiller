@@ -1,10 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://mmu2tpnln6i1"]
+[gd_scene load_steps=8 format=3 uid="uid://mmu2tpnln6i1"]
 
 [ext_resource type="Script" path="res://scenes/game/CreatureNode.cs" id="1_4o42t"]
+[ext_resource type="PackedScene" uid="uid://cvmjjemmg48w3" path="res://scenes/ui/components/UiResourceBars.tscn" id="2_44t2c"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pwek4"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_6b8gj"]
+viewport_path = NodePath("SubViewport")
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_f2l0y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bcwia"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_335yn"]
+material = SubResource("StandardMaterial3D_bcwia")
+inner_radius = 0.7
+outer_radius = 0.75
 
 [node name="CreatureNode" type="CharacterBody3D"]
 script = ExtResource("1_4o42t")
@@ -13,7 +24,24 @@ script = ExtResource("1_4o42t")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_pwek4")
 
+[node name="ResourceBars" type="Sprite3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_6b8gj")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_f2l0y")
 
+[node name="TeamRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+mesh = SubResource("TorusMesh_335yn")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+debug_path_custom_color = Color(1, 0.172549, 1, 1)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+
+[node name="UiResourceBars" parent="SubViewport" instance=ExtResource("2_44t2c")]
