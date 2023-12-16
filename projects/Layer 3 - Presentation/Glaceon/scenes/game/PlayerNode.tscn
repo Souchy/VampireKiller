@@ -19,7 +19,7 @@ material = SubResource("StandardMaterial3D_7t4hi")
 inner_radius = 0.7
 outer_radius = 0.75
 
-[node name="PlayerNode" instance=ExtResource("1_pqufn")]
+[node name="PlayerNode" groups=["Players"] instance=ExtResource("1_pqufn")]
 script = ExtResource("2_eiksd")
 
 [node name="ResourceBars" parent="CollisionShape3D" index="0"]

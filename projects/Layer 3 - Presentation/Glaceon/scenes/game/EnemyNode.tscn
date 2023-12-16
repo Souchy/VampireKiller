@@ -14,7 +14,7 @@ material = SubResource("StandardMaterial3D_2eine")
 inner_radius = 0.7
 outer_radius = 0.75
 
-[node name="EnemyNode" instance=ExtResource("1_ion10")]
+[node name="EnemyNode" groups=["Enemies"] instance=ExtResource("1_ion10")]
 script = ExtResource("2_lkian")
 
 [node name="ResourceBars" parent="CollisionShape3D" index="0"]
