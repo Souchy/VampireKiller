@@ -1,16 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://bom0kubl7xo2v"]
+[gd_scene load_steps=6 format=3 uid="uid://bom0kubl7xo2v"]
 
 [ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/game/CreatureNode.tscn" id="1_pqufn"]
 [ext_resource type="Script" path="res://scenes/game/PlayerNode.cs" id="2_eiksd"]
+[ext_resource type="ArrayMesh" path="res://scenes/db/synty/player/SM_Bean_Female_01_4300000.mesh" id="3_uyt3g"]
+[ext_resource type="Texture2D" path="res://scenes/db/synty/PolygonStarter_Texture_01.tex" id="4_4jg7x"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sfya3"]
-albedo_color = Color(1, 0.52549, 0.337255, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_8vcab"]
-material = SubResource("StandardMaterial3D_sfya3")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8uq0"]
+albedo_texture = ExtResource("4_4jg7x")
 
 [node name="PlayerNode" instance=ExtResource("1_pqufn")]
 script = ExtResource("2_eiksd")
 
 [node name="MeshInstance3D" parent="." index="1"]
-mesh = SubResource("CapsuleMesh_8vcab")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = ExtResource("3_uyt3g")
+surface_material_override/0 = SubResource("StandardMaterial3D_u8uq0")
