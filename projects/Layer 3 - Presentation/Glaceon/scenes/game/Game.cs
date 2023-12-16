@@ -15,8 +15,8 @@ public partial class Game : Node
     [NodePath]
     public Node Creatures { get; set; }
     
-    [NodePath("%Camera3D")]
-    public Camera3D camera3D { get; set; }
+    [NodePath]
+    public Camera3D Camera3D { get; set; }
 
     private Fight fight; // Only kept around so we can unsubscribe when fight ends
     private bool isActivated = false;
@@ -81,7 +81,7 @@ public partial class Game : Node
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {
-        // faut r�f�rence � creaInst.entityUid dans CreatureNode
+        // faut référence à creaInst.entityUid dans CreatureNode
     }
 
     [Subscribe(nameof(SmartSet<Projectile>.add))]
@@ -92,7 +92,7 @@ public partial class Game : Node
         // CreatureNode creaNode = this.get...
         // ProjectileNode projNode = GD.Load<PackedScene>(inst.model.meshScenePath).Instantiate<ProjectileNode>();
         // projNode.init(inst);
-        // Ajoute le proj � la cr�ature? pour on death �a clear au complet
+        // Ajoute le proj à la créature? pour on death ça clear au complet
         // creaNode.addChild(projNode)
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]

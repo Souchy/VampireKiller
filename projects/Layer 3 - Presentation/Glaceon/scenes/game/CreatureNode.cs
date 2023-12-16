@@ -18,10 +18,12 @@ public partial class CreatureNode : CharacterBody3D
     //public Node3D Model3d { get; set; }
     //[NodePath]
     //public AnimationPlayer player { get; set; }
+    [NodePath]
+    public NavigationAgent3D NavigationAgent3D { get; set; }
 
-    public override void _Ready() 
+
+    public override void _Ready()
     {
-        base._Ready();
         this.OnReady();
     }
 

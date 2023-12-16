@@ -1,13 +1,23 @@
 using Godot;
+using Godot.Sharp.Extras;
 using System;
 
 public partial class PlayerNode : CreatureNode
 {
+	[NodePath]
+	public Camera3D Camera3D { get; set; }
+
+
 	public const float Speed = 5.0f;
 	public const float JumpVelocity = 6.0f;
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+
+    public override void _Ready()
+    {
+        this.OnReady();
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -25,12 +35,26 @@ public partial class PlayerNode : CreatureNode
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+		// If input, set velocity
 		if (direction != Vector3.Zero)
 		{
 			velocity.X = direction.X * Speed;
 			velocity.Z = direction.Z * Speed;
+			// stop the point & click navigation
+			NavigationAgent3D.TargetPosition = GlobalPosition;
 		}
 		else
+		// If point & click, set velocity
+		if (!NavigationAgent3D.IsNavigationFinished())
+		{
+			var nextPos = NavigationAgent3D.GetNextPathPosition();
+			direction = GlobalPosition.DirectionTo(nextPos);
+			// direction.Y = 0;
+			velocity = direction * Speed;
+		}
+		else
+		// If no input, slow down 
+		if (NavigationAgent3D.IsNavigationFinished())
 		{
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
@@ -39,4 +63,28 @@ public partial class PlayerNode : CreatureNode
 		Velocity = velocity;
 		MoveAndSlide();
 	}
+
+	public override void _Input(InputEvent @event)
+	{
+		base._Input(@event);
+		bool clicked = Input.IsActionJustPressed("click_move") || Input.IsActionPressed("click_move");
+		if (clicked)
+		{
+			var mousePos = this.GetViewport().GetMousePosition();
+			var rayLength = 100;
+			var from = Camera3D.ProjectRayOrigin(mousePos);
+			var to = from + Camera3D.ProjectRayNormal(mousePos) * rayLength;
+			var space = GetWorld3D().DirectSpaceState;
+			var ray = new PhysicsRayQueryParameters3D()
+			{
+				From = from,
+				To = to,
+				CollideWithAreas = true
+			};
+			var result = space.IntersectRay(ray);
+			NavigationAgent3D.TargetPosition = (Vector3)result["position"];
+		}
+
+	}
+
 }

@@ -12,7 +12,6 @@ public partial class EnemyNode : CreatureNode
     public NavigationAgent3D navAgent;
 
     private Node3D trackingTarget;
-    private Int16 updateCount = 0;
     
     public override void _Ready() 
     {
@@ -23,8 +22,7 @@ public partial class EnemyNode : CreatureNode
     {
         base._Process(delta);
 
-        updateCount++;
-        if (this.trackingTarget != null && updateCount % 69 == 0)
+        if (this.trackingTarget != null) 
             this.navAgent.TargetPosition = this.trackingTarget.GlobalPosition;
     }
 

@@ -38,6 +38,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
 mesh = SubResource("TorusMesh_335yn")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.2
+target_desired_distance = 0.1
 debug_path_custom_color = Color(1, 0.172549, 1, 1)
 
 [node name="SubViewport" type="SubViewport" parent="."]

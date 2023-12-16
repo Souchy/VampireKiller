@@ -1,8 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dibbuq4i3rrqo"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_b8yhv"]
-vertices = PackedVector3Array(-14.5, 0.5, -14.5, -14.5, 0.5, 14.5, 14.5, 0.5, 14.5, 14.5, 0.5, -14.5)
+vertices = PackedVector3Array(-14.5, 0.02, -14.5, -14.5, 0.02, 14.5, 14.5, 0.02, 14.5, 14.5, 0.02, -14.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+cell_height = 0.01
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cw2bb"]
 albedo_color = Color(0.0784314, 0.0980392, 0.0823529, 1)
