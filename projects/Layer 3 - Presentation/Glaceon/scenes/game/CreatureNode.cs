@@ -18,7 +18,7 @@ public partial class CreatureNode : CharacterBody3D
     public CreatureInstance creatureInstance;
 
     [NodePath]
-    public MeshInstance3D MeshInstance3D { get; set; }
+    public Node3D MeshInstance3D { get; set; }
     // [NodePath]
     // public Node3D Model3d { get; set; }
     //[NodePath]
@@ -60,7 +60,8 @@ public partial class CreatureNode : CharacterBody3D
             var direction = GlobalPosition.DirectionTo(nextPos);
             Velocity = direction * Speed;
             try {
-                LookAt(nextPos);
+                if(!Position.IsEqualApprox(nextPos))
+                    this.MeshInstance3D.LookAt(nextPos);
             } catch(Exception e) {}
             MoveAndSlide();
             return true;

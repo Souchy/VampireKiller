@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://mmu2tpnln6i1"]
+[gd_scene load_steps=9 format=3 uid="uid://mmu2tpnln6i1"]
 
 [ext_resource type="Script" path="res://scenes/game/CreatureNode.cs" id="1_4o42t"]
 [ext_resource type="PackedScene" uid="uid://cvmjjemmg48w3" path="res://scenes/ui/components/UiResourceBars.tscn" id="2_44t2c"]
@@ -17,7 +17,17 @@ material = SubResource("StandardMaterial3D_bcwia")
 inner_radius = 0.7
 outer_radius = 0.75
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ytwpu"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="CreatureNode" type="CharacterBody3D"]
+axis_lock_angular_x = true
+axis_lock_angular_z = true
 script = ExtResource("1_4o42t")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -47,3 +57,11 @@ disable_3d = true
 transparent_bg = true
 
 [node name="UiResourceBars" parent="SubViewport" instance=ExtResource("2_44t2c")]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ytwpu")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1914, 8.23069)
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]

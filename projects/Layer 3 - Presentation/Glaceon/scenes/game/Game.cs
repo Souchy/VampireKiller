@@ -12,12 +12,12 @@ using VampireKiller.eevee.vampirekiller.eevee;
 
 public partial class Game : Node
 {
-    [NodePath]
-    public Node Players { get; set; }
 
     [NodePath]
-    public Node Creatures { get; set; }
-    
+    public Node Environment { get; set; }
+    [NodePath]
+    public Node Entities { get; set; }
+
     [NodePath]
     public Camera3D Camera3D { get; set; }
 
@@ -33,7 +33,7 @@ public partial class Game : Node
     public void onChangeFight(Fight fight)
     {
         clearNodes();
-        if (fight == null) 
+        if (fight == null)
             return;
         fight.creatures.GetEntityBus().subscribe(this);
         fight.projectiles.GetEntityBus().subscribe(this);
@@ -57,7 +57,7 @@ public partial class Game : Node
         CreatureNode node = AssetCache.Load<PackedScene>(inst.model.meshScenePath).Instantiate<CreatureNode>();
         inst.GetEntityBus().subscribe(node);
         node.init(inst);
-        Creatures.AddChild(node);
+        Entities.AddChild(node);
         // if (node is EnemyNode)
         // {
         //     EnemyNode enemyNode = (EnemyNode) node;
@@ -90,9 +90,7 @@ public partial class Game : Node
     private void clearNodes()
     {
         // Cleanup old nodes
-        this.Players.QueueFreeChildren();
-        this.Creatures.QueueFreeChildren();
-        //this.Projectiles.QueueFreeChildren();
+        this.Entities.QueueFreeChildren();
     }
 
 }

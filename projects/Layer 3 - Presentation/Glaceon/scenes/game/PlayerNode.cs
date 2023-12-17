@@ -4,21 +4,49 @@ using System;
 
 public partial class PlayerNode : CreatureNode
 {
+	private Game _game;
 	private Camera3D _gameCamera;
+
+	[NodePath]
+	public SpringArm3D SpringArm3D { get; set; }
 
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
-	
-    public override void _Ready()
-    {
-        this.OnReady();
+
+	public override void _Ready()
+	{
+		this.OnReady();
+		_game = (Game)this.GetParent().GetParent();
 		_gameCamera = this.GetViewport().GetCamera3D();
-    }
+		_gameCamera.MakeCurrent();
+	}
+
+	private bool isCamLocked = false;
 
 	public override void _PhysicsProcess(double delta)
 	{
+		// TODO multiplayer authority, but also shouldn't block local serverless play
+		// this.SetMultiplayerAuthority(1);		// put this omewhere else in the spawner
+		// if(!this.IsMultiplayerAuthority())	// here, control physics access. chaque joueur est autoritaire de son PlayerNode, les enemy ont l'autorité du serveur ou du joueur local
+		// 	return;
+
+		if (Input.IsActionJustPressed("lock_camera"))
+		{
+			isCamLocked = !isCamLocked;
+			GD.Print("Cam locked: " + isCamLocked);
+			if (isCamLocked) {
+				_game.Environment.RemoveChild(_gameCamera);
+				this.SpringArm3D.AddChild(_gameCamera);
+			} else {
+				this.SpringArm3D.RemoveChild(_gameCamera);
+				_game.Environment.AddChild(_gameCamera);
+			}
+		}
+
+
+
 		Vector3 velocity = Velocity;
 
 		// Add the gravity.
@@ -43,7 +71,7 @@ public partial class PlayerNode : CreatureNode
 		}
 		else
 		// If point & click, set velocity
-		if(physicsNavigationProcess(delta)) 
+		if (physicsNavigationProcess(delta))
 		{
 			return;
 		}
@@ -68,6 +96,9 @@ public partial class PlayerNode : CreatureNode
 
 	public override void _Input(InputEvent @event)
 	{
+		// todo control authority
+		// if(!this.IsMultiplayerAuthority())
+		// 	return;
 		base._Input(@event);
 		bool clicked = Input.IsActionJustPressed("click_move") || Input.IsActionPressed("click_move");
 		if (clicked)
@@ -84,7 +115,7 @@ public partial class PlayerNode : CreatureNode
 				CollideWithAreas = true
 			};
 			var result = space.IntersectRay(ray);
-			if(result.ContainsKey("position")) 
+			if (result.ContainsKey("position"))
 				NavigationAgent3D.TargetPosition = (Vector3)result["position"];
 		}
 
