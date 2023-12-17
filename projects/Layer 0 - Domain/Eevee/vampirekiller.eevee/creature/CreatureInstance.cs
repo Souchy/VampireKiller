@@ -18,9 +18,11 @@ namespace VampireKiller.eevee.creature;
 
 public class CreatureInstance : Entity, Identifiable
 {
-    public ID entityUid { get; set; }
+    public const string EventUpdateStats = "creature.stats.changed";
+
+    // public ID entityUid { get; set; }
     public CreatureModel model { get; set; }
-    public CreatureGroupType creatureGroup { get; set; }
+    public EntityGroupType creatureGroup { get; set; }
 
     public Vector3 spawnPosition { get; set; }
     public Vector3 position { get => getPositionHook();  set => setPositionHook(value); }
@@ -58,18 +60,28 @@ public class CreatureInstance : Entity, Identifiable
 
     /// <summary>
     /// Bubble up les events de stats jusqu'au UI
+    /// Celui là c'est juste quand tu ajoute/enlève un objet de Stat au complet
     /// </summary>
-    /// 
-    //[Subscribe("StatsDic.changed")]
-    //private void onStatsChanged(StatsDic dic)
-    //{
-    //    this.GetEntityBus().publish("stats.changed", this, dic);
-    //}
-
-    [Subscribe("StatsDic.changed")]
-    private void onStatsChanged(IStat stat)
+    // [Subscribe(StatsDic.EventUpdate)]
+    // private void onStatsChanged(StatsDic dic)
+    // {
+    //    this.GetEntityBus().publish(EventUpdateStats, this, dic);
+    // }
+    /// <summary>
+    /// Bubble up les events de stats jusqu'au UI
+    /// Celui là c'est quand la valeur d'une stat change
+    /// </summary>
+    [Subscribe(StatsDic.EventUpdate)]
+    private void onStatChanged(IStat stat)
     {
-        this.GetEntityBus().publish("stats.changed", this, stat);
+    //    GD.Print("CreatureInstance: onStatChanged: " + stat);
+       this.GetEntityBus().publish(EventUpdateStats, this, stat);
     }
+
+    // [Subscribe(IStat.EventSet)]
+    // private void onStatChanged(IStat stat)
+    // {
+    //     this.GetEntityBus().publish(IStat.EventSet, this, stat);
+    // }
 
 }

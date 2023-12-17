@@ -14,7 +14,7 @@ public class AiMelee : Ai
 {
     public CreatureInstance findTarget()
     {
-        return Universe.fight.creatures.values.First(c => c.creatureGroup == CreatureGroupType.Players);
+        return Universe.fight.creatures.values.First(c => c.creatureGroup == EntityGroupType.Players);
     }
 
     public void update(float delta)

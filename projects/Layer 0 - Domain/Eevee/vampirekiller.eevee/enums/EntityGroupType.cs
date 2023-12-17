@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace vampirekiller.eevee.enums;
 
-public enum CreatureGroupType
+public enum EntityGroupType
 {
     Players,
-    Enemies
+    Enemies,
+    Projectiles
 }

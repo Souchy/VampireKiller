@@ -9,7 +9,7 @@ height = 0.5
 [sub_resource type="SphereShape3D" id="SphereShape3D_djouq"]
 radius = 0.25
 
-[node name="ProjectileNode" type="Area3D"]
+[node name="ProjectileNode" type="Area3D" groups=["Projectiles"]]
 script = ExtResource("1_1ejgc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

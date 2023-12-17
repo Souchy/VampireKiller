@@ -50,14 +50,11 @@ public partial class onemapisenough : Node3D
     public void _on_timer_timeout() => spawn();
     public void spawn()
     {
-        //GD.Print("Map spawn");
         if (Universe.fight != null)
         {
             var crea = StubFight.spawnStubCreature(new Godot.Vector3(7, 1, 7));
             Universe.fight.creatures.add(crea);
         }
-        //else
-        //	timer.Dispose();
     }
 
 }

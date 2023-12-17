@@ -20,6 +20,7 @@ public partial class PlayerNode : CreatureNode
 
 	public override void _Ready()
 	{
+		base._Ready();
 		this.OnReady();
 		this.Inject();
 		_game = (Game)this.GetParent().GetParent();

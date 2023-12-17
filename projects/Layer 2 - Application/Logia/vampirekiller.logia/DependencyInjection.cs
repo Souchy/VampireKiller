@@ -29,11 +29,11 @@ public static class NodeExtensions
             .GetProperties()
             //.GetRuntimeFields()
             .Where(f => f.GetCustomAttributes(at, true).Any());
-        GD.Print("DI Inject in " + node.Name + ", fields: " + string.Join(", ", fields.Select(f => f.Name)));
+        // GD.Print("DI Inject in " + node.Name + ", fields: " + string.Join(", ", fields.Select(f => f.Name)));
         foreach (var field in fields)
         {
             var obj = dis.Resolve(field.PropertyType); //.FieldType);
-            GD.Print("DI resolved: " + field.Name + " = " + obj + ", in " + node.Name);
+            // GD.Print("DI resolved: " + field.Name + " = " + obj + ", in " + node.Name);
             try
             {
                 field.SetValue(node, obj);

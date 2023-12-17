@@ -2,6 +2,7 @@ using Godot;
 using Godot.Sharp.Extras;
 using System;
 using Util.communication.commands;
+using Util.entity;
 using vampierkiller.logia;
 using vampirekiller.logia.commands;
 using VampireKiller.eevee;
@@ -20,6 +21,8 @@ public partial class ProjectileNode : Area3D
 		this.OnReady();
 		this.Inject();
 		this.BodyEntered += this.onBodyEntered;
+		this.velocity = projectileInstance.direction * projectileInstance.speed;
+		this.GlobalPosition = projectileInstance.originator.position;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -32,21 +35,23 @@ public partial class ProjectileNode : Area3D
 		}
 	}
 
-	public void init(ProjectileInstance projectileInstance)
+	public void init(ProjectileInstance proj)
 	{
-		this.projectileInstance = projectileInstance;
-		this.velocity = this.projectileInstance.direction * this.projectileInstance.speed;
-		this.GlobalPosition = this.projectileInstance.originator.position;
+		projectileInstance = proj;
+		projectileInstance.set<ProjectileNode>(this);
+		projectileInstance.GetEntityBus().subscribe(this);
 	}
 
 	private void onBodyEntered(Node3D body)
 	{
+		// GD.Print("Proj collision with: " + body);
 		if (body is CreatureNode)
 		{
 			CreatureNode collider = (CreatureNode) body;
 			// Avoid collisions with originator to let the projectile spawn
 			if (collider.creatureInstance != this.projectileInstance.originator)
 			{
+	        	// GD.Print("Collision with a creature other than caster: " + collider);
 				CommandProjectileCollision commandProjectileCollision = new CommandProjectileCollision(this.projectileInstance, collider.creatureInstance);
 				this.publisher.publish(commandProjectileCollision);
 			}

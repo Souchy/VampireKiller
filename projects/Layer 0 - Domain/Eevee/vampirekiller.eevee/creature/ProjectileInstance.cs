@@ -1,13 +1,14 @@
 
 using Godot;
+using Util.ecs;
 using Util.entity;
 using VampireKiller.eevee.creature;
 
 namespace VampireKiller.eevee;
 
-public class ProjectileInstance : Identifiable
+public class ProjectileInstance : Entity, Identifiable
 {
-    public ID entityUid { get; set; }
+    // public ID entityUid { get; set; }
 
     public Vector3 direction {  get; private set; }
     public CreatureInstance originator { get; set; } // For retrieving spawn location & to avoid collisions with caster as the projectile spawns

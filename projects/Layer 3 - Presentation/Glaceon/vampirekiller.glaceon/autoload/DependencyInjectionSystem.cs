@@ -23,7 +23,7 @@ public partial class DependencyInjectionSystem : Node, IDependencyInjectionSyste
         Universe.container = container = new Container();
         registerServices();
         registerApps();
-        GD.Print("DI registered");
+        // GD.Print("DI registered");
     }
 
     public object Resolve(Type type) => container.GetInstance(type);

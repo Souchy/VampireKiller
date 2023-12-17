@@ -2,6 +2,7 @@ using Godot;
 using Godot.Sharp.Extras;
 using System;
 using Util.communication.events;
+using Util.entity;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
@@ -39,6 +40,11 @@ public partial class CreatureNode : CharacterBody3D
     public override void _Ready()
     {
         this.OnReady();
+        // GD.Print(this.Name + " ready");
+        if (creatureInstance != null)
+        {
+            updateHPBar();
+        }
     }
 
     public override void _Process(double delta)
@@ -59,10 +65,12 @@ public partial class CreatureNode : CharacterBody3D
             var nextPos = NavigationAgent3D.GetNextPathPosition();
             var direction = GlobalPosition.DirectionTo(nextPos);
             Velocity = direction * Speed;
-            try {
-                if(!Position.IsEqualApprox(nextPos))
+            try
+            {
+                if (!Position.IsEqualApprox(nextPos))
                     this.MeshInstance3D.LookAt(nextPos);
-            } catch(Exception e) {}
+            }
+            catch (Exception e) { }
             MoveAndSlide();
             return true;
         }
@@ -72,24 +80,28 @@ public partial class CreatureNode : CharacterBody3D
 
     public void init(CreatureInstance crea)
     {
+        // GD.Print(this.Name + " init");
         creatureInstance = crea;
-        creatureInstance.set(this);
+        creatureInstance.set<CreatureNode>(this);
+        creatureInstance.GetEntityBus().subscribe(this);
         creatureInstance.getPositionHook = () => this.GlobalPosition;
         creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
-        updateHPBar();
     }
 
     public override void _EnterTree()
     {
         base._EnterTree();
-        if (creatureInstance != null)
+        // GD.Print(this.Name + " enter tree");
+        if(creatureInstance != null) {
             this.GlobalPosition = creatureInstance.spawnPosition;
+        }
     }
 
 
-    [Subscribe("stats.changed")]
+    [Subscribe(CreatureInstance.EventUpdateStats)]
     public void onStatChanged(CreatureInstance crea, IStat stat)
     {
+        // GD.Print("CreatureNode: onStatChanged: " + stat.GetType().Name + " = " + stat.genericValue);
         // todo regrouper les life stats en une liste<type> automatique genre / avoir une annotation [Life] p.ex, etc
         if (stat is CreatureAddedLife || stat is CreatureAddedLifeMax || stat is CreatureBaseLife || stat is CreatureBaseLifeMax || stat is CreatureIncreaseLife || stat is CreatureIncreaseLifeMax)
         {
@@ -123,8 +135,9 @@ public partial class CreatureNode : CharacterBody3D
     {
         var life = this.creatureInstance.getTotalStat<CreatureTotalLife>();
         var max = this.creatureInstance.getTotalStat<CreatureTotalLifeMax>();
-        var hpbar = GetNode<ProgressBar>("SubViewport/UiResourceBars/VBoxContainer/Healthbar"); // Couldnt figure out how to hookup the NodePath
-        hpbar.Value = ((double) life.value / (double) max.value) * 100;
+        double value = ((double)life.value / (double)max.value) * 100;
+        // GD.Print("Crea (" + this.Name + ") update hp %: " + value); // + "............" + Healthbar + " vs " + hpbar);
+        Healthbar.Value = value;
     }
 
 }

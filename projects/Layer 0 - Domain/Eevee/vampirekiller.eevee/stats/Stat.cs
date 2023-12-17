@@ -12,6 +12,7 @@ namespace VampireKiller.eevee.vampirekiller.eevee.stats;
 public interface IStat : Identifiable
 {
     public const string EventSet = "stat.set";
+    public object genericValue { get; }
     public List<ICondition> conditions { get; set; }
     public IStat copy();
     public void add(StatsDic dic);
@@ -22,6 +23,7 @@ public class StatInt : IStat
 {
     public ID entityUid { get; set; }
     public List<ICondition> conditions { get; set; } = new();
+    public object genericValue => value;
     private int _value;
     public virtual int value
     {
@@ -64,6 +66,7 @@ public class StatType : IStat
 {
     public ID entityUid { get; set; }
     public List<ICondition> conditions { get; set; } = new();
+    public object genericValue => value;
     private Type _value;
     public virtual Type value
     {
@@ -102,6 +105,7 @@ public class StatDate : IStat
 {
     public ID entityUid { get; set; }
     public List<ICondition> conditions { get; set; } = new();
+    public object genericValue => value;
     private DateTime _value;
     public virtual DateTime value
     {
@@ -140,6 +144,7 @@ public class StatTimeSpan : IStat
 {
     public ID entityUid { get; set; }
     public List<ICondition> conditions { get; set; } = new();
+    public object genericValue => value;
     private TimeSpan _value;
     public virtual TimeSpan value
     {
@@ -180,6 +185,7 @@ public class StatDouble : IStat
 {
     public ID entityUid { get; set; }
     public List<ICondition> conditions { get; set; } = new();
+    public object genericValue => value;
     private double _value;
     public virtual double value
     {
@@ -220,6 +226,7 @@ public class StatBool : IStat
 {
     public ID entityUid { get; set; }
     public List<ICondition> conditions { get; set; } = new();
+    public object genericValue => value;
     private bool _value;
     public virtual bool value
     {

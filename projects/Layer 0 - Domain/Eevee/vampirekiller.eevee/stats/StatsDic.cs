@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Godot;
 using Util.communication.events;
 using Util.entity;
 using Util.structures;
@@ -39,6 +40,7 @@ public class StatsDic : SmartDictionary<Type, IStat>
     [Subscribe(IStat.EventSet)]
     private void onChangedStat(IStat stat)
     {
+        // GD.Print("StatsDic: onChangedStat: " + stat);
         this.GetEntityBus().publish(EventUpdate, stat);
     }
     /// <summary>

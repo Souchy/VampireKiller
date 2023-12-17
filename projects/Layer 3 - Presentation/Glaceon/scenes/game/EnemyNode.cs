@@ -25,7 +25,7 @@ public partial class EnemyNode : CreatureNode
             var model = (EnemyModel) creatureInstance.model;
             var creaInstance = model.ai.findTarget();
             if(creaInstance != null) {
-                var player = creaInstance.get<PlayerNode>();
+                var player = creaInstance.get<CreatureNode>();
                 this.trackingTarget = player;
             }
         }

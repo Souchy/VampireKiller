@@ -10,6 +10,7 @@ using vampirekiller.eevee.creature;
 using vampirekiller.eevee.enums;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee;
+using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 
 namespace vampirekiller.logia.stub;
 
@@ -36,13 +37,13 @@ public class StubFight : Fight
         var creaModel = Register.Create<CreatureModel>();
         creaModel.meshScenePath = "res://scenes/game/PlayerNode.tscn";
         creaModel.iconPath = "res://icon.svg";
+        creaModel.baseStats.get<CreatureBaseLife>()!.value = 2;
+        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 2;
 
         var crea = Register.Create<CreatureInstance>();
         crea.model = creaModel;
-        crea.fightStats.addedLife.value = 2;
-        crea.fightStats.addedLifeMax.value = 2;
         crea.spawnPosition = new Vector3(1, 1, 0); // pas sur pourquoi ça bug si on déplace pas le player au spawn
-        crea.creatureGroup = CreatureGroupType.Players;
+        crea.creatureGroup = EntityGroupType.Players;
 
         return crea;
     }
@@ -53,13 +54,13 @@ public class StubFight : Fight
         creaModel.meshScenePath = "res://scenes/db/creatures/Orc.tscn";
         creaModel.iconPath = "res://icon.svg";
         creaModel.ai = new AiMelee();
+        creaModel.baseStats.get<CreatureBaseLife>()!.value = 2;
+        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 2;
 
         var crea = Register.Create<CreatureInstance>();
         crea.model = creaModel;
-        crea.fightStats.addedLife.value = 2;
-        crea.fightStats.addedLifeMax.value = 2;
         crea.spawnPosition = vec;
-        crea.creatureGroup = CreatureGroupType.Enemies;
+        crea.creatureGroup = EntityGroupType.Enemies;
 
         return crea;
     }

@@ -20,12 +20,18 @@ public class Entity : Identifiable
         return (T)components[typeof(T)];
     }
 
-    public void set(object component)
+    public void set<T>(T component) => set(component, typeof(T));
+    public void set(object component, Type type = null)
     {
         if (component == null)
             return;
-        remove(component.GetType());
-        components[component.GetType()] = component;
+        if (type == null)
+            type = component.GetType();
+        else
+        if (!type.IsAssignableFrom(component.GetType()))
+            return;
+        remove(type);
+        components[type] = component;
         this.GetEntityBus().subscribe(component);
         this.GetEntityBus().publish(nameof(set), this, component);
     }
