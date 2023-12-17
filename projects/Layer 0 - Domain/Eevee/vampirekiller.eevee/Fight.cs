@@ -15,7 +15,7 @@ public class Fight : IDisposable
     public const string EventSet = "set";
 
     public SmartSet<CreatureInstance> creatures { get; init; } = SmartSet<CreatureInstance>.Create();
-    public SmartSet<Projectile> projectiles { get; init; } = SmartSet<Projectile>.Create();
+    public SmartSet<ProjectileInstance> projectiles { get; init; } = SmartSet<ProjectileInstance>.Create();
 
     public void Dispose()
     {

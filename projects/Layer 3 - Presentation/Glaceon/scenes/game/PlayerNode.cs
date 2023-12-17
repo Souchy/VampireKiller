@@ -1,26 +1,29 @@
 using Godot;
 using Godot.Sharp.Extras;
 using System;
+using Util.communication.commands;
+using vampierkiller.logia;
+using vampirekiller.logia.commands;
 
 public partial class PlayerNode : CreatureNode
 {
-	private Game _game;
-	private Camera3D _gameCamera;
-
 	[NodePath]
 	public SpringArm3D SpringArm3D { get; set; }
-
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
+	private Game _game;
+	private Camera3D _gameCamera;
+	[Inject]
+	public ICommandPublisher publisher { get; set; }
 
 	public override void _Ready()
 	{
 		this.OnReady();
+		this.Inject();
 		_game = (Game)this.GetParent().GetParent();
 		_gameCamera = this.GetViewport().GetCamera3D();
-		_gameCamera.MakeCurrent();
 	}
 
 	private bool isCamLocked = false;
@@ -119,6 +122,12 @@ public partial class PlayerNode : CreatureNode
 				NavigationAgent3D.TargetPosition = (Vector3)result["position"];
 		}
 
+		bool casted = Input.IsActionJustPressed("cast_slot_1");
+		if (casted)
+		{
+			var cmd = new CommandCast(this.creatureInstance, new Vector3(1, 0, 0));
+			this.publisher.publish(cmd);
+		}
 	}
 
 }

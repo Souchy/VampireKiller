@@ -1,4 +1,6 @@
+using System;
 using Godot;
+using Godot.Collections;
 using Godot.Sharp.Extras;
 using Logia.vampirekiller.logia;
 using Util.communication.events;
@@ -58,20 +60,18 @@ public partial class Game : Node
         inst.GetEntityBus().subscribe(node);
         node.init(inst);
         Entities.AddChild(node);
-        // if (node is EnemyNode)
-        // {
-        //     EnemyNode enemyNode = (EnemyNode) node;
-        //     enemyNode.setTrackingTarget((Node3D) this.Players.GetChild(0));
-        // }
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {
-        // faut référence à creaInst.entityUid dans CreatureNode
+        // faut référence à creaInst.entityUid dans CreatureNode;
+        var creatures = this.GetTree().GetNodesInGroup("Projectiles");
+        CreatureNode node = findChildrenOfNodeMatchingIdentifiable<CreatureNode>(creatures, inst, node => node.creatureInstance);
+        node.QueueFree();
     }
 
-    [Subscribe(nameof(SmartSet<Projectile>.add))]
-    public void onAddProjectile(SmartSet<Projectile> list, Projectile inst)
+    [Subscribe(nameof(SmartSet<ProjectileInstance>.add))]
+    public void onAddProjectile(SmartSet<ProjectileInstance> list, ProjectileInstance inst)
     {
         // TODO projetile nodes
         // CreatureInstance inst = inst.getParent
@@ -80,11 +80,34 @@ public partial class Game : Node
         // projNode.init(inst);
         // Ajoute le proj à la créature? pour on death ça clear au complet
         // creaNode.addChild(projNode)
+        ProjectileNode node = AssetCache.Load<PackedScene>(inst.meshScenePath).Instantiate<ProjectileNode>();
+        //inst.GetEntityBus().subscribe(node);
+        node.init(inst);
+        this.Entities.AddChild(node);
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
-    public void onRemoveProjectile(SmartSet<Projectile> list, Projectile inst)
+    public void onRemoveProjectile(SmartSet<ProjectileInstance> list, ProjectileInstance inst)
     {
+        // CreatureNode sourceNode = inst.originator.get<CreatureNode>();
+        var projs = this.GetTree().GetNodesInGroup("Projectiles");
+        ProjectileNode node = findChildrenOfNodeMatchingIdentifiable<ProjectileNode>(projs, inst, node => node.projectileInstance);
+        node.QueueFree();
+    }
 
+    private T? findChildrenOfNodeMatchingIdentifiable<T>(Array<Node> children, Identifiable identifiable, Func<T, Identifiable> uidExtractor) where T : Node
+    {
+        foreach (var child in children)
+        {
+            if (child is T)
+            {
+                ID childUid = uidExtractor((T)child).entityUid;
+                if (childUid.Equals(identifiable.entityUid))
+                {
+                    return (T)child;
+                }
+            }
+        }
+        return null;
     }
 
     private void clearNodes()

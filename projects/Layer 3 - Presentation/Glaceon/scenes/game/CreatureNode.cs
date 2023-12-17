@@ -76,6 +76,7 @@ public partial class CreatureNode : CharacterBody3D
         creatureInstance.set(this);
         creatureInstance.getPositionHook = () => this.GlobalPosition;
         creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
+        updateHPBar();
     }
 
     public override void _EnterTree()
@@ -86,15 +87,13 @@ public partial class CreatureNode : CharacterBody3D
     }
 
 
-    [Subscribe]
+    [Subscribe("stats.changed")]
     public void onStatChanged(CreatureInstance crea, IStat stat)
     {
         // todo regrouper les life stats en une liste<type> automatique genre / avoir une annotation [Life] p.ex, etc
         if (stat is CreatureAddedLife || stat is CreatureAddedLifeMax || stat is CreatureBaseLife || stat is CreatureBaseLifeMax || stat is CreatureIncreaseLife || stat is CreatureIncreaseLifeMax)
         {
-            var life = crea.getTotalStat<CreatureTotalLife>();
-            var max = crea.getTotalStat<CreatureTotalLifeMax>();
-            Healthbar.Value = life.value / max.value;
+            updateHPBar();
         }
     }
 
@@ -118,6 +117,14 @@ public partial class CreatureNode : CharacterBody3D
     public void onStatusListRemove(object list, object item)
     {
 
+    }
+
+    private void updateHPBar()
+    {
+        var life = this.creatureInstance.getTotalStat<CreatureTotalLife>();
+        var max = this.creatureInstance.getTotalStat<CreatureTotalLifeMax>();
+        var hpbar = GetNode<ProgressBar>("SubViewport/UiResourceBars/VBoxContainer/Healthbar"); // Couldnt figure out how to hookup the NodePath
+        hpbar.Value = ((double) life.value / (double) max.value) * 100;
     }
 
 }
