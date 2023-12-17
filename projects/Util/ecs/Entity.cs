@@ -8,7 +8,7 @@ using Util.entity;
 
 namespace Util.ecs;
 
-public sealed class Entity : Identifiable
+public class Entity : Identifiable
 {
     public ID entityUid { get; set; }
     public Dictionary<Type, object> components { get; set; } = new();

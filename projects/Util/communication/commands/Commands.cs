@@ -8,6 +8,8 @@ namespace Util.communication.commands;
 
 public interface ICommand
 {
+    public bool preferOnline => true;
+    public byte[] serialize();
 }
 
 public interface ICommandHandler<T> where T : ICommand
@@ -15,24 +17,44 @@ public interface ICommandHandler<T> where T : ICommand
     public void handle(T t);
 }
 
-// Generics giving me issues, was not able to have multiple handlers in the same list (where be thy wildcard generic mister C#)
-public interface ICommandHandler
-{
-    public void handle(ICommand t);
-}
-public abstract class BaseCommandHandler<T> : ICommandHandler, ICommandHandler<T> where T : ICommand
-{
-    public abstract void handle(T command);
-    public void handle(ICommand command)
-    {
-        if (command is T concreteCommand)
-        {
-            handle(concreteCommand);
-        }
-    }
-}
-
 public interface ICommandPublisher
 {
-    public void publish(ICommand command);
+    public void publish<T>(T command) where T : ICommand;
+    public Task publishAsync<T>(T command) where T : ICommand;
+}
+
+public interface ICommandManager
+{
+    public void handle<T>(T command) where T : ICommand;
+    public Task handleAsync<T>(T command) where T : ICommand;
+    public void setHandler<T>(ICommandHandler<T> handler) where T : ICommand;
+    public void setHandler<T>(Action<T> handler) where T : ICommand;
+}
+public class CommandManager : ICommandManager
+{
+    private Dictionary<Type, Action<ICommand>> commandHandlers = new();
+
+    public void handle<T>(T command) where T : ICommand
+    {
+        if (commandHandlers.ContainsKey(command.GetType()))
+        {
+            var handler = commandHandlers[command.GetType()];
+            handler(command);
+        }
+    }
+
+    public async Task handleAsync<T>(T command) where T : ICommand
+    {
+        await Task.Run(() => handle(command));
+    }
+
+    public void setHandler<T>(ICommandHandler<T> handler) where T : ICommand
+    {
+        commandHandlers[typeof(T)] = (ICommand i) => handler.handle((T) i);
+    }
+
+    public void setHandler<T>(Action<T> handler) where T : ICommand
+    {
+        commandHandlers[typeof(T)] = (ICommand i) => handler((T) i);
+    }
 }

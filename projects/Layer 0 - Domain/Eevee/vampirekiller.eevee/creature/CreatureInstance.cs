@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Util.communication.events;
 using Util.ecs;
 using Util.entity;
+using vampirekiller.eevee.enums;
+using VampireKiller.eevee.vampirekiller.eevee.enums;
 using VampireKiller.eevee.vampirekiller.eevee.equipment;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
@@ -14,11 +16,13 @@ using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 namespace VampireKiller.eevee.creature;
 
 
-public class CreatureInstance : Identifiable
+public class CreatureInstance : Entity, Identifiable
 {
     public ID entityUid { get; set; }
     public CreatureModel model { get; set; }
+    public CreatureGroupType creatureGroup { get; set; }
 
+    public Vector3 spawnPosition { get; set; }
     public Vector3 position { get => getPositionHook();  set => setPositionHook(value); }
     public Func<Vector3> getPositionHook { get; set; }
     public Action<Vector3> setPositionHook { get; set; }
@@ -41,7 +45,7 @@ public class CreatureInstance : Identifiable
         fightStats.Dispose();
     }
 
-    public IStat getTotalStat<T>() where T : IStat, new()
+    public T getTotalStat<T>() where T : IStat, new()
     {
         var t = new T();
         t.add(this.model.baseStats);

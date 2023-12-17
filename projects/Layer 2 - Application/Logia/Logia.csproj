@@ -4,10 +4,16 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace />
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="vampirekiller.logia\statements\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GodotSharp" Version="4.2.0" />
+    <PackageReference Include="SimpleInjector" Version="5.4.3" />
   </ItemGroup>
 
   <ItemGroup>

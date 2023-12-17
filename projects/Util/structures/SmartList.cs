@@ -60,6 +60,10 @@ public class SmartList<T> : Identifiable
 
     public void Dispose()
     {
+        foreach (var item in list)
+            if (item is IDisposable d)
+                d.Dispose();
+        this.list.Clear();
         this.DisposeEventBus();
     }
 }

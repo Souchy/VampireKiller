@@ -1,8 +1,11 @@
 using Godot;
 using Godot.Sharp.Extras;
+using Logia.vampirekiller.logia;
 using Util.communication.events;
 using Util.entity;
 using Util.structures;
+using vampierkiller.logia.commands;
+using vampirekiller.glaceon.util;
 using VampireKiller.eevee;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee;
@@ -18,65 +21,56 @@ public partial class Game : Node
     [NodePath]
     public Camera3D Camera3D { get; set; }
 
-    private Fight fight; // Only kept around so we can unsubscribe when fight ends
-    private bool isActivated = false;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         this.OnReady();
-        //Main.fight.creatures.GetEntityBus().subscribe(this);
-        //Main.fight.projectiles.GetEntityBus().subscribe(this);
+        EventBus.centralBus.subscribe(this);
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
+    [Subscribe(Fight.EventSet)]
+    public void onChangeFight(Fight fight)
     {
-    }
-
-    public void startFight(Fight newFight)
-    {
-        // Cleanup if fight is currently active
-        if (this.fight != null)
-        {
-            this.stopFight();
-        }
-
-        this.fight = newFight;
-        this.fight.creatures.GetEntityBus().subscribe(this);
-        this.fight.projectiles.GetEntityBus().subscribe(this);
+        clearNodes();
+        if (fight == null) 
+            return;
+        fight.creatures.GetEntityBus().subscribe(this);
+        fight.projectiles.GetEntityBus().subscribe(this);
 
         // Instantiate already existing creatures
-        foreach (var creature in this.fight.creatures.values)
+        foreach (var creature in fight.creatures.values)
         {
-            this.onAddCreatureInstance(this.fight.creatures, creature);
+            this.onAddCreatureInstance(fight.creatures, creature);
         }
     }
 
-    public void stopFight()
+    [Subscribe(nameof(Dispose))]
+    public void onFightDispose(Fight fight)
     {
-        // Unsuscribe
-        this.fight.creatures.GetEntityBus().unsubscribe(this);
-        this.fight.projectiles.GetEntityBus().unsubscribe(this);
-        this.fight = null;
+        clearNodes();
+    }
 
+    private void clearNodes()
+    {
         // Cleanup old nodes
-        Game.clearChildren(this.Creatures);
-        //Game.clearChildren(this.Projectiles);
+        this.Players.QueueFreeChildren();
+        this.Creatures.QueueFreeChildren();
+        //this.Projectiles.QueueFreeChildren();
     }
 
     [Subscribe(nameof(SmartSet<CreatureInstance>.add))]
     public void onAddCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {
-        CreatureNode node = GD.Load<PackedScene>(inst.model.meshScenePath).Instantiate<CreatureNode>();
+        CreatureNode node = AssetCache.Load<PackedScene>(inst.model.meshScenePath).Instantiate<CreatureNode>();
         inst.GetEntityBus().subscribe(node);
         node.init(inst);
         Creatures.AddChild(node);
-        if (node is EnemyNode)
-        {
-            EnemyNode enemyNode = (EnemyNode) node;
-            enemyNode.setTrackingTarget((Node3D) this.Players.GetChild(0));
-        }
+        // if (node is EnemyNode)
+        // {
+        //     EnemyNode enemyNode = (EnemyNode) node;
+        //     enemyNode.setTrackingTarget((Node3D) this.Players.GetChild(0));
+        // }
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
@@ -101,12 +95,4 @@ public partial class Game : Node
 
     }
 
-    private static void clearChildren(Node node)
-    {
-        foreach (var item in node.GetChildren())
-        {
-            node.RemoveChild(item);
-            item.QueueFree();
-        }
-    }
 }

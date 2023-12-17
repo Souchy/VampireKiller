@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Util.communication.commands;
 
-namespace vampirekiller.eevee.enums;
+namespace vampirekiller.umbreon;
 
-public enum CreatureGroupType
+public class LocalCommandManager : CommandManager
 {
-    Players,
-    Enemies
 }

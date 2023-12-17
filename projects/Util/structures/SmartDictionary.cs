@@ -81,6 +81,10 @@ public class SmartDictionary<K, V> : Identifiable
 
     public virtual void Dispose()
     {
+        foreach (var item in values)
+            if (item is IDisposable d)
+                d.Dispose();
+        this.dic.Clear();
         this.DisposeEventBus();
     }
 }

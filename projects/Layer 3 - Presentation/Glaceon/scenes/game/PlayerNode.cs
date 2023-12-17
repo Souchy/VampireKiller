@@ -4,9 +4,7 @@ using System;
 
 public partial class PlayerNode : CreatureNode
 {
-	[NodePath]
-	public Camera3D Camera3D { get; set; }
-
+	private Camera3D _gameCamera;
 
 	public const float Speed = 5.0f;
 	public const float JumpVelocity = 6.0f;
@@ -14,9 +12,15 @@ public partial class PlayerNode : CreatureNode
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
+	
     public override void _Ready()
     {
         this.OnReady();
+		_gameCamera = this.GetViewport().GetCamera3D();
+		if(NavigationAgent3D == null) {
+			NavigationAgent3D = this.GetNode<NavigationAgent3D>("NavigationAgent3D");
+			GD.Print("wtf " + NavigationAgent3D);
+		}
     }
 
 	public override void _PhysicsProcess(double delta)
@@ -72,8 +76,8 @@ public partial class PlayerNode : CreatureNode
 		{
 			var mousePos = this.GetViewport().GetMousePosition();
 			var rayLength = 100;
-			var from = Camera3D.ProjectRayOrigin(mousePos);
-			var to = from + Camera3D.ProjectRayNormal(mousePos) * rayLength;
+			var from = _gameCamera.ProjectRayOrigin(mousePos);
+			var to = from + _gameCamera.ProjectRayNormal(mousePos) * rayLength;
 			var space = GetWorld3D().DirectSpaceState;
 			var ray = new PhysicsRayQueryParameters3D()
 			{
