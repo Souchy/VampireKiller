@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://x0s5lkrnrtif"]
+
+[ext_resource type="Script" path="res://scenes/game/effects/ProjectileNode.cs" id="1_1ejgc"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_ohr8h"]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_djouq"]
+radius = 0.25
+
+[node name="ProjectileNode" type="Area3D"]
+script = ExtResource("1_1ejgc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_ohr8h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_djouq")

@@ -50,6 +50,9 @@ unique_name_in_owner = true
 [node name="Orc" parent="Creatures" instance=ExtResource("3_ncqtn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.92863, 0, 0)
 
+[node name="Projectiles" type="Node" parent="."]
+unique_name_in_owner = true
+
 [node name="Hud" type="Node" parent="."]
 
 [node name="UiGame" parent="Hud" instance=ExtResource("4_27r0r")]

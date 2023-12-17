@@ -1,4 +1,6 @@
+using System;
 using Godot;
+using Godot.Collections;
 using Godot.Sharp.Extras;
 using Logia.vampirekiller.logia;
 using Util.communication.events;
@@ -17,6 +19,9 @@ public partial class Game : Node
 
     [NodePath]
     public Node Creatures { get; set; }
+
+    [NodePath]
+    public Node Projectiles { get; set; }
     
     [NodePath]
     public Camera3D Camera3D { get; set; }
@@ -68,10 +73,12 @@ public partial class Game : Node
     public void onRemoveCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {
         // faut référence à creaInst.entityUid dans CreatureNode
+        CreatureNode node = findChildrenOfNodeMatchingIdentifiable<CreatureNode>(this.Creatures, inst, node => node.creatureInstance);
+        node.QueueFree();
     }
 
-    [Subscribe(nameof(SmartSet<Projectile>.add))]
-    public void onAddProjectile(SmartSet<Projectile> list, Projectile inst)
+    [Subscribe(nameof(SmartSet<ProjectileInstance>.add))]
+    public void onAddProjectile(SmartSet<ProjectileInstance> list, ProjectileInstance inst)
     {
         // TODO projetile nodes
         // CreatureInstance inst = inst.getParent
@@ -80,11 +87,33 @@ public partial class Game : Node
         // projNode.init(inst);
         // Ajoute le proj à la créature? pour on death ça clear au complet
         // creaNode.addChild(projNode)
+        ProjectileNode node = AssetCache.Load<PackedScene>(inst.meshScenePath).Instantiate<ProjectileNode>();
+        //inst.GetEntityBus().subscribe(node);
+        node.init(inst);
+        this.Projectiles.AddChild(node);
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
-    public void onRemoveProjectile(SmartSet<Projectile> list, Projectile inst)
+    public void onRemoveProjectile(SmartSet<ProjectileInstance> list, ProjectileInstance inst)
     {
+        ProjectileNode node = findChildrenOfNodeMatchingIdentifiable<ProjectileNode>(this.Projectiles, inst, node => node.projectileInstance);
+        node.QueueFree();
+    }
 
+    private T? findChildrenOfNodeMatchingIdentifiable<T>(Node parent, Identifiable identifiable, Func<T, Identifiable> uidExtractor) where T : Node
+    {
+        Array<Node> children = parent.GetChildren();
+        foreach ( var child in children )
+        {
+            if (child is T)
+            {
+                ID childUid = uidExtractor((T) child).entityUid;
+                if (childUid.Equals(identifiable.entityUid))
+                {
+                    return (T) child;
+                }
+            }
+        }
+        return null;
     }
 
     private void clearNodes()
@@ -92,7 +121,7 @@ public partial class Game : Node
         // Cleanup old nodes
         this.Players.QueueFreeChildren();
         this.Creatures.QueueFreeChildren();
-        //this.Projectiles.QueueFreeChildren();
+        this.Projectiles.QueueFreeChildren();
     }
 
 }

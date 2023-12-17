@@ -59,10 +59,17 @@ public class CreatureInstance : Entity, Identifiable
     /// <summary>
     /// Bubble up les events de stats jusqu'au UI
     /// </summary>
-    [Subscribe("stats.changed")]
-    private void onStatsChanged(StatsDic dic)
+    /// 
+    //[Subscribe("StatsDic.changed")]
+    //private void onStatsChanged(StatsDic dic)
+    //{
+    //    this.GetEntityBus().publish("stats.changed", this, dic);
+    //}
+
+    [Subscribe("StatsDic.changed")]
+    private void onStatsChanged(IStat stat)
     {
-        this.GetEntityBus().publish("stats.changed", this);
+        this.GetEntityBus().publish("stats.changed", this, stat);
     }
 
 }

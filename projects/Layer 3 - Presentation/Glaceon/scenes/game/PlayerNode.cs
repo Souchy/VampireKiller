@@ -1,9 +1,15 @@
 using Godot;
 using Godot.Sharp.Extras;
 using System;
+using Util.communication.commands;
+using vampierkiller.logia;
+using vampirekiller.logia.commands;
 
 public partial class PlayerNode : CreatureNode
 {
+	[Inject]
+	public ICommandPublisher publisher { get; set; }
+
 	private Camera3D _gameCamera;
 
 
@@ -11,11 +17,12 @@ public partial class PlayerNode : CreatureNode
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
 	
-    public override void _Ready()
-    {
-        this.OnReady();
+	public override void _Ready()
+	{
+		this.OnReady();
+		this.Inject();
 		_gameCamera = this.GetViewport().GetCamera3D();
-    }
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -88,6 +95,12 @@ public partial class PlayerNode : CreatureNode
 				NavigationAgent3D.TargetPosition = (Vector3)result["position"];
 		}
 
+		bool casted = Input.IsActionJustPressed("cast_slot_1");
+		if (casted)
+		{
+			var cmd = new CommandCast(this.creatureInstance, new Vector3(1, 0, 0));
+			this.publisher.publish(cmd);
+		}
 	}
 
 }

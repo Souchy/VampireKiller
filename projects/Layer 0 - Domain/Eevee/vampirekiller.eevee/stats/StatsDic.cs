@@ -39,7 +39,7 @@ public class StatsDic : SmartDictionary<Type, IStat>
     [Subscribe(IStat.EventSet)]
     private void onChangedStat(IStat stat)
     {
-        this.GetEntityBus().publish(EventUpdate, dic);
+        this.GetEntityBus().publish(EventUpdate, stat);
     }
     /// <summary>
     /// When a stat is added/set in the dictionary

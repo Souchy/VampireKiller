@@ -39,6 +39,8 @@ public class StubFight : Fight
 
         var crea = Register.Create<CreatureInstance>();
         crea.model = creaModel;
+        crea.fightStats.addedLife.value = 2;
+        crea.fightStats.addedLifeMax.value = 2;
         crea.spawnPosition = new Vector3(1, 1, 0); // pas sur pourquoi ça bug si on déplace pas le player au spawn
         crea.creatureGroup = CreatureGroupType.Players;
 
@@ -54,6 +56,8 @@ public class StubFight : Fight
 
         var crea = Register.Create<CreatureInstance>();
         crea.model = creaModel;
+        crea.fightStats.addedLife.value = 2;
+        crea.fightStats.addedLifeMax.value = 2;
         crea.spawnPosition = vec;
         crea.creatureGroup = CreatureGroupType.Enemies;
 
