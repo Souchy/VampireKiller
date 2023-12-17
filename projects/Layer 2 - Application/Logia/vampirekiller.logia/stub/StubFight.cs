@@ -17,18 +17,21 @@ public class StubFight : Fight
 {
     public StubFight()
     {
-        spawnStubPlayer();
-        for(int i = 0; i < 10; i++)
+        var player = spawnStubPlayer();
+        creatures.add(player);
+
+        for (int i = 0; i < 10; i++)
         {
             int radius = 14;
             double deg = (300.0 / 10.0) * (Math.PI / 180.0);
             var z = (float) Math.Sin(i * deg) * radius;
             var x = (float) Math.Cos(i * deg) * radius;
-            spawnStubCreature(new(x, 0, z));
+            var enemy = spawnStubCreature(new(x, 0, z));
+            creatures.add(enemy);
         }
     }
 
-    public void spawnStubPlayer()
+    public static CreatureInstance spawnStubPlayer()
     {
         var creaModel = Register.Create<CreatureModel>();
         creaModel.meshScenePath = "res://scenes/game/PlayerNode.tscn";
@@ -39,10 +42,10 @@ public class StubFight : Fight
         crea.spawnPosition = new Vector3(1, 1, 0); // pas sur pourquoi ça bug si on déplace pas le player au spawn
         crea.creatureGroup = CreatureGroupType.Players;
 
-        creatures.add(crea);
+        return crea;
     }
 
-    public void spawnStubCreature(Vector3 vec)
+    public static CreatureInstance spawnStubCreature(Vector3 vec)
     {
         var creaModel = Register.Create<EnemyModel>();
         creaModel.meshScenePath = "res://scenes/db/creatures/Orc.tscn";
@@ -54,7 +57,7 @@ public class StubFight : Fight
         crea.spawnPosition = vec;
         crea.creatureGroup = CreatureGroupType.Enemies;
 
-        creatures.add(crea);
+        return crea;
     }
 
 }

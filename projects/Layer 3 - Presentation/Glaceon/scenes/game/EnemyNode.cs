@@ -7,12 +7,14 @@ using vampirekiller.eevee.creature;
 
 public partial class EnemyNode : CreatureNode
 {
-    public const float Speed = 3.0f;
-
-    [NodePath("NavigationAgent3D")]
-    public NavigationAgent3D navAgent;
 
     private Node3D trackingTarget;
+
+    public override void _Ready()
+    {
+        base._Ready();
+        Speed = 3.0f;
+    }
 
     public override void _Process(double delta)
     {
@@ -26,30 +28,9 @@ public partial class EnemyNode : CreatureNode
                 var player = creaInstance.get<PlayerNode>();
                 this.trackingTarget = player;
             }
-            //var players = this.GetNode("%Players").GetChildren<PlayerNode>();
-            //foreach(var player in players)
-            //    if(player.creatureInstance == creaInstance)
-            //        this.trackingTarget = player;
         }
         if (this.trackingTarget != null)
-            this.navAgent.TargetPosition = this.trackingTarget.GlobalPosition;
+            this.NavigationAgent3D.TargetPosition = this.trackingTarget.GlobalPosition;
     }
 
-    public override void _PhysicsProcess(double delta)
-    {
-        if (!this.navAgent.IsNavigationFinished())
-        {
-            var nextPathPosition = this.navAgent.GetNextPathPosition();
-            var new_velocity = Speed * this.GlobalPosition.DirectionTo(nextPathPosition);
-
-            this.Velocity = new_velocity;
-            this.MoveAndSlide();
-        }
-    }
-
-    public void setTrackingTarget(Node3D trackingTarget)
-    {
-        this.trackingTarget = trackingTarget;
-        this.navAgent.TargetPosition = this.trackingTarget.GlobalPosition;
-    }
 }

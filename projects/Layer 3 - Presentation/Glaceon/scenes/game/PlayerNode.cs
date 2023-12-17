@@ -6,8 +6,6 @@ public partial class PlayerNode : CreatureNode
 {
 	private Camera3D _gameCamera;
 
-	public const float Speed = 5.0f;
-	public const float JumpVelocity = 6.0f;
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
@@ -17,10 +15,6 @@ public partial class PlayerNode : CreatureNode
     {
         this.OnReady();
 		_gameCamera = this.GetViewport().GetCamera3D();
-		if(NavigationAgent3D == null) {
-			NavigationAgent3D = this.GetNode<NavigationAgent3D>("NavigationAgent3D");
-			GD.Print("wtf " + NavigationAgent3D);
-		}
     }
 
 	public override void _PhysicsProcess(double delta)
@@ -49,13 +43,17 @@ public partial class PlayerNode : CreatureNode
 		}
 		else
 		// If point & click, set velocity
-		if (!NavigationAgent3D.IsNavigationFinished())
+		if(physicsNavigationProcess(delta)) 
 		{
-			var nextPos = NavigationAgent3D.GetNextPathPosition();
-			direction = GlobalPosition.DirectionTo(nextPos);
-			// direction.Y = 0;
-			velocity = direction * Speed;
+			return;
 		}
+		// if (!NavigationAgent3D.IsNavigationFinished())
+		// {
+		// 	var nextPos = NavigationAgent3D.GetNextPathPosition();
+		// 	direction = GlobalPosition.DirectionTo(nextPos);
+		// 	// direction.Y = 0;
+		// 	velocity = direction * Speed;
+		// }
 		else
 		// If no input, slow down 
 		if (NavigationAgent3D.IsNavigationFinished())
@@ -86,7 +84,8 @@ public partial class PlayerNode : CreatureNode
 				CollideWithAreas = true
 			};
 			var result = space.IntersectRay(ray);
-			NavigationAgent3D.TargetPosition = (Vector3)result["position"];
+			if(result.ContainsKey("position")) 
+				NavigationAgent3D.TargetPosition = (Vector3)result["position"];
 		}
 
 	}

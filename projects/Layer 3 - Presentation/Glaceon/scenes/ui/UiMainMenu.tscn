@@ -41,10 +41,10 @@ current = true
 [node name="onemapisenough" parent="Background/Objects" instance=ExtResource("1_en7m8")]
 
 [node name="Orc" parent="Background/Objects" instance=ExtResource("2_e2pfm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.30734, 0, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.30734, 0, 0)
 
 [node name="Orc2" parent="Background/Objects" instance=ExtResource("2_e2pfm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79683, 0, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.79683, 0, 0)
 
 [node name="Hud" type="Node" parent="."]
 

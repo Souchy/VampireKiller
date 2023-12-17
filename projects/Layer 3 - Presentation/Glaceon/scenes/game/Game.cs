@@ -51,14 +51,6 @@ public partial class Game : Node
         clearNodes();
     }
 
-    private void clearNodes()
-    {
-        // Cleanup old nodes
-        this.Players.QueueFreeChildren();
-        this.Creatures.QueueFreeChildren();
-        //this.Projectiles.QueueFreeChildren();
-    }
-
     [Subscribe(nameof(SmartSet<CreatureInstance>.add))]
     public void onAddCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {
@@ -93,6 +85,14 @@ public partial class Game : Node
     public void onRemoveProjectile(SmartSet<Projectile> list, Projectile inst)
     {
 
+    }
+
+    private void clearNodes()
+    {
+        // Cleanup old nodes
+        this.Players.QueueFreeChildren();
+        this.Creatures.QueueFreeChildren();
+        //this.Projectiles.QueueFreeChildren();
     }
 
 }

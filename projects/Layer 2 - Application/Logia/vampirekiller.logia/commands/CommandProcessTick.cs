@@ -7,7 +7,7 @@ using Util.communication.commands;
 
 namespace vampirekiller.espeon.commands;
 
-public record struct CommandProcessTick(float delta) : ICommand
+public record struct CommandProcessTick(double delta) : ICommand
 {
     public byte[] serialize()
     {

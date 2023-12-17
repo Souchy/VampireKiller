@@ -1,4 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dibbuq4i3rrqo"]
+[gd_scene load_steps=6 format=3 uid="uid://dibbuq4i3rrqo"]
+
+[ext_resource type="Script" path="res://scenes/db/maps/onemapisenough.cs" id="1_bn2o5"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_b8yhv"]
 vertices = PackedVector3Array(-14.5, 0.02, -14.5, -14.5, 0.02, 14.5, 14.5, 0.02, 14.5, 14.5, 0.02, -14.5)
@@ -16,6 +18,7 @@ size = Vector2(30, 30)
 size = Vector3(30, 0, 30)
 
 [node name="onemapisenough" type="Node3D"]
+script = ExtResource("1_bn2o5")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_b8yhv")
@@ -28,3 +31,9 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/MeshInstance3D/StaticBody3D"]
 shape = SubResource("BoxShape3D_fgpka")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
