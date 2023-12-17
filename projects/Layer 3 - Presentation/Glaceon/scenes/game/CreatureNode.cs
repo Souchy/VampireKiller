@@ -67,8 +67,9 @@ public partial class CreatureNode : CharacterBody3D
             Velocity = direction * Speed;
             try
             {
-                if (!Position.IsEqualApprox(nextPos))
-                    this.MeshInstance3D.LookAt(nextPos);
+                if (!Position.IsEqualApprox(nextPos) &&
+                    !Vector3.Up.Cross(nextPos - this.Position).IsZeroApprox()) // check is to avoid following warning: Up vector and direction between node origin and target are aligned, look_at() failed
+                    this.LookAt(nextPos);
             }
             catch (Exception e) { }
             MoveAndSlide();

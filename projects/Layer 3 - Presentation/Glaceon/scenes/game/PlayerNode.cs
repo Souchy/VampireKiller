@@ -64,7 +64,7 @@ public partial class PlayerNode : CreatureNode
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+		Vector3 direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
 		// If input, set velocity
 		if (direction != Vector3.Zero)
 		{
@@ -95,6 +95,12 @@ public partial class PlayerNode : CreatureNode
 		}
 
 		Velocity = velocity;
+		Vector3 fowardPoint = this.Position + velocity * 1;
+		Vector3 lookAtTarget = new Vector3(fowardPoint.X, this.Position.Y, fowardPoint.Z);
+		if (!lookAtTarget.IsEqualApprox(this.Position))
+		{
+			this.LookAt(lookAtTarget);
+		}
 		MoveAndSlide();
 	}
 
@@ -126,7 +132,7 @@ public partial class PlayerNode : CreatureNode
 		bool casted = Input.IsActionJustPressed("cast_slot_1");
 		if (casted)
 		{
-			var cmd = new CommandCast(this.creatureInstance, new Vector3(1, 0, 0));
+			var cmd = new CommandCast(this.creatureInstance, -this.Transform.Basis.Z);
 			this.publisher.publish(cmd);
 		}
 	}
