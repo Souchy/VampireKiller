@@ -7,14 +7,14 @@ using Util.entity;
 
 namespace VampireKiller.eevee.vampirekiller.eevee.conditions.schemas;
 
-public class SpellModelFilter : IConditionSchema
+public class SpellModelCondition : IConditionSchema
 {
     public List<ID> acceptedModelIds { get; set; } = new();
     public List<ID> rejectedModelIds { get; set; } = new();
 
     public IConditionSchema copy()
     {
-        var copy = new SpellModelFilter();
+        var copy = new SpellModelCondition();
         foreach(var item in acceptedModelIds)
             copy.acceptedModelIds.Add(item);
         foreach (var item in rejectedModelIds)

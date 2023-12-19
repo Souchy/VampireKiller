@@ -26,10 +26,11 @@ public interface IStatement : IStatementContainer //: Identifiable
     public ICondition sourceCondition { get; set; }
     public ICondition targetFilter { get; set; }
     // TDDO create zone classes
-    //public IZone TargetAcquisitionZone { get; set; } = new Zone();
+    public IZone zone { get; set; }
     // TODO create Triggers
-    //public SmartList<ITriggerModel> Triggers { get; set; } //= new EntityList<ITriggerModel>();
+    public SmartList<TriggerListener> triggers { get; set; }
 
+    public IStatementScript getScript() => schema.getScript();
     public T GetProperties<T>() where T : IStatementSchema => (T) schema;
 
     public IStatement copy();
@@ -41,12 +42,10 @@ public class Statement : IStatement
     public IStatementSchema schema { get; set; }
     public ICondition sourceCondition { get; set; }
     public ICondition targetFilter { get; set; }
-    // TDDO create zone classes
-    //public IZone TargetAcquisitionZone { get; set; } = new Zone();
-    // TODO create Triggers
-    //public SmartList<ITriggerModel> Triggers { get; set; } //= new EntityList<ITriggerModel>();
-    public SmartList<IStatement> children { get; set; } = SmartList<IStatement>.Create(); //public SmartList<ID> effectIds { get; set; } //= new EntityList<ObjectId>();
+    public IZone zone { get; set; } //= new Zone();
+    public SmartList<TriggerListener> triggers { get; set; } = SmartList<TriggerListener>.Create();
     public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
+
     public IStatement copy()
     {
         var copy = new Statement();
@@ -67,12 +66,11 @@ public class Statement : IStatement
     // }
 }
 
-public interface IStatementSchema
-{
-    public IStatementSchema copy();
-}
 
 public interface IStatementScript
 {
-    public void apply(IStatement s, Vector3 position, CreatureInstance caster, CreatureInstance currentTarget, IEnumerable<CreatureInstance> allTargetsInZone);
+    public Type schemaType { get; }
+    // TODO replace with ActionEffectTarget
+    public void apply(ActionStatementTarget action);
+    // public void apply(IStatement s, Vector3 position, CreatureInstance caster, CreatureInstance currentTarget, IEnumerable<CreatureInstance> allTargetsInZone);
 }
