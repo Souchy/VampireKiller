@@ -50,16 +50,6 @@ public class CreatureInstance : Entity, Identifiable
         fightStats.Dispose();
     }
 
-    public T getTotalStat<T>() where T : IStat, new()
-    {
-        var t = new T();
-        t.add(this.model.baseStats);
-        t.add(this.fightStats.dic);
-        foreach(var item in inventory.items.values)
-            item.addStat<T>(t);
-        // TODO getTotalStat: items & statuses
-        return t;
-    }
 
     /// <summary>
     /// Bubble up les events de stats jusqu'au UI

@@ -16,15 +16,10 @@ public class Item : Identifiable, IStatementContainer
     public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
     public int quantity { get; set; }
 
-    public void addStat<T>(T t)
     private Item() {}
+
+    public void Dispose()
     {
-        foreach(var s in statements.values)
-        {
-            // 1. check triggers
-            // 2. check conditions
-            // 3. check stats
-            // 4. check children
-        }
+        throw new NotImplementedException();
     }
 }
