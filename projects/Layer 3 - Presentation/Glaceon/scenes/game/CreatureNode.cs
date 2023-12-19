@@ -6,6 +6,7 @@ using Util.entity;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
+using vampirekiller.logia.extensions;
 
 
 /// <summary>

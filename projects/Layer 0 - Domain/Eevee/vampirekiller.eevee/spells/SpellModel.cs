@@ -10,11 +10,13 @@ using VampireKiller.eevee.vampirekiller.eevee.stats;
 
 namespace VampireKiller.eevee.vampirekiller.eevee.spells;
 
-public class SpellModel : Identifiable
+public class SpellModel : Identifiable, IStatementContainer
 {
     public ID entityUid { get; set; }
     public StatsDic stats = Register.Create<StatsDic>();
-    public SmartList<IStatement> statements = SmartList<IStatement>.Create();
+    public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
+
+    protected SpellModel() { }
 
     public void Dispose()
     {
@@ -28,6 +30,6 @@ public class SpellModel : Identifiable
 /// </summary>
 public class SpellCost : StatInt
 {
-    
+
 }
 public class SpellCostMana : SpellCost { }

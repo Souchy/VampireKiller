@@ -1,3 +1,4 @@
+using Util.entity;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 using VampireKiller.eevee.vampirekiller.eevee.statements.schemas;
@@ -11,7 +12,7 @@ public class TestFireball
     [Fact]
     public void generateFireballModel()
     {
-        var model = new SpellModel();
+        var model = Register.Create<SpellModel>(); //new SpellModel();
         var explosionFx = new Statement()
         {
             //zone = new Zone() { 
@@ -42,9 +43,9 @@ public class TestFireball
             }
         };
         model.statements.add(explosionFx);
-        explosionFx.children.add(explosionDmg);
-        explosionDmg.children.add(addStatus);
-        addStatus.GetProperties<CreateStatusSchema>().children.Add(burningDmg);
+        explosionFx.statements.add(explosionDmg);
+        explosionDmg.statements.add(addStatus);
+        addStatus.GetProperties<CreateStatusSchema>().statusStatements.Add(burningDmg);
         // TODO serialize fireball to json file
     }
 
