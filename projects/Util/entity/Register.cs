@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,20 +20,21 @@ public interface IRegister
     public bool RegisterEventBus(ID id);
     public bool DisposeEventBus(Identifiable entity);
     public bool DisposeEventBus(ID id);
-    public T CreateEntity<T>() where T : Identifiable, new();
+    public T CreateEntity<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] T>() where T : Identifiable; //, new();
 }
 
 public class Register : IRegister
 {
     public static Register instance = new Register();
-    public static T Create<T>() where T : Identifiable, new()
+    public static T Create<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] T>() where T : Identifiable //, new()
     {
         return instance.CreateEntity<T>();
     }
     
-    public T CreateEntity<T>() where T : Identifiable, new()
+    public T CreateEntity<T>() where T : Identifiable //, new()
     {
-        T t = new T();
+        T t = (T) Activator.CreateInstance(typeof(T), true)!;
+        // T t = new T();
         t.RegisterEventBus();
         t.initialize();
         return t;

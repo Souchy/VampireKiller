@@ -40,7 +40,7 @@ public class StatInt : IStat
         }
     }
 
-    public StatInt() { }
+    protected StatInt() { }
     public virtual void add(StatsDic dic)
     {
         var val = dic.get<StatInt>(this.GetType());
@@ -82,7 +82,7 @@ public class StatType : IStat
             this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
-    public StatType() { }
+    protected StatType() { }
     public virtual void add(StatsDic dic)
     {
         throw new NotImplementedException();
@@ -121,7 +121,7 @@ public class StatDate : IStat
             this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
-    public StatDate() { }
+    protected StatDate() { }
     public virtual void add(StatsDic dic)
     {
         throw new NotImplementedException();
@@ -160,7 +160,7 @@ public class StatTimeSpan : IStat
             this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
-    public StatTimeSpan() { }
+    protected StatTimeSpan() { }
     public virtual void add(StatsDic dic)
     {
         var val = dic.get<StatTimeSpan>(this.GetType());
@@ -201,7 +201,7 @@ public class StatDouble : IStat
             this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
-    public StatDouble() { }
+    protected StatDouble() { }
     public virtual void add(StatsDic dic)
     {
         var val = dic.get<StatDouble>(this.GetType());
@@ -240,7 +240,7 @@ public class StatBool : IStat
             this.GetEntityBus().publish(IStat.EventSet, this);
         }
     }
-    public StatBool() { }
+    protected StatBool() { }
     public virtual void add(StatsDic dic)
     {
         var val = dic.get<StatBool>(this.GetType());

@@ -14,6 +14,8 @@ public class StatsDic : SmartDictionary<Type, IStat>
 {
     public const string EventUpdate = nameof(StatsDic) + ".changed";
 
+    protected StatsDic() {}
+
     public override void initialize()
     {
         this.GetEntityBus().subscribe(this);

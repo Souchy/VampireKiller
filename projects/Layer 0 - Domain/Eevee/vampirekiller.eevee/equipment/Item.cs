@@ -14,6 +14,7 @@ public class Item
     public SmartList<IStatement> statements = SmartList<IStatement>.Create();
 
     public void addStat<T>(T t)
+    private Item() {}
     {
         foreach(var s in statements.values)
         {

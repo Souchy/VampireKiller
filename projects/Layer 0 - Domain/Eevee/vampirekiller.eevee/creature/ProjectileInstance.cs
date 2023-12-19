@@ -18,7 +18,8 @@ public class ProjectileInstance : Entity, Identifiable
     public string meshScenePath { get; set; }
     public int dmg {  get; set; }
 
-    public ProjectileInstance() { }
+
+    private ProjectileInstance() { }
 
     public void init(CreatureInstance originator, Vector3 direction, float speed, string meshScenePath, int dmg)
     {

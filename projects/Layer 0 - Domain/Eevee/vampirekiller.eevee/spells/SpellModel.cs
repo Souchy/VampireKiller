@@ -16,6 +16,8 @@ public class SpellModel : Identifiable
     public StatsDic stats = Register.Create<StatsDic>();
     public SmartList<IStatement> statements = SmartList<IStatement>.Create();
 
+    protected SpellModel() { }
+
     public void Dispose()
     {
         throw new NotImplementedException();

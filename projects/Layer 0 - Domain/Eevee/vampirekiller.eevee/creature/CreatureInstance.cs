@@ -34,7 +34,7 @@ public class CreatureInstance : Entity, Identifiable
     // public CreatureInstanceStats resources { get; set; } = new();
     // public List<StatusInstance> statuses { get; set; } = new();
 
-    public CreatureInstance() { }
+    private CreatureInstance() { }
 
     public void initialize()
     {

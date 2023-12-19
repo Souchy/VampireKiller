@@ -11,7 +11,7 @@ public class TestFireball
     [Fact]
     public void generateFireballModel()
     {
-        var model = new SpellModel();
+        var model = Register.Create<SpellModel>(); //new SpellModel();
         var explosionFx = new Statement()
         {
             //zone = new Zone() { 
