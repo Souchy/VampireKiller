@@ -1,3 +1,4 @@
+using Util.entity;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 using VampireKiller.eevee.vampirekiller.eevee.statements.schemas;
@@ -42,9 +43,9 @@ public class TestFireball
             }
         };
         model.statements.add(explosionFx);
-        explosionFx.children.add(explosionDmg);
-        explosionDmg.children.add(addStatus);
-        addStatus.GetProperties<CreateStatusSchema>().children.Add(burningDmg);
+        explosionFx.statements.add(explosionDmg);
+        explosionDmg.statements.add(addStatus);
+        addStatus.GetProperties<CreateStatusSchema>().statusStatements.Add(burningDmg);
         // TODO serialize fireball to json file
     }
 
