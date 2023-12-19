@@ -33,6 +33,7 @@ public record TriggerType(Type schemaType)
     public static readonly TriggerType onProcess = new(typeof(TriggerSchemaOnProcess));
     public static readonly TriggerType onTime = new(typeof(TriggerSchemaOnMoment));
     public static readonly TriggerType onStatement = new(typeof(TriggerSchemaOnStatement));
+    public static readonly TriggerType onCollision = new(typeof(TriggerSchemaOnCollision));
     
 }
 
