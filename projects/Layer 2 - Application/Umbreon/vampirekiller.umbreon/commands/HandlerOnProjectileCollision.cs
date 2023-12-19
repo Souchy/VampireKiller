@@ -8,6 +8,7 @@ using Logia.vampirekiller.logia;
 using Util.communication.commands;
 using vampirekiller.logia.commands;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
+using vampirekiller.logia.extensions;
 
 namespace vampirekiller.umbreon.commands;
 

@@ -16,9 +16,5 @@
     <ProjectReference Include="..\..\Util\Util.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="vampirekiller.eevee\triggers\schemas\" />
-  </ItemGroup>
-
 
 </Project>
