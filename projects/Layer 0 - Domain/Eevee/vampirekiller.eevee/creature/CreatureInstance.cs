@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 using Util.communication.events;
 using Util.ecs;
 using Util.entity;
+using Util.structures;
+using vampirekiller.eevee.actions;
 using vampirekiller.eevee.enums;
+using vampirekiller.eevee.statements.schemas;
+using vampirekiller.eevee.triggers;
 using VampireKiller.eevee.vampirekiller.eevee.enums;
 using VampireKiller.eevee.vampirekiller.eevee.equipment;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
@@ -22,17 +26,16 @@ public class CreatureInstance : Entity, Identifiable
 
     // public ID entityUid { get; set; }
     public CreatureModel model { get; set; }
-    public EntityGroupType creatureGroup { get; set; }
+    public EntityGroupType creatureGroup { get => get<EntityGroupType>(); set => set<EntityGroupType>(value); }
 
     public Vector3 spawnPosition { get; set; }
-    public Vector3 position { get => getPositionHook();  set => setPositionHook(value); }
+    public Vector3 position { get => getPositionHook(); set => setPositionHook(value); }
     public Func<Vector3> getPositionHook { get; set; }
     public Action<Vector3> setPositionHook { get; set; }
 
-    public CreatureFightStats fightStats = new();
-     public Inventory inventory { get; set; } = new();
-    // public CreatureInstanceStats resources { get; set; } = new();
-    // public List<StatusInstance> statuses { get; set; } = new();
+    public CreatureFightStats fightStats { get; set; } = new();
+    public Inventory inventory { get; set; } = new();
+    public SmartList<Status> statuses { get; set; } = SmartList<Status>.Create();
 
     private CreatureInstance() { }
 
@@ -74,8 +77,8 @@ public class CreatureInstance : Entity, Identifiable
     [Subscribe(StatsDic.EventUpdate)]
     private void onStatChanged(IStat stat)
     {
-    //    GD.Print("CreatureInstance: onStatChanged: " + stat);
-       this.GetEntityBus().publish(EventUpdateStats, this, stat);
+        //    GD.Print("CreatureInstance: onStatChanged: " + stat);
+        this.GetEntityBus().publish(EventUpdateStats, this, stat);
     }
 
     // [Subscribe(IStat.EventSet)]

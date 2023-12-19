@@ -8,6 +8,7 @@ using VampireKiller.eevee.vampirekiller.eevee.enums;
 using Util.structures;
 using souchy.celebi.eevee.enums;
 using Godot;
+using vampirekiller.eevee.enums;
 
 namespace VampireKiller.eevee.vampirekiller.eevee.zones;
 
@@ -78,7 +79,6 @@ public interface IZone
     /// This respects maxSampleCount.
     /// </summary>
     public TargetSamplingType samplingType { get; set; }
-
 
 
     public float GetLengthForward() => size.X;
