@@ -1,9 +1,16 @@
 using vampirekiller.eevee.actions;
+using vampirekiller.eevee.triggers.schemas;
 
 namespace vampirekiller.logia.extensions;
 
 public static class ActionExtensions
 {
+    public static void applyActionCast(this ActionCastActive action) {
+        var item = action.getItem();
+        var trigger = new TriggerEventOnCastActive(action);
+        item.procTriggers(action, trigger);
+    }
+
     /// <summary>
     /// Apply statement in new action for each target in the zone
     /// </summary>

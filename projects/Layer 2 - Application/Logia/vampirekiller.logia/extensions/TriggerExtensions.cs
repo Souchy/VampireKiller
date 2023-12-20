@@ -52,14 +52,13 @@ public static class TriggerExtensions {
     /// </summary>
     public static bool checkTrigger(this TriggerListener listener, IAction action, TriggerEvent trigger)
     {
-        // listener.holderCondition..check(action, liste);
         var checkHolder = listener.holderCondition?.checkCondition(action);
         if (checkHolder == false)
             return false;
         var checkTriggerer = listener.triggererCondition?.checkCondition(action);
         if (checkTriggerer == false)
             return false;
-        // todo check zone
+        // TODO check listener.zone pour isCasterInArea
         // check orderType si on garde cette mécanique
         var script = listener.getScript();
         var checkScript = script.checkTrigger(action, trigger, listener.schema); // (action, listener); //...schema? statement? listener?
@@ -71,7 +70,9 @@ public static class TriggerExtensions {
             if (listener.checkTrigger(action, trigger))
                 continue;
             
-            var sub = new ActionStatementTarget(action);
+            var sub = new ActionStatementTarget(action) {
+                statement = statement
+            };
             statement.apply(sub);
         }
     }

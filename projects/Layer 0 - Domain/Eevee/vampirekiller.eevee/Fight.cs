@@ -7,6 +7,7 @@ using Util.communication.events;
 using Util.entity;
 using Util.structures;
 using VampireKiller.eevee.creature;
+using VampireKiller.eevee.vampirekiller.eevee.equipment;
 
 namespace VampireKiller.eevee.vampirekiller.eevee;
 
@@ -16,6 +17,7 @@ public class Fight : IDisposable
 
     public SmartSet<CreatureInstance> creatures { get; init; } = SmartSet<CreatureInstance>.Create();
     public SmartSet<ProjectileInstance> projectiles { get; init; } = SmartSet<ProjectileInstance>.Create();
+    public SmartSet<Item> items { get; init; } = SmartSet<Item>.Create();
 
     public void Dispose()
     {

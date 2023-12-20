@@ -5,6 +5,7 @@ using vampirekiller.eevee.triggers;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee;
 using VampireKiller.eevee.vampirekiller.eevee.enums;
+using VampireKiller.eevee.vampirekiller.eevee.equipment;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 
 namespace vampirekiller.eevee.actions;
@@ -24,6 +25,10 @@ public interface IAction
     /// </summary>
     public ID raycastCreature { get; set; }
     /// <summary>
+    /// Current Fight, set after reception
+    /// </summary>
+    public Fight fight { get; set; } 
+    /// <summary>
     /// Parent action
     /// </summary>
     public IAction parent { get; set; }
@@ -31,6 +36,10 @@ public interface IAction
     /// Children actions
     /// </summary>
     public HashSet<IAction> children { get; set; }
+    /// <summary>
+    /// Get the closest parent of type T
+    /// </summary>
+    public T? getParent<T>() ;
 }
 
 public abstract class Action : IAction
@@ -38,9 +47,9 @@ public abstract class Action : IAction
     public ID sourceCreature { get; set; }
     public Vector3 raycastPosition { get; set; }
     public ID raycastCreature { get; set; }
-    public IAction parent { get; set; } = null;
+    public IAction parent { get; set; }
     public HashSet<IAction> children { get; set; } = new();
-    public Fight fight => Universe.fight;
+    public Fight fight { get; set; } = Universe.fight;
     public CreatureInstance getSourceCreature() => fight.creatures.values.FirstOrDefault(c => c.entityUid == sourceCreature);
     public CreatureInstance getRaycastCreature() => fight.creatures.values.FirstOrDefault(c => c.entityUid == raycastCreature);
     
@@ -63,6 +72,13 @@ public abstract class Action : IAction
             copy.children.Add(child);
         return copy;
     }
+    public T? getParent<T>() {
+        if(parent is null)
+            return default;
+        if(parent is T t)
+            return t;
+        return parent.getParent<T>();
+    }
     protected abstract IAction copyImplementation();
 }
 
@@ -72,6 +88,7 @@ public class ActionCastActive : Action
     
     public ActionCastActive() {}
 
+    public Item getItem() => fight.items.get(i => i.entityUid == activeItem);
     protected override IAction copyImplementation()
         => new ActionCastActive() {
             activeItem = this.activeItem
@@ -89,13 +106,6 @@ public class ActionProcessTick : Action
             delta = this.delta
         };
 }
-
-// public class ActionTrigger : Action
-// {
-//     public TriggerEvent trigger { get; set; }
-//     // public TriggerType type { get; set; }
-//     // public TriggerOrderType order { get; set; }
-// }
 
 public class ActionStatement : Action
 {
@@ -125,7 +135,7 @@ public class ActionStatementZone : ActionStatement
         };
 }
 
-public class ActionStatementTarget : Action
+public class ActionStatementTarget : ActionStatementZone
 {
     public CreatureInstance currentTarget { get; set; }
 

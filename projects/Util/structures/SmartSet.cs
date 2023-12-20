@@ -28,7 +28,7 @@ public class SmartSet<T> : Identifiable
     /// </summary>
     public virtual void initialize() { }
 
-    public T? get(Func<T, bool> predicate) => list.First(predicate);
+    public T? get(Func<T, bool> predicate) => list.FirstOrDefault(predicate);
 
     public bool add(T value)
     {
