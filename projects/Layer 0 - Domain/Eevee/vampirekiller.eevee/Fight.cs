@@ -8,6 +8,7 @@ using Util.entity;
 using Util.structures;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.equipment;
+using VampireKiller.eevee.vampirekiller.eevee.spells;
 
 namespace VampireKiller.eevee.vampirekiller.eevee;
 
