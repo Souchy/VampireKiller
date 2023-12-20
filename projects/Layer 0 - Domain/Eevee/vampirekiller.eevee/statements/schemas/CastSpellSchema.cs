@@ -5,7 +5,7 @@ namespace vampirekiller.eevee.statements.schemas;
 
 public class CastSpellSchema : IStatementSchema
 {
-    public ID spellId { get; set; }
+    public ID spellModelId { get; set; }
 
     public IStatementSchema copy()
     {

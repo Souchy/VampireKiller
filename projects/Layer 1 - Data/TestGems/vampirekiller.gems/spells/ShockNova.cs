@@ -29,7 +29,11 @@ public class ShockNova {
     
     private SpellModel generateShockNova()
     {
+        // IMPORTANT: le Register donne toujours un nouvel ID. Donc on doit utiliser un autre id pour les répertorier
+        // IMPORTANT: Solution plus évidente: utilise le nom du spell 
         var spell = Register.Create<SpellModel>();
+        spell.entityUid = "spell_shock_nova"; // Set un ID constant pour pouvoir load toujours le même
+
         var fx = new Statement() {
             // Glaceon has to take this effect, spawn a ProjectileNode, keep a ref to the effect, then trigger the children OnCollision
             //  In the case of Shock Nova, we don't need collision as it's not a moving aoe
@@ -92,25 +96,24 @@ public class ShockNova {
         // loadup a mock fight
         Fight fight = new StubFight();
         Diamonds.spells.Add(spellModel.entityUid, spellModel);
+
         // create an item that can cast the spell
         var item = Register.Create<Item>();
         // cast effect
-        var cast = new Statement() {
-            // FIXME: normalement on a besoin d'un spellInstance qui contient le current cooldown, charges, ...
+        var castStatement = new Statement() {
             schema = new CastSpellSchema() {
-                spellId = spellModel.entityUid
+                spellModelId = spellModel.entityUid
             }
         };
-        // listener with no condition
         var listener = new TriggerListener() {
             schema = new TriggerSchemaOnCastActive()
         };
-        cast.triggers.add(listener);
-        item.statements.add(cast);
-        // add item to player
+        castStatement.triggers.add(listener);
+        item.statements.add(castStatement);
+
+        // add item to player & learn a new spell instance
         var player = fight.creatures.values.First(c => c.creatureGroup == EntityGroupType.Players);
-        player.inventory.items.add(item);
-        player.inventory.activeSlots.add(item);
+        player.equip(item);
 
         // ACT
         // start action

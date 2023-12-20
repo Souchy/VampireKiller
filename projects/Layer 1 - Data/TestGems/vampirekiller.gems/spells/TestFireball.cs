@@ -31,6 +31,8 @@ public class TestFireball
     private SpellModel generateFireballModel()
     {
         var spell = Register.Create<SpellModel>();
+        spell.entityUid = "spell_fireball"; // Set un ID constant pour pouvoir load toujours le même
+
         var projectileFx = new Statement() {
             // Glaceon has to take this effect, spawn a ProjectileNode, keep a ref to the effect, then trigger the children OnCollision
             schema = new SpawnFxSchema() {
@@ -92,7 +94,7 @@ public class TestFireball
         var cast = new Statement() {
             // FIXME: normalement on a besoin d'un spellInstance qui contient le current cooldown, charges, ...
             schema = new CastSpellSchema() {
-                spellId = spellModel.entityUid
+                spellModelId = spellModel.entityUid
             }
         };
         // listener with no condition
