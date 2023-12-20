@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
+    <RootNamespace></RootNamespace>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Layer 0 - Domain\Eevee\Eevee.csproj" />
+    <ProjectReference Include="..\..\Layer%202%20-%20Application\Logia\Logia.csproj" />
   </ItemGroup>
 
 </Project>
