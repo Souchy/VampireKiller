@@ -18,6 +18,7 @@ public class Fight : IDisposable
     public SmartSet<CreatureInstance> creatures { get; init; } = SmartSet<CreatureInstance>.Create();
     public SmartSet<ProjectileInstance> projectiles { get; init; } = SmartSet<ProjectileInstance>.Create();
     public SmartSet<Item> items { get; init; } = SmartSet<Item>.Create();
+    public SmartSet<SpellInstance> spells { get; init; } = SmartSet<SpellInstance>.Create();
 
     public void Dispose()
     {
