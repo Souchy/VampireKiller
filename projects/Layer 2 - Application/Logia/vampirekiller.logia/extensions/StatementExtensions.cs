@@ -49,6 +49,8 @@ public static class StatementExtensions
         // trigger
         var trigger = new TriggerEventOnStatement();
         Universe.fight.procTriggers(action, trigger);
+        // apply children
+        statement.applyStatementContainer(action);
     }
 
     /// <summary>

@@ -33,13 +33,7 @@ public class TestFireball
         var spell = Register.Create<SpellModel>();
         spell.entityUid = "spell_fireball"; // Set un ID constant pour pouvoir load toujours le même
 
-        var projectileFx = new Statement() {
-            // Glaceon has to take this effect, spawn a ProjectileNode, keep a ref to the effect, then trigger the children OnCollision
-            schema = new SpawnFxSchema() {
-                scene = "res://scenes/db/spells/fireball/fireball_projectile.tscn"
-            }
-        };
-        //projectileFx.triggers.Add(TriggerType.OnCollision);
+        // Explosion devrait proc sur le onCollision du projectile
         var explosionFx = new Statement() {
             schema = new SpawnFxSchema() {
                 scene = "res://scenes/db/spells/fireball/fireball_explosion.tscn"
@@ -50,24 +44,78 @@ public class TestFireball
                 baseDamage = 15
             }
         };
-        IStatement addStatus = new Statement() {
-            //schema = new CreateStatusSchema() {
-            // 
-            //}
+        // Trigger onCollision avec un Enemy
+        // Le projectileNode pourra envoyer un TriggerEventOnCollision(t1, t2) au fight.procTriggers(event)
+        var collisionListener = new TriggerListener() {
+            holderCondition = null,
+            triggererCondition = new Condition() {
+                schema = new TeamFilter() {
+                    team = TeamRelationType.Enemy
+                }
+            },
+            schema = new TriggerSchemaOnCollision()
         };
-        var burningDmg = new Statement() {
-            schema = new DamageSchema() {
-                baseDamage = 3
-            }
-        };
-
+        // proc l'fx qui va appliquer ses enfants (dmg)
+        explosionFx.triggers.add(collisionListener);
+        // important de ne pas mettre fx enfant de dmg dans ce cas-ci, sinon ça réplique l'explosion sur chaque target de la zone et on en veut juste 1 (par projectile)
+        explosionFx.statements.add(explosionDmg);
+        
         // TODO: il nous faut un listener pour le projectile collision
         //      mais la zone d'explosion peut être calculée sans collision
+        // TODO proj avec listener de collision
+        // Remember: il peut y avoir plusieurs types de projectiles qui proc onCollision (must collide) ou onArrival (ground-target) ou onExpire (durée/distance)
+        var projSchema =  new SpawnProjectileSchema();
+        projSchema.children.Add(explosionFx);
+        projSchema.scene = "res://scenes/db/spells/fireball/fireball_projectile.tscn";
+        var proj = new Statement() {
+            schema = projSchema
+        };
+        spell.statements.add(proj);
 
-        spell.statements.add(explosionFx);
-        explosionFx.statements.add(explosionDmg);
+        // Je ne pense pas qu'on ai besoin de cet effet dans ce cas pcq 
+        //      1. On a besoin des enfants dans le ProjectileInstance
+        //      2. Donc le SpawnProjSchema va créer un ProjectileInstance et l'ajouter au fight
+        //      3. Donc le GameNode va créer un ProjectileNode en recevant l'event de ProjectileInstance
+        //      4. Donc on doit déjà avoir la scene au même endroit que les enfants pour créer le ProjectileInstance
+        // SpawnFxSchema reste utile pour spawn une scène sans logique ni projectile
+        // SpawnProjectileSchema pourrait inhériter de SpawnFxSchema en quelque sorte
+
+        // var projectileFx = new Statement() {
+        //     // Glaceon has to take this effect, spawn a ProjectileNode, keep a ref to the effect, then trigger the children OnCollision
+        //     schema = new SpawnFxSchema() {
+        //         scene = "res://scenes/db/spells/fireball/fireball_projectile.tscn"
+        //     }
+        // };
+
+        // Status burn va s'appliquer à tous les targets du explosionDmg vu qu'il est son enfant
+        IStatement addStatus = new Statement()
+        {
+            schema = new CreateStatusSchema()
+            {
+                duration = 3,
+                unbewitchable = true,
+                statusStatements = new List<IStatement>() {
+                    // burn damage
+                    new Statement() {
+                        schema = new DamageSchema() {
+                            baseDamage = 3
+                        }
+                    }
+                }
+            }
+        };
+        // ajoute le burn fx en enfant du status, pourrait être l'inverse sans problème
+        var burnFx = new Statement() {
+            schema = new SpawnFxSchema() {
+                scene = "res://scenes/db/spells/fireball/fireball_burn.tscn"
+            }
+        };
+        addStatus.statements.add(burnFx);
+        // status doit être enfant de explosion pour l'appliquer à tous les targets dans la zone
         explosionDmg.statements.add(addStatus);
-        addStatus.GetProperties<CreateStatusSchema>().statusStatements.Add(burningDmg);
+
+        // todo: spell.stats: costs, cooldown, etc
+
         return spell;
     }
     [Trait("Category", "ModelGenerator")]
@@ -88,6 +136,7 @@ public class TestFireball
         // loadup a mock fight
         Fight fight = new StubFight();
         Diamonds.spells.Add(spellModel.entityUid, spellModel);
+
         // create an item that can cast the spell
         var item = Register.Create<Item>();
         // cast effect
@@ -103,10 +152,10 @@ public class TestFireball
         };
         cast.triggers.add(listener);
         item.statements.add(cast);
+
         // add item to player
         var player = fight.creatures.values.First(c => c.creatureGroup == EntityGroupType.Players);
-        player.inventory.items.add(item);
-        player.inventory.activeSlots.add(item);
+        player.equip(item);
 
         // ACT
         // start action

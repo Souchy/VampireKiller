@@ -38,7 +38,7 @@ public class ShockNova {
             // Glaceon has to take this effect, spawn a ProjectileNode, keep a ref to the effect, then trigger the children OnCollision
             //  In the case of Shock Nova, we don't need collision as it's not a moving aoe
             schema = new SpawnFxSchema() {
-                scene = "res://scenes/db/spells/shockNova.tscm"
+                scene = "res://scenes/db/spells/shockNova.tscn"
             }
         };
         var outerAoe = new Statement() {
