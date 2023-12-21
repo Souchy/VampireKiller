@@ -15,43 +15,62 @@ namespace vampirekiller.logia.extensions;
 public static class TriggerExtensions {
     
     /// <summary>
-    /// Check triggers on the whole fight
+    /// Proc triggers on the whole fight
     /// </summary>
-    public static void procTriggers(this Fight fight, IAction action, TriggerEvent trigger) {
+    public static void procTriggers(this Fight fight, IActionTrigger action) { //, TriggerEvent trigger) {
         foreach(var creature in fight.creatures.values) {
-            creature.procTriggers(action, trigger);
+            creature.procTriggers(action); //, trigger);
         }
         foreach(var projectile in fight.projectiles.values) {
-            projectile.procTriggers(action, trigger);
+            projectile.procTriggers(action); //, trigger);
         }
     }
 
     /// <summary>
-    /// Check triggers on a creature
+    /// Proc triggers on a creature
     /// </summary>
-    public static void procTriggers(this CreatureInstance crea, IAction action, TriggerEvent trigger) {
+    public static void procTriggers(this CreatureInstance crea, IActionTrigger action) { //, TriggerEvent trigger) {
         foreach(var item in crea.inventory.items.values) {
-            item.procTriggers(action, trigger);
+            item.procTriggers(action); //, trigger);
         }
         foreach(var status in crea.statuses.values) {
-            status.procTriggers(action, trigger);
+            status.procTriggers(action); //, trigger);
         }
     }
 
-    /// <summary>
+    /// <Proc>
     /// Check triggers on a StatementContainer (status, item, projectile..)
-    /// </summary>
-    public static void procTriggers(this IStatementContainer container, IAction action, TriggerEvent trigger) {
+    /// </Proc>
+    public static void procTriggers(this IStatementContainer container, IActionTrigger action) { //, TriggerEvent trigger) {
         foreach(var statement in container.statements.values) {
-            statement.procTrigger(action, trigger);
+            statement.procTrigger(action); //, trigger);
         }
     }    
 
     /// <summary>
-    /// 
+    /// Proc triggers on a single Statement
     /// </summary>
-    public static bool checkTrigger(this TriggerListener listener, IAction action, TriggerEvent trigger)
+    public static void procTrigger(this IStatement statement, IActionTrigger action) { //, TriggerEvent trigger) {
+        foreach(var listener in statement.triggers.values) {
+            if (listener.checkTrigger(action)) //, trigger))
+                continue;
+            
+            var sub = new ActionStatementTarget(action) {
+                statement = statement
+            };
+            statement.apply(sub);
+        }
+    }
+
+    /// <summary>
+    /// Check if the TriggerListener should be activated
+    /// </summary>
+    public static bool checkTrigger(this TriggerListener listener, IActionTrigger action) //, TriggerEvent trigger)
     {
+        // Check type
+        if(listener.schema.triggerType != action.triggerType)
+            return false;
+        // Check condiions
         var checkHolder = listener.holderCondition?.checkCondition(action);
         if (checkHolder == false)
             return false;
@@ -60,21 +79,11 @@ public static class TriggerExtensions {
             return false;
         // TODO check listener.zone pour isCasterInArea
         // check orderType si on garde cette mécanique
-        var script = listener.getScript();
-        var checkScript = script.checkTrigger(action, trigger, listener.schema); // (action, listener); //...schema? statement? listener?
-        return checkScript;
-    }
 
-    public static void procTrigger(this IStatement statement, IAction action, TriggerEvent trigger) {
-        foreach(var listener in statement.triggers.values) {
-            if (listener.checkTrigger(action, trigger))
-                continue;
-            
-            var sub = new ActionStatementTarget(action) {
-                statement = statement
-            };
-            statement.apply(sub);
-        }
+        // Check trigger script implementation
+        var script = listener.getScript();
+        var checkScript = script.checkTrigger(action, listener.schema);
+        return checkScript;
     }
 
     // public bool checkTrigger(IAction action, TriggerEvent triggerEvent)

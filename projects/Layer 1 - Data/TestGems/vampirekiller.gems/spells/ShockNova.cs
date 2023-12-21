@@ -118,7 +118,7 @@ public class ShockNova {
         // ACT
         // start action
         var action = new ActionCastActive() {
-            sourceCreature = player.entityUid,
+            sourceEntity = player.entityUid,
             raycastPosition = new Vector3(0, 0, 0), // le target sera passed down à tous les enfants de l'action all the way to l'ActionStatementTarget qui va apply le CastSpellScript
             activeItem = item.entityUid,
             fight = fight

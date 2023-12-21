@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Util.communication.commands;
 using vampierkiller.espeon;
 using vampierkiller.logia;
-using vampirekiller.espeon.commands;
 using vampirekiller.logia.net;
 
 namespace vampirekiller.espeon;

@@ -4,10 +4,9 @@ using vampirekiller.eevee.enums;
 
 namespace vampirekiller.eevee.triggers.schemas;
 
-public record TriggerEventOnCastActive(ActionCastActive action) : TriggerEvent(TriggerType.onCastActive);
-
 public class TriggerSchemaOnCastActive: ITriggerSchema
 {
+    public TriggerType triggerType => TriggerType.onCastActive;
     // rien à check, accepte toutes les actions
     
     public ITriggerSchema copy()

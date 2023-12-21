@@ -15,11 +15,10 @@ public class ProjectileInstance : Entity, Identifiable, IStatementContainer
     // public ID entityUid { get; set; }
     public EntityGroupType creatureGroup { get => get<EntityGroupType>(); set => set<EntityGroupType>(value); }
 
-    public Vector3 direction {  get; private set; }
     public CreatureInstance originator { get; set; } // For retrieving spawn location & to avoid collisions with caster as the projectile spawns
-
     public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
     
+    public Vector3 direction {  get; private set; }
     // Temp: below fields should be moved to a model class
     public float speed { get; set; }
     public string meshScenePath { get; set; }
@@ -61,23 +60,3 @@ public class PhysicsStats
 {
 
 }
-
-
-/*
-How can we have:
-- Entity.position: vector3
-- EntityScene.position: vector3
-And keep it synced
-Makes no sense does it
-Physics loop will update the position based on acceleration, speed & orientation
-
-
-Server runs physics
-Client sends direction arrows inputs
-Server changes the speed/direction based on these inputs
-Physics updates the position
-Server sends all positions periodically (1s/60)
-
-It's also a PITA to convert Vector2d from the domain to Godot's vectors
-
-*/

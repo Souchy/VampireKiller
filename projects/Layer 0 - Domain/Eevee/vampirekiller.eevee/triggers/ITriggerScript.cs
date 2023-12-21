@@ -12,5 +12,5 @@ public interface ITriggerScript
     /// <param name="action">Can be any kind of action</param>
     /// <param name="trigger"></param>
     /// <param name="schema">The TriggerListener's schema</param>
-    public bool checkTrigger(IAction action, TriggerEvent trigger, ITriggerSchema schema); //(ActionTrigger action, TriggerListener listener); // 
+    public bool checkTrigger(IActionTrigger action, ITriggerSchema schema); //, TriggerEvent trigger, ITriggerSchema schema); //(ActionTrigger action, TriggerListener listener); // 
 }

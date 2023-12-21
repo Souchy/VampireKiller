@@ -6,6 +6,9 @@ using Util.entity;
 using vampierkiller.logia;
 using vampirekiller.logia.commands;
 using VampireKiller.eevee;
+using vampirekiller.logia.extensions;
+using vampirekiller.eevee.actions;
+using vampirekiller.eevee.triggers.schemas;
 
 public partial class ProjectileNode : Area3D
 {
@@ -44,6 +47,8 @@ public partial class ProjectileNode : Area3D
 
 	private void onBodyEntered(Node3D body)
 	{
+		if(this.projectileInstance == null)
+			return;
 		// GD.Print("Proj collision with: " + body);
 		if (body is CreatureNode)
 		{
@@ -52,8 +57,12 @@ public partial class ProjectileNode : Area3D
 			if (collider.creatureInstance != this.projectileInstance.originator)
 			{
 	        	// GD.Print("Collision with a creature other than caster: " + collider);
-				CommandProjectileCollision commandProjectileCollision = new CommandProjectileCollision(this.projectileInstance, collider.creatureInstance);
-				this.publisher.publish(commandProjectileCollision);
+
+				var action = new ActionCollision(projectileInstance, collider.creatureInstance);
+				projectileInstance.procTriggers(action);
+				// projectileInstance.procTriggers(new ActionStatementTarget(), new TriggerEventOnCollision(this.projectileInstance, collider.creatureInstance));
+				// CommandProjectileCollision commandProjectileCollision = new CommandProjectileCollision(this.projectileInstance, collider.creatureInstance);
+				// this.publisher.publish(commandProjectileCollision);
 			}
 		}
 	}

@@ -32,12 +32,11 @@ public class CastSpellScript : IStatementScript
     public void apply(ActionStatementTarget action)
     {
         ActionCastActive castAction = action.getParent<ActionCastActive>()!;
-        IStatement statement = action.statement;
-        CastSpellSchema schema = statement.GetProperties<CastSpellSchema>();
-        CreatureInstance caster = action.getSourceCreature();
+        CreatureInstance caster = castAction.getSourceCreature();
+        CastSpellSchema schema = action.statement.GetProperties<CastSpellSchema>();
 
         // get spell
-        SpellInstance? spell = action.getSourceCreature().spells.get(s => s.modelUid == schema.spellModelId);
+        SpellInstance? spell = caster.spells.get(s => s.modelUid == schema.spellModelId);
         if(spell == null)
             return;
 

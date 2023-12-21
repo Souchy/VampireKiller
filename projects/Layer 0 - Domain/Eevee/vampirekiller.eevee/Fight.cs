@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.communication.events;
+using Util.ecs;
 using Util.entity;
 using Util.structures;
 using VampireKiller.eevee.creature;
@@ -16,6 +17,7 @@ public class Fight : IDisposable
 {
     public const string EventSet = "set";
 
+    public SmartSet<Entity> entities { get; init; } = SmartSet<Entity>.Create();
     public SmartSet<CreatureInstance> creatures { get; init; } = SmartSet<CreatureInstance>.Create();
     public SmartSet<ProjectileInstance> projectiles { get; init; } = SmartSet<ProjectileInstance>.Create();
     public SmartSet<Item> items { get; init; } = SmartSet<Item>.Create();

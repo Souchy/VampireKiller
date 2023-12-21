@@ -7,8 +7,8 @@ public static class ActionExtensions
 {
     public static void applyActionCast(this ActionCastActive action) {
         var item = action.getItem();
-        var trigger = new TriggerEventOnCastActive(action);
-        item.procTriggers(action, trigger);
+        // var trigger = new TriggerEventOnCastActive(action);
+        item.procTriggers(action); //, trigger);
     }
 
     /// <summary>
@@ -27,11 +27,12 @@ public static class ActionExtensions
                 applyStatementTarget(sub);
             }
         }
+        // Si on n'a pas de zone
         else
         {
             var sub = new ActionStatementTarget(action)
             {
-                currentTarget = action.getRaycastCreature()
+                currentTarget = action.getTargetEntity() //.getRaycastCreature()
             };
             applyStatementTarget(sub);
         }

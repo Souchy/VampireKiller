@@ -107,8 +107,11 @@ public partial class PlayerNode : CreatureNode
 	public override void _Input(InputEvent @event)
 	{
 		// todo control authority
+		if(this.creatureInstance == null)
+			return;
 		// if(!this.IsMultiplayerAuthority())
 		// 	return;
+
 		base._Input(@event);
 		bool clicked = Input.IsActionJustPressed("click_move") || Input.IsActionPressed("click_move");
 		if (clicked)

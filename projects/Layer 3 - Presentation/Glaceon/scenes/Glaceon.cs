@@ -7,8 +7,9 @@ using Util.communication.events;
 using Util.entity;
 using vampierkiller.logia;
 using vampierkiller.logia.commands;
-using vampirekiller.espeon.commands;
+using vampirekiller.eevee.actions;
 using VampireKiller.eevee.vampirekiller.eevee;
+using vampirekiller.logia.extensions;
 
 namespace Glaceon;
 
@@ -42,7 +43,9 @@ public partial class Glaceon : Node
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        commandManager.handle(new CommandProcessTick(delta));
+        // commandManager.handle(new CommandProcessTick(delta));
+        var action = new ActionProcessTick(delta);
+        Universe.fight.procTriggers(action);
     }
 
     [Subscribe(Fight.EventSet)]
