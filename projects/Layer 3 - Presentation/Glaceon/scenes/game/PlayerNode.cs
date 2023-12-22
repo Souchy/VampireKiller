@@ -15,6 +15,9 @@ public partial class PlayerNode : CreatureNode
 
 	private Game _game;
 	private Camera3D _gameCamera;
+	private bool jumping = false;
+	private double jump_offset = 0.7; // seconds
+	private double jump_time = 0;
 	[Inject]
 	public ICommandPublisher publisher { get; set; }
 
@@ -59,7 +62,22 @@ public partial class PlayerNode : CreatureNode
 
 		// Handle Jump.
 		if (Input.IsActionJustPressed("move_jump") && IsOnFloor())
-			velocity.Y = JumpVelocity;
+		{
+			this.jumping = true;
+			this.jump_time = 0;
+		}
+
+		if (this.jumping == true)
+		{
+			jump_time += delta;
+			velocity.Y = 0.5f;
+			if (jump_time > jump_offset)
+			{
+				this.jumping = false;
+				velocity.Y = JumpVelocity;
+			}
+		}
+
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
