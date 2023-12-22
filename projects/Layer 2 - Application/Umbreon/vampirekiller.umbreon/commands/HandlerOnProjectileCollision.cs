@@ -18,11 +18,14 @@ public class HandlerOnProjectileCollision : ICommandHandler<CommandProjectileCol
         // GD.Print("Handle on collision command: " + t.collider);
         Universe.fight.projectiles.remove(t.projectileInstance);
         
-        // Temp damage handling
-        t.collider.fightStats.addedLife.value -= t.projectileInstance.dmg;
-        if (t.collider.getTotalStat<CreatureTotalLife>().value <= 0)
+        if (t.collider != null)
         {
-            Universe.fight.creatures.remove(t.collider);
+            // Temp damage handling
+            t.collider.fightStats.addedLife.value -= t.projectileInstance.dmg;
+            if (t.collider.getTotalStat<CreatureTotalLife>().value <= 0)
+            {
+                Universe.fight.creatures.remove(t.collider);
+            }
         }
     }
 }

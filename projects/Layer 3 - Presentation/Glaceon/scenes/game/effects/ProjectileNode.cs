@@ -13,7 +13,9 @@ public partial class ProjectileNode : Area3D
 	public ICommandPublisher publisher { get; set; }
 
 	public ProjectileInstance projectileInstance { get; private set; }
-	private Vector3 velocity = new Vector3(); 
+	private Vector3 velocity = new Vector3();
+	private double expiry = 15; // seconds
+	private double timeAlive = 0;
 
 	public override void _Ready()
 	{
@@ -22,7 +24,7 @@ public partial class ProjectileNode : Area3D
 		this.Inject();
 		this.BodyEntered += this.onBodyEntered;
 		this.velocity = projectileInstance.direction * projectileInstance.speed;
-		this.GlobalPosition = projectileInstance.originator.position;
+		this.GlobalPosition = projectileInstance.originator.position + new Vector3(0, 1, 0);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -32,6 +34,13 @@ public partial class ProjectileNode : Area3D
 			Transform3D transform = this.Transform;
 			transform.Origin += this.velocity * (float) delta;
 			this.Transform = transform;
+			this.timeAlive += delta;
+		}
+
+		if (timeAlive > expiry)
+		{
+			CommandProjectileCollision commandProjectileCollision = new CommandProjectileCollision(this.projectileInstance, null);
+			this.publisher.publish(commandProjectileCollision);
 		}
 	}
 
