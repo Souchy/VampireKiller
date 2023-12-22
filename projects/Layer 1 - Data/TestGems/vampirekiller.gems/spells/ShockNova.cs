@@ -1,5 +1,6 @@
 
 using Godot;
+using Microsoft.VisualStudio.TestPlatform.Utilities;
 using souchy.celebi.eevee.enums;
 using Util.entity;
 using vampirekiller.eevee;
@@ -9,6 +10,7 @@ using vampirekiller.eevee.enums;
 using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
 using vampirekiller.eevee.triggers.schemas;
+using vampirekiller.gems.json;
 using vampirekiller.logia.extensions;
 using vampirekiller.logia.stub;
 using VampireKiller.eevee.vampirekiller.eevee;
@@ -19,6 +21,7 @@ using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 using VampireKiller.eevee.vampirekiller.eevee.statements.schemas;
 using VampireKiller.eevee.vampirekiller.eevee.zones;
+using Json = vampirekiller.gems.json.Json;
 
 namespace vampirekiller.gems.spells;
 
@@ -82,8 +85,9 @@ public class ShockNova {
     [Trait("Category", "ModelGenerator")]
     [Fact]
     public void serializeShockNova() {
-        var model = generateShockNova();
-        // TODO serialize model to json
+        var spell = generateShockNova();
+        var json = Json.serialize(spell);
+        File.WriteAllText("../../../../DB/spells/" + spell.entityUid + ".json", json);
     }
 
     [Trait("Category", "ModelTester")]

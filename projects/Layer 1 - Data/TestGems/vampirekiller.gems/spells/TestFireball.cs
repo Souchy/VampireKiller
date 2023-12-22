@@ -1,5 +1,6 @@
 
 using Godot;
+using Newtonsoft.Json;
 using souchy.celebi.eevee.enums;
 using Util.entity;
 using vampirekiller.eevee;
@@ -9,6 +10,7 @@ using vampirekiller.eevee.enums;
 using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
 using vampirekiller.eevee.triggers.schemas;
+using vampirekiller.gems.json;
 using vampirekiller.logia.extensions;
 using vampirekiller.logia.stub;
 using VampireKiller.eevee.vampirekiller.eevee;
@@ -19,7 +21,9 @@ using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 using VampireKiller.eevee.vampirekiller.eevee.statements.schemas;
 using VampireKiller.eevee.vampirekiller.eevee.zones;
-
+using Xunit.Abstractions;
+using Json = vampirekiller.gems.json.Json;
+using JsonConverter = Newtonsoft.Json.JsonConverter;
 
 namespace vampirekiller.gems.spells;
 
@@ -28,6 +32,13 @@ namespace vampirekiller.gems.spells;
 /// </summary>
 public class TestFireball
 {
+    private readonly ITestOutputHelper output;
+
+    public TestFireball(ITestOutputHelper output)
+    {
+        this.output = output;
+    }
+
     private SpellModel generateFireballModel()
     {
         var spell = Register.Create<SpellModel>();
@@ -127,7 +138,9 @@ public class TestFireball
     public void serializeFireball()
     {
         var spell = generateFireballModel();
-        // todo serialize to json
+        var json = Json.serialize(spell);
+        output.WriteLine(json);
+        File.WriteAllText("../../../../DB/spells/" + spell.entityUid + ".json", json);
     }
 
     [Trait("Category", "ModelTester")]

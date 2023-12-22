@@ -1,0 +1,242 @@
+{
+  "$type": "VampireKiller.eevee.vampirekiller.eevee.spells.SpellModel, Eevee",
+  "stats": {
+    "$type": "VampireKiller.eevee.vampirekiller.eevee.stats.StatsDic, Eevee",
+    "dic": {
+      "$type": "System.Collections.Generic.Dictionary`2[[System.Type, System.Private.CoreLib],[VampireKiller.eevee.vampirekiller.eevee.stats.IStat, Eevee]], System.Private.CoreLib"
+    }
+  },
+  "entityUid": {
+    "$type": "Util.entity.ID, Util",
+    "value": "spell_fireball"
+  },
+  "statements": {
+    "$type": "Util.structures.SmartList`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], Util",
+    "values": {
+      "$type": "System.Collections.Generic.List`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], System.Private.CoreLib",
+      "$values": [
+        {
+          "$type": "VampireKiller.eevee.vampirekiller.eevee.statements.Statement, Eevee",
+          "schema": {
+            "$type": "vampirekiller.eevee.statements.schemas.SpawnProjectileSchema, Eevee",
+            "parentToEntities": true,
+            "spawnOffset": {
+              "$type": "Godot.Vector3, GodotSharp",
+              "X": 0.0,
+              "Y": 0.0,
+              "Z": 0.0
+            },
+            "scene": "res://scenes/db/spells/fireball/fireball_projectile.tscn",
+            "stats": {
+              "$type": "VampireKiller.eevee.vampirekiller.eevee.stats.StatsDic, Eevee",
+              "dic": {
+                "$type": "System.Collections.Generic.Dictionary`2[[System.Type, System.Private.CoreLib],[VampireKiller.eevee.vampirekiller.eevee.stats.IStat, Eevee]], System.Private.CoreLib"
+              }
+            },
+            "children": {
+              "$type": "System.Collections.Generic.List`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], System.Private.CoreLib",
+              "$values": [
+                {
+                  "$type": "VampireKiller.eevee.vampirekiller.eevee.statements.Statement, Eevee",
+                  "schema": {
+                    "$type": "vampirekiller.eevee.statements.schemas.SpawnFxSchema, Eevee",
+                    "scene": "res://scenes/db/spells/fireball/fireball_explosion.tscn"
+                  },
+                  "sourceCondition": null,
+                  "targetFilter": null,
+                  "zone": null,
+                  "triggers": {
+                    "$type": "Util.structures.SmartList`1[[vampirekiller.eevee.triggers.TriggerListener, Eevee]], Util",
+                    "values": {
+                      "$type": "System.Collections.Generic.List`1[[vampirekiller.eevee.triggers.TriggerListener, Eevee]], System.Private.CoreLib",
+                      "$values": [
+                        {
+                          "$type": "vampirekiller.eevee.triggers.TriggerListener, Eevee",
+                          "schema": {
+                            "$type": "vampirekiller.eevee.triggers.schemas.TriggerSchemaOnCollision, Eevee",
+                            "triggerType": {
+                              "$type": "vampirekiller.eevee.triggers.TriggerType, Eevee",
+                              "schemaType": "vampirekiller.eevee.triggers.schemas.TriggerSchemaOnCollision, Eevee, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+                            }
+                          },
+                          "triggerOrderType": 2,
+                          "triggerZone": null,
+                          "triggererCondition": {
+                            "$type": "VampireKiller.eevee.vampirekiller.eevee.conditions.Condition, Eevee",
+                            "actorType": 1,
+                            "comparator": 0,
+                            "schema": {
+                              "$type": "vampirekiller.eevee.conditions.schemas.TeamFilter, Eevee",
+                              "team": 1
+                            }
+                          },
+                          "holderCondition": null
+                        }
+                      ]
+                    }
+                  },
+                  "statements": {
+                    "$type": "Util.structures.SmartList`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], Util",
+                    "values": {
+                      "$type": "System.Collections.Generic.List`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], System.Private.CoreLib",
+                      "$values": [
+                        {
+                          "$type": "VampireKiller.eevee.vampirekiller.eevee.statements.Statement, Eevee",
+                          "schema": {
+                            "$type": "VampireKiller.eevee.vampirekiller.eevee.statements.schemas.DamageSchema, Eevee",
+                            "baseDamage": 15,
+                            "percentPenetration": 0,
+                            "percentVariance": 0
+                          },
+                          "sourceCondition": null,
+                          "targetFilter": null,
+                          "zone": {
+                            "$type": "VampireKiller.eevee.vampirekiller.eevee.zones.Zone, Eevee",
+                            "zoneType": 8,
+                            "size": {
+                              "$type": "VampireKiller.eevee.vampirekiller.eevee.zones.ZoneSize, Eevee",
+                              "radius": 3.0,
+                              "sideRadius": 0.0,
+                              "ringWidth": 0.0
+                            },
+                            "negative": false,
+                            "worldOrigin": 0,
+                            "worldOffset": {
+                              "$type": "Godot.Vector3, GodotSharp",
+                              "X": 0.0,
+                              "Y": 0.0,
+                              "Z": 0.0
+                            },
+                            "canRotate": false,
+                            "sizeIndexExtendFromSource": 0,
+                            "children": null,
+                            "maxSampleCount": 0,
+                            "samplingType": 0
+                          },
+                          "triggers": {
+                            "$type": "Util.structures.SmartList`1[[vampirekiller.eevee.triggers.TriggerListener, Eevee]], Util",
+                            "values": {
+                              "$type": "System.Collections.Generic.List`1[[vampirekiller.eevee.triggers.TriggerListener, Eevee]], System.Private.CoreLib",
+                              "$values": []
+                            }
+                          },
+                          "statements": {
+                            "$type": "Util.structures.SmartList`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], Util",
+                            "values": {
+                              "$type": "System.Collections.Generic.List`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], System.Private.CoreLib",
+                              "$values": [
+                                {
+                                  "$type": "VampireKiller.eevee.vampirekiller.eevee.statements.Statement, Eevee",
+                                  "schema": {
+                                    "$type": "VampireKiller.eevee.vampirekiller.eevee.statements.schemas.CreateStatusSchema, Eevee",
+                                    "duration": 3,
+                                    "unbewitchable": true,
+                                    "mergeStrategy": 0,
+                                    "statusStatements": {
+                                      "$type": "System.Collections.Generic.List`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], System.Private.CoreLib",
+                                      "$values": [
+                                        {
+                                          "$type": "VampireKiller.eevee.vampirekiller.eevee.statements.Statement, Eevee",
+                                          "schema": {
+                                            "$type": "VampireKiller.eevee.vampirekiller.eevee.statements.schemas.DamageSchema, Eevee",
+                                            "baseDamage": 3,
+                                            "percentPenetration": 0,
+                                            "percentVariance": 0
+                                          },
+                                          "sourceCondition": null,
+                                          "targetFilter": null,
+                                          "zone": null,
+                                          "triggers": {
+                                            "$type": "Util.structures.SmartList`1[[vampirekiller.eevee.triggers.TriggerListener, Eevee]], Util",
+                                            "values": {
+                                              "$type": "System.Collections.Generic.List`1[[vampirekiller.eevee.triggers.TriggerListener, Eevee]], System.Private.CoreLib",
+                                              "$values": []
+                                            }
+                                          },
+                                          "statements": {
+                                            "$type": "Util.structures.SmartList`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], Util",
+                                            "values": {
+                                              "$type": "System.Collections.Generic.List`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], System.Private.CoreLib",
+                                              "$values": []
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "sourceCondition": null,
+                                  "targetFilter": null,
+                                  "zone": null,
+                                  "triggers": {
+                                    "$type": "Util.structures.SmartList`1[[vampirekiller.eevee.triggers.TriggerListener, Eevee]], Util",
+                                    "values": {
+                                      "$type": "System.Collections.Generic.List`1[[vampirekiller.eevee.triggers.TriggerListener, Eevee]], System.Private.CoreLib",
+                                      "$values": []
+                                    }
+                                  },
+                                  "statements": {
+                                    "$type": "Util.structures.SmartList`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], Util",
+                                    "values": {
+                                      "$type": "System.Collections.Generic.List`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], System.Private.CoreLib",
+                                      "$values": [
+                                        {
+                                          "$type": "VampireKiller.eevee.vampirekiller.eevee.statements.Statement, Eevee",
+                                          "schema": {
+                                            "$type": "vampirekiller.eevee.statements.schemas.SpawnFxSchema, Eevee",
+                                            "scene": "res://scenes/db/spells/fireball/fireball_burn.tscn"
+                                          },
+                                          "sourceCondition": null,
+                                          "targetFilter": null,
+                                          "zone": null,
+                                          "triggers": {
+                                            "$type": "Util.structures.SmartList`1[[vampirekiller.eevee.triggers.TriggerListener, Eevee]], Util",
+                                            "values": {
+                                              "$type": "System.Collections.Generic.List`1[[vampirekiller.eevee.triggers.TriggerListener, Eevee]], System.Private.CoreLib",
+                                              "$values": []
+                                            }
+                                          },
+                                          "statements": {
+                                            "$type": "Util.structures.SmartList`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], Util",
+                                            "values": {
+                                              "$type": "System.Collections.Generic.List`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], System.Private.CoreLib",
+                                              "$values": []
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "sourceCondition": null,
+          "targetFilter": null,
+          "zone": null,
+          "triggers": {
+            "$type": "Util.structures.SmartList`1[[vampirekiller.eevee.triggers.TriggerListener, Eevee]], Util",
+            "values": {
+              "$type": "System.Collections.Generic.List`1[[vampirekiller.eevee.triggers.TriggerListener, Eevee]], System.Private.CoreLib",
+              "$values": []
+            }
+          },
+          "statements": {
+            "$type": "Util.structures.SmartList`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], Util",
+            "values": {
+              "$type": "System.Collections.Generic.List`1[[VampireKiller.eevee.vampirekiller.eevee.statements.IStatement, Eevee]], System.Private.CoreLib",
+              "$values": []
+            }
+          }
+        }
+      ]
+    }
+  }
+}
