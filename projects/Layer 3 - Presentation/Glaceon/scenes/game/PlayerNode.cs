@@ -7,9 +7,6 @@ using vampirekiller.logia.commands;
 
 public partial class PlayerNode : CreatureNode
 {
-	[NodePath]
-	public SpringArm3D SpringArm3D { get; set; }
-
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 

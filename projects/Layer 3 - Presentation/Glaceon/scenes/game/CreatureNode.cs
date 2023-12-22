@@ -17,9 +17,7 @@ using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 public partial class CreatureNode : CharacterBody3D
 {
     public CreatureInstance creatureInstance;
-
-    [NodePath]
-    public Node3D MeshInstance3D { get; set; }
+    
     // [NodePath]
     // public Node3D Model3d { get; set; }
     //[NodePath]
