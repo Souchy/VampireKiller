@@ -32,6 +32,7 @@ public partial class onemapisenough : Node3D
     public override void _Ready()
     {
         this.OnReady();
+        this.timer.Timeout += this.spawn;
         //GD.Print("Map isReady");
     }
 
@@ -52,7 +53,7 @@ public partial class onemapisenough : Node3D
     {
         if (Universe.fight != null)
         {
-            var crea = StubFight.spawnStubCreature(new Godot.Vector3(7, 1, 7));
+            var crea = StubFight.spawnStubCreature(new Godot.Vector3(0, 0, 0));
             Universe.fight.creatures.add(crea);
         }
     }
