@@ -14,26 +14,29 @@ public class ProjectileInstance : Entity, Identifiable, IStatementContainer
 {
     // public ID entityUid { get; set; }
     public EntityGroupType creatureGroup { get => get<EntityGroupType>(); set => set<EntityGroupType>(value); }
-
-    public CreatureInstance originator { get; set; } // For retrieving spawn location & to avoid collisions with caster as the projectile spawns
+    public CreatureInstance source { get; set; } // For retrieving spawn location & to avoid collisions with caster as the projectile spawns
     public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
-    
-    public Vector3 direction {  get; private set; }
+
+    public Vector3 spawnPosition { get; set; }
+    // public Vector3 position { get => get<Vector3>(); }
+    public Vector3 spawnDirection { get; private set; }
     // Temp: below fields should be moved to a model class
-    public float speed { get; set; }
+    public float spawnSpeed { get; set; }
     public string meshScenePath { get; set; }
-    public int dmg {  get; set; }
 
 
     private ProjectileInstance() { }
 
-    public void init(CreatureInstance originator, Vector3 direction, float speed, string meshScenePath, int dmg)
+    public static ProjectileInstance create() {
+        var proj = new ProjectileInstance();
+        return proj;
+    }
+    public void init(CreatureInstance originator, Vector3 direction, float speed, string meshScenePath)
     {
-        this.originator = originator;
-        this.direction = direction;
-        this.speed = speed;
+        this.source = originator;
+        this.spawnDirection = direction;
+        this.spawnSpeed = speed;
         this.meshScenePath = meshScenePath;
-        this.dmg = dmg;
     }
 
 

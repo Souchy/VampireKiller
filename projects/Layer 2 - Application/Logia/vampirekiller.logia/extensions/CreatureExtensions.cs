@@ -18,7 +18,7 @@ public static class CreatureExtensions
     /// <typeparam name="T"></typeparam>
     /// <param name="crea"></param>
     /// <returns></returns>
-    public static T getTotalStat<T>(this CreatureInstance crea) where T : IStat, new()
+    public static T getTotalStat<T>(this CreatureInstance crea, StatsDic additional = null) where T : IStat, new()
     {
         var t = new T();
         t.add(crea.model.baseStats);
@@ -28,6 +28,9 @@ public static class CreatureExtensions
         // TODO getTotalStat: items & statuses
         // foreach (var status in crea.statuses.values)
         //     status.addStat<T>(t);
+        if(additional != null) {
+            t.add(additional);
+        }
         return t;
     }
 

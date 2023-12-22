@@ -24,7 +24,7 @@ using VampireKiller.eevee.vampirekiller.eevee.zones;
 namespace vampirekiller.gems.spells;
 
 /// <summary>
-/// 
+/// Fireball -> projectile (inst + node) -> explosion (node) -> damage zone -> burn (inst + node)
 /// </summary>
 public class TestFireball
 {
@@ -40,6 +40,10 @@ public class TestFireball
             }
         };
         var explosionDmg = new Statement() {
+            zone = new Zone() {
+                zoneType = ZoneType.circle,
+                size = new ZoneSize(3, 0, 0)
+            },
             schema = new DamageSchema() {
                 baseDamage = 15
             }
@@ -166,6 +170,9 @@ public class TestFireball
             fight = fight
         };
         action.applyActionCast();
+
+        // TODO: Mock ActionCollision qqpart
+        new ActionCollision(null, null);
 
         // ASSERT
         // todo: check enemies lives
