@@ -18,6 +18,7 @@ public partial class PlayerNode : CreatureNode
 	private bool jumping = false;
 	private double jump_offset = 0.7; // seconds
 	private double jump_time = 0;
+	private Vector3 cameraOffset = new Vector3(0, 0, 5);
 	[Inject]
 	public ICommandPublisher publisher { get; set; }
 
@@ -28,6 +29,7 @@ public partial class PlayerNode : CreatureNode
 		this.Inject();
 		_game = (Game)this.GetParent().GetParent();
 		_gameCamera = this.GetViewport().GetCamera3D();
+		_gameCamera.Current = true;
 	}
 
 	private bool isCamLocked = false;
@@ -39,20 +41,18 @@ public partial class PlayerNode : CreatureNode
 		// if(!this.IsMultiplayerAuthority())	// here, control physics access. chaque joueur est autoritaire de son PlayerNode, les enemy ont l'autorité du serveur ou du joueur local
 		// 	return;
 
-		if (Input.IsActionJustPressed("lock_camera"))
-		{
-			isCamLocked = !isCamLocked;
-			GD.Print("Cam locked: " + isCamLocked);
-			if (isCamLocked) {
-				_game.Environment.RemoveChild(_gameCamera);
-				this.SpringArm3D.AddChild(_gameCamera);
-			} else {
-				this.SpringArm3D.RemoveChild(_gameCamera);
-				_game.Environment.AddChild(_gameCamera);
-			}
-		}
-
-
+		//if (Input.IsActionJustPressed("lock_camera"))
+		//{
+			//isCamLocked = !isCamLocked;
+			//GD.Print("Cam locked: " + isCamLocked);
+			//if (isCamLocked) {
+				//_game.Environment.RemoveChild(_gameCamera);
+				//this.SpringArm3D.AddChild(_gameCamera);
+			//} else {
+				//this.SpringArm3D.RemoveChild(_gameCamera);
+				//_game.Environment.AddChild(_gameCamera);
+			//}
+		//}
 
 		Vector3 velocity = Velocity;
 
@@ -89,36 +89,25 @@ public partial class PlayerNode : CreatureNode
 			velocity.X = direction.X * Speed;
 			velocity.Z = direction.Z * Speed;
 			// stop the point & click navigation
-			NavigationAgent3D.TargetPosition = GlobalPosition;
-		}
-		else
-		// If point & click, set velocity
-		if (physicsNavigationProcess(delta))
-		{
-			return;
-		}
-		// if (!NavigationAgent3D.IsNavigationFinished())
-		// {
-		// 	var nextPos = NavigationAgent3D.GetNextPathPosition();
-		// 	direction = GlobalPosition.DirectionTo(nextPos);
-		// 	// direction.Y = 0;
-		// 	velocity = direction * Speed;
-		// }
-		else
-		// If no input, slow down 
-		if (NavigationAgent3D.IsNavigationFinished())
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
+			//NavigationAgent3D.TargetPosition = GlobalPosition;
+		} else {
+			velocity.X = 0;
+			velocity.Z = 0;
 		}
 
+		// Have character face in the mouse's direction
+		var mousePos = this.GetViewport().GetMousePosition();
+		var from = this._gameCamera.ProjectRayOrigin(mousePos);
+		var to = from + this._gameCamera.ProjectRayNormal(mousePos) * 20;
+		to.Y = this.Position.Y;
+		this.LookAt(to);
+
+		// Have game camera follow player
+		var cameraPos = this.Position;
+		cameraPos.Y = this._gameCamera.Position.Y;
+		this._gameCamera.Position = cameraPos + cameraOffset;
+
 		Velocity = velocity;
-		Vector3 fowardPoint = this.Position + velocity * 1;
-		Vector3 lookAtTarget = new Vector3(fowardPoint.X, this.Position.Y, fowardPoint.Z);
-		if (!lookAtTarget.IsEqualApprox(this.Position))
-		{
-			this.LookAt(lookAtTarget);
-		}
 		MoveAndSlide();
 	}
 
