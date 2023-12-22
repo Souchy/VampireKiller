@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://blovcywatgmkk"]
+[gd_scene load_steps=8 format=3 uid="uid://blovcywatgmkk"]
 
-[ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_4bi0r"]
 [ext_resource type="Script" path="res://scenes/game/Game.cs" id="1_wcjfi"]
-[ext_resource type="PackedScene" uid="uid://bom0kubl7xo2v" path="res://scenes/game/PlayerNode.tscn" id="2_kpsgh"]
+[ext_resource type="PackedScene" uid="uid://b1w7pqhaojnsx" path="res://scenes/db/maps/whataboutseconds.tscn" id="3_jveik"]
 [ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/Orc.tscn" id="3_ncqtn"]
 [ext_resource type="PackedScene" uid="uid://d2p107wfvpyw" path="res://scenes/ui/UiGame.tscn" id="4_27r0r"]
 
@@ -25,8 +24,6 @@ script = ExtResource("1_wcjfi")
 [node name="Environment" type="Node" parent="."]
 unique_name_in_owner = true
 
-[node name="onemapisenough" parent="Environment" instance=ExtResource("1_4bi0r")]
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
 environment = SubResource("Environment_n8s21")
 
@@ -36,18 +33,16 @@ shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="Environment"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 14.336, 3.95403)
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 15, 3.954)
+current = true
+
+[node name="whataboutseconds" parent="Environment" instance=ExtResource("3_jveik")]
 
 [node name="Entities" type="Node" parent="."]
 unique_name_in_owner = true
 
 [node name="Orc" parent="Entities" instance=ExtResource("3_ncqtn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.92863, 0, 0)
-axis_lock_angular_x = false
-axis_lock_angular_z = false
-
-[node name="PlayerNode" parent="Entities" instance=ExtResource("2_kpsgh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.63614, 1.2554, 0)
 axis_lock_angular_x = false
 axis_lock_angular_z = false
 
