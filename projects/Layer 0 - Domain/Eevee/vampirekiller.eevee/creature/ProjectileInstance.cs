@@ -21,7 +21,7 @@ public class ProjectileInstance : Entity, Identifiable, IStatementContainer
     // public Vector3 position { get => get<Vector3>(); }
     public Vector3 spawnDirection { get; private set; }
     // Temp: below fields should be moved to a model class
-    public float spawnSpeed { get; set; }
+    public double spawnSpeed { get; set; }
     public string meshScenePath { get; set; }
 
 
@@ -31,7 +31,7 @@ public class ProjectileInstance : Entity, Identifiable, IStatementContainer
         var proj = new ProjectileInstance();
         return proj;
     }
-    public void init(CreatureInstance originator, Vector3 direction, float speed, string meshScenePath)
+    public void init(CreatureInstance originator, Vector3 direction, double speed, string meshScenePath)
     {
         this.source = originator;
         this.spawnDirection = direction;
@@ -43,7 +43,6 @@ public class ProjectileInstance : Entity, Identifiable, IStatementContainer
 
     public void Dispose()
     {
-        throw new NotImplementedException();
     }
 }
 

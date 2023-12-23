@@ -36,13 +36,13 @@ public class SpawnProjectileScript : IStatementScript
         // Stats
         bool fireInCircle = caster.getTotalStat<ProjectileFireInCircle>(schema.stats).value;
         int projectileCount = caster.getTotalStat<ProjectileAddCount>(schema.stats).value;
+        double speed = caster.getTotalStat<ProjectileTotalSpeed>(schema.stats).value;
 
         // Spawn math
         // Vector3 basePoint = caster.position + schema.spawnOffset;
         float offsetLength = schema.spawnOffset.Length();
         float angleBetweenProjs = 15;
         float halfAngle = angleBetweenProjs / 2;
-        int speed = 2;
 
         
         //    |      creature in the center

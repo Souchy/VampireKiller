@@ -47,20 +47,24 @@ public class StubFight : Fight
         creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 2;
         creaModel.baseStats.set(Register.Create<ProjectileAddCount>());
         creaModel.baseStats.get<ProjectileAddCount>()!.value = 2;
+        creaModel.baseStats.set(new ProjectileIncreasedSpeed()
+        {
+            value = 500
+        });
 
         var crea = Register.Create<CreatureInstance>();
         crea.model = creaModel;
-        crea.spawnPosition = new Vector3(1, 1, 0); // pas sur pourquoi ça bug si on déplace pas le player au spawn
+        crea.spawnPosition = new Vector3(0.1f, 0, 0); // pas sur pourquoi ça bug si on déplace pas le player au spawn
         crea.creatureGroup = EntityGroupType.Players;
+        crea.set<Team>(Team.A);
 
         var fireball = Register.Create<SpellInstance>();
         fireball.modelUid = Diamonds.spells["spell_fireball"].entityUid;
         crea.activeSkills.add(fireball);
-        
+
         var shocknova = Register.Create<SpellInstance>();
         shocknova.modelUid = Diamonds.spells["spell_shock_nova"].entityUid;
         crea.activeSkills.add(shocknova);
-        crea.set<Team>(Team.A);
 
         return crea;
     }

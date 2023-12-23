@@ -90,7 +90,10 @@ public class TestFireball
         projSchema.scene = "res://scenes/db/spells/fireball/fireball_projectile.tscn";
         projSchema.stats.set(Register.Create<ProjectileAddCount>());
         projSchema.stats.get<ProjectileAddCount>()!.value = 1;
-        projSchema.spawnOffset = new Vector3(0.5f, 1, 1);
+        projSchema.stats.set(new ProjectileBaseSpeed() {
+            value = 2
+        });
+        projSchema.spawnOffset = 0.1f;
         var proj = new Statement() {
             schema = projSchema
         };
