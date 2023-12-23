@@ -59,6 +59,7 @@ public class StubFight : Fight
         var shocknova = Register.Create<SpellInstance>();
         shocknova.modelUid = Diamonds.spells["spell_shock_nova"].entityUid;
         crea.activeSkills.add(shocknova);
+        crea.set<Team>(Team.A);
 
         return crea;
     }
@@ -76,6 +77,7 @@ public class StubFight : Fight
         crea.model = creaModel;
         crea.spawnPosition = vec;
         crea.creatureGroup = EntityGroupType.Enemies;
+        crea.set<Team>(Team.B);
 
         return crea;
     }

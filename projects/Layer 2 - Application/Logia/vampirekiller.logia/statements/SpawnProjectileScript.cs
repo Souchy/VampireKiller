@@ -14,6 +14,7 @@ using vampirekiller.eevee.statements.schemas;
 using vampirekiller.logia.extensions;
 using VampireKiller.eevee;
 using VampireKiller.eevee.creature;
+using VampireKiller.eevee.vampirekiller.eevee.enums;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 
 namespace vampirekiller.logia.statements;
@@ -67,6 +68,7 @@ public class SpawnProjectileScript : IStatementScript
             float adj = (float) Math.Cos(angle) * offsetLength;
             Vector3 spawnPoint = new Vector3(opp, 0, adj);
 
+            proj.set<Team>(caster.get<Team>());
             proj.spawnPosition = spawnPoint;
             proj.init(caster, mouseTarget, speed, schema.scene);
             proj.RegisterEventBus();
