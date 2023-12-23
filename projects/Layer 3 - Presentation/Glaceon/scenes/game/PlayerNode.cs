@@ -160,8 +160,12 @@ public partial class PlayerNode : CreatureNode
 			CollideWithAreas = true
 		};
 		var result = space.IntersectRay(ray);
-		if (result.ContainsKey("position"))
-			return (Vector3)result["position"];
+		if (result.ContainsKey("position")){
+			Vector3 pos = (Vector3)result["position"];
+			pos.Y = 0;
+			EventBus.centralBus.publish(nameof(UiGame.onRaycast), pos);
+			return pos;
+		}
 		return Vector3.Zero;
 	}
 
