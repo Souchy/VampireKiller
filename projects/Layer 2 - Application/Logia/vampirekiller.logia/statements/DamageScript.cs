@@ -66,6 +66,7 @@ public class DamageScript : IStatementScript
         var addLife = Math.Clamp(dam, -totalCurrentLife.value, totalMaxLife.value - totalCurrentLife.value);
         currentTarget.fightStats.addedLife.value += addLife; //+= dam;
 
+        currentTarget.GetEntityBus().publish("damage", addLife);
 
         if (addLife == -totalCurrentLife.value)
         {

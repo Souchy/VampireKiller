@@ -7,6 +7,7 @@ using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 using vampirekiller.logia.extensions;
+using vampirekiller.glaceon.util;
 
 
 /// <summary>
@@ -147,6 +148,14 @@ public partial class CreatureNode : CharacterBody3D
         double value = ((double) life.value / (double) max.value) * 100;
         // GD.Print("Crea (" + this.Name + ") update hp %: " + value); // + "............" + Healthbar + " vs " + hpbar);
         Healthbar.Value = value;
+    }
+
+    [Subscribe("damage")]
+    public void onDamage(int value)
+    {
+        var popup = AssetCache.Load<PackedScene>("res://scenes//ui/components/UiResourcePopup.tscn").Instantiate<UiResourcePopup>();
+        popup.value = value;
+        this.AddChild(popup);
     }
 
 }
