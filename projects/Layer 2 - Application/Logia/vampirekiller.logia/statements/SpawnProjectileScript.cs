@@ -27,6 +27,7 @@ public class SpawnProjectileScript : IStatementScript
 {
     public Type schemaType => typeof(SpawnProjectileSchema);
 
+    private const float bodyLevel = 0.5f;
     public void apply(ActionStatementTarget action)
     {
         // ActionCastActive castAction = action.getParent<ActionCastActive>();
@@ -48,7 +49,7 @@ public class SpawnProjectileScript : IStatementScript
         Vector3 baseDir = (mouseTarget - caster.position).Normalized();
         Vector3 centerPos = baseDir * radius;
         var spawnPosition = basePos + centerPos;
-        spawnPosition.Y = 0;
+        spawnPosition.Y = bodyLevel;
 
         //    |      creature in the center
         //   | |     2 proj spread

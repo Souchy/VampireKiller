@@ -87,6 +87,7 @@ public class ShockNova {
     public void serializeShockNova() {
         var spell = generateShockNova();
         var json = Json.serialize(spell);
+        Directory.CreateDirectory("../../../../DB/spells/");
         File.WriteAllText("../../../../DB/spells/" + spell.entityUid + ".json", json);
     }
 

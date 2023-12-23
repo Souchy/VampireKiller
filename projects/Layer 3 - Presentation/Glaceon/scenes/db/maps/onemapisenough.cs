@@ -52,7 +52,7 @@ public partial class onemapisenough : Node3D
     {
         if (Universe.fight != null)
         {
-            var crea = StubFight.spawnStubCreature(new Godot.Vector3(7, 1, 7));
+            var crea = StubFight.spawnStubCreature(new Godot.Vector3(7, 0, 7));
             Universe.fight.creatures.add(crea);
         }
     }

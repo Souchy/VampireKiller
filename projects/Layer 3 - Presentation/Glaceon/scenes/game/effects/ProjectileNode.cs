@@ -9,6 +9,7 @@ using VampireKiller.eevee;
 using vampirekiller.logia.extensions;
 using vampirekiller.eevee.actions;
 using vampirekiller.eevee.triggers.schemas;
+using Logia.vampirekiller.logia;
 
 public partial class ProjectileNode : Area3D
 {
@@ -61,8 +62,9 @@ public partial class ProjectileNode : Area3D
 				// Action proc tous les listeners onCollision
 				var action = new ActionCollision(projectileInstance, collider.creatureInstance);
 				projectileInstance.procTriggers(action);
-				// temporaire
-				this.QueueFree();
+				// 
+                Universe.fight.projectiles.remove(this.projectileInstance);
+				//this.QueueFree();
 			}
 		}
 	}

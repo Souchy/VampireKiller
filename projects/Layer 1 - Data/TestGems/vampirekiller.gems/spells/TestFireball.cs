@@ -150,6 +150,7 @@ public class TestFireball
         var spell = generateFireballModel();
         var json = Json.serialize(spell);
         output.WriteLine(json);
+        Directory.CreateDirectory("../../../../DB/spells/");
         File.WriteAllText("../../../../DB/spells/" + spell.entityUid + ".json", json);
     }
 
