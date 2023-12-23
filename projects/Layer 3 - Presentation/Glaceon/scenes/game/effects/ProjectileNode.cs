@@ -43,6 +43,7 @@ public partial class ProjectileNode : Area3D
 		projectileInstance = proj;
 		projectileInstance.set<ProjectileNode>(this);
 		projectileInstance.GetEntityBus().subscribe(this);
+		projectileInstance.set<Func<Vector3>>(() => this.GlobalPosition);
 	}
 
 	private void onBodyEntered(Node3D body)
