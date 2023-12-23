@@ -19,9 +19,7 @@ public class ActionStatementTrigger : Action, IActionTrigger
 {
     public TriggerType triggerType => TriggerType.onStatement;
 
-    public ActionStatementTrigger(ActionStatementTarget parent, TriggerType triggerType) : base(parent) {
-
-    }
+    public ActionStatementTrigger(ActionStatementTarget parent, TriggerType triggerType) : base(parent) { }
 
     public ActionStatementTarget getParentStatement() => (ActionStatementTarget) parent;
     protected override IAction copyImplementation()
@@ -42,7 +40,10 @@ public class ActionStatementZone : Action, IActionStatement
     public IEnumerable<Entity>? targets { get; set; }
 
     protected ActionStatementZone() { }
-    public ActionStatementZone(IAction parent) : base(parent) { }
+    public ActionStatementZone(IAction parent) : base(parent) { 
+        if(parent is IActionStatement actionStatement)
+            this.statement = actionStatement.statement;
+    }
     protected ActionStatementZone(IAction parent, IStatement statement, IEnumerable<Entity>? targets) 
         : base(parent) { 
         this.statement = statement;
