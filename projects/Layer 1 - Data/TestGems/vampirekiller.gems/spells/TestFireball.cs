@@ -10,7 +10,7 @@ using vampirekiller.eevee.enums;
 using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
 using vampirekiller.eevee.triggers.schemas;
-using vampirekiller.gems.json;
+using vampirekiller.eevee.util.json;
 using vampirekiller.logia.extensions;
 using vampirekiller.logia.stub;
 using VampireKiller.eevee.vampirekiller.eevee;
@@ -22,7 +22,7 @@ using VampireKiller.eevee.vampirekiller.eevee.statements;
 using VampireKiller.eevee.vampirekiller.eevee.statements.schemas;
 using VampireKiller.eevee.vampirekiller.eevee.zones;
 using Xunit.Abstractions;
-using Json = vampirekiller.gems.json.Json;
+using Json = vampirekiller.eevee.util.json.Json;
 using JsonConverter = Newtonsoft.Json.JsonConverter;
 
 namespace vampirekiller.gems.spells;
@@ -173,13 +173,15 @@ public class TestFireball
         // add item to player
         var player = fight.creatures.values.First(c => c.creatureGroup == EntityGroupType.Players);
         player.equip(item);
+        // add skill to active bar
+        player.activeSkills.add(player.allSkills.getAt(0)!);
 
         // ACT
         // start action
         var action = new ActionCastActive() {
             sourceEntity = player.entityUid,
             raycastPosition = new Vector3(3, 0, 3), // le target sera passed down à tous les enfants de l'action all the way to l'ActionStatementTarget qui va apply le CastSpellScript
-            activeItem = item.entityUid,
+            slot = 0,
             fight = fight
         };
         action.applyActionCast();

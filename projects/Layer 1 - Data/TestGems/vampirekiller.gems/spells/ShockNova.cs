@@ -10,7 +10,7 @@ using vampirekiller.eevee.enums;
 using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
 using vampirekiller.eevee.triggers.schemas;
-using vampirekiller.gems.json;
+using vampirekiller.eevee.util.json;
 using vampirekiller.logia.extensions;
 using vampirekiller.logia.stub;
 using VampireKiller.eevee.vampirekiller.eevee;
@@ -21,7 +21,7 @@ using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 using VampireKiller.eevee.vampirekiller.eevee.statements.schemas;
 using VampireKiller.eevee.vampirekiller.eevee.zones;
-using Json = vampirekiller.gems.json.Json;
+using Json = vampirekiller.eevee.util.json.Json;
 
 namespace vampirekiller.gems.spells;
 
@@ -118,13 +118,15 @@ public class ShockNova {
         // add item to player & learn a new spell instance
         var player = fight.creatures.values.First(c => c.creatureGroup == EntityGroupType.Players);
         player.equip(item);
+        // add skill to active bar
+        player.activeSkills.add(player.allSkills.getAt(0)!);
 
         // ACT
         // start action
         var action = new ActionCastActive() {
             sourceEntity = player.entityUid,
             raycastPosition = new Vector3(0, 0, 0), // le target sera passed down à tous les enfants de l'action all the way to l'ActionStatementTarget qui va apply le CastSpellScript
-            activeItem = item.entityUid,
+            slot = 0, //item.entityUid,
             fight = fight
         };
         action.applyActionCast();

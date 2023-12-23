@@ -37,10 +37,16 @@ public class CreatureInstance : Entity, Identifiable
     public CreatureFightStats fightStats { get; set; } = new();
     public Inventory inventory { get; set; } = new();
     public SmartList<Status> statuses { get; set; } = SmartList<Status>.Create();
+
+
     /// <summary>
     /// SpellInstances can be learned from items or naturally
     /// </summary>
-    public SmartList<SpellInstance> spells { get; set; } = SmartList<SpellInstance>.Create();
+    public SmartList<SpellInstance> allSkills { get; set; } = SmartList<SpellInstance>.Create();
+    /// <summary>
+    /// Maximum of 4 active skills at a time
+    /// </summary>
+    public SmartList<SpellInstance> activeSkills { get; set; } = SmartList<SpellInstance>.Create();
 
     private CreatureInstance() { }
 

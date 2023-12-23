@@ -17,7 +17,7 @@ public static class TriggerExtensions {
     /// <summary>
     /// Proc triggers on the whole fight
     /// </summary>
-    public static void procTriggers(this Fight fight, IActionTrigger action) { //, TriggerEvent trigger) {
+    public static void procTriggers(this Fight fight, IActionTrigger action) {
         foreach(var creature in fight.creatures.values) {
             creature.procTriggers(action); //, trigger);
         }

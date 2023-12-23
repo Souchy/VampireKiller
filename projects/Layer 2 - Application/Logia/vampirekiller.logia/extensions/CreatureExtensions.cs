@@ -60,7 +60,7 @@ public static class CreatureExtensions
         foreach(var book in spellBooks) {
             var spell = Register.Create<SpellInstance>();
             spell.modelUid = book.spellModelId;
-            crea.spells.add(spell);
+            crea.allSkills.add(spell);
         }
     }
 
@@ -78,8 +78,9 @@ public static class CreatureExtensions
             .Select(s => s.schema as CastSpellSchema);
         
         foreach(var book in spellBooks) {
-            var spell = crea.spells.values.FirstOrDefault(s => s.modelUid == book.spellModelId);
-            crea.spells.remove(spell);
+            var spell = crea.allSkills.values.FirstOrDefault(s => s.modelUid == book.spellModelId);
+            crea.allSkills.remove(spell);
+            crea.activeSkills.remove(spell);
         }
     }
 

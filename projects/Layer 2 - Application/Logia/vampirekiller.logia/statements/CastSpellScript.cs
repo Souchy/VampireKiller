@@ -19,6 +19,13 @@ using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 namespace vampirekiller.logia.statements;
 
 /// <summary>
+/// Not anymore.
+/// We have ActionCastActive.applyActionCast
+/// The CastSpellSchema should prob still take a spellModelId.
+/// But it should create a new ActionCastActive
+/// This script is still useful to cast SubSpells triggered from statuses and items
+/// So it won't receive an ActionCastActive anymore. It can receive anything.
+/// -----
 /// Equivalent to Celebi's Actions.castSpell
 /// Casts a spell.
 /// Must check that the creature actually owns a spell instance corresponding to the asked spell model.
@@ -31,22 +38,15 @@ public class CastSpellScript : IStatementScript
 
     public void apply(ActionStatementTarget action)
     {
-        ActionCastActive castAction = action.getParent<ActionCastActive>()!;
-        CreatureInstance caster = castAction.getSourceCreature();
-        CastSpellSchema schema = action.statement.GetProperties<CastSpellSchema>();
+        //ActionCastActive castAction = action.getParent<ActionCastActive>()!;
+        //CreatureInstance caster = castAction.getSourceCreature();
+        //CastSpellSchema schema = action.statement.GetProperties<CastSpellSchema>();
 
-        // get spell
-        SpellInstance? spell = caster.spells.get(s => s.modelUid == schema.spellModelId);
-        if(spell == null)
-            return;
+        //// get spell
+        //SpellInstance? spell = caster.spells.get(s => s.modelUid == schema.spellModelId);
+        //if(spell == null)
+        //    return;
 
-        // TODO: 
-        // check spell costs against creature's resources
-        // check spell cast conditions
-
-        // apply
-        // TODO: update les ressources du player, update le nombre de charges dans le spellinstance, update le cooldown, 
-        // l'action devrait déjà contenir le raycast mousetarget depuis la root action
-        spell.applyStatementContainer(action);
+        //spell.cast(castAction);
     }
 }
