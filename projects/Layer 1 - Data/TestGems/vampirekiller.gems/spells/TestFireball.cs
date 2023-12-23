@@ -56,6 +56,11 @@ public class TestFireball
                 zoneType = ZoneType.circle,
                 size = new ZoneSize(3, 0, 0)
             },
+            targetFilter = new Condition() {
+                schema = new TeamFilter() {
+                    team = TeamRelationType.Enemy
+                }
+            },
             schema = new DamageSchema() {
                 baseDamage = 15
             }
@@ -91,7 +96,7 @@ public class TestFireball
         };
         spell.statements.add(proj);
 
-        // Je ne pense pas qu'on ai besoin de cet effet dans ce cas pcq 
+        // Je ne pense pas qu'on ai besoin du SpawnFxSchema dans ce cas pcq 
         //      1. On a besoin des enfants dans le ProjectileInstance
         //      2. Donc le SpawnProjSchema va créer un ProjectileInstance et l'ajouter au fight
         //      3. Donc le GameNode va créer un ProjectileNode en recevant l'event de ProjectileInstance
@@ -99,16 +104,14 @@ public class TestFireball
         // SpawnFxSchema reste utile pour spawn une scène sans logique ni projectile
         // SpawnProjectileSchema pourrait inhériter de SpawnFxSchema en quelque sorte
 
-        // var projectileFx = new Statement() {
-        //     // Glaceon has to take this effect, spawn a ProjectileNode, keep a ref to the effect, then trigger the children OnCollision
-        //     schema = new SpawnFxSchema() {
-        //         scene = "res://scenes/db/spells/fireball/fireball_projectile.tscn"
-        //     }
-        // };
-
         // Status burn va s'appliquer à tous les targets du explosionDmg vu qu'il est son enfant
         IStatement addStatus = new Statement()
         {
+            targetFilter = new Condition() {
+                schema = new TeamFilter() {
+                    team = TeamRelationType.Enemy
+                }
+            },
             schema = new CreateStatusSchema()
             {
                 duration = 3,
