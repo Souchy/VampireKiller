@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckd1yrsi1tmr4"]
+[gd_scene load_steps=5 format=3 uid="uid://s1gwwxmdnud7"]
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4uw14"]
+[ext_resource type="PackedScene" uid="uid://cfienbmnvqxw4" path="res://scenes/game/effects/FxNode.tscn" id="1_pdbb1"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dvtqj"]
 direction = Vector3(0, 0, 0)
 gravity = Vector3(0, 0, 0)
 linear_accel_max = 35.11
@@ -10,14 +12,15 @@ radial_accel_max = 1.2
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jep58"]
 albedo_color = Color(0.890196, 1, 0.47451, 1)
 
-[sub_resource type="TorusMesh" id="TorusMesh_ps4v1"]
+[sub_resource type="TorusMesh" id="TorusMesh_elgjk"]
 material = SubResource("StandardMaterial3D_jep58")
 
-[node name="ShockNova" type="Node3D"]
+[node name="FxNode" instance=ExtResource("1_pdbb1")]
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.489138, 0)
 amount = 5
+one_shot = true
 randomness = 0.15
-process_material = SubResource("ParticleProcessMaterial_4uw14")
-draw_pass_1 = SubResource("TorusMesh_ps4v1")
+process_material = SubResource("ParticleProcessMaterial_dvtqj")
+draw_pass_1 = SubResource("TorusMesh_elgjk")
