@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using Godot.Sharp.Extras;
 using System;
 using Util.communication.commands;
@@ -40,10 +41,13 @@ public partial class PlayerNode : CreatureNode
 		{
 			isCamLocked = !isCamLocked;
 			GD.Print("Cam locked: " + isCamLocked);
-			if (isCamLocked) {
+			if (isCamLocked)
+			{
 				_game.Environment.RemoveChild(_gameCamera);
 				this.SpringArm3D.AddChild(_gameCamera);
-			} else {
+			}
+			else
+			{
 				this.SpringArm3D.RemoveChild(_gameCamera);
 				_game.Environment.AddChild(_gameCamera);
 			}
@@ -107,34 +111,58 @@ public partial class PlayerNode : CreatureNode
 	public override void _Input(InputEvent @event)
 	{
 		// todo control authority
+		if (this.creatureInstance == null)
+			return;
 		// if(!this.IsMultiplayerAuthority())
 		// 	return;
+
 		base._Input(@event);
+
+		Vector3 raycast = Vector3.Zero;
+
 		bool clicked = Input.IsActionJustPressed("click_move") || Input.IsActionPressed("click_move");
 		if (clicked)
 		{
-			var mousePos = this.GetViewport().GetMousePosition();
-			var rayLength = 100;
-			var from = _gameCamera.ProjectRayOrigin(mousePos);
-			var to = from + _gameCamera.ProjectRayNormal(mousePos) * rayLength;
-			var space = GetWorld3D().DirectSpaceState;
-			var ray = new PhysicsRayQueryParameters3D()
-			{
-				From = from,
-				To = to,
-				CollideWithAreas = true
-			};
-			var result = space.IntersectRay(ray);
-			if (result.ContainsKey("position"))
-				NavigationAgent3D.TargetPosition = (Vector3)result["position"];
+			if (raycast == Vector3.Zero)
+				raycast = getRayCast();
+			NavigationAgent3D.TargetPosition = raycast;
 		}
 
-		bool casted = Input.IsActionJustPressed("cast_slot_1");
-		if (casted)
+		bool casted1 = Input.IsActionJustPressed("cast_slot_1");
+		if (casted1)
 		{
-			var cmd = new CommandCast(this.creatureInstance, -this.Transform.Basis.Z);
+			if (raycast == Vector3.Zero)
+				raycast = getRayCast();
+			var cmd = new CommandCast(this.creatureInstance, raycast, 0); //-this.Transform.Basis.Z, 1);
 			this.publisher.publish(cmd);
 		}
+		bool casted2 = Input.IsActionJustPressed("cast_slot_2");
+		if (casted2)
+		{
+			if (raycast == Vector3.Zero)
+				raycast = getRayCast();
+			var cmd = new CommandCast(this.creatureInstance, raycast, 1); 
+			this.publisher.publish(cmd);
+		}
+	}
+
+	private Vector3 getRayCast()
+	{
+		var mousePos = this.GetViewport().GetMousePosition();
+		var rayLength = 100;
+		var from = _gameCamera.ProjectRayOrigin(mousePos);
+		var to = from + _gameCamera.ProjectRayNormal(mousePos) * rayLength;
+		var space = GetWorld3D().DirectSpaceState;
+		var ray = new PhysicsRayQueryParameters3D()
+		{
+			From = from,
+			To = to,
+			CollideWithAreas = true
+		};
+		var result = space.IntersectRay(ray);
+		if (result.ContainsKey("position"))
+			return (Vector3)result["position"];
+		return Vector3.Zero;
 	}
 
 }

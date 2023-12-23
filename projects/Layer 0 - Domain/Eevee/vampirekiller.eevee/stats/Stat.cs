@@ -35,8 +35,8 @@ public class StatInt : IStat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(IStat.EventSet, this, before);
-            this.GetEntityBus().publish(IStat.EventSet, this);
+            this.GetEntityBus()?.publish(IStat.EventSet, this, before);
+            this.GetEntityBus()?.publish(IStat.EventSet, this);
         }
     }
 

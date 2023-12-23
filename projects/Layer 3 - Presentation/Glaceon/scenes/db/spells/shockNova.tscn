@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckd1yrsi1tmr4"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4uw14"]
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+linear_accel_max = 35.11
+radial_accel_min = 0.1
+radial_accel_max = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jep58"]
+albedo_color = Color(0.890196, 1, 0.47451, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_ps4v1"]
+material = SubResource("StandardMaterial3D_jep58")
+
+[node name="ShockNova" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.489138, 0)
+amount = 5
+randomness = 0.15
+process_material = SubResource("ParticleProcessMaterial_4uw14")
+draw_pass_1 = SubResource("TorusMesh_ps4v1")

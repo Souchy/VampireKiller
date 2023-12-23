@@ -6,6 +6,9 @@ using Util.entity;
 using vampierkiller.logia;
 using vampirekiller.logia.commands;
 using VampireKiller.eevee;
+using vampirekiller.logia.extensions;
+using vampirekiller.eevee.actions;
+using vampirekiller.eevee.triggers.schemas;
 
 public partial class ProjectileNode : Area3D
 {
@@ -21,8 +24,8 @@ public partial class ProjectileNode : Area3D
 		this.OnReady();
 		this.Inject();
 		this.BodyEntered += this.onBodyEntered;
-		this.velocity = projectileInstance.direction * projectileInstance.speed;
-		this.GlobalPosition = projectileInstance.originator.position;
+		this.velocity = projectileInstance.spawnDirection * projectileInstance.spawnSpeed;
+		this.GlobalPosition = projectileInstance.source.position;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -40,20 +43,27 @@ public partial class ProjectileNode : Area3D
 		projectileInstance = proj;
 		projectileInstance.set<ProjectileNode>(this);
 		projectileInstance.GetEntityBus().subscribe(this);
+		projectileInstance.set<Func<Vector3>>(() => this.GlobalPosition);
 	}
 
 	private void onBodyEntered(Node3D body)
 	{
+		if(this.projectileInstance == null)
+			return;
 		// GD.Print("Proj collision with: " + body);
 		if (body is CreatureNode)
 		{
 			CreatureNode collider = (CreatureNode) body;
 			// Avoid collisions with originator to let the projectile spawn
-			if (collider.creatureInstance != this.projectileInstance.originator)
+			if (collider.creatureInstance != this.projectileInstance.source)
 			{
 	        	// GD.Print("Collision with a creature other than caster: " + collider);
-				CommandProjectileCollision commandProjectileCollision = new CommandProjectileCollision(this.projectileInstance, collider.creatureInstance);
-				this.publisher.publish(commandProjectileCollision);
+
+				var action = new ActionCollision(projectileInstance, collider.creatureInstance);
+				projectileInstance.procTriggers(action);
+				// projectileInstance.procTriggers(new ActionStatementTarget(), new TriggerEventOnCollision(this.projectileInstance, collider.creatureInstance));
+				// CommandProjectileCollision commandProjectileCollision = new CommandProjectileCollision(this.projectileInstance, collider.creatureInstance);
+				// this.publisher.publish(commandProjectileCollision);
 			}
 		}
 	}

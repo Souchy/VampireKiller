@@ -14,6 +14,7 @@ using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
 using VampireKiller.eevee.vampirekiller.eevee.enums;
 using VampireKiller.eevee.vampirekiller.eevee.equipment;
+using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 
@@ -32,10 +33,20 @@ public class CreatureInstance : Entity, Identifiable
     public Vector3 position { get => getPositionHook(); set => setPositionHook(value); }
     public Func<Vector3> getPositionHook { get; set; }
     public Action<Vector3> setPositionHook { get; set; }
-
+    
     public CreatureFightStats fightStats { get; set; } = new();
     public Inventory inventory { get; set; } = new();
     public SmartList<Status> statuses { get; set; } = SmartList<Status>.Create();
+
+
+    /// <summary>
+    /// SpellInstances can be learned from items or naturally
+    /// </summary>
+    public SmartList<SpellInstance> allSkills { get; set; } = SmartList<SpellInstance>.Create();
+    /// <summary>
+    /// Maximum of 4 active skills at a time
+    /// </summary>
+    public SmartList<SpellInstance> activeSkills { get; set; } = SmartList<SpellInstance>.Create();
 
     private CreatureInstance() { }
 

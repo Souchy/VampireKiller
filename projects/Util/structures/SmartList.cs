@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Util.communication.events;
 using Util.entity;
 
@@ -6,6 +7,7 @@ namespace Util.structures;
 
 public class SmartList<T> : Identifiable
 {
+    [JsonIgnore]
     public ID entityUid { get; set; }
     private List<T> list { get; set; } = new();
 
@@ -46,12 +48,19 @@ public class SmartList<T> : Identifiable
     }
     public bool removeAt(int index)
     {
-        if (index > 0 && index < list.Count)
+        if (index >= 0 && index < list.Count)
             return remove(list[index]);
         return false;
     }
+    public T? getAt(int index)
+    {
+        if (index >= 0 && index < list.Count)
+            return list[index];
+        return default;
+    }
     public bool remove(T value)
     {
+        if(value is null) return false;
         var result = list.Remove(value);
         this.GetEntityBus().publish(nameof(remove), this, value);
         this.GetEntityBus().unsubscribe(value);

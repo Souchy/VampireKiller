@@ -20,5 +20,5 @@ public struct ID
     public string value { get; set; }
 
     public static implicit operator string(ID id) => id.value;
-    public static explicit operator ID(string value) => new(value);
+    public static implicit operator ID(string value) => new(value);
 }

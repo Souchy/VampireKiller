@@ -1,6 +1,7 @@
 using Logia.vampirekiller.logia;
 using Namespace;
 using vampirekiller.eevee.actions;
+using vampirekiller.eevee.triggers;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
@@ -47,8 +48,12 @@ public static class StatementExtensions
         var script = statement.getScript();
         script.apply(action);
         // trigger
-        var trigger = new TriggerEventOnStatement();
-        Universe.fight.procTriggers(action, trigger);
+        // var trigger = new TriggerEventOnStatement();
+        // Universe.fight.procTriggers(action, trigger);
+        var triggerAction = new ActionStatementTrigger(action, TriggerType.onStatement);
+        Universe.fight.procTriggers(triggerAction);
+        // apply children
+        statement.applyStatementContainer(action);
     }
 
     /// <summary>

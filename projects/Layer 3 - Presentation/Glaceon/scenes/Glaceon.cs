@@ -7,8 +7,9 @@ using Util.communication.events;
 using Util.entity;
 using vampierkiller.logia;
 using vampierkiller.logia.commands;
-using vampirekiller.espeon.commands;
+using vampirekiller.eevee.actions;
 using VampireKiller.eevee.vampirekiller.eevee;
+using vampirekiller.logia.extensions;
 
 namespace Glaceon;
 
@@ -36,13 +37,6 @@ public partial class Glaceon : Node
         // Enforce only one current active scene
         this.RemoveChild(this.game);
         this.currentScene = this.mainMenu;
-    }
-
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-        commandManager.handle(new CommandProcessTick(delta));
     }
 
     [Subscribe(Fight.EventSet)]

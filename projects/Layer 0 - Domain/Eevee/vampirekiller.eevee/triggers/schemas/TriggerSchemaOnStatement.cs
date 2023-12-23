@@ -2,10 +2,9 @@ using vampirekiller.eevee.triggers;
 
 namespace Namespace;
 
-public record TriggerEventOnStatement() : TriggerEvent(TriggerType.onStatement);
-
 public class TriggerSchemaOnStatement : ITriggerSchema
 {
+    public TriggerType triggerType => TriggerType.onStatement;
     public ITriggerSchema copy()
     {
         throw new NotImplementedException();

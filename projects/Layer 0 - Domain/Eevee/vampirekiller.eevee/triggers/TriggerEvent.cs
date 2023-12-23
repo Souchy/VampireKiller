@@ -7,4 +7,4 @@ namespace vampirekiller.eevee.triggers;
 // }
 
 
-public abstract record TriggerEvent(TriggerType type);
+// public abstract record TriggerEvent(TriggerType type);
