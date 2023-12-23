@@ -1,8 +1,11 @@
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
+using Logia.vampirekiller.logia;
 using System;
+using System.Reflection.Emit;
 using Util.communication.commands;
+using Util.communication.events;
 using vampierkiller.logia;
 using vampirekiller.logia.commands;
 
@@ -58,12 +61,12 @@ public partial class PlayerNode : CreatureNode
 		Vector3 velocity = Velocity;
 
 		// Add the gravity.
-		if (!IsOnFloor())
-			velocity.Y -= gravity * (float)delta;
+		// if (!IsOnFloor())
+		// 	velocity.Y -= gravity * (float)delta;
 
-		// Handle Jump.
-		if (Input.IsActionJustPressed("move_jump") && IsOnFloor())
-			velocity.Y = JumpVelocity;
+		// // Handle Jump.
+		// if (Input.IsActionJustPressed("move_jump") && IsOnFloor())
+		// 	velocity.Y = JumpVelocity;
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
@@ -100,7 +103,7 @@ public partial class PlayerNode : CreatureNode
 
 		Velocity = velocity;
 		Vector3 fowardPoint = this.Position + velocity * 1;
-		Vector3 lookAtTarget = new Vector3(fowardPoint.X, this.Position.Y, fowardPoint.Z);
+		Vector3 lookAtTarget = new Vector3(fowardPoint.X, 0, fowardPoint.Z);
 		if (!lookAtTarget.IsEqualApprox(this.Position))
 		{
 			this.LookAt(lookAtTarget);
@@ -144,6 +147,11 @@ public partial class PlayerNode : CreatureNode
 			var cmd = new CommandCast(this.creatureInstance, raycast, 1); 
 			this.publisher.publish(cmd);
 		}
+		bool clear_projs = Input.IsActionJustPressed("clear_projs");
+		if (clear_projs)
+		{
+			Universe.fight.projectiles.clear();
+		}
 	}
 
 	private Vector3 getRayCast()
@@ -160,8 +168,12 @@ public partial class PlayerNode : CreatureNode
 			CollideWithAreas = true
 		};
 		var result = space.IntersectRay(ray);
-		if (result.ContainsKey("position"))
-			return (Vector3)result["position"];
+		if (result.ContainsKey("position")){
+			Vector3 pos = (Vector3)result["position"];
+			pos.Y = 0;
+			EventBus.centralBus.publish(nameof(UiGame.onRaycast), pos);
+			return pos;
+		}
 		return Vector3.Zero;
 	}
 

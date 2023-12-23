@@ -51,7 +51,7 @@ public class StatsDic : SmartDictionary<Type, IStat>
     [Subscribe(StatsDic.EventSet)]
     private void onSetStat(StatsDic dic, Type t, IStat s)
     {
-        s.GetEntityBus().subscribe(this);
+        s.GetEntityBus()?.subscribe(this);
         this.GetEntityBus().publish(EventUpdate, dic);
     }
     /// <summary>
@@ -60,7 +60,7 @@ public class StatsDic : SmartDictionary<Type, IStat>
     [Subscribe(StatsDic.EventRemove)]
     public void onRemoveStat(StatsDic dic, Type t, IStat s)
     {
-        s.GetEntityBus().unsubscribe(this);
+        s.GetEntityBus()?.unsubscribe(this);
         this.GetEntityBus().publish(EventUpdate, dic);
     }
 

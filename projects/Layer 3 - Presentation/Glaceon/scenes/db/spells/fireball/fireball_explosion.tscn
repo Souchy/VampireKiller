@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dheap7ndtgjn3"]
+[gd_scene load_steps=5 format=3 uid="uid://cb8e3ib7j8f8u"]
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jntc1"]
+[ext_resource type="PackedScene" uid="uid://cfienbmnvqxw4" path="res://scenes/game/effects/FxNode.tscn" id="1_8sj3l"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lpprr"]
 direction = Vector3(1, 1, 0)
 spread = 180.0
 initial_velocity_min = 6.0
@@ -9,15 +11,14 @@ initial_velocity_max = 6.0
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dtru8"]
 albedo_color = Color(0.227451, 0.227451, 0.227451, 1)
 
-[sub_resource type="SphereMesh" id="SphereMesh_rogo7"]
+[sub_resource type="SphereMesh" id="SphereMesh_kqi1o"]
 material = SubResource("StandardMaterial3D_dtru8")
 
-[node name="FireballExplosion" type="Node3D"]
+[node name="FxNode" instance=ExtResource("1_8sj3l")]
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.542237, 0)
-emitting = false
 amount = 443
 one_shot = true
-process_material = SubResource("ParticleProcessMaterial_jntc1")
-draw_pass_1 = SubResource("SphereMesh_rogo7")
+process_material = SubResource("ParticleProcessMaterial_lpprr")
+draw_pass_1 = SubResource("SphereMesh_kqi1o")

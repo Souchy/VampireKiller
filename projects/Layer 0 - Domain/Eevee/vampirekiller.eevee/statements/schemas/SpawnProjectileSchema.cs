@@ -16,7 +16,7 @@ public class SpawnProjectileSchema : IStatementSchema
     /// <summary>
     /// 
     /// </summary>
-    public Vector3 spawnOffset { get; set; }
+    public float spawnOffset { get; set; }
     /// <summary>
     /// Scene to spawn
     /// </summary>

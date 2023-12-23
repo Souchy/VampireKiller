@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfienbmnvqxw4"]
+
+[ext_resource type="Script" path="res://scenes/game/effects/FxNode.cs" id="1_5hhy8"]
+
+[sub_resource type="Animation" id="Animation_iyi1l"]
+resource_name = "play"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles3D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_mx44n"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles3D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bie57"]
+_data = {
+"RESET": SubResource("Animation_mx44n"),
+"play": SubResource("Animation_iyi1l")
+}
+
+[node name="FxNode" type="Node3D"]
+script = ExtResource("1_5hhy8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bie57")
+}

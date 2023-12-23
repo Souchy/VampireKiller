@@ -161,7 +161,8 @@ public class EventBus : IEventBus
                     var match = true;
                     for (int i = 0; i < param.Length; i++)
                     {
-                        match &= sub.eventParameterTypes[i].IsAssignableFrom(param[i].GetType());
+                        if(param[i] != null)
+                            match &= sub.eventParameterTypes[i].IsAssignableFrom(param[i].GetType());
                     }
                     if (match)
                         sub.method.Invoke(sub.subscriber, param);

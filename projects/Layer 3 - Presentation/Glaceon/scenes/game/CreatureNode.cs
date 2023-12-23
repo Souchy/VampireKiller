@@ -44,6 +44,7 @@ public partial class CreatureNode : CharacterBody3D
         // GD.Print(this.Name + " ready");
         if (creatureInstance != null)
         {
+            // this.GlobalPosition = creatureInstance.spawnPosition;
             updateHPBar();
         }
     }
@@ -64,13 +65,17 @@ public partial class CreatureNode : CharacterBody3D
         if (!NavigationAgent3D.IsNavigationFinished())
         {
             var nextPos = NavigationAgent3D.GetNextPathPosition();
+            nextPos.Y = 0;
             var direction = GlobalPosition.DirectionTo(nextPos);
+            direction.Y = 0;
             Velocity = direction * Speed;
             try
             {
-                if (!Position.IsEqualApprox(nextPos) &&
-                    !Vector3.Up.Cross(nextPos - this.Position).IsZeroApprox()) // check is to avoid following warning: Up vector and direction between node origin and target are aligned, look_at() failed
+                // check is to avoid following warning: Up vector and direction between node origin and target are aligned, look_at() failed
+                if (!Position.IsEqualApprox(nextPos) && !Vector3.Up.Cross(nextPos - this.Position).IsZeroApprox())
+                {
                     this.LookAt(nextPos);
+                }
             }
             catch (Exception e) { }
             MoveAndSlide();
@@ -95,7 +100,8 @@ public partial class CreatureNode : CharacterBody3D
     {
         base._EnterTree();
         // GD.Print(this.Name + " enter tree");
-        if(creatureInstance != null) {
+        if (creatureInstance != null)
+        {
             this.GlobalPosition = creatureInstance.spawnPosition;
         }
     }
@@ -138,7 +144,7 @@ public partial class CreatureNode : CharacterBody3D
     {
         var life = this.creatureInstance.getTotalStat<CreatureTotalLife>();
         var max = this.creatureInstance.getTotalStat<CreatureTotalLifeMax>();
-        double value = ((double)life.value / (double)max.value) * 100;
+        double value = ((double) life.value / (double) max.value) * 100;
         // GD.Print("Crea (" + this.Name + ") update hp %: " + value); // + "............" + Healthbar + " vs " + hpbar);
         Healthbar.Value = value;
     }

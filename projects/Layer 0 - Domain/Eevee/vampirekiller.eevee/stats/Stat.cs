@@ -78,8 +78,8 @@ public class StatType : IStat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(IStat.EventSet, this, before);
-            this.GetEntityBus().publish(IStat.EventSet, this);
+            this.GetEntityBus()?.publish(IStat.EventSet, this, before);
+            this.GetEntityBus()?.publish(IStat.EventSet, this);
         }
     }
     protected StatType() { }
@@ -117,8 +117,8 @@ public class StatDate : IStat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(IStat.EventSet, this, before);
-            this.GetEntityBus().publish(IStat.EventSet, this);
+            this.GetEntityBus()?.publish(IStat.EventSet, this, before);
+            this.GetEntityBus()?.publish(IStat.EventSet, this);
         }
     }
     protected StatDate() { }
@@ -156,8 +156,8 @@ public class StatTimeSpan : IStat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(IStat.EventSet, this, before);
-            this.GetEntityBus().publish(IStat.EventSet, this);
+            this.GetEntityBus()?.publish(IStat.EventSet, this, before);
+            this.GetEntityBus()?.publish(IStat.EventSet, this);
         }
     }
     protected StatTimeSpan() { }
@@ -197,8 +197,8 @@ public class StatDouble : IStat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(IStat.EventSet, this, before);
-            this.GetEntityBus().publish(IStat.EventSet, this);
+            this.GetEntityBus()?.publish(IStat.EventSet, this, before);
+            this.GetEntityBus()?.publish(IStat.EventSet, this);
         }
     }
     protected StatDouble() { }
@@ -236,8 +236,8 @@ public class StatBool : IStat
         set {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(IStat.EventSet, this, before);
-            this.GetEntityBus().publish(IStat.EventSet, this);
+            this.GetEntityBus()?.publish(IStat.EventSet, this, before);
+            this.GetEntityBus()?.publish(IStat.EventSet, this);
         }
     }
     protected StatBool() { }
@@ -267,5 +267,46 @@ public class StatBool : IStat
     public void Dispose()
     {
         this.DisposeEventBus();
+    }
+}
+
+
+public class StatIntTotal<B, I> : StatInt where B : StatInt where I : StatInt {
+    private int totalFlat = 0;
+    private int totalIncrease = 0;
+    public override int value
+    {
+        get
+        {
+            return (int)(totalFlat * ((100.0 + totalIncrease) / 100.0));
+        }
+        set { }
+    }
+    public override void add(StatsDic dic)
+    {
+        var flat = dic.get<B>();
+        var inc = dic.get<I>();
+        if (flat != null) totalFlat += flat.value;
+        if (inc != null) totalIncrease += inc.value;
+    }
+}
+
+public class StatDoubleTotal<B, I> : StatDouble where B : StatDouble where I : StatDouble {
+    private double totalFlat = 0;
+    private double totalIncrease = 0;
+    public override double value
+    {
+        get
+        {
+            return (int)(totalFlat * ((100.0 + totalIncrease) / 100.0));
+        }
+        set { }
+    }
+    public override void add(StatsDic dic)
+    {
+        var flat = dic.get<B>();
+        var inc = dic.get<I>();
+        if (flat != null) totalFlat += flat.value;
+        if (inc != null) totalIncrease += inc.value;
     }
 }

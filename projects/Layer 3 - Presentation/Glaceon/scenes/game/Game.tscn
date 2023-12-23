@@ -43,11 +43,13 @@ unique_name_in_owner = true
 
 [node name="Orc" parent="Entities" instance=ExtResource("3_ncqtn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.92863, 0, 0)
+axis_lock_linear_y = false
 axis_lock_angular_x = false
 axis_lock_angular_z = false
 
 [node name="PlayerNode" parent="Entities" instance=ExtResource("2_kpsgh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.63614, 1.2554, 0)
+axis_lock_linear_y = false
 axis_lock_angular_x = false
 axis_lock_angular_z = false
 

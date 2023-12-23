@@ -17,11 +17,15 @@ public class Fight : IDisposable
 {
     public const string EventSet = "set";
 
-    public SmartSet<Entity> entities { get; init; } = SmartSet<Entity>.Create();
+    public EntityFamily entities {get; init;} = Register.Create<EntityFamily>();
     public SmartSet<CreatureInstance> creatures { get; init; } = SmartSet<CreatureInstance>.Create();
     public SmartSet<ProjectileInstance> projectiles { get; init; } = SmartSet<ProjectileInstance>.Create();
     public SmartSet<Item> items { get; init; } = SmartSet<Item>.Create();
     public SmartSet<SpellInstance> spells { get; init; } = SmartSet<SpellInstance>.Create();
+
+    public Fight() {
+        EventBus.centralBus.subscribe(entities);
+    }
 
     public void Dispose()
     {

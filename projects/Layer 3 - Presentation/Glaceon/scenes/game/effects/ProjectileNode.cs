@@ -24,8 +24,8 @@ public partial class ProjectileNode : Area3D
 		this.OnReady();
 		this.Inject();
 		this.BodyEntered += this.onBodyEntered;
-		this.velocity = projectileInstance.spawnDirection * projectileInstance.spawnSpeed;
-		this.GlobalPosition = projectileInstance.source.position;
+		this.velocity = projectileInstance.spawnDirection * (float) projectileInstance.spawnSpeed;
+		this.GlobalPosition = projectileInstance.spawnPosition; //projectileInstance.source.position;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -58,12 +58,11 @@ public partial class ProjectileNode : Area3D
 			if (collider.creatureInstance != this.projectileInstance.source)
 			{
 	        	// GD.Print("Collision with a creature other than caster: " + collider);
-
+				// Action proc tous les listeners onCollision
 				var action = new ActionCollision(projectileInstance, collider.creatureInstance);
 				projectileInstance.procTriggers(action);
-				// projectileInstance.procTriggers(new ActionStatementTarget(), new TriggerEventOnCollision(this.projectileInstance, collider.creatureInstance));
-				// CommandProjectileCollision commandProjectileCollision = new CommandProjectileCollision(this.projectileInstance, collider.creatureInstance);
-				// this.publisher.publish(commandProjectileCollision);
+				// temporaire
+				this.QueueFree();
 			}
 		}
 	}
