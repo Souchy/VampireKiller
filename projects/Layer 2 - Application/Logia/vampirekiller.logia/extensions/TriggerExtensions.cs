@@ -52,7 +52,7 @@ public static class TriggerExtensions {
     /// </summary>
     public static void procTrigger(this IStatement statement, IActionTrigger action) { //, TriggerEvent trigger) {
         foreach(var listener in statement.triggers.values) {
-            if (listener.checkTrigger(action)) //, trigger))
+            if (!listener.checkTrigger(action)) //, trigger))
                 continue;
             
             var sub = new ActionStatementTarget(action) {

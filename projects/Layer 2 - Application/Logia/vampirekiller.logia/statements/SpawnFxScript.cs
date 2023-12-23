@@ -30,6 +30,7 @@ public class SpawnFxScript : IStatementScript
     {
         var props = action.statement.GetProperties<SpawnFxSchema>();
         var source = action.getSourceEntity();
+        
         EventBus.centralBus.publish("fx", props.scene, source);
     }
 }

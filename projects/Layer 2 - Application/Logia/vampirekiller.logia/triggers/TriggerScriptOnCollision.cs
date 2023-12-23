@@ -11,11 +11,8 @@ public class TriggerScriptOnCollision : ITriggerScript
     public bool checkTrigger(IActionTrigger action, ITriggerSchema schema)
     {
         ActionCollision actionCollision = (ActionCollision) action;
-        throw new NotImplementedException();
+        // quoi de plus à checker?
+        return true;
     }
     
-    // public bool checkTrigger(IAction action, TriggerEvent trigger, ITriggerSchema schema)
-    // {
-    //     throw new NotImplementedException();
-    // }
 }
