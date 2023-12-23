@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Util.structures;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 
-namespace vampirekiller.gems.json;
+namespace vampirekiller.eevee.util.json;
 
 /// <summary>
 /// Not finalized. Deserializer doesn't work yet. Serializer does.
