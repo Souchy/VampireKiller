@@ -49,7 +49,7 @@ public class TeamFilterScript : IConditionScript
         {
             return source.get<Team>() == target.get<Team>();
         }
-        if (schema.team == TeamRelationType.Ally)
+        if (schema.team == TeamRelationType.Self)
         {
             return source == target;
         }
