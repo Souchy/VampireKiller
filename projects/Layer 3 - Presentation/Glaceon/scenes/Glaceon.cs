@@ -39,15 +39,6 @@ public partial class Glaceon : Node
         this.currentScene = this.mainMenu;
     }
 
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-        // commandManager.handle(new CommandProcessTick(delta));
-        var action = new ActionProcessTick(delta);
-        Universe.fight.procTriggers(action);
-    }
-
     [Subscribe(Fight.EventSet)]
     public void onFigthStarted(Fight fight)
     {
