@@ -7,7 +7,7 @@ namespace Util.structures;
 public class SmartSet<T> : Identifiable
 {
     public ID entityUid { get; set; }
-    private HashSet<T> list { get; set; } = new();
+    protected HashSet<T> list { get; set; } = new();
 
     protected SmartSet() { }
     protected SmartSet(ID entityUid) : base()

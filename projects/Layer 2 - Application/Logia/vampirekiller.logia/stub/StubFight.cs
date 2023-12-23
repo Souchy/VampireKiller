@@ -12,6 +12,7 @@ using vampirekiller.eevee.creature;
 using vampirekiller.eevee.enums;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee;
+using VampireKiller.eevee.vampirekiller.eevee.enums;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 
@@ -23,7 +24,7 @@ public class StubFight : Fight
     {
         var player = spawnStubPlayer();
         creatures.add(player);
-        entities.add(player);
+        // entities.add(player);
 
         for (int i = 0; i < 10; i++)
         {
@@ -33,7 +34,7 @@ public class StubFight : Fight
             var x = (float) Math.Cos(i * deg) * radius;
             var enemy = spawnStubCreature(new(x, 0, z));
             creatures.add(enemy);
-            entities.add(enemy);
+            // entities.add(enemy);
         }
     }
 

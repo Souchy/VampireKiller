@@ -32,8 +32,8 @@ public class Entity : Identifiable
             return;
         remove(type);
         components[type] = component;
-        this.GetEntityBus().subscribe(component);
-        this.GetEntityBus().publish(nameof(set), this, component);
+        this.GetEntityBus()?.subscribe(component);
+        this.GetEntityBus()?.publish(nameof(set), this, component);
     }
 
     public void remove<T>() => remove(typeof(T));
@@ -45,8 +45,8 @@ public class Entity : Identifiable
 
         var component = components[type];
         components.Remove(type);
-        this.GetEntityBus().publish(nameof(remove), this, component);
-        this.GetEntityBus().unsubscribe(component);
+        this.GetEntityBus()?.publish(nameof(remove), this, component);
+        this.GetEntityBus()?.unsubscribe(component);
     }
 
     public void Dispose()
@@ -54,7 +54,7 @@ public class Entity : Identifiable
         this.GetEntityBus().publish(nameof(Dispose), this);
         foreach (object component in components.Values)
         {
-            this.GetEntityBus().unsubscribe(component);
+            this.GetEntityBus()?.unsubscribe(component);
         }
         components.Clear();
     }
