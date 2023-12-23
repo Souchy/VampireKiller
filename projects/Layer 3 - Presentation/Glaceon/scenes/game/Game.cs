@@ -66,6 +66,15 @@ public partial class Game : Node
         clearNodes();
     }
 
+
+    [Subscribe("fx")]
+    public void onFxScene(string scene, Entity entity)
+    {
+        var pos = entity.get<Func<Vector3>>();
+        var node = AssetCache.Load<PackedScene>(scene).Instantiate<Node3D>();
+        node.GlobalPosition = pos();
+        Entities.AddChild(node);
+    }
     [Subscribe(nameof(SmartSet<CreatureInstance>.add))]
     public void onAddCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {

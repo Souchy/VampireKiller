@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Util.communication.events;
 using vampirekiller.eevee;
 using vampirekiller.eevee.actions;
 using vampirekiller.eevee.statements.schemas;
@@ -27,6 +28,8 @@ public class SpawnFxScript : IStatementScript
 
     public void apply(ActionStatementTarget action)
     {
-        
+        var props = action.statement.GetProperties<SpawnFxSchema>();
+        var source = action.getSourceEntity();
+        EventBus.centralBus.publish("fx", props.scene, source);
     }
 }
