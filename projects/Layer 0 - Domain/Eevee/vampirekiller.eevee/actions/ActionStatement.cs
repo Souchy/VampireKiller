@@ -43,6 +43,8 @@ public class ActionStatementZone : Action, IActionStatement
     public ActionStatementZone(IAction parent) : base(parent) { 
         if(parent is IActionStatement actionStatement)
             this.statement = actionStatement.statement;
+        if(parent is ActionStatementZone zone)
+            this.targets = zone.targets;
     }
     protected ActionStatementZone(IAction parent, IStatement statement, IEnumerable<Entity>? targets) 
         : base(parent) { 
@@ -67,7 +69,10 @@ public class ActionStatementTarget : ActionStatementZone
     public Entity currentTarget { get; set; }
 
     protected ActionStatementTarget() { }
-    public ActionStatementTarget(IAction parent) : base(parent) { }
+    public ActionStatementTarget(IAction parent) : base(parent) { 
+        if(parent is ActionStatementTarget actionStatementTarget)
+            this.currentTarget = actionStatementTarget.currentTarget;
+    }
     public ActionStatementTarget(IAction parent, IStatement statement, IEnumerable<Entity>? targets, Entity currentTarget) 
         : base(parent, statement, targets) { 
         this.currentTarget = currentTarget;

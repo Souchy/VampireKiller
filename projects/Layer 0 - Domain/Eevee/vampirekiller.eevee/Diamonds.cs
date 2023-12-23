@@ -29,7 +29,7 @@ public static class Diamonds
 
     public static void load()
     {
-        var pathDb = "C:/Robyn/godot/VampireKiller/projects/Layer 1 - Data/DB/";
+        var pathDb = "../../Layer 1 - Data/DB/";
         var pathSpells = pathDb + "spells/";
         var pathCreatures = pathDb + "creatures/";
         Diamonds.spells.Clear();

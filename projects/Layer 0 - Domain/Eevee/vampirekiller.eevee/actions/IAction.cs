@@ -41,6 +41,8 @@ public interface IAction
     /// Get the closest parent of type T
     /// </summary>
     public T? getParent<T>();
+    public Entity getSourceEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == sourceEntity);
+    public Entity getTargetEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == targetEntity);
 }
 
 public abstract class Action : IAction
@@ -52,8 +54,6 @@ public abstract class Action : IAction
     public HashSet<IAction> children { get; set; } = new();
     public Fight fight { get; set; } = Universe.fight;
 
-    public Entity getSourceEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == sourceEntity);
-    public Entity getTargetEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == targetEntity);
     protected Action() { }
     public Action(IAction parent)
     {
@@ -63,6 +63,8 @@ public abstract class Action : IAction
         this.targetEntity = parent.targetEntity;
         parent.children.Add(this);
     }
+    public Entity getSourceEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == sourceEntity);
+    public Entity getTargetEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == targetEntity);
     public IAction copy()
     {
         IAction copy = copyImplementation();

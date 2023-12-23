@@ -1,10 +1,13 @@
+using Godot;
 using Logia.vampirekiller.logia;
 using Namespace;
+using vampirekiller.eevee;
 using vampirekiller.eevee.actions;
 using vampirekiller.eevee.triggers;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
+using Action = vampirekiller.eevee.actions.Action;
 
 namespace vampirekiller.logia.extensions;
 
@@ -18,6 +21,9 @@ public static class StatementExtensions
     /// </summary>
     public static void applyStatementContainer(this IStatementContainer container, IAction action) 
     {
+        Action a = (Action) action;
+        // Test ça en attendant, mais c'est pas exact. desfois on veut la position sur le caster, desfois la position sur le curseur, ou sur le proj..
+        var sourcePos = a.getSourceEntity().get<Func<Vector3>>()();
         // Va chercher toutes les zones avant d'appliquer les effets
         var statementActions = container.statements.values.Select(statement =>
         {
@@ -25,7 +31,8 @@ public static class StatementExtensions
             // disons qu'on prend juste les creatures pour l'instant
             // pourra être utile d'avoir des CreatureSystem, ProjectileSystem, etc qui regroupent toutes les entités
             //      peuvent être populés automatiquement via Register.Create<>();
-            IEnumerable<CreatureInstance> targets = null!;
+            var radius = statement.zone?.size.radius;
+            IEnumerable<CreatureInstance> targets = action.fight.creatures.values.Where(c => c.position.DistanceTo(sourcePos) <= radius);
             var sub = new ActionStatementZone(action)
             {
                 statement = statement,
@@ -45,7 +52,11 @@ public static class StatementExtensions
     /// </summary>
     public static void apply(this IStatement statement, ActionStatementTarget action)
     {
-        var script = statement.getScript();
+        if(statement.targetFilter != null && !statement.targetFilter.checkCondition(action)) 
+            return;
+        if(statement.sourceCondition != null && !statement.sourceCondition.checkCondition(action)) 
+            return;
+        var script = statement.schema.getScript();
         script.apply(action);
         // trigger
         // var trigger = new TriggerEventOnStatement();

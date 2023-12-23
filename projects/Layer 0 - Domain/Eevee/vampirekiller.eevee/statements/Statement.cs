@@ -29,8 +29,6 @@ public interface IStatement : IStatementContainer //: Identifiable
     public IZone zone { get; set; }
     // TODO create Triggers
     public SmartList<TriggerListener> triggers { get; set; }
-
-    public IStatementScript getScript() => schema.getScript();
     public T GetProperties<T>() where T : IStatementSchema => (T) schema;
 
     public IStatement copy();

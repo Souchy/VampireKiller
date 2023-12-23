@@ -71,7 +71,7 @@ public static class CreatureExtensions
     {
         // equip item
         crea.inventory.items.remove(item);
-        crea.inventory.activeSlots.remove(item);
+        // crea.inventory.activeSlots.remove(item);
         // unlearn spells
         var spellBooks = item.statements.values
             .Where(s => s.schema is CastSpellSchema)

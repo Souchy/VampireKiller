@@ -4,12 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Namespace;
-using vampirekiller.eevee;
-using vampirekiller.eevee.actions;
 using vampirekiller.eevee.triggers.schemas;
-using VampireKiller.eevee.vampirekiller.eevee.conditions;
-using VampireKiller.eevee.vampirekiller.eevee.enums;
-using VampireKiller.eevee.vampirekiller.eevee.zones;
+// using vampirekiller.eevee.triggers.schemas;
 
 namespace vampirekiller.eevee.triggers;
 
@@ -35,6 +31,7 @@ public record TriggerType(Type schemaType)
     public static readonly TriggerType onStatement = new(typeof(TriggerSchemaOnStatement));
     public static readonly TriggerType onCollision = new(typeof(TriggerSchemaOnCollision));
     public static readonly TriggerType onCastActive = new(typeof(TriggerSchemaOnCastActive));
+    public static readonly TriggerType onDeath = new(typeof(TriggerSchemaOnDeath));
     
 }
 
