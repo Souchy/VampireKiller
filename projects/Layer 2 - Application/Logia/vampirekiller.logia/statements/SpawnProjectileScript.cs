@@ -27,9 +27,9 @@ public class SpawnProjectileScript : IStatementScript
 
     public void apply(ActionStatementTarget action)
     {
-        ActionCastActive castAction = action.getParent<ActionCastActive>();
+        // ActionCastActive castAction = action.getParent<ActionCastActive>();
         CreatureInstance caster = (CreatureInstance) action.getSourceEntity();
-        Vector3 mouseTarget = castAction.raycastPosition;
+        Vector3 mouseTarget = action.raycastPosition;
         SpawnProjectileSchema schema = (SpawnProjectileSchema)action.statement.schema;
 
         // Stats
@@ -41,6 +41,7 @@ public class SpawnProjectileScript : IStatementScript
         float offsetLength = schema.spawnOffset.Length();
         float angleBetweenProjs = 15;
         float halfAngle = angleBetweenProjs / 2;
+        int speed = 2;
 
         
         //    |      creature in the center
@@ -50,31 +51,24 @@ public class SpawnProjectileScript : IStatementScript
         // even: 7.5, -7.5, 22.5, -22.5
         // odd: 0, 15, -15, 30, -30
 
-        int isTotalEven = projectileCount % 2;
-        bool isTotalEvenb = isTotalEven == 0;
+        int isTotalEven = 1 - (projectileCount % 2);
         float startAngle = isTotalEven * halfAngle;
 
         for(int i = 0; i < projectileCount; i++) {
-            ProjectileInstance proj = ProjectileInstance.create(); Register.Create<ProjectileInstance>();
-            // Vector3 spawnPoint = caster.position + schema.spawnOffset;
+            ProjectileInstance proj = ProjectileInstance.create();
 
             var side2 = i % 2;
-            var side3 = i % 3;
 
-            var sideMultiplier = (side2 * 2) - 1;    // -1, +1,  -1,  +1,  -1,  +1
+            var sideMultiplier = (side2 * 2) - 1;    // -1, +1, -1, +1, -1, +1
             var increment = angleBetweenProjs * i * sideMultiplier; // -0, +15, -30, +45, -60, +75
             var angle = startAngle + increment;
 
-            var isCurrentEven = projectileCount % 2;
-
-            // float opp = (float) Math.Sin(angleBetweenProjs * (i + isTotalEven + isCurrentEven)) * offsetLength;
-            // float adj = (float) Math.Cos(angleBetweenProjs * (i + isTotalEven + isCurrentEven)) * offsetLength;
             float opp = (float) Math.Sin(angle) * offsetLength;
             float adj = (float) Math.Cos(angle) * offsetLength;
             Vector3 spawnPoint = new Vector3(opp, 0, adj);
 
             proj.spawnPosition = spawnPoint;
-            proj.init(caster, mouseTarget, 2, schema.scene);
+            proj.init(caster, mouseTarget, speed, schema.scene);
             proj.RegisterEventBus();
             ((Identifiable) proj).initialize();
         }

@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.entity;
+using vampirekiller.eevee;
 using vampirekiller.eevee.ai;
 using vampirekiller.eevee.creature;
 using vampirekiller.eevee.enums;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee;
+using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 
 namespace vampirekiller.logia.stub;
@@ -20,6 +22,7 @@ public class StubFight : Fight
     {
         var player = spawnStubPlayer();
         creatures.add(player);
+        entities.add(player);
 
         for (int i = 0; i < 10; i++)
         {
@@ -29,6 +32,7 @@ public class StubFight : Fight
             var x = (float) Math.Cos(i * deg) * radius;
             var enemy = spawnStubCreature(new(x, 0, z));
             creatures.add(enemy);
+            entities.add(enemy);
         }
     }
 
@@ -44,6 +48,14 @@ public class StubFight : Fight
         crea.model = creaModel;
         crea.spawnPosition = new Vector3(1, 1, 0); // pas sur pourquoi ça bug si on déplace pas le player au spawn
         crea.creatureGroup = EntityGroupType.Players;
+
+        var fireball = Register.Create<SpellInstance>();
+        fireball.modelUid = Diamonds.spells["spell_fireball"].entityUid;
+        crea.activeSkills.add(fireball);
+        
+        var shocknova = Register.Create<SpellInstance>();
+        shocknova.modelUid = Diamonds.spells["spell_shock_nova"].entityUid;
+        crea.activeSkills.add(shocknova);
 
         return crea;
     }
