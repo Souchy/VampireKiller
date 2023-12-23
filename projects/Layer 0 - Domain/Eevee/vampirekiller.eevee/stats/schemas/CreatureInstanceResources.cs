@@ -44,6 +44,19 @@ public class CreatureFightStats : IDisposable
 }
 
 
+// Damage & Resistance
+public class IncreasedDamage : StatInt { }
+public class IncreasedDirectDamage : StatInt { }
+public class IncreasedIndirectDamage : StatInt { }
+public class PercentResistance : StatInt { }
+public class AddedDamageReduction : StatInt { }
+
+// Movement speed
+public class CreatureBaseMovementSpeed : StatDouble { }
+public class CreatureIncreasedMovementSpeed : StatDouble { }
+public class CreatureTotalMovementSpeed : StatDoubleTotal<CreatureBaseMovementSpeed, CreatureIncreasedMovementSpeed> { }
+
+// Life
 public class CreatureBaseLife : StatInt { }
 public class CreatureBaseLifeMax : StatInt { }
 public class CreatureIncreaseLife : StatInt { }

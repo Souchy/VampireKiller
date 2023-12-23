@@ -43,14 +43,11 @@ public class StubFight : Fight
         var creaModel = Register.Create<CreatureModel>();
         creaModel.meshScenePath = "res://scenes/game/PlayerNode.tscn";
         creaModel.iconPath = "res://icon.svg";
-        creaModel.baseStats.get<CreatureBaseLife>()!.value = 2;
-        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 2;
-        creaModel.baseStats.set(Register.Create<ProjectileAddCount>());
-        creaModel.baseStats.get<ProjectileAddCount>()!.value = 2;
-        creaModel.baseStats.set(new ProjectileIncreasedSpeed()
-        {
-            value = 500
-        });
+        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
+        creaModel.baseStats.get<CreatureBaseLife>()!.value = 100;
+        creaModel.baseStats.set(new ProjectileAddCount() { value = 2 });
+        creaModel.baseStats.set(new ProjectileIncreasedSpeed() { value = 100 });
+        creaModel.baseStats.set(new IncreasedDamage() { value = 100 });
 
         var crea = Register.Create<CreatureInstance>();
         crea.model = creaModel;
@@ -75,8 +72,8 @@ public class StubFight : Fight
         creaModel.meshScenePath = "res://scenes/db/creatures/Orc.tscn";
         creaModel.iconPath = "res://icon.svg";
         creaModel.ai = new AiMelee();
-        creaModel.baseStats.get<CreatureBaseLife>()!.value = 2;
-        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 2;
+        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
+        creaModel.baseStats.get<CreatureBaseLife>()!.value = 100;
 
         var crea = Register.Create<CreatureInstance>();
         crea.model = creaModel;
