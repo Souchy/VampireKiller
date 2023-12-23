@@ -68,7 +68,11 @@ public class SpawnProjectileScript : IStatementScript
             float adj = (float) Math.Cos(angle) * offsetLength;
             Vector3 spawnPoint = new Vector3(opp, 0, adj);
 
+            
             proj.set<Team>(caster.get<Team>());
+            foreach(var s in schema.children) {
+                proj.statements.add(s);
+            }
             proj.spawnPosition = spawnPoint;
             proj.init(caster, mouseTarget, speed, schema.scene);
             proj.RegisterEventBus();
