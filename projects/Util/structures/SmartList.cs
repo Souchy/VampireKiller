@@ -48,13 +48,13 @@ public class SmartList<T> : Identifiable
     }
     public bool removeAt(int index)
     {
-        if (index > 0 && index < list.Count)
+        if (index >= 0 && index < list.Count)
             return remove(list[index]);
         return false;
     }
     public T? getAt(int index)
     {
-        if (index > 0 && index < list.Count)
+        if (index >= 0 && index < list.Count)
             return list[index];
         return default;
     }

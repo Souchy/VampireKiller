@@ -30,10 +30,10 @@ public class Register : IRegister
     {
         return instance.CreateEntity<T>();
     }
-    
+
     public T CreateEntity<T>() where T : Identifiable //, new()
     {
-        T t = (T) Activator.CreateInstance(typeof(T), true)!;
+        T t = (T)Activator.CreateInstance(typeof(T), true)!;
         // T t = new T();
         t.RegisterEventBus();
         t.initialize();
@@ -49,7 +49,7 @@ public class Register : IRegister
 
     public Dictionary<ID, IEventBus> eventBuses { get; set; } = new();
 
-    public IEventBus GetEntityBus(Identifiable entity) 
+    public IEventBus GetEntityBus(Identifiable entity)
         => GetEntityBus(entity.entityUid);
     public IEventBus GetEntityBus(ID id)
     {
@@ -66,15 +66,19 @@ public class Register : IRegister
         if (entity.entityUid == null)
             entity.entityUid = IDGenerator.instance.Generate();
         var result = RegisterEventBus(entity.entityUid);
-        EventBus.centralBus.publish(nameof(RegisterEventBus), entity);
+        if (result)
+            EventBus.centralBus.publish(nameof(RegisterEventBus), entity);
         return result;
     }
     public bool RegisterEventBus(ID id)
     {
         lock (eventBuses)
         {
-            if (eventBuses.ContainsKey(id))
-                throw new ArgumentException("Id already exists");
+            if (eventBuses.ContainsKey(id)) {
+                // throw new ArgumentException("Id already exists");
+                Console.WriteLine("Id already exists: " + id);
+                return false;
+            }
             IEventBus eventBus = EventBus.factory();
             EventBus.centralBus.publish(nameof(RegisterEventBus), id, eventBus);
             eventBuses.Add(id, eventBus);
@@ -84,7 +88,8 @@ public class Register : IRegister
     public bool DisposeEventBus(Identifiable entity)
     {
         var result = DisposeEventBus(entity.entityUid);
-        EventBus.centralBus.publish(nameof(DisposeEventBus), entity);
+        if (result)
+            EventBus.centralBus.publish(nameof(DisposeEventBus), entity);
         return result;
     }
     public bool DisposeEventBus(ID id)
@@ -94,17 +99,20 @@ public class Register : IRegister
             if (!eventBuses.ContainsKey(id))
                 return false;
             var eventBus = eventBuses[id];
-            eventBuses[id].Dispose();
-            eventBuses.Remove(id);
-            EventBus.centralBus.publish(nameof(DisposeEventBus), id, eventBus);
+            var result = eventBuses.Remove(id);
+            if (result)
+            {
+                eventBus.Dispose();
+                EventBus.centralBus.publish(nameof(DisposeEventBus), id, eventBus);
+            }
+            return result;
         }
-        return true;
     }
 }
 
 public static class RegisterExtensions
 {
-    public static IEventBus GetEntityBus(this Identifiable entity) 
+    public static IEventBus GetEntityBus(this Identifiable entity)
         => GetEntityBus(entity.entityUid);
     public static IEventBus GetEntityBus(this ID id)
         => Register.instance.GetEntityBus(id);

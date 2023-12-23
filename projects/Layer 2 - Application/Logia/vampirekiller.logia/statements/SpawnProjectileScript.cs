@@ -71,6 +71,7 @@ public class SpawnProjectileScript : IStatementScript
             proj.init(caster, mouseTarget, speed, schema.scene);
             proj.RegisterEventBus();
             ((Identifiable) proj).initialize();
+            action.fight.projectiles.add(proj);
         }
 
     }

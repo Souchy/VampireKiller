@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using Eevee.vampirekiller.eevee.stats.schemas;
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,8 @@ public class StubFight : Fight
         creaModel.iconPath = "res://icon.svg";
         creaModel.baseStats.get<CreatureBaseLife>()!.value = 2;
         creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 2;
+        creaModel.baseStats.set(Register.Create<ProjectileAddCount>());
+        creaModel.baseStats.get<ProjectileAddCount>()!.value = 2;
 
         var crea = Register.Create<CreatureInstance>();
         crea.model = creaModel;

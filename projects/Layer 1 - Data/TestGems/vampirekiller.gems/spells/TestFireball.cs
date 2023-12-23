@@ -1,4 +1,5 @@
 
+using Eevee.vampirekiller.eevee.stats.schemas;
 using Godot;
 using Newtonsoft.Json;
 using souchy.celebi.eevee.enums;
@@ -82,6 +83,9 @@ public class TestFireball
         var projSchema =  new SpawnProjectileSchema();
         projSchema.children.Add(explosionFx);
         projSchema.scene = "res://scenes/db/spells/fireball/fireball_projectile.tscn";
+        projSchema.stats.set(Register.Create<ProjectileAddCount>());
+        projSchema.stats.get<ProjectileAddCount>()!.value = 1;
+        projSchema.spawnOffset = new Vector3(0.5f, 1, 1);
         var proj = new Statement() {
             schema = projSchema
         };
