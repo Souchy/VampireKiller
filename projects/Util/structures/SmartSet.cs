@@ -47,12 +47,17 @@ public class SmartSet<T> : Identifiable
         return result;
     }
 
+    public void clear() {
+        foreach(var item in list.ToList())
+            remove(item);
+    }
+
     public void Dispose()
     {
         foreach(var item in list)
             if(item is IDisposable d) 
                 d.Dispose();
-        this.list.Clear();
+        clear();
         this.DisposeEventBus();
     }
 }

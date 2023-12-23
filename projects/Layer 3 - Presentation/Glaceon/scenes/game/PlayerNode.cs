@@ -1,8 +1,11 @@
 using Godot;
 using Godot.Collections;
 using Godot.Sharp.Extras;
+using Logia.vampirekiller.logia;
 using System;
+using System.Reflection.Emit;
 using Util.communication.commands;
+using Util.communication.events;
 using vampierkiller.logia;
 using vampirekiller.logia.commands;
 
@@ -143,6 +146,11 @@ public partial class PlayerNode : CreatureNode
 				raycast = getRayCast();
 			var cmd = new CommandCast(this.creatureInstance, raycast, 1); 
 			this.publisher.publish(cmd);
+		}
+		bool clear_projs = Input.IsActionJustPressed("clear_projs");
+		if (clear_projs)
+		{
+			Universe.fight.projectiles.clear();
 		}
 	}
 
