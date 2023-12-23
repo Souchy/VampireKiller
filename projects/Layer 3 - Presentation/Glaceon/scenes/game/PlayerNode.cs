@@ -58,12 +58,12 @@ public partial class PlayerNode : CreatureNode
 		Vector3 velocity = Velocity;
 
 		// Add the gravity.
-		if (!IsOnFloor())
-			velocity.Y -= gravity * (float)delta;
+		// if (!IsOnFloor())
+		// 	velocity.Y -= gravity * (float)delta;
 
-		// Handle Jump.
-		if (Input.IsActionJustPressed("move_jump") && IsOnFloor())
-			velocity.Y = JumpVelocity;
+		// // Handle Jump.
+		// if (Input.IsActionJustPressed("move_jump") && IsOnFloor())
+		// 	velocity.Y = JumpVelocity;
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
@@ -100,7 +100,7 @@ public partial class PlayerNode : CreatureNode
 
 		Velocity = velocity;
 		Vector3 fowardPoint = this.Position + velocity * 1;
-		Vector3 lookAtTarget = new Vector3(fowardPoint.X, this.Position.Y, fowardPoint.Z);
+		Vector3 lookAtTarget = new Vector3(fowardPoint.X, 0, fowardPoint.Z);
 		if (!lookAtTarget.IsEqualApprox(this.Position))
 		{
 			this.LookAt(lookAtTarget);
