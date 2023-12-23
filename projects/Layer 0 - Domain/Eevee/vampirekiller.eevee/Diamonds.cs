@@ -13,18 +13,9 @@ namespace vampirekiller.eevee;
 public static class Diamonds
 {
 
-    public static ImmutableDictionary<Type, IStatementScript> statementScripts { get; } = typeof(Diamonds).Assembly.GetTypes()
-                .Where(t => t.IsAssignableTo(typeof(IStatementScript)) && !t.IsAbstract && t.IsClass)
-                .Select(t => (IStatementScript)Activator.CreateInstance(t)!)
-                .ToImmutableDictionary(s => s.schemaType, s => s);
-    public static ImmutableDictionary<Type, ITriggerScript> triggerScripts { get; } = typeof(Diamonds).Assembly.GetTypes()
-                .Where(t => t.IsAssignableTo(typeof(ITriggerScript)) && !t.IsAbstract && t.IsClass)
-                .Select(t => (ITriggerScript)Activator.CreateInstance(t)!)
-                .ToImmutableDictionary(s => s.schemaType, s => s);
-    public static ImmutableDictionary<Type, IConditionScript> conditionScripts { get; } = typeof(Diamonds).Assembly.GetTypes()
-                .Where(t => t.IsAssignableTo(typeof(IConditionScript)) && !t.IsAbstract && t.IsClass)
-                .Select(t => (IConditionScript)Activator.CreateInstance(t)!)
-                .ToImmutableDictionary(s => s.schemaType, s => s);
+    public static ImmutableDictionary<Type, IStatementScript> statementScripts { get; set; }
+    public static ImmutableDictionary<Type, ITriggerScript> triggerScripts { get; set; }
+    public static ImmutableDictionary<Type, IConditionScript> conditionScripts { get; set; }
 
     public static Dictionary<ID, SpellModel> spells { get; } = new();
 
