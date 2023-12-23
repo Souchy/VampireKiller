@@ -1,7 +1,9 @@
 
 
+using Util.ecs;
 using Util.entity;
 using vampirekiller.eevee.statements.schemas;
+using VampireKiller.eevee;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.equipment;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
@@ -32,6 +34,24 @@ public static class CreatureExtensions
             t.add(additional);
         }
         return t;
+    }
+
+    public static T getTotalStat<T>(this ProjectileInstance proj, StatsDic additional = null) where T : IStat, new()
+    {
+        T t = proj.source.getTotalStat<T>(additional);
+        return t;
+    }
+    public static T getTotalStat<T>(this Entity entity, StatsDic additional = null) where T : IStat, new()
+    {
+        if(entity is ProjectileInstance proj)
+        {
+            return proj.getTotalStat<T>(additional);
+        }
+        if (entity is CreatureInstance crea)
+        {
+            return crea.getTotalStat<T>(additional);
+        }
+        return new T();
     }
 
     /// <summary>
