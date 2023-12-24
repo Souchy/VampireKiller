@@ -3,6 +3,8 @@ using Godot.Sharp.Extras;
 using Logia.vampirekiller.logia;
 using System;
 using Util.communication.events;
+using vampirekiller.glaceon.util;
+using VampireKiller.eevee.vampirekiller.eevee.spells;
 
 public partial class UiGame : Control
 {
@@ -12,7 +14,15 @@ public partial class UiGame : Control
     public Label LblPlayerPos { get; set; }
     [NodePath]
     public Label LblLastRaycast { get; set; }
-    // public UiSlotActive slot { get; set; }
+
+    [NodePath]
+    public UiSlotActive UiSlotActive1 { get; set; }
+    [NodePath]
+    public UiSlotActive UiSlotActive2 { get; set; }
+    [NodePath]
+    public UiSlotActive UiSlotActive3 { get; set; }
+    [NodePath]
+    public UiSlotActive UiSlotActive4 { get; set; }
 
     private CreatureNode player { get; set; }
 
@@ -43,6 +53,16 @@ public partial class UiGame : Control
     public void onRaycast(Vector3 pos)
     {
         LblLastRaycast.Text = "raycast: " + pos;
+    }
+
+    [Subscribe]
+    public void onSetActive(int index, SpellInstance skill)
+    {
+        var model = skill.getModel();
+        var tex = AssetCache.Load<Texture2D>(model.iconPath);
+        UiSlotActive1.BtnActive.Icon = tex;
+        // cooldown bar? need to subscribe to something
+        //UiSlotActive1.CooldownBar.Value = 1;
     }
 
 }
