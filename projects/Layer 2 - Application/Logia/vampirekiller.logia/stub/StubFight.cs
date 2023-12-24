@@ -57,11 +57,11 @@ public class StubFight : Fight
         crea.set<Team>(Team.A);
 
         var fireball = Register.Create<SpellInstance>();
-        fireball.modelUid = Diamonds.spells["spell_fireball"].entityUid;
+        fireball.modelUid = Diamonds.spellModels["spell_fireball"].entityUid;
         crea.activeSkills.add(fireball);
 
         var shocknova = Register.Create<SpellInstance>();
-        shocknova.modelUid = Diamonds.spells["spell_shock_nova"].entityUid;
+        shocknova.modelUid = Diamonds.spellModels["spell_shock_nova"].entityUid;
         crea.activeSkills.add(shocknova);
 
         return crea;

@@ -167,7 +167,7 @@ public class TestFireball
         var spellModel = generateFireballModel();
         // loadup a mock fight
         Fight fight = new StubFight();
-        Diamonds.spells.Add(spellModel.entityUid, spellModel);
+        Diamonds.spellModels.Add(spellModel.entityUid, spellModel);
 
         // create an item that can cast the spell
         var item = Register.Create<Item>();

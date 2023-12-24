@@ -100,7 +100,7 @@ public class ShockNova {
         var spellModel = generateShockNova();
         // loadup a mock fight
         Fight fight = new StubFight();
-        Diamonds.spells.Add(spellModel.entityUid, spellModel);
+        Diamonds.spellModels.Add(spellModel.entityUid, spellModel);
 
         // create an item that can cast the spell
         var item = Register.Create<Item>();

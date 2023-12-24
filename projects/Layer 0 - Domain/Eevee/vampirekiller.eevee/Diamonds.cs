@@ -3,6 +3,7 @@
 using System.Collections.Immutable;
 using Util.entity;
 using vampirekiller.eevee.statements;
+using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
 using vampirekiller.eevee.util.json;
 using VampireKiller.eevee.creature;
@@ -19,8 +20,9 @@ public static class Diamonds
     public static ImmutableDictionary<Type, ITriggerScript> triggerScripts { get; set; }
     public static ImmutableDictionary<Type, IConditionScript> conditionScripts { get; set; }
 
-    public static Dictionary<ID, SpellModel> spells { get; } = new();
-    public static Dictionary<ID, CreatureModel> creatures { get; } = new();
+    public static Dictionary<ID, SpellModel> spellModels { get; } = new();
+    public static Dictionary<ID, CreatureModel> creatureModels { get; } = new();
+    public static Dictionary<ID, Status> statusModels { get; } = new();
 
     static Diamonds()
     {
@@ -29,18 +31,19 @@ public static class Diamonds
 
     public static void load()
     {
-        var pathDb = "../../Layer 1 - Data/DB/";
-        var pathSpells = pathDb + "spells/";
-        var pathCreatures = pathDb + "creatures/";
-        Diamonds.spells.Clear();
-        Diamonds.creatures.Clear();
+        const string pathDb = "../../Layer 1 - Data/DB/";
+        const string pathSpells = pathDb + "spells/";
+        const string pathCreatures = pathDb + "creatures/";
+        const string pathStatuses = pathDb + "status/";
+        Diamonds.spellModels.Clear();
+        Diamonds.creatureModels.Clear();
 
         string[] spells = Directory.GetFiles(pathSpells);
         foreach (var path in spells)
         {
             var json = File.ReadAllText(path);
             var spell = Json.deserialize<SpellModel>(json);
-            Diamonds.spells.Add(spell.entityUid, spell);
+            Diamonds.spellModels.Add(spell.entityUid, spell);
         }
 
         string[] creatures = Directory.GetFiles(pathCreatures);
@@ -48,7 +51,15 @@ public static class Diamonds
         {
             var json = File.ReadAllText(path);
             var crea = Json.deserialize<CreatureModel>(json);
-            Diamonds.creatures.Add(crea.entityUid, crea);
+            Diamonds.creatureModels.Add(crea.entityUid, crea);
+        }
+
+        string[] statuses = Directory.GetFiles(pathStatuses);
+        foreach (var path in statuses)
+        {
+            var json = File.ReadAllText(path);
+            var status = Json.deserialize<Status>(json);
+            Diamonds.statusModels.Add(status.entityUid, status);
         }
     }
 

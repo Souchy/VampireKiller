@@ -15,6 +15,11 @@ public class Status : Identifiable, IStatementContainer
     /// Can be a status model or a skill model
     /// </summary>
     public ID modelUid { get; set; }
+    /// <summary>
+    /// Set it in statuses schemas. -> used with AddStatus
+    /// Otherwise CreateStatus uses the spell's icon
+    /// </summary>
+    public string iconPath { get; set; }
     public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
     /// <summary>
     /// Model stats:
