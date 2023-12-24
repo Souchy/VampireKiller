@@ -3,6 +3,7 @@
 using Util.ecs;
 using Util.entity;
 using vampirekiller.eevee.statements.schemas;
+using vampirekiller.eevee.stats.schemas.resources;
 using VampireKiller.eevee;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.equipment;

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Util.entity;
 using vampirekiller.eevee.actions;
+using vampirekiller.eevee.stats.schemas.resources;
 using vampirekiller.eevee.triggers;
 using vampirekiller.logia.extensions;
 using VampireKiller.eevee.creature;

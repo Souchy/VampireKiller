@@ -10,6 +10,7 @@ using vampirekiller.eevee;
 using vampirekiller.eevee.ai;
 using vampirekiller.eevee.creature;
 using vampirekiller.eevee.enums;
+using vampirekiller.eevee.stats.schemas.resources;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee;
 using VampireKiller.eevee.vampirekiller.eevee.enums;

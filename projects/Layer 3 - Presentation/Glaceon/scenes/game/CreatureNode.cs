@@ -8,7 +8,7 @@ using VampireKiller.eevee.vampirekiller.eevee.stats;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 using vampirekiller.logia.extensions;
 using vampirekiller.glaceon.util;
-
+using vampirekiller.eevee.stats.schemas.resources;
 
 /// <summary>
 /// Properties that need to be shown:
@@ -113,7 +113,7 @@ public partial class CreatureNode : CharacterBody3D
     {
         // GD.Print("CreatureNode: onStatChanged: " + stat.GetType().Name + " = " + stat.genericValue);
         // todo regrouper les life stats en une liste<type> automatique genre / avoir une annotation [Life] p.ex, etc
-        if (stat is CreatureAddedLife || stat is CreatureAddedLifeMax || stat is CreatureBaseLife || stat is CreatureBaseLifeMax || stat is CreatureIncreaseLife || stat is CreatureIncreaseLifeMax)
+        if (stat is CreatureAddedLife || stat is CreatureAddedLifeMax || stat is CreatureBaseLife || stat is CreatureBaseLifeMax || stat is CreatureIncreasedLife || stat is CreatureIncreasedLifeMax)
         {
             updateHPBar();
         }
