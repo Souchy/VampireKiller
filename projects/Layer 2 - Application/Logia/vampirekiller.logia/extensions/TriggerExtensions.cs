@@ -18,10 +18,14 @@ public static class TriggerExtensions {
     /// Proc triggers on the whole fight
     /// </summary>
     public static void procTriggers(this Fight fight, IActionTrigger action) {
-        foreach(var creature in fight.creatures.values) {
+        foreach(var creature in fight.creatures.values) 
+        {
+            action.setContextCreature(creature);
             creature.procTriggers(action); //, trigger);
         }
-        foreach(var projectile in fight.projectiles.values) {
+        foreach(var projectile in fight.projectiles.values)
+        {
+            action.setContextProjectile(projectile);
             projectile.procTriggers(action); //, trigger);
         }
     }
@@ -30,11 +34,15 @@ public static class TriggerExtensions {
     /// Proc triggers on a creature
     /// </summary>
     public static void procTriggers(this CreatureInstance crea, IActionTrigger action) { //, TriggerEvent trigger) {
-        foreach(var item in crea.inventory.items.values) {
-            item.procTriggers(action); //, trigger);
+        foreach(var item in crea.inventory.items.values) 
+        {
+            action.setContextItem(item);
+            item.procTriggers(action); //new ActionItem(action, crea, item)); //, trigger);
         }
-        foreach(var status in crea.statuses.values) {
-            status.procTriggers(action); //, trigger);
+        foreach(var status in crea.statuses.values)
+        {
+            action.setContextStatus(status);
+            status.procTriggers(action); //new ActionStatus(action, crea, status)); //, trigger);
         }
     }
 

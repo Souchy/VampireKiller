@@ -1,6 +1,8 @@
 using Util.ecs;
+using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
 using VampireKiller.eevee.creature;
+using VampireKiller.eevee.vampirekiller.eevee.equipment;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 
 namespace vampirekiller.eevee.actions;
@@ -15,9 +17,9 @@ public interface IActionStatement : IAction {
 /// <summary>
 /// Leaf action
 /// </summary>
-public class ActionStatementTrigger : Action, IActionTrigger
+public class ActionStatementTrigger : ActionTrigger, IActionTrigger
 {
-    public TriggerType triggerType => TriggerType.onStatement;
+    public override TriggerType triggerType => TriggerType.onStatement;
 
     public ActionStatementTrigger(ActionStatementTarget parent, TriggerType triggerType) : base(parent) { }
 

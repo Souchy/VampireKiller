@@ -11,6 +11,10 @@ namespace vampirekiller.eevee.statements.schemas;
 public class Status : Identifiable, IStatementContainer
 {
     public ID entityUid { get; set; }
+    /// <summary>
+    /// Can be a status model or a skill model
+    /// </summary>
+    public ID modelUid { get; set; }
     public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
     /// <summary>
     /// Model stats:
