@@ -18,6 +18,9 @@ public partial class UiGame : Control
     public Label LblPlayerPos { get; set; }
     [NodePath]
     public Label LblLastRaycast { get; set; }
+    [NodePath]
+    public Label LblProjCount { get; set; }
+    
 
     [NodePath]
     public UiSlotActive UiSlotActive1 { get; set; }
@@ -52,6 +55,7 @@ public partial class UiGame : Control
         }
         var fps = Engine.GetFramesPerSecond();
         LblFps.Text = "fps: " + fps.ToString();
+        LblProjCount.Text = "projectiles: " + Universe.fight.projectiles.size();
     }
 
     /// <summary>

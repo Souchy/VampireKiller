@@ -27,7 +27,7 @@ public partial class ProjectileNode : Area3D
     /// Range at which things stop to process and are removed from the fight.
     /// todo: put this somewhere else
     /// </summary>
-    public const float outOfBoundrange = 150;
+    public const float outOfBoundrange = 50;
 
     [Inject]
     public ICommandPublisher publisher { get; set; }

@@ -4,6 +4,9 @@ using System;
 using vampirekiller.glaceon.util;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 
+/// <summary>
+/// TODO: also need a tooltip label
+/// </summary>
 public partial class UiSlotActive : VBoxContainer
 {
     [NodePath]

@@ -49,7 +49,7 @@ public class SpawnProjectileScript : IStatementScript
         var maxDuration = caster.getTotalStat<SkillMaxDuration>(schema.stats);
         double totalDuration = caster.getTotalStat<SkillTotalDuration>(schema.stats).value;
         totalDuration = Math.Clamp(totalDuration, 0, maxDuration.value);
-        DateTime expirationDate = DateTime.Now.AddSeconds(totalDuration);
+        DateTime? expirationDate = totalDuration == 0 ? null : DateTime.Now.AddSeconds(totalDuration);
 
 
         if (fireAsRain)
@@ -61,7 +61,7 @@ public class SpawnProjectileScript : IStatementScript
             fireNormal(action, caster, schema, projectileCount, speed, expirationDate);
     }
 
-    private void fireRain(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed, DateTime expirationDate)
+    private void fireRain(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed, DateTime? expirationDate)
     {
         var rainRadius = caster.getTotalStat<ProjectileRainTotalRadius>(schema.stats);
     
@@ -95,7 +95,7 @@ public class SpawnProjectileScript : IStatementScript
         }
     }
 
-    private void fireCircle(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed, DateTime expirationDate)
+    private void fireCircle(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed, DateTime? expirationDate)
     {
         bool shouldReturn = caster.getTotalStat<ProjectileReturn>(schema.stats).value;
         float radius = schema.spawnOffset;
@@ -128,7 +128,7 @@ public class SpawnProjectileScript : IStatementScript
             action.fight.projectiles.add(proj);
         }
     }
-    private void fireNormal(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed, DateTime expirationDate)
+    private void fireNormal(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed, DateTime? expirationDate)
     {
         bool shouldReturn = caster.getTotalStat<ProjectileReturn>(schema.stats).value;
         // Spawn math

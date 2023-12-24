@@ -25,7 +25,6 @@ public class CreatureInstance : Entity, Identifiable
 {
     public const string EventUpdateStats = "creature.stats.changed";
 
-    // public ID entityUid { get; set; }
     public CreatureModel model { get; set; }
     public EntityGroupType creatureGroup { get => get<EntityGroupType>(); set => set<EntityGroupType>(value); }
 

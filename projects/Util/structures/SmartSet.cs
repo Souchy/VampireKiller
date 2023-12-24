@@ -52,6 +52,10 @@ public class SmartSet<T> : Identifiable
             remove(item);
     }
 
+    public int size()
+    {
+        return list.Count;
+    }
     public void Dispose()
     {
         foreach(var item in list)
