@@ -144,6 +144,7 @@ public class TestFireball
         explosionDmg.statements.add(addStatus);
 
         // todo: spell.stats: costs, cooldown, etc
+        spell.iconPath = "res://scenes/db/spells/fireball/fireball.png";
 
         return spell;
     }

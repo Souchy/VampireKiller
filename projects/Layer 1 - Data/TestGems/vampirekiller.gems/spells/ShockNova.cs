@@ -79,6 +79,7 @@ public class ShockNova {
         spell.statements.add(innerRing);
         // todo add spell.stats (costs, cooldown, maxcharges...)
         // todo add spell.range
+        spell.iconPath = "res://scenes/db/spells/shockNova.png";
         return spell;
     }
     

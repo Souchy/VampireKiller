@@ -2,7 +2,11 @@ using Godot;
 using Godot.Sharp.Extras;
 using Logia.vampirekiller.logia;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Util.communication.events;
+using Util.entity;
+using Util.structures;
 using vampirekiller.glaceon.util;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 
@@ -36,11 +40,12 @@ public partial class UiGame : Control
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        if (player == null)
+        if (player == null && !Universe.isOnline)
         {
             var crea = Universe.fight.creatures.get(c => c.creatureGroup == vampirekiller.eevee.enums.EntityGroupType.Players);
-            this.player = crea.get<CreatureNode>();
+            setPlayer(crea.entityUid);
         }
+        // Le set player devrait etre fait par RPC, sauf en local.
         else
         {
             LblPlayerPos.Text = "player: " + player.GlobalPosition;
@@ -49,20 +54,58 @@ public partial class UiGame : Control
         LblFps.Text = "fps: " + fps.ToString();
     }
 
+    /// <summary>
+    /// Set le player par RPC, sauf en local
+    /// FIXME: si on est Online, le fight sera vide et on aura aucun data sur lequal se baser ni se subscribe
+    /// </summary>
+    [Rpc]
+    public void setPlayer(ID creatureId)
+    {
+        var crea = Universe.fight.creatures.get(c => c.entityUid == creatureId);
+        this.player = crea.get<CreatureNode>();
+
+        // update active skills
+        crea.activeSkills.GetEntityBus().subscribe(this, nameof(onSetActive));
+        for (int i = 0; i < crea.activeSkills.values.Count(); i++)
+        {
+            onSetActive(crea.activeSkills, i, crea.activeSkills.getAt(i));
+        }
+    }
+
+
     [Subscribe(nameof(onRaycast))]
     public void onRaycast(Vector3 pos)
     {
         LblLastRaycast.Text = "raycast: " + pos;
     }
 
-    [Subscribe]
-    public void onSetActive(int index, SpellInstance skill)
+    /// <summary>
+    /// TODO: vu que le UiGame n'est pas instancie pour chq player cote serveur, 
+    /// on doit surement utiliser un RPC pour envoyer les nouveaux actifs.
+    /// Mais quand on est en local solo, alors....event? au demarrage du game?
+    /// </summary>
+    [Subscribe(nameof(SmartList<SpellInstance>.setAt))]
+    public void onSetActive(SmartList<SpellInstance> skills, int index, SpellInstance skill)
     {
         var model = skill.getModel();
         var tex = AssetCache.Load<Texture2D>(model.iconPath);
-        UiSlotActive1.BtnActive.Icon = tex;
+
+        var slot = getSlot(index);
+        slot.BtnActive.Icon = tex;
         // cooldown bar? need to subscribe to something
-        //UiSlotActive1.CooldownBar.Value = 1;
+        //slot.CooldownBar.Value = 1;
+    }
+
+    private UiSlotActive getSlot(int index)
+    {
+        switch(index)
+        {
+            case 0: return UiSlotActive1;
+            case 1: return UiSlotActive2;
+            case 2: return UiSlotActive3;
+            case 3: return UiSlotActive4;
+        }
+        return default;
     }
 
 }

@@ -16,6 +16,8 @@ public class AssetCache
     public static Dictionary<string, Resource> resources = new();
     public static T Load<T>(string path) where T : Resource
     {
+        if(path == null)
+            return default;
         if (!resources.ContainsKey(path))
         {
             var scene = GD.Load<T>(path);
