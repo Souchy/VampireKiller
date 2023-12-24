@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://x52wo38q7a8m"]
+[gd_scene load_steps=10 format=3 uid="uid://x52wo38q7a8m"]
 
 [ext_resource type="PackedScene" uid="uid://bom0kubl7xo2v" path="res://scenes/game/PlayerNode.tscn" id="1_2vsjl"]
 [ext_resource type="PackedScene" uid="uid://ci62xb3n4oxn3" path="res://assets/synty/player/PFCMaleSorcerer.glb" id="2_efc3p"]
 [ext_resource type="PackedScene" uid="uid://bdl4gen2cm3ma" path="res://scenes/db/animations/HumanoidAnimationTree.tscn" id="3_eo0nq"]
-[ext_resource type="ArrayMesh" uid="uid://bh05sp7isvnrh" path="res://assets/synty/player/SM_Prop_SwordOrnate_01_4300000.mesh" id="3_xs5hq"]
+[ext_resource type="Material" uid="uid://cpgw18aducaf8" path="res://assets/synty/PolygonFantasyCharactersMaterialA.tres" id="3_p3u2e"]
+[ext_resource type="ArrayMesh" path="res://assets/synty/player/SM_Prop_SwordOrnate_01_4300000.mesh" id="3_xs5hq"]
 [ext_resource type="ArrayMesh" path="res://assets/synty/player/SM_Prop_Sceptre_01_4300000.mesh" id="4_xfpte"]
 [ext_resource type="Texture2D" uid="uid://bfu5tnqgclq2f" path="res://assets/synty/player/PFCMaleSorcerer__albedo000.png" id="5_5yeyu"]
 
@@ -29,40 +30,62 @@ bones/0/rotation = Quaternion(-0.707107, 0, 0, 0.707107)
 bones/1/rotation = Quaternion(-0.0227516, 0, 0, 0.999741)
 bones/4/rotation = Quaternion(0.0227516, 0, 0, 0.999741)
 bones/7/rotation = Quaternion(-0.530964, -0.466468, 0.534641, -0.463297)
+bones/7/scale = Vector3(1, 1, 1)
 bones/8/rotation = Quaternion(0.0192345, 0.000154813, 0.0080453, 0.999783)
+bones/8/scale = Vector3(1, 1, 1)
 bones/9/rotation = Quaternion(-0.105048, -0.0027593, 0.0261123, 0.99412)
 bones/10/rotation = Quaternion(-0.00518372, -0.0224275, -0.0333614, 0.999178)
 bones/11/rotation = Quaternion(0.123395, 0.0287146, 0.224822, 0.966128)
+bones/11/scale = Vector3(1, 1, 1)
 bones/12/rotation = Quaternion(0.117293, 1.64114e-07, 1.5966e-07, 0.993097)
 bones/13/rotation = Quaternion(-0.152811, -7.06793e-09, -1.07197e-07, 0.988255)
+bones/13/scale = Vector3(1, 1, 1)
 bones/15/rotation = Quaternion(0.0647859, 0.00250082, 0.0384914, 0.997153)
+bones/15/scale = Vector3(1, 1, 1)
 bones/16/rotation = Quaternion(0.0734477, -8.31122e-08, -6.3268e-08, 0.997299)
 bones/17/rotation = Quaternion(-0.0728006, 1.91429e-08, 4.50559e-08, 0.997347)
+bones/18/rotation = Quaternion(-4.30737e-09, 1.1723e-07, 8.61473e-09, 1)
 bones/19/rotation = Quaternion(0.115739, 0.00566166, 0.04853, 0.992077)
+bones/19/scale = Vector3(1, 1, 1)
 bones/20/rotation = Quaternion(-0.0301443, -8.15278e-08, -1.34171e-07, 0.999546)
 bones/21/rotation = Quaternion(0.0499218, 1.42903e-07, 1.58756e-07, 0.998753)
 bones/23/rotation = Quaternion(0.531316, -0.466162, 0.534318, 0.463573)
+bones/23/scale = Vector3(1, 1, 1)
 bones/24/rotation = Quaternion(0.0191915, -0.000137102, -0.0071404, 0.99979)
 bones/25/rotation = Quaternion(-0.104993, 0.00286432, -0.0271187, 0.994099)
+bones/25/scale = Vector3(1, 1, 1)
 bones/26/rotation = Quaternion(-0.0053003, 1.13577e-05, 0.0405555, 0.999163)
+bones/26/scale = Vector3(1, 1, 1)
+bones/27/scale = Vector3(1, 1, 1)
 bones/28/rotation = Quaternion(0.0753767, -2.11546e-07, -3.08213e-08, 0.997155)
 bones/29/rotation = Quaternion(-0.157779, 9.97366e-08, -4.91757e-08, 0.987474)
+bones/29/scale = Vector3(1, 1, 1)
 bones/31/rotation = Quaternion(0.0536491, -0.00335747, -0.0623696, 0.996605)
+bones/31/scale = Vector3(1, 1, 1)
 bones/32/rotation = Quaternion(0.0896196, -5.23648e-08, -5.5696e-08, 0.995976)
 bones/33/rotation = Quaternion(-0.0463522, 9.81272e-08, 1.00575e-07, 0.998925)
 bones/35/rotation = Quaternion(0.0964639, -0.00192361, -0.0198429, 0.995137)
+bones/35/scale = Vector3(1, 1, 1)
 bones/36/rotation = Quaternion(0.0638047, 1.26277e-07, -5.57601e-08, 0.997962)
 bones/37/rotation = Quaternion(-0.186961, -1.05469e-07, 1.64011e-07, 0.982367)
 bones/39/rotation = Quaternion(2.79514e-05, 0.00159746, 0.999845, -0.0175181)
+bones/39/scale = Vector3(1, 1, 1)
 bones/40/rotation = Quaternion(-0.0439684, 0.000250117, -0.00572218, 0.999017)
 bones/41/rotation = Quaternion(0.42405, 0.0642833, -0.0301926, 0.90285)
+bones/41/scale = Vector3(1, 1, 1)
 bones/42/rotation = Quaternion(0.380258, -0.00489652, 0.00201316, 0.924865)
 bones/44/rotation = Quaternion(-7.92275e-05, 0.00451933, 0.999836, 0.0175173)
+bones/44/scale = Vector3(1, 1, 1)
 bones/45/rotation = Quaternion(-0.0484792, -0.000275487, 0.00571374, 0.998808)
 bones/47/rotation = Quaternion(0.378816, 0.0042757, -0.00175016, 0.92546)
+bones/47/scale = Vector3(1, 1, 1)
+bones/48/rotation = Quaternion(1.44246e-07, 9.44092e-08, -9.72456e-08, 1)
+
+[node name="mesh" parent="PFCMaleSorcerer/Armature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("3_p3u2e")
 
 [node name="RightHand" type="BoneAttachment3D" parent="PFCMaleSorcerer/Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.0210301, -0.988996, 0.146443, 0.99807, 0.0293254, 0.0547193, -0.0584116, 0.14501, 0.987704, -89.6645, -6.08317, -136.176)
+transform = Transform3D(0.0210301, -0.988996, 0.146443, 0.998071, 0.0293254, 0.0547193, -0.0584117, 0.14501, 0.987704, -89.6645, -6.08317, -136.176)
 bone_name = "mixamorig_RightHandMiddle1"
 bone_idx = 35
 

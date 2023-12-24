@@ -43,8 +43,12 @@
 		- `Mesh > Clean Up > Merge by Distance`
 		- Retry steps 3-4
 5. `Export > gtLF 2.0 (.glb/.glbf)`
-   - Do not include animations in the export
+	- Do not include animations in the export
+	- If material shared between assets: 
+		- `Material > Materials > No export`
+		- Create a `StandardMaterial3D` in Godot, adding the texture image to `Albedo > Texture`
 6. Import into godot, character scene ready to be used and animated by an animation player with the library
+
 
 #### 1.2.1. Adding characters with non humanoid (or large) bodies
 1. Follow **1.1.** from steps 1 to 3

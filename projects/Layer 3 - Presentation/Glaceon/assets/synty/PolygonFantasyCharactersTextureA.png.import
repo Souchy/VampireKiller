@@ -2,18 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxiiitmfn8er3"
-path.s3tc="res://.godot/imported/PFCFemaleDruid__albedo000.png-d360e19e80fd1c72b2a1d2a2d75e64d1.s3tc.ctex"
+uid="uid://xa5bxtdkr7uv"
+path.s3tc="res://.godot/imported/PolygonFantasyCharactersTextureA.png-3e56bbbd8d7a54b5dc2077727fb225e1.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={}
 
 [deps]
 
-source_file="res://assets/synty/player/PFCFemaleDruid__albedo000.png"
-dest_files=["res://.godot/imported/PFCFemaleDruid__albedo000.png-d360e19e80fd1c72b2a1d2a2d75e64d1.s3tc.ctex"]
+source_file="res://assets/synty/PolygonFantasyCharactersTextureA.png"
+dest_files=["res://.godot/imported/PolygonFantasyCharactersTextureA.png-3e56bbbd8d7a54b5dc2077727fb225e1.s3tc.ctex"]
 
 [params]
 
