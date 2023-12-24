@@ -32,12 +32,20 @@ public class CreatureInstance : Entity, Identifiable
     public Vector3 position { get => getPositionHook(); set => setPositionHook(value); }
     public Func<Vector3> getPositionHook { get; set; }
     public Action<Vector3> setPositionHook { get; set; }
-    
+
+    /// <summary>
+    /// Fight stats like added life (-damage + heal...),  max added life (erosion...), etc
+    /// </summary>
     public CreatureFightStats fightStats { get; set; } = new();
-    public Inventory inventory { get; set; } = new();
+    /// <summary>
+    /// 
+    /// </summary>
     public SmartList<Status> statuses { get; set; } = SmartList<Status>.Create();
-
-
+    /// <summary>
+    /// Items are only passive.
+    /// Some items can teach new skills. The skills go into the allSkill list, then you can move those into activeSkills.
+    /// </summary>
+    public SmartList<Item> items { get; set; } = SmartList<Item>.Create();
     /// <summary>
     /// SpellInstances can be learned from items or naturally
     /// </summary>
