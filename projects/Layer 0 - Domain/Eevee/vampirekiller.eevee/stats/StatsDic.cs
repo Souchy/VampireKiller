@@ -33,6 +33,7 @@ public class StatsDic : SmartDictionary<Type, IStat>
 
     public void set(IStat s)
     {
+        s.RegisterEventBus();
         this.set(s.GetType(), s);
     }
 
