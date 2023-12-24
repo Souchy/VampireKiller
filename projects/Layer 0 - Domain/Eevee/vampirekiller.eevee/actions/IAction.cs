@@ -85,7 +85,9 @@ public abstract class Action : IAction
     }
     public T? getContext<T>(string key) where T : class
     {
-        return context[key] as T;
+        if(context.ContainsKey(key))
+            return context[key] as T;
+        return default;
     }
     public IAction copy()
     {

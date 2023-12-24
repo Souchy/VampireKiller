@@ -12,6 +12,7 @@ using Util.entity;
 using vampirekiller.eevee;
 using vampirekiller.eevee.actions;
 using vampirekiller.eevee.statements.schemas;
+using vampirekiller.eevee.stats.schemas.skill;
 using vampirekiller.logia.extensions;
 using VampireKiller.eevee;
 using VampireKiller.eevee.creature;
@@ -44,18 +45,26 @@ public class SpawnProjectileScript : IStatementScript
         int projectileCount = caster.getTotalStat<ProjectileAddCount>(schema.stats).value;
         double speed = caster.getTotalStat<ProjectileTotalSpeed>(schema.stats).value;
 
+        // duration
+        var maxDuration = caster.getTotalStat<SkillMaxDuration>(schema.stats);
+        double totalDuration = caster.getTotalStat<SkillTotalDuration>(schema.stats).value;
+        totalDuration = Math.Clamp(totalDuration, 0, maxDuration.value);
+        DateTime expirationDate = DateTime.Now.AddSeconds(totalDuration);
+
+
         if (fireAsRain)
-            fireRain(action, caster, schema, projectileCount, speed);
+            fireRain(action, caster, schema, projectileCount, speed, expirationDate);
         else
         if (fireInCircle)
-            fireCircle(action, caster, schema, projectileCount, speed);
+            fireCircle(action, caster, schema, projectileCount, speed, expirationDate);
         else
-            fireNormal(action, caster, schema, projectileCount, speed);
+            fireNormal(action, caster, schema, projectileCount, speed, expirationDate);
     }
 
-    private void fireRain(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed)
+    private void fireRain(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed, DateTime expirationDate)
     {
         var rainRadius = caster.getTotalStat<ProjectileRainTotalRadius>(schema.stats);
+    
         Vector3 mouseTarget = action.raycastPosition;
         Vector3 baseDir = (mouseTarget - caster.position).Normalized();
         baseDir.Y = -1;
@@ -67,9 +76,8 @@ public class SpawnProjectileScript : IStatementScript
             proj.meshScenePath = schema.scene;
             proj.set<Team>(caster.get<Team>());
             foreach (var s in schema.children)
-            {
                 proj.statements.add(s);
-            }
+            proj.expirationDate = expirationDate;
 
             double distanceFromCenter = rnd.NextDouble() * rainRadius.value;
             double angle = rnd.NextDouble() * 360;
@@ -87,8 +95,9 @@ public class SpawnProjectileScript : IStatementScript
         }
     }
 
-    private void fireCircle(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed)
+    private void fireCircle(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed, DateTime expirationDate)
     {
+        bool shouldReturn = caster.getTotalStat<ProjectileReturn>(schema.stats).value;
         float radius = schema.spawnOffset;
         double circlewAngleBetweenProjs = 360.0 / projectileCount;
 
@@ -98,9 +107,10 @@ public class SpawnProjectileScript : IStatementScript
             proj.meshScenePath = schema.scene;
             proj.set<Team>(caster.get<Team>());
             foreach (var s in schema.children)
-            {
                 proj.statements.add(s);
-            }
+            proj.expirationDate = expirationDate;
+            if (shouldReturn)
+                proj.remainingReturnCount = 1;
 
             double angle = circlewAngleBetweenProjs * i;
             double rad = angle * Math.PI / 180.0;
@@ -110,6 +120,7 @@ public class SpawnProjectileScript : IStatementScript
             Vector3 spawnPosition = caster.position + dir;
             spawnPosition.Y = bodyHeight;
 
+
             proj.spawnPosition = spawnPosition;
             proj.init(caster, dir, speed, schema.scene);
             proj.RegisterEventBus();
@@ -117,9 +128,9 @@ public class SpawnProjectileScript : IStatementScript
             action.fight.projectiles.add(proj);
         }
     }
-    private void fireNormal(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed)
+    private void fireNormal(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed, DateTime expirationDate)
     {
-
+        bool shouldReturn = caster.getTotalStat<ProjectileReturn>(schema.stats).value;
         // Spawn math
         float halfAngle = angleBetweenProjs / 2;
         float radius = schema.spawnOffset;
@@ -154,9 +165,10 @@ public class SpawnProjectileScript : IStatementScript
             proj.meshScenePath = schema.scene;
             proj.set<Team>(caster.get<Team>());
             foreach (var s in schema.children)
-            {
                 proj.statements.add(s);
-            }
+            proj.expirationDate = expirationDate;
+            if (shouldReturn)
+                proj.remainingReturnCount = 1;
 
             var side2 = i % 2;
 
