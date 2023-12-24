@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/game/CreatureNode.tscn" id="1_pqufn"]
 [ext_resource type="Script" path="res://scenes/game/PlayerNode.cs" id="2_eiksd"]
 [ext_resource type="ArrayMesh" path="res://assets/synty/player/SM_Bean_Female_01_4300000.mesh" id="3_ytdxg"]
-[ext_resource type="Texture2D" path="res://assets/synty/PolygonStarter_Texture_01.tex" id="4_tursw"]
+[ext_resource type="Texture2D" path="res://assets/synty/materials/PolygonStarter_Texture_01.tex" id="4_tursw"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_g7nte"]
 viewport_path = NodePath("SubViewport")

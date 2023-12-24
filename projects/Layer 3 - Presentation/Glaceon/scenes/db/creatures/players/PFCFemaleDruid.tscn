@@ -2,10 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://bom0kubl7xo2v" path="res://scenes/game/PlayerNode.tscn" id="1_dsjpn"]
 [ext_resource type="PackedScene" uid="uid://bdepucqeaa0so" path="res://assets/synty/player/PFCFemaleDruid.glb" id="2_fkglx"]
-[ext_resource type="ArrayMesh" path="res://assets/synty/player/SM_Prop_Druid_Staff_01_4300000.mesh" id="3_36ms3"]
+[ext_resource type="ArrayMesh" uid="uid://b0wdr3qckc8s1" path="res://assets/synty/items/SM_Prop_Druid_Staff_01_4300000.mesh" id="3_36ms3"]
 [ext_resource type="PackedScene" uid="uid://bdl4gen2cm3ma" path="res://scenes/db/animations/HumanoidAnimationTree.tscn" id="3_ip3ix"]
-[ext_resource type="ArrayMesh" path="res://assets/synty/player/SM_Prop_SpellBook_02_4300000.mesh" id="4_qt3f5"]
-[ext_resource type="Material" uid="uid://cpgw18aducaf8" path="res://assets/synty/PolygonFantasyCharactersMaterialA.tres" id="4_tt4rb"]
+[ext_resource type="ArrayMesh" uid="uid://dtbslvhgknom2" path="res://assets/synty/items/SM_Prop_SpellBook_02_4300000.mesh" id="4_qt3f5"]
+[ext_resource type="Material" uid="uid://cpgw18aducaf8" path="res://assets/synty/materials/PolygonFantasyCharactersMaterialA.tres" id="4_tt4rb"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_4j4n4"]
 viewport_path = NodePath("SubViewport")

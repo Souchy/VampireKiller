@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://xa5bxtdkr7uv"
-path.s3tc="res://.godot/imported/PolygonFantasyCharactersTextureA.png-3e56bbbd8d7a54b5dc2077727fb225e1.s3tc.ctex"
+path.s3tc="res://.godot/imported/PolygonFantasyCharactersTextureA.png-ab960548c31f462380f184a2f23c4ca5.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/synty/PolygonFantasyCharactersTextureA.png"
-dest_files=["res://.godot/imported/PolygonFantasyCharactersTextureA.png-3e56bbbd8d7a54b5dc2077727fb225e1.s3tc.ctex"]
+source_file="res://assets/synty/materials/PolygonFantasyCharactersTextureA.png"
+dest_files=["res://.godot/imported/PolygonFantasyCharactersTextureA.png-ab960548c31f462380f184a2f23c4ca5.s3tc.ctex"]
 
 [params]
 
