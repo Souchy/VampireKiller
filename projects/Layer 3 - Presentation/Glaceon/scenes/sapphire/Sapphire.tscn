@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://blovcywatgmkk"]
+[gd_scene load_steps=8 format=3 uid="uid://blovcywatgmkk"]
 
 [ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_4bi0r"]
+[ext_resource type="Script" path="res://scenes/sapphire/Sapphire.cs" id="1_wcjfi"]
 [ext_resource type="PackedScene" uid="uid://bom0kubl7xo2v" path="res://scenes/sapphire/entities/PlayerNode.tscn" id="2_kpsgh"]
 [ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/Orc.tscn" id="3_ncqtn"]
 
@@ -18,6 +19,7 @@ tonemap_mode = 2
 glow_enabled = true
 
 [node name="Sapphire" type="Node"]
+script = ExtResource("1_wcjfi")
 
 [node name="Environment" type="Node" parent="."]
 unique_name_in_owner = true

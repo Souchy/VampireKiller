@@ -11,17 +11,15 @@ using vampirekiller.logia.commands;
 
 public partial class PlayerNode : CreatureNode
 {
-	//[NodePath]
-	//public SpringArm3D SpringArm3D { get; set; }
+
     [NodePath]
     public Camera3D PlayerCamera { get; set; }
 
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
-
 	private Sapphire _game;
-    //private Camera3D _gameCamera;
+	private bool isCamLocked = true;
 
     [Inject]
 	public ICommandPublisher publisher { get; set; }
@@ -36,7 +34,6 @@ public partial class PlayerNode : CreatureNode
 		//_gameCamera = this.GetViewport().GetCamera3D();
 	}
 
-	private bool isCamLocked = false;
 
 	public override void _PhysicsProcess(double delta)
 	{

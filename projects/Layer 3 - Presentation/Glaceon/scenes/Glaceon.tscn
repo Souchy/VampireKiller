@@ -9,4 +9,4 @@ script = ExtResource("1_ftd5y")
 
 [node name="Lapis" parent="." instance=ExtResource("2_uim4k")]
 
-[node name="Game" parent="." instance=ExtResource("2_rr871")]
+[node name="Sapphire" parent="." instance=ExtResource("2_rr871")]

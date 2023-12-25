@@ -24,7 +24,7 @@ public partial class Glaceon : Node
     [NodePath]
     public Lapis Lapis { get; set; }
     [NodePath]
-    public Sapphire game { get; set; }
+    public Sapphire Sapphire { get; set; }
 
 
     private Node currentScene { get; set; }
@@ -40,7 +40,7 @@ public partial class Glaceon : Node
         EventBus.centralBus.subscribe(this);
 
         // Enforce only one current active scene
-        this.RemoveChild(this.game);
+        this.RemoveChild(this.Sapphire);
         this.currentScene = this.Lapis;
     }
 
@@ -52,9 +52,9 @@ public partial class Glaceon : Node
             this.changeScene(this.Lapis);
         } else
         {
-            if (this.currentScene != this.game)
+            if (this.currentScene != this.Sapphire)
             {
-                this.changeScene(this.game);
+                this.changeScene(this.Sapphire);
             }
         }
     }
@@ -68,7 +68,7 @@ public partial class Glaceon : Node
         }
         if(sceneName == Events.SceneFight)
         {
-            changeScene(game);
+            changeScene(Sapphire);
         }
     }
 

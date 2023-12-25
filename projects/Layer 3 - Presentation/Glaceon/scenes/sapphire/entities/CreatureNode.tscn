@@ -41,7 +41,7 @@ billboard = 1
 texture = SubResource("ViewportTexture_6b8gj")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_f2l0y")
 
 [node name="TeamRing" type="MeshInstance3D" parent="."]
