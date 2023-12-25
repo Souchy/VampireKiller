@@ -31,15 +31,17 @@ public partial class PlayerNode : CreatureNode
 		this.Inject();
 		_game = (Sapphire) this.GetParent().GetParent();
         PlayerCamera.MakeCurrent();
-		//_gameCamera = this.GetViewport().GetCamera3D();
-	}
+    }
 
 
 	public override void _PhysicsProcess(double delta)
 	{
-		// TODO multiplayer authority, but also shouldn't block local serverless play
-		// this.SetMultiplayerAuthority(1);		// put this omewhere else in the spawner
-		 if(Universe.isOnline && !this.IsMultiplayerAuthority()) // here, control physics access. chaque joueur est autoritaire de son PlayerNode, les enemy ont l'autorité du serveur ou du joueur local
+        // TODO multiplayer authority, but also shouldn't block local serverless play
+        // this.SetMultiplayerAuthority(1);		// put this omewhere else in the spawner
+        //if (Universe.isOnline && !Multiplayer.IsServer())
+        //    return;
+        // here, control physics access. chaque joueur est autoritaire de son PlayerNode, les enemy ont l'autorité du serveur ou du joueur local
+        if (Universe.isOnline && !this.IsMultiplayerAuthority()) 
             return;
 
         if (Input.IsActionJustPressed("lock_camera"))
@@ -49,9 +51,7 @@ public partial class PlayerNode : CreatureNode
             this.PlayerCamera.TopLevel = !isCamLocked;
         }
 
-
         Vector3 velocity = Velocity;
-
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
@@ -87,12 +87,10 @@ public partial class PlayerNode : CreatureNode
 	}
 
 	public override void _Input(InputEvent @event)
-	{
-		// todo control authority
-		 if(Universe.isOnline && !this.IsMultiplayerAuthority())
+    {
+        // todo control authority
+        if (Universe.isOnline && !this.IsMultiplayerAuthority())
             return;
-		if (this.creatureInstance == null)
-			return;
 
         base._Input(@event);
 
@@ -106,20 +104,21 @@ public partial class PlayerNode : CreatureNode
 			NavigationAgent3D.TargetPosition = raycast;
 		}
 
+        var playerId = this.GetMultiplayerAuthority();
 		bool casted1 = Input.IsActionJustPressed("cast_slot_1");
 		if (casted1)
 		{
 			if (raycast == Vector3.Zero)
 				raycast = getRayCast();
-			var cmd = new CommandCast(this.creatureInstance, raycast, 0); //-this.Transform.Basis.Z, 1);
-			this.publisher.publish(cmd);
+			var cmd = new CommandCast(playerId, raycast, 0);
+            this.publisher.publish(cmd);
 		}
 		bool casted2 = Input.IsActionJustPressed("cast_slot_2");
 		if (casted2)
 		{
 			if (raycast == Vector3.Zero)
 				raycast = getRayCast();
-			var cmd = new CommandCast(this.creatureInstance, raycast, 1); 
+			var cmd = new CommandCast(playerId, raycast, 1);
 			this.publisher.publish(cmd);
 		}
 		bool clear_projs = Input.IsActionJustPressed("clear_projs");

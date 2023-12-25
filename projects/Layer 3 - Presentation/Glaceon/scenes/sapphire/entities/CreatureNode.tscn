@@ -21,7 +21,7 @@ outer_radius = 0.75
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
+properties/1/path = NodePath("MeshInstance3D:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
@@ -61,3 +61,7 @@ transparent_bg = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ytwpu")
+
+[node name="LabelOwner" type="Label3D" parent="."]
+unique_name_in_owner = true
+text = "Owner:"

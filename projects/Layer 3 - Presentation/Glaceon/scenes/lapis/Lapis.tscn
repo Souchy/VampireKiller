@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_bo3q4"]
 [ext_resource type="Script" path="res://scenes/lapis/Lapis.cs" id="1_xm7gr"]
 [ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/Orc.tscn" id="2_qvsm4"]
-[ext_resource type="PackedScene" uid="uid://y4taei5hmpa5" path="res://scenes/lapis/ui/pages/mainMenu/UiMainMenu.tscn" id="3_4q44t"]
+[ext_resource type="PackedScene" uid="uid://y4taei5hmpa5" path="res://scenes/lapis/ui/pages/mainMenu/UiMainMenu.tscn" id="4_g0xq4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bmsaf"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -47,4 +47,4 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.307
 [node name="Orc2" parent="Background/Objects" instance=ExtResource("2_qvsm4")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.79683, 0, 0)
 
-[node name="UiMainMenu" parent="." instance=ExtResource("3_4q44t")]
+[node name="UiMainMenu" parent="." instance=ExtResource("4_g0xq4")]

@@ -1,5 +1,6 @@
 ﻿using Godot;
 using Godot.Sharp.Extras;
+using Logia.vampirekiller.logia;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,37 +12,56 @@ using vampirekiller.logia.net;
 
 namespace vampirekiller.umbreon;
 
-public partial class UmbreonNet : Node, Net
+/// <summary>
+/// Apparently needs to be a node to have the Multiplayer thing
+/// </summary>
+public partial class UmbreonNet : Node //, Net
 {
-    public int port = 777;
+    public int port = 7000;
     public string address = "host.docker.internal";
 
-    public ENetMultiplayerPeer peer;
+    public ENetMultiplayerPeer peer = new();
 
-    public UmbreonNet()
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+    }
+    public override void _Ready()
     {
         this.OnReady();
         this.Inject();
         Umbreon.net = this;
-        peer = new();
+
         var error = peer.CreateClient(address, port);
         if (error != Error.Ok)
         {
             GD.Print("Umbreon error cannot client:" + error.ToString());
             return;
         }
-        peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
         Multiplayer.MultiplayerPeer = peer;
-    }
-
-    public override void _Ready()
-    {
-        this.OnReady();
         Multiplayer.PeerConnected += PeerConnected;
         Multiplayer.PeerDisconnected += PeerDisconnected;
         Multiplayer.ConnectedToServer += ConnectedToServer;
         Multiplayer.ServerDisconnected += ServerDisconnected;
         Multiplayer.ConnectionFailed += ConnectionFailed;
+
+        peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
+
+        Universe.isOnline = true;
+        GD.Print("UmbreonNet ready 3");
+    }
+
+    /// <summary>
+    /// Receive command packet and pass it to EspeonCommandManager
+    /// </summary>
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+    public void onPacketCommand(byte[] bytes)
+    {
+        GD.Print("Umbreon: onPacketCommand: " + bytes);
+        //string json = Encoding.UTF8.GetString(bytes);
+        //var command = Json.deserialize<ICommand>(json);
+        ////ICommand command = null; // deserialize bytes
+        //_commandManager.handle(command);
     }
 
     /// <summary>
@@ -49,7 +69,7 @@ public partial class UmbreonNet : Node, Net
     /// </summary>
     private void PeerConnected(long id)
     {
-        GD.Print("Peer connected " + id);
+        GD.Print("Umbreon Peer connected " + id);
     }
 
     /// <summary>
@@ -57,7 +77,7 @@ public partial class UmbreonNet : Node, Net
     /// </summary>
     private void PeerDisconnected(long id)
     {
-        GD.Print("Peer disconnected " + id);
+        GD.Print("Umbreon Peer disconnected " + id);
     }
 
     /// <summary>
@@ -65,7 +85,7 @@ public partial class UmbreonNet : Node, Net
     /// </summary>
     private void ConnectedToServer()
     {
-        GD.Print("Connected to server");
+        GD.Print("Umbreon Connected to server");
     }
 
     /// <summary>
@@ -73,7 +93,7 @@ public partial class UmbreonNet : Node, Net
     /// </summary>
     private void ConnectionFailed()
     {
-        GD.Print("Connection failed");
+        GD.Print("Umbreon Connection failed");
     }
 
     /// <summary>
@@ -81,7 +101,7 @@ public partial class UmbreonNet : Node, Net
     /// </summary>
     private void ServerDisconnected()
     {
-        GD.Print("Server disconnected");
+        GD.Print("Umbreon Server disconnected");
     }
 
 }

@@ -3,7 +3,7 @@
 namespace vampirekiller.logia.net;
 
 /// <summary>
-/// Todo: put in a /util or /net package
+/// Todo: put in a /util or /net package?
 /// </summary>
 public interface Net
 {

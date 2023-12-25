@@ -12,6 +12,10 @@ using vampirekiller.eevee.actions;
 using VampireKiller.eevee.vampirekiller.eevee;
 using vampirekiller.logia.extensions;
 using vampirekiller.logia;
+using vampirekiller.glaceon.util;
+using vampirekiller.umbreon;
+using vampirekiller.logia.net;
+using vampirekiller.espeon;
 
 namespace Glaceon;
 
@@ -23,9 +27,10 @@ public partial class Glaceon : Node
 
     [NodePath]
     public Lapis Lapis { get; set; }
-    [NodePath]
+    //[NodePath]
     public Sapphire Sapphire { get; set; }
 
+    public Node net { get; set; }
 
     private Node currentScene { get; set; }
 
@@ -44,24 +49,27 @@ public partial class Glaceon : Node
         this.currentScene = this.Lapis;
     }
 
-    [Subscribe(Fight.EventSet)]
-    public void onFigthStarted(Fight fight)
+    [Subscribe(Events.EventNet)]
+    public void onNetEvent(Node node)
     {
-        if(fight == null)
-        {
-            this.changeScene(this.Lapis);
-        } else
-        {
-            if (this.currentScene != this.Sapphire)
-            {
-                this.changeScene(this.Sapphire);
-            }
-        }
+        CallDeferred(nameof(setNet), node);
     }
+
+    private void setNet(Node node)
+    {
+        this.net?.QueueFree();
+        this.net = node; // == "espeon" ? new EspeonNet() : new UmbreonNet();
+        this.AddChild(this.net);
+        this.Multiplayer.MultiplayerPeer = this.net.Multiplayer.MultiplayerPeer;
+        GD.Print("Glaceon add net: " + this.net);
+        this.net._Ready();
+    }
+
 
     [Subscribe(Events.EventChangeScene)]
     public void onChangeSceneEvent(string sceneName)
     {
+        GetNode("UiLobby")?.QueueFree();
         if(sceneName == Events.SceneMain)
         {
             changeScene(Lapis);
@@ -69,6 +77,23 @@ public partial class Glaceon : Node
         if(sceneName == Events.SceneFight)
         {
             changeScene(Sapphire);
+        }
+    }
+
+    [Subscribe(Fight.EventSet)]
+    public void onFigthStarted(Fight fight)
+    {
+        if(fight == null)
+        {
+            this.changeScene(this.Lapis);
+        } 
+        else
+        {
+            var sapphire = AssetCache.Load<PackedScene>("res://scenes/sapphire/Sapphire.tscn").Instantiate();
+            if (this.currentScene != this.Sapphire)
+            {
+                this.changeScene(this.Sapphire);
+            }
         }
     }
 

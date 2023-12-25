@@ -57,4 +57,5 @@ axis_lock_angular_x = false
 axis_lock_angular_z = false
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+unique_name_in_owner = true
 spawn_path = NodePath("../Entities")

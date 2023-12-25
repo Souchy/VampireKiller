@@ -37,18 +37,24 @@ public partial class UiSapphire : Control
     public override void _Ready()
     {
         this.OnReady();
+        if (Universe.isOnline && !this.IsMultiplayerAuthority())
+            return;
         EventBus.centralBus.subscribe(this, nameof(onRaycast));
     }
     public override void _ExitTree()
     {
         base._ExitTree();
+        if (Universe.isOnline && !this.IsMultiplayerAuthority())
+            return;
         EventBus.centralBus.unsubscribe(this, nameof(onRaycast));
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        if (player == null && !Universe.isOnline)
+        if (Universe.isOnline && !this.IsMultiplayerAuthority())
+            return;
+        if (player == null)
         {
             var crea = Universe.fight.creatures.get(c => c.creatureGroup == vampirekiller.eevee.enums.EntityGroupType.Players);
             setPlayer(crea.entityUid);

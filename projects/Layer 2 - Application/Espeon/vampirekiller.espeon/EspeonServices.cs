@@ -1,6 +1,7 @@
 ﻿using SimpleInjector;
 using Util.communication.commands;
 using vampierkiller.logia;
+using vampirekiller.espeon.commands;
 
 namespace vampirekiller.espeon;
 
@@ -12,5 +13,6 @@ public static class EspeonServices
         // TODO register Espeon command handlers
         //commands.setHandler(new HandlerOnPlay());
         //commands.setHandler(new HandlerOnExitToMain());
+        commands.setHandler(new HandlerOnHost());
     }
 }

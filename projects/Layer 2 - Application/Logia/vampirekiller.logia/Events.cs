@@ -14,4 +14,7 @@ public static class Events
     public const string SceneFight = "game";
 
 
+    public const string EventNet = "glaceon.net";
+
+
 }

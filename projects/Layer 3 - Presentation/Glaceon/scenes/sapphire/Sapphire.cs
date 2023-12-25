@@ -34,14 +34,16 @@ public partial class Sapphire : Node
     [NodePath]
     public Node Effects { get; set; }
 
-    //[NodePath]
-    //public Camera3D Camera3D { get; set; }
+    [NodePath]
+    public MultiplayerSpawner MultiplayerSpawner { get; set; }
 
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         this.OnReady();
+        if (Universe.isOnline && !this.IsMultiplayerAuthority())
+            return;
         EventBus.centralBus.subscribe(this);
     }
     
@@ -49,13 +51,15 @@ public partial class Sapphire : Node
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
+        if (Universe.isOnline && !this.IsMultiplayerAuthority())
+            return;
         var action = new ActionProcessTick(delta);
         Universe.fight.procTriggers(action);
     }
 
 
     [Subscribe(Fight.EventSet)]
-    public void onChangeFight(Fight fight)
+    public void onSetFight(Fight fight)
     {
         clearNodes();
         if (fight == null)

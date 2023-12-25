@@ -24,6 +24,7 @@ public class StubFight : Fight
     public StubFight()
     {
         var player = spawnStubPlayer();
+        player.playerId = 1;
         creatures.add(player);
         // entities.add(player);
 

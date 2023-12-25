@@ -16,6 +16,8 @@ internal class HandlerOnPlay : ICommandHandler<CommandPlayGame>
 {
     public void handle(CommandPlayGame t)
     {
+        if (Universe.isOnline)
+            return;
         Universe.fight = new StubFight();
     }
 }

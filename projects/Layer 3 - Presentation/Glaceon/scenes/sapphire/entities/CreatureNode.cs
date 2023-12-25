@@ -9,6 +9,7 @@ using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 using vampirekiller.logia.extensions;
 using vampirekiller.glaceon.util;
 using vampirekiller.eevee.stats.schemas.resources;
+using Logia.vampirekiller.logia;
 
 /// <summary>
 /// Properties that need to be shown:
@@ -35,6 +36,8 @@ public partial class CreatureNode : CharacterBody3D
     public MarginContainer UiResourceBars { get; set; }
     [NodePath("SubViewport/UiResourceBars/VBoxContainer/Healthbar")]
     public ProgressBar Healthbar { get; set; }
+    [NodePath]
+    public Label3D LabelOwner { get; set; }
 
     public float Speed = 5.0f;
     public float JumpVelocity = 6.0f;
@@ -57,6 +60,8 @@ public partial class CreatureNode : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
+        if (Universe.isOnline && !this.IsMultiplayerAuthority())
+            return;
         physicsNavigationProcess(delta);
     }
 
@@ -97,6 +102,9 @@ public partial class CreatureNode : CharacterBody3D
         creatureInstance.getPositionHook = () => this.GlobalPosition;
         creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
         creatureInstance.set<Func<Vector3>>(() => this.GlobalPosition);
+
+        this.SetMultiplayerAuthority((int) crea.playerId);
+        LabelOwner.Text = "" + crea.playerId;
     }
 
     public override void _EnterTree()

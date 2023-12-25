@@ -1,6 +1,9 @@
 using Godot;
 using Godot.Sharp.Extras;
 using System;
+using Util.communication.commands;
+using vampierkiller.logia;
+using vampirekiller.logia.commands;
 
 public partial class UiLobby : Control
 {
@@ -9,9 +12,14 @@ public partial class UiLobby : Control
     [NodePath]
     public Button BtnJoin { get; set; }
 
+    [Inject]
+    public ICommandPublisher publisher { get; set; }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
+        this.OnReady();
+        this.Inject();
         BtnHost.ButtonDown += BtnHost_ButtonDown;
         BtnJoin.ButtonDown += BtnJoin_ButtonDown;
 	}
@@ -19,13 +27,13 @@ public partial class UiLobby : Control
     private void BtnHost_ButtonDown()
     {
         // TODO should send command to Application layer
-        throw new NotImplementedException();
+        publisher.publish(new CommandHost());
     }
 
     private void BtnJoin_ButtonDown()
     {
         // TODO should send command to Application layer
-        throw new NotImplementedException();
+        publisher.publish(new CommandJoin());
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -39,6 +39,8 @@ public partial class ProjectileNode : Area3D
     {
         base._Ready();
         this.OnReady();
+        if (Universe.isOnline && !this.IsMultiplayerAuthority())
+            return;
         this.Inject();
         this.BodyEntered += this.onBodyEntered;
         this.velocity = projectileInstance.spawnDirection * (float) projectileInstance.spawnSpeed;
@@ -47,6 +49,9 @@ public partial class ProjectileNode : Area3D
 
     public override void _PhysicsProcess(double delta)
     {
+
+        if (Universe.isOnline && !this.IsMultiplayerAuthority())
+            return;
         if (this.projectileInstance != null)
         {
             Transform3D transform = this.Transform;
