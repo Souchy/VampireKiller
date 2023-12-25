@@ -39,6 +39,11 @@ public partial class UiGame : Control
         this.OnReady();
         EventBus.centralBus.subscribe(this, nameof(onRaycast));
     }
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        EventBus.centralBus.unsubscribe(this, nameof(onRaycast));
+    }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
