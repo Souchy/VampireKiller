@@ -47,7 +47,7 @@ public class StubFight : Fight
         creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
         creaModel.baseStats.get<CreatureBaseLife>()!.value = 100;
         creaModel.baseStats.set(new ProjectileAddCount() { value = 2 });
-        creaModel.baseStats.set(new ProjectileIncreasedSpeed() { value = 100 });
+        creaModel.baseStats.set(new ProjectileIncreasedSpeed() { value = 300 });
         creaModel.baseStats.set(new IncreasedDamage() { value = 100 });
 
         var crea = Register.Create<CreatureInstance>();

@@ -21,7 +21,7 @@ public partial class Glaceon : Node
     [NodePath]
     public Game game { get; set; }
 
-    //private EspeonCommandHandler commandHandler;
+
     private Node currentScene { get; set; }
 
     [Inject]
