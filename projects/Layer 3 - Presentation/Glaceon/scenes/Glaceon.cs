@@ -1,3 +1,4 @@
+
 using Godot;
 using Godot.Sharp.Extras;
 using Logia.vampirekiller.logia;
@@ -10,6 +11,7 @@ using vampierkiller.logia.commands;
 using vampirekiller.eevee.actions;
 using VampireKiller.eevee.vampirekiller.eevee;
 using vampirekiller.logia.extensions;
+using vampirekiller.logia;
 
 namespace Glaceon;
 
@@ -51,6 +53,19 @@ public partial class Glaceon : Node
             {
                 this.changeScene(this.game);
             }
+        }
+    }
+
+    [Subscribe(Events.EventChangeScene)]
+    public void onChangeSceneEvent(string sceneName)
+    {
+        if(sceneName == Events.SceneMain)
+        {
+            changeScene(mainMenu);
+        }
+        if(sceneName == Events.SceneFight)
+        {
+            changeScene(game);
         }
     }
 
