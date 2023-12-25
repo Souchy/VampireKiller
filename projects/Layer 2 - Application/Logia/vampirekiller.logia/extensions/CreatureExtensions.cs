@@ -20,20 +20,19 @@ public static class CreatureExtensions
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="crea"></param>
+    /// <param name="additional"></param>
     /// <returns></returns>
     public static T getTotalStat<T>(this CreatureInstance crea, StatsDic additional = null) where T : IStat, new()
     {
         var t = new T();
         t.add(crea.model.baseStats);
         t.add(crea.fightStats.dic);
-        foreach (var item in crea.inventory.items.values)
+        foreach (var item in crea.items.values)
             item.addStat<T>(t);
-        // TODO getTotalStat: items & statuses
-        // foreach (var status in crea.statuses.values)
-        //     status.addStat<T>(t);
-        if(additional != null) {
+         foreach (var status in crea.statuses.values)
+            status.addStat<T>(t);
+        if (additional != null)
             t.add(additional);
-        }
         return t;
     }
 
@@ -73,7 +72,7 @@ public static class CreatureExtensions
     public static void equip(this CreatureInstance crea, Item item)
     {
         // equip item
-        crea.inventory.items.add(item);
+        crea.items.add(item);
         // learn spells
         var spellBooks = item.statements.values
             .Where(s => s.schema is CastSpellSchema)
@@ -91,7 +90,7 @@ public static class CreatureExtensions
     public static void unequip(this CreatureInstance crea, Item item)
     {
         // equip item
-        crea.inventory.items.remove(item);
+        crea.items.remove(item);
         // crea.inventory.activeSlots.remove(item);
         // unlearn spells
         var spellBooks = item.statements.values

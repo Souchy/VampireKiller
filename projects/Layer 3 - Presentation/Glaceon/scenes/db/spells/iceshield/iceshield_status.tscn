@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://uforciq2cgrh"]
+
+[ext_resource type="Shader" uid="uid://dr2jdkoispdt7" path="res://scenes/db/spells/iceshield/iceshield_status.tres" id="1_dbbrq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q1lfu"]
+render_priority = 0
+shader = ExtResource("1_dbbrq")
+shader_parameter/Color = Color(0.133333, 0.564706, 0.843137, 1)
+shader_parameter/RimSteepness = 2.045
+
+[sub_resource type="SphereMesh" id="SphereMesh_mbffi"]
+material = SubResource("ShaderMaterial_q1lfu")
+radius = 1.0
+height = 2.0
+
+[node name="IceshieldStatus" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("SphereMesh_mbffi")

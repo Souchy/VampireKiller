@@ -14,7 +14,33 @@ public class TeamFilter : IConditionSchema
     public TeamRelationType team { get; set; }
 
     public IConditionSchema copy()
-        => new TeamFilter() {
+        => new TeamFilter()
+        {
             team = team
         };
+
+
+    public static Condition createConditionEnemy()
+    {
+        return new Condition()
+        {
+            schema = new TeamFilter() { team = TeamRelationType.Self }
+        };
+    }
+    public static Condition createConditionAlly()
+    {
+        return new Condition()
+        {
+            schema = new TeamFilter() { team = TeamRelationType.Ally }
+        };
+    }
+    public static Condition createConditionSelf()
+    {
+        return new Condition()
+        {
+            schema = new TeamFilter() { team = TeamRelationType.Enemy }
+        };
+
+    }
+
 }
