@@ -17,7 +17,7 @@ sky = SubResource("Sky_ssxgm")
 tonemap_mode = 2
 glow_enabled = true
 
-[node name="Game" type="Node"]
+[node name="Sapphire" type="Node"]
 
 [node name="Environment" type="Node" parent="."]
 unique_name_in_owner = true
