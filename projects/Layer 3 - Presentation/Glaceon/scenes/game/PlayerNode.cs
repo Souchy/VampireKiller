@@ -42,25 +42,15 @@ public partial class PlayerNode : CreatureNode
 	{
 		// TODO multiplayer authority, but also shouldn't block local serverless play
 		// this.SetMultiplayerAuthority(1);		// put this omewhere else in the spawner
-		// if(!this.IsMultiplayerAuthority())	// here, control physics access. chaque joueur est autoritaire de son PlayerNode, les enemy ont l'autorité du serveur ou du joueur local
-		// 	return;
+		 if(Universe.isOnline && !this.IsMultiplayerAuthority()) // here, control physics access. chaque joueur est autoritaire de son PlayerNode, les enemy ont l'autorité du serveur ou du joueur local
+            return;
 
-		if (Input.IsActionJustPressed("lock_camera"))
-		{
-			isCamLocked = !isCamLocked;
-			GD.Print("Cam locked: " + isCamLocked);
-			if (isCamLocked)
-			{
-				_game.Environment.RemoveChild(_gameCamera);
-				this.SpringArm3D.AddChild(_gameCamera);
-			}
-			else
-			{
-				this.SpringArm3D.RemoveChild(_gameCamera);
-				_game.Environment.AddChild(_gameCamera);
-			}
-		}
-
+        if (Input.IsActionJustPressed("lock_camera"))
+        {
+            isCamLocked = !isCamLocked;
+            GD.Print("Cam locked: " + isCamLocked);
+            this.PlayerCamera.TopLevel = !isCamLocked;
+        }
 
 
 		Vector3 velocity = Velocity;
