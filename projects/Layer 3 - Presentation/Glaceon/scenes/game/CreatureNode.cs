@@ -70,19 +70,20 @@ public partial class CreatureNode : CharacterBody3D
             var direction = GlobalPosition.DirectionTo(nextPos);
             direction.Y = 0;
             Velocity = direction * Speed;
-            try
-            {
-                // check is to avoid following warning: Up vector and direction between node origin and target are aligned, look_at() failed
-                if (!Position.IsEqualApprox(nextPos) && !Vector3.Up.Cross(nextPos - this.Position).IsZeroApprox())
-                {
-                    this.LookAt(nextPos);
-                }
-            }
-            catch (Exception e) { }
+            betterLookAt(nextPos);
             MoveAndSlide();
             return true;
         }
         return false;
+    }
+
+    protected void betterLookAt(Vector3 nextPos)
+    {
+        // check is to avoid following warning: Up vector and direction between node origin and target are aligned, look_at() failed
+        if (!Position.IsEqualApprox(nextPos) && !Vector3.Up.Cross(nextPos - this.Position).IsZeroApprox())
+        {
+            MeshInstance3D.LookAt(nextPos);
+        }
     }
 
 

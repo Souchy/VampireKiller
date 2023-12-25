@@ -53,15 +53,8 @@ public partial class PlayerNode : CreatureNode
         }
 
 
-		Vector3 velocity = Velocity;
+        Vector3 velocity = Velocity;
 
-		// Add the gravity.
-		// if (!IsOnFloor())
-		// 	velocity.Y -= gravity * (float)delta;
-
-		// // Handle Jump.
-		// if (Input.IsActionJustPressed("move_jump") && IsOnFloor())
-		// 	velocity.Y = JumpVelocity;
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
@@ -81,13 +74,6 @@ public partial class PlayerNode : CreatureNode
 		{
 			return;
 		}
-		// if (!NavigationAgent3D.IsNavigationFinished())
-		// {
-		// 	var nextPos = NavigationAgent3D.GetNextPathPosition();
-		// 	direction = GlobalPosition.DirectionTo(nextPos);
-		// 	// direction.Y = 0;
-		// 	velocity = direction * Speed;
-		// }
 		else
 		// If no input, slow down 
 		if (NavigationAgent3D.IsNavigationFinished())
@@ -98,23 +84,20 @@ public partial class PlayerNode : CreatureNode
 
 		Velocity = velocity;
 		Vector3 fowardPoint = this.Position + velocity * 1;
-		Vector3 lookAtTarget = new Vector3(fowardPoint.X, 0, fowardPoint.Z);
-		if (!lookAtTarget.IsEqualApprox(this.Position))
-		{
-			this.LookAt(lookAtTarget);
-		}
-		MoveAndSlide();
+        Vector3 lookAtTarget = new Vector3(fowardPoint.X, 0, fowardPoint.Z);
+		betterLookAt(lookAtTarget);
+        MoveAndSlide();
 	}
 
 	public override void _Input(InputEvent @event)
 	{
 		// todo control authority
+		 if(Universe.isOnline && !this.IsMultiplayerAuthority())
+            return;
 		if (this.creatureInstance == null)
 			return;
-		// if(!this.IsMultiplayerAuthority())
-		// 	return;
 
-		base._Input(@event);
+        base._Input(@event);
 
 		Vector3 raycast = Vector3.Zero;
 
