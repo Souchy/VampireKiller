@@ -2,8 +2,6 @@
 
 [sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_3aht5"]
 parameter_name = "RimSteepness"
-default_value_enabled = true
-default_value = 1.0
 
 [sub_resource type="VisualShaderNodeDotProduct" id="VisualShaderNodeDotProduct_p0yng"]
 output_port_for_preview = 0
@@ -29,7 +27,6 @@ code = "shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
 
 uniform vec4 Color : source_color;
-uniform float RimSteepness = 1;
 
 
 
@@ -55,17 +52,9 @@ void fragment() {
 	float n_out7p0 = n_in7p0 - n_out3p0;
 
 
-// FloatParameter:10
-	float n_out10p0 = RimSteepness;
-
-
-// FloatOp:9
-	float n_out9p0 = pow(n_out7p0, n_out10p0);
-
-
 // Output:0
 	ALBEDO = vec3(n_out8p0.xyz);
-	ALPHA = n_out9p0;
+	ALPHA = n_out7p0;
 
 
 }
@@ -83,7 +72,7 @@ nodes/fragment/7/position = Vector2(208.927, 353.272)
 nodes/fragment/8/node = SubResource("VisualShaderNodeColorParameter_cd43b")
 nodes/fragment/8/position = Vector2(-40, 120)
 nodes/fragment/9/node = SubResource("VisualShaderNodeFloatOp_bbj0r")
-nodes/fragment/9/position = Vector2(460, 360)
+nodes/fragment/9/position = Vector2(420, 380)
 nodes/fragment/10/node = SubResource("VisualShaderNodeFloatParameter_3aht5")
 nodes/fragment/10/position = Vector2(180, 580)
-nodes/fragment/connections = PackedInt32Array(6, 0, 3, 1, 5, 0, 3, 0, 3, 0, 7, 1, 8, 0, 0, 0, 7, 0, 9, 0, 10, 0, 9, 1, 9, 0, 0, 1)
+nodes/fragment/connections = PackedInt32Array(6, 0, 3, 1, 5, 0, 3, 0, 3, 0, 7, 1, 8, 0, 0, 0, 7, 0, 9, 0, 7, 0, 0, 1)
