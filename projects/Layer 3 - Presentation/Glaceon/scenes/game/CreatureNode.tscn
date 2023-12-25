@@ -61,8 +61,3 @@ transparent_bg = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ytwpu")
-
-[node name="SpringArm3D" type="SpringArm3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.1914, 8.23069)
-
-[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]

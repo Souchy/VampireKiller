@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bom0kubl7xo2v"]
+[gd_scene load_steps=10 format=3 uid="uid://bom0kubl7xo2v"]
 
 [ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/game/CreatureNode.tscn" id="1_pqufn"]
 [ext_resource type="Script" path="res://scenes/game/PlayerNode.cs" id="2_eiksd"]
 [ext_resource type="ArrayMesh" path="res://assets/synty/player/SM_Bean_Female_01_4300000.mesh" id="3_ytdxg"]
 [ext_resource type="Texture2D" path="res://assets/synty/PolygonStarter_Texture_01.tex" id="4_tursw"]
+[ext_resource type="PackedScene" uid="uid://d2p107wfvpyw" path="res://scenes/ui/UiGame.tscn" id="5_15nus"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_g7nte"]
 viewport_path = NodePath("SubViewport")
@@ -20,6 +21,7 @@ inner_radius = 0.7
 outer_radius = 0.75
 
 [node name="PlayerNode" groups=["Players"] instance=ExtResource("1_pqufn")]
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
 script = ExtResource("2_eiksd")
 
 [node name="ResourceBars" parent="CollisionShape3D" index="0"]
@@ -27,9 +29,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12, 0)
 texture = SubResource("ViewportTexture_g7nte")
 
 [node name="MeshInstance3D" parent="." index="1"]
-transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = ExtResource("3_ytdxg")
 surface_material_override/0 = SubResource("StandardMaterial3D_u8uq0")
 
 [node name="TeamRing" parent="." index="2"]
 mesh = SubResource("TorusMesh_4rlo3")
+
+[node name="UiGame" parent="." index="6" instance=ExtResource("5_15nus")]
+
+[node name="PlayerCamera" type="Camera3D" parent="." index="7"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 14.336, 3.95403)

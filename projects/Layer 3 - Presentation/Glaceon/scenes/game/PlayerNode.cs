@@ -11,15 +11,19 @@ using vampirekiller.logia.commands;
 
 public partial class PlayerNode : CreatureNode
 {
-	[NodePath]
-	public SpringArm3D SpringArm3D { get; set; }
+	//[NodePath]
+	//public SpringArm3D SpringArm3D { get; set; }
+    [NodePath]
+    public Camera3D PlayerCamera { get; set; }
+
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
 	private Game _game;
-	private Camera3D _gameCamera;
-	[Inject]
+    //private Camera3D _gameCamera;
+
+    [Inject]
 	public ICommandPublisher publisher { get; set; }
 
 	public override void _Ready()
@@ -28,7 +32,8 @@ public partial class PlayerNode : CreatureNode
 		this.OnReady();
 		this.Inject();
 		_game = (Game)this.GetParent().GetParent();
-		_gameCamera = this.GetViewport().GetCamera3D();
+        PlayerCamera.MakeCurrent();
+		//_gameCamera = this.GetViewport().GetCamera3D();
 	}
 
 	private bool isCamLocked = false;
@@ -158,8 +163,8 @@ public partial class PlayerNode : CreatureNode
 	{
 		var mousePos = this.GetViewport().GetMousePosition();
 		var rayLength = 100;
-		var from = _gameCamera.ProjectRayOrigin(mousePos);
-		var to = from + _gameCamera.ProjectRayNormal(mousePos) * rayLength;
+		var from = PlayerCamera.ProjectRayOrigin(mousePos);
+		var to = from + PlayerCamera.ProjectRayNormal(mousePos) * rayLength;
 		var space = GetWorld3D().DirectSpaceState;
 		var ray = new PhysicsRayQueryParameters3D()
 		{

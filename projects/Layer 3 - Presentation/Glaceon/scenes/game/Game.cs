@@ -25,7 +25,6 @@ public partial class Game : Node
     public Node Entities { get; set; }
 
     [NodePath]
-    public Camera3D Camera3D { get; set; }
 
 
     // Called when the node enters the scene tree for the first time.
