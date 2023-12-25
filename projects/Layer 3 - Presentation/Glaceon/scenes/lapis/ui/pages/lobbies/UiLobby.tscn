@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bsd6h30mrgy4u"]
 
-[ext_resource type="Script" path="res://scenes/lapis/ui/pages/UiLobby.cs" id="1_mxu70"]
+[ext_resource type="Script" path="res://scenes/lapis/ui/pages/lobbies/UiLobby.cs" id="1_mxu70"]
 
 [node name="UiLobby" type="Control"]
 layout_mode = 3

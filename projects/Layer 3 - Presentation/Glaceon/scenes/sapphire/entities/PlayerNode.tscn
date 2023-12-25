@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scenes/sapphire/entities/PlayerNode.cs" id="2_eiksd"]
 [ext_resource type="ArrayMesh" path="res://assets/synty/player/SM_Bean_Female_01_4300000.mesh" id="3_ytdxg"]
 [ext_resource type="Texture2D" path="res://assets/synty/PolygonStarter_Texture_01.tex" id="4_tursw"]
-[ext_resource type="PackedScene" uid="uid://d2p107wfvpyw" path="res://scenes/sapphire/ui/pages/UiSapphire.tscn" id="5_15nus"]
+[ext_resource type="PackedScene" uid="uid://d2p107wfvpyw" path="res://scenes/sapphire/ui/UiSapphire.tscn" id="5_du3oj"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_g7nte"]
 viewport_path = NodePath("SubViewport")
@@ -35,7 +35,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_u8uq0")
 [node name="TeamRing" parent="." index="2"]
 mesh = SubResource("TorusMesh_4rlo3")
 
-[node name="UiGame" parent="." index="6" instance=ExtResource("5_15nus")]
+[node name="UiGame" parent="." index="6" instance=ExtResource("5_du3oj")]
 
 [node name="PlayerCamera" type="Camera3D" parent="." index="7"]
 unique_name_in_owner = true

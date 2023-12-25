@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d2p107wfvpyw"]
 
-[ext_resource type="Script" path="res://scenes/sapphire/ui/pages/UiSapphire.cs" id="1_eekjh"]
-[ext_resource type="PackedScene" uid="uid://c6lsjokg5j7m8" path="res://scenes/sapphire/ui/components/UiSlotActive.tscn" id="2_fkaxv"]
+[ext_resource type="Script" path="res://scenes/sapphire/ui/UiSapphire.cs" id="1_307wc"]
+[ext_resource type="PackedScene" uid="uid://c6lsjokg5j7m8" path="res://scenes/sapphire/ui/components/UiSlotActive.tscn" id="2_tw62e"]
 
 [node name="UiSapphire" type="Control"]
 layout_mode = 3
@@ -10,7 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_eekjh")
+script = ExtResource("1_307wc")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(700, 0)
@@ -79,19 +79,19 @@ layout_mode = 2
 size_flags_vertical = 4
 color = Color(1, 0.427451, 0.337255, 1)
 
-[node name="UiSlotActive1" parent="MarginContainer2/ActiveBar" instance=ExtResource("2_fkaxv")]
+[node name="UiSlotActive1" parent="MarginContainer2/ActiveBar" instance=ExtResource("2_tw62e")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="UiSlotActive2" parent="MarginContainer2/ActiveBar" instance=ExtResource("2_fkaxv")]
+[node name="UiSlotActive2" parent="MarginContainer2/ActiveBar" instance=ExtResource("2_tw62e")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="UiSlotActive3" parent="MarginContainer2/ActiveBar" instance=ExtResource("2_fkaxv")]
+[node name="UiSlotActive3" parent="MarginContainer2/ActiveBar" instance=ExtResource("2_tw62e")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="UiSlotActive4" parent="MarginContainer2/ActiveBar" instance=ExtResource("2_fkaxv")]
+[node name="UiSlotActive4" parent="MarginContainer2/ActiveBar" instance=ExtResource("2_tw62e")]
 unique_name_in_owner = true
 layout_mode = 2
 
