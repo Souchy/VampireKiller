@@ -17,7 +17,10 @@ using VampireKiller.eevee;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee;
 
-public partial class Game : Node
+/// <summary>
+/// Game client (fight)
+/// </summary>
+public partial class Sapphire : Node
 {
 
     [NodePath]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cfienbmnvqxw4"]
 
-[ext_resource type="Script" path="res://scenes/game/effects/FxNode.cs" id="1_5hhy8"]
+[ext_resource type="Script" path="res://scenes/sapphire/entities/effects/FxNode.cs" id="1_5hhy8"]
 
 [sub_resource type="Animation" id="Animation_iyi1l"]
 resource_name = "play"

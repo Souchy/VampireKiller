@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://ue1ig1g41bt0"]
+[gd_scene load_steps=8 format=3 uid="uid://ue1ig1g41bt0"]
 
-[ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_u3jho"]
-[ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/Orc.tscn" id="2_yjbt7"]
-[ext_resource type="PackedScene" uid="uid://y4taei5hmpa5" path="res://scenes/ui/pages/UiMainMenu.tscn" id="3_l5exi"]
+[ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_bo3q4"]
+[ext_resource type="Script" path="res://scenes/lapis/Lapis.cs" id="1_xm7gr"]
+[ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/Orc.tscn" id="2_qvsm4"]
+[ext_resource type="PackedScene" uid="uid://y4taei5hmpa5" path="res://scenes/lapis/ui/pages/UiMainMenu.tscn" id="3_4q44t"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bmsaf"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -17,7 +18,8 @@ sky = SubResource("Sky_osoqg")
 tonemap_mode = 2
 glow_enabled = true
 
-[node name="UiMain" type="Node"]
+[node name="Lapis" type="Node"]
+script = ExtResource("1_xm7gr")
 
 [node name="Background" type="Node" parent="."]
 
@@ -37,12 +39,12 @@ current = true
 
 [node name="Objects" type="Node" parent="Background"]
 
-[node name="onemapisenough" parent="Background/Objects" instance=ExtResource("1_u3jho")]
+[node name="onemapisenough" parent="Background/Objects" instance=ExtResource("1_bo3q4")]
 
-[node name="Orc" parent="Background/Objects" instance=ExtResource("2_yjbt7")]
+[node name="Orc" parent="Background/Objects" instance=ExtResource("2_qvsm4")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.30734, 0, 0)
 
-[node name="Orc2" parent="Background/Objects" instance=ExtResource("2_yjbt7")]
+[node name="Orc2" parent="Background/Objects" instance=ExtResource("2_qvsm4")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.79683, 0, 0)
 
-[node name="UiMainMenu" parent="." instance=ExtResource("3_l5exi")]
+[node name="UiMainMenu" parent="." instance=ExtResource("3_4q44t")]

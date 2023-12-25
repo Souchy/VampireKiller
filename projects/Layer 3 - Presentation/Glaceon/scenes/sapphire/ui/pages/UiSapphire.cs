@@ -10,7 +10,7 @@ using Util.structures;
 using vampirekiller.glaceon.util;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 
-public partial class UiGame : Control
+public partial class UiSapphire : Control
 {
     [NodePath]
     public Label LblFps { get; set; }

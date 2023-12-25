@@ -42,7 +42,7 @@ public class StubFight : Fight
     public static CreatureInstance spawnStubPlayer()
     {
         var creaModel = Register.Create<CreatureModel>();
-        creaModel.meshScenePath = "res://scenes/game/PlayerNode.tscn";
+        creaModel.meshScenePath = "res://scenes/sapphire/entities/PlayerNode.tscn";
         creaModel.iconPath = "res://icon.svg";
         creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
         creaModel.baseStats.get<CreatureBaseLife>()!.value = 100;

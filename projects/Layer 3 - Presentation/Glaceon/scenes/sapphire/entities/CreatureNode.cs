@@ -83,6 +83,7 @@ public partial class CreatureNode : CharacterBody3D
         if (!Position.IsEqualApprox(nextPos) && !Vector3.Up.Cross(nextPos - this.Position).IsZeroApprox())
         {
             MeshInstance3D.LookAt(nextPos);
+            MeshInstance3D.RotateY(Mathf.Pi);
         }
     }
 
@@ -154,7 +155,7 @@ public partial class CreatureNode : CharacterBody3D
     [Subscribe("damage")]
     public void onDamage(int value)
     {
-        var popup = AssetCache.Load<PackedScene>("res://scenes//ui/components/UiResourcePopup.tscn").Instantiate<UiResourcePopup>();
+        var popup = AssetCache.Load<PackedScene>("res://scenes/sapphire/ui/components/UiResourcePopup.tscn").Instantiate<UiResourcePopup>();
         popup.value = value;
         this.AddChild(popup);
     }

@@ -20,7 +20,7 @@ public partial class PlayerNode : CreatureNode
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
-	private Game _game;
+	private Sapphire _game;
     //private Camera3D _gameCamera;
 
     [Inject]
@@ -31,7 +31,7 @@ public partial class PlayerNode : CreatureNode
 		base._Ready();
 		this.OnReady();
 		this.Inject();
-		_game = (Game)this.GetParent().GetParent();
+		_game = (Sapphire) this.GetParent().GetParent();
         PlayerCamera.MakeCurrent();
 		//_gameCamera = this.GetViewport().GetCamera3D();
 	}
@@ -149,7 +149,7 @@ public partial class PlayerNode : CreatureNode
 		if (result.ContainsKey("position")){
 			Vector3 pos = (Vector3)result["position"];
 			pos.Y = 0;
-			EventBus.centralBus.publish(nameof(UiGame.onRaycast), pos);
+			EventBus.centralBus.publish(nameof(UiSapphire.onRaycast), pos);
 			return pos;
 		}
 		return Vector3.Zero;

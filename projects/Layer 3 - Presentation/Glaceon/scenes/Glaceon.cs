@@ -15,13 +15,16 @@ using vampirekiller.logia;
 
 namespace Glaceon;
 
+/// <summary>
+/// 
+/// </summary>
 public partial class Glaceon : Node
 {
 
     [NodePath]
-    public UiMainMenu mainMenu { get; set; }
+    public Lapis Lapis { get; set; }
     [NodePath]
-    public Game game { get; set; }
+    public Sapphire game { get; set; }
 
 
     private Node currentScene { get; set; }
@@ -38,7 +41,7 @@ public partial class Glaceon : Node
 
         // Enforce only one current active scene
         this.RemoveChild(this.game);
-        this.currentScene = this.mainMenu;
+        this.currentScene = this.Lapis;
     }
 
     [Subscribe(Fight.EventSet)]
@@ -46,7 +49,7 @@ public partial class Glaceon : Node
     {
         if(fight == null)
         {
-            this.changeScene(this.mainMenu);
+            this.changeScene(this.Lapis);
         } else
         {
             if (this.currentScene != this.game)
@@ -61,7 +64,7 @@ public partial class Glaceon : Node
     {
         if(sceneName == Events.SceneMain)
         {
-            changeScene(mainMenu);
+            changeScene(Lapis);
         }
         if(sceneName == Events.SceneFight)
         {

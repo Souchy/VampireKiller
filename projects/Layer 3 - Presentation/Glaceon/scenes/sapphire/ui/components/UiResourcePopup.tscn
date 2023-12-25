@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://e0jsh0ps8irq"]
 
-[ext_resource type="Script" path="res://scenes/ui/components/UiResourcePopup.cs" id="1_e0mjx"]
+[ext_resource type="Script" path="res://scenes/sapphire/ui/components/UiResourcePopup.cs" id="1_e0mjx"]
 
 [sub_resource type="Animation" id="Animation_wpxuu"]
 length = 0.001

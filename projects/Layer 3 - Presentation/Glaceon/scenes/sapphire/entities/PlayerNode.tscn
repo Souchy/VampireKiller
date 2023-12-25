@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=3 uid="uid://bom0kubl7xo2v"]
 
-[ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/game/CreatureNode.tscn" id="1_pqufn"]
-[ext_resource type="Script" path="res://scenes/game/PlayerNode.cs" id="2_eiksd"]
+[ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/sapphire/entities/CreatureNode.tscn" id="1_pqufn"]
+[ext_resource type="Script" path="res://scenes/sapphire/entities/PlayerNode.cs" id="2_eiksd"]
 [ext_resource type="ArrayMesh" path="res://assets/synty/player/SM_Bean_Female_01_4300000.mesh" id="3_ytdxg"]
 [ext_resource type="Texture2D" path="res://assets/synty/PolygonStarter_Texture_01.tex" id="4_tursw"]
-[ext_resource type="PackedScene" uid="uid://d2p107wfvpyw" path="res://scenes/ui/UiGame.tscn" id="5_15nus"]
+[ext_resource type="PackedScene" uid="uid://d2p107wfvpyw" path="res://scenes/sapphire/ui/pages/UiSapphire.tscn" id="5_15nus"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_g7nte"]
 viewport_path = NodePath("SubViewport")
@@ -21,7 +21,6 @@ inner_radius = 0.7
 outer_radius = 0.75
 
 [node name="PlayerNode" groups=["Players"] instance=ExtResource("1_pqufn")]
-transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
 script = ExtResource("2_eiksd")
 
 [node name="ResourceBars" parent="CollisionShape3D" index="0"]
