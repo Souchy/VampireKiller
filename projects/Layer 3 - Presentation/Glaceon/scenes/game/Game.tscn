@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://blovcywatgmkk"]
+[gd_scene load_steps=8 format=3 uid="uid://blovcywatgmkk"]
 
 [ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_4bi0r"]
 [ext_resource type="Script" path="res://scenes/game/Game.cs" id="1_wcjfi"]
@@ -42,17 +42,19 @@ axis_lock_linear_y = false
 axis_lock_angular_x = false
 axis_lock_angular_z = false
 
-[node name="PlayerNode" parent="Entities" instance=ExtResource("2_kpsgh")]
+[node name="Projectiles" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Effects" type="Node" parent="."]
+
+[node name="Players" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="PlayerNode" parent="Players" instance=ExtResource("2_kpsgh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.63614, 1.2554, 0)
 axis_lock_linear_y = false
 axis_lock_angular_x = false
 axis_lock_angular_z = false
-
-[node name="Projectiles" type="Node" parent="."]
-unique_name_in_owner = true
-
-
-[node name="UiGame" parent="Hud" instance=ExtResource("4_27r0r")]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../Entities")

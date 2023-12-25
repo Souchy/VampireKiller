@@ -10,6 +10,7 @@ using Util.entity;
 using Util.structures;
 using vampierkiller.logia.commands;
 using vampirekiller.eevee.actions;
+using vampirekiller.eevee.enums;
 using vampirekiller.glaceon.util;
 using vampirekiller.logia.extensions;
 using VampireKiller.eevee;
@@ -23,8 +24,15 @@ public partial class Game : Node
     public Node Environment { get; set; }
     [NodePath]
     public Node Entities { get; set; }
-
     [NodePath]
+    public Node Projectiles { get; set; }
+    [NodePath]
+    public Node Players { get; set; }
+    [NodePath]
+    public Node Effects { get; set; }
+
+    //[NodePath]
+    //public Camera3D Camera3D { get; set; }
 
 
     // Called when the node enters the scene tree for the first time.
@@ -71,7 +79,7 @@ public partial class Game : Node
     {
         var pos = entity.get<Func<Vector3>>()();
         var node = AssetCache.Load<PackedScene>(scene).Instantiate<Node3D>();
-        Entities.AddChild(node);
+        Effects.AddChild(node);
         node.GlobalPosition = pos;
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.add))]
@@ -79,7 +87,10 @@ public partial class Game : Node
     {
         CreatureNode node = AssetCache.Load<PackedScene>(inst.model.meshScenePath).Instantiate<CreatureNode>();
         node.init(inst);
-        Entities.AddChild(node);
+        if(inst.creatureGroup == EntityGroupType.Players)
+            Players.AddChild(node);
+        if(inst.creatureGroup == EntityGroupType.Enemies)
+            Entities.AddChild(node);
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
@@ -94,7 +105,8 @@ public partial class Game : Node
     {
         ProjectileNode node = AssetCache.Load<PackedScene>(inst.meshScenePath).Instantiate<ProjectileNode>();
         node.init(inst);
-        this.Entities.AddChild(node);
+        //this.Entities.AddChild(node);
+        this.Projectiles.AddChild(node);
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveProjectile(SmartSet<ProjectileInstance> list, ProjectileInstance inst)
@@ -108,6 +120,9 @@ public partial class Game : Node
     {
         // Cleanup old nodes
         this.Entities.QueueFreeChildren();
+        this.Projectiles.QueueFreeChildren();
+        this.Players.QueueFreeChildren();
+        this.Effects.QueueFreeChildren();
     }
 
 }
