@@ -30,7 +30,15 @@ public partial class EnemyNode : CreatureNode
             }
         }
         if (this.trackingTarget != null)
-            this.NavigationAgent3D.TargetPosition = this.trackingTarget.GlobalPosition;
+            this.NavigationAgent3D.TargetPosition = this.trackingTarget.GlobalPosition;		
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        var direction = this.getNavigationVector();
+        this.walk(direction);
+        //this.LookAt(nextPos);
+        base._PhysicsProcess(delta);
     }
 
 }

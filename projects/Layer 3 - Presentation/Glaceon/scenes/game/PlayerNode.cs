@@ -51,46 +51,10 @@ public partial class PlayerNode : CreatureNode
 			//}
 		//}
 
-		Vector3 velocity = Velocity;
-
-		// Add the gravity.
-		if (!IsOnFloor())
-			velocity.Y -= gravity * (float)delta;
-
-		// Handle Jump.
-		if (Input.IsActionJustPressed("move_jump") && IsOnFloor())
-		{
-			this.jumping = true;
-			this.jump_time = 0;
-		}
-
-		if (this.jumping == true)
-		{
-			jump_time += delta;
-			velocity.Y = 0.5f;
-			if (jump_time > jump_offset)
-			{
-				this.jumping = false;
-				velocity.Y = JumpVelocity;
-			}
-		}
-
-
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 		Vector3 direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
-		// If input, set velocity
-		if (direction != Vector3.Zero)
-		{
-			velocity.X = direction.X * Speed;
-			velocity.Z = direction.Z * Speed;
-			// stop the point & click navigation
-			//NavigationAgent3D.TargetPosition = GlobalPosition;
-		} else {
-			velocity.X = 0;
-			velocity.Z = 0;
-		}
+		this.walk(direction);
+		base._PhysicsProcess(delta);
 
 		// Have character face in the mouse's direction
 		var mousePos = this.GetViewport().GetMousePosition();
@@ -103,9 +67,6 @@ public partial class PlayerNode : CreatureNode
 		var cameraPos = this.Position;
 		cameraPos.Y = this._gameCamera.Position.Y;
 		this._gameCamera.Position = cameraPos + cameraOffset;
-
-		Velocity = velocity;
-		MoveAndSlide();
 	}
 
 	public override void _Input(InputEvent @event)
@@ -131,6 +92,12 @@ public partial class PlayerNode : CreatureNode
 			var result = space.IntersectRay(ray);
 			if (result.ContainsKey("position"))
 				NavigationAgent3D.TargetPosition = (Vector3)result["position"];
+		}
+
+		bool jumped = Input.IsActionJustPressed("move_jump") || Input.IsActionPressed("move_jump");
+		if (jumped)
+		{
+			this.jump();
 		}
 
 		bool casted = Input.IsActionJustPressed("cast_slot_1");

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://blovcywatgmkk"]
 
 [ext_resource type="Script" path="res://scenes/game/Game.cs" id="1_wcjfi"]
-[ext_resource type="PackedScene" uid="uid://b1w7pqhaojnsx" path="res://scenes/db/maps/whataboutseconds.tscn" id="3_jveik"]
+[ext_resource type="PackedScene" uid="uid://c3wyflkxnhc7t" path="res://scenes/db/maps/whataboutseconds.tscn" id="3_jveik"]
 [ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/Orc.tscn" id="3_ncqtn"]
 [ext_resource type="PackedScene" uid="uid://d2p107wfvpyw" path="res://scenes/ui/UiGame.tscn" id="4_27r0r"]
 
