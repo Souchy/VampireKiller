@@ -30,6 +30,7 @@ public partial class UmbreonNet : Node //, Net
     {
         this.OnReady();
         this.Inject();
+        this.Name = this.GetType().Name;
         Umbreon.net = this;
 
         var error = peer.CreateClient(address, port);

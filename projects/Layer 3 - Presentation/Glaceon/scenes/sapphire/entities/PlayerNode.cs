@@ -14,10 +14,12 @@ public partial class PlayerNode : CreatureNode
 
     [NodePath]
     public Camera3D PlayerCamera { get; set; }
+    [NodePath]
+    public UiSapphire UiSapphire { get; set; }
 
 
-	// Get the gravity from the project settings to be synced with RigidBody nodes.
-	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+    // Get the gravity from the project settings to be synced with RigidBody nodes.
+    public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 	private Sapphire _game;
 	private bool isCamLocked = true;
 
@@ -30,7 +32,13 @@ public partial class PlayerNode : CreatureNode
 		this.OnReady();
 		this.Inject();
 		_game = (Sapphire) this.GetParent().GetParent();
-        PlayerCamera.MakeCurrent();
+        if(this.IsMultiplayerAuthority())
+        {
+            PlayerCamera.MakeCurrent();
+        } else
+        {
+            this.UiSapphire.Hide();
+        }
     }
 
 

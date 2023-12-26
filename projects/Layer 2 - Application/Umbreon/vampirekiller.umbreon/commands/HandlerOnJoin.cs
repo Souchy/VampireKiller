@@ -21,6 +21,6 @@ public class HandlerOnJoin : ICommandHandler<CommandJoin>
         EventBus.centralBus.publish(Events.EventNet, net); //"umbreon");
         EventBus.centralBus.publish(Events.EventChangeScene, Events.SceneFight);
 
-        Umbreon.net.RpcId(1, Rpcs.onPacketCommand, command.serialize());
+        //Umbreon.net.RpcId(1, Rpcs.onPacketCommand, command.serialize());
     }
 }

@@ -17,6 +17,8 @@ public class HandlerOnHost : ICommandHandler<CommandHost>
     public void handle(CommandHost command)
     {
         EventBus.centralBus.publish(Events.EventNet, new EspeonNet()); //"espeon"); //Events.NetEspeon);
+
         Universe.fight = new StubFight();
+        EventBus.centralBus.publish(Events.EventChangeScene, Events.SceneFight);
     }
 }

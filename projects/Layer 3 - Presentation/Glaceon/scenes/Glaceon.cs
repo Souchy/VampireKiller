@@ -28,7 +28,7 @@ public partial class Glaceon : Node
     [NodePath]
     public Lapis Lapis { get; set; }
     //[NodePath]
-    public Sapphire Sapphire { get; set; }
+    private Sapphire Sapphire { get; set; }
 
     public Node net { get; set; }
 
@@ -45,18 +45,14 @@ public partial class Glaceon : Node
         EventBus.centralBus.subscribe(this);
 
         // Enforce only one current active scene
-        this.RemoveChild(this.Sapphire);
+        //this.RemoveChild(this.Sapphire);
         this.currentScene = this.Lapis;
     }
 
     [Subscribe(Events.EventNet)]
     public void onNetEvent(Node node)
     {
-        CallDeferred(nameof(setNet), node);
-    }
-
-    private void setNet(Node node)
-    {
+        //CallDeferred(nameof(setNet), node);
         this.net?.QueueFree();
         this.net = node; // == "espeon" ? new EspeonNet() : new UmbreonNet();
         this.AddChild(this.net);
@@ -76,26 +72,31 @@ public partial class Glaceon : Node
         }
         if(sceneName == Events.SceneFight)
         {
-            changeScene(Sapphire);
+            this.Sapphire?.QueueFree();
+            this.Sapphire = AssetCache.Load<PackedScene>("res://scenes/sapphire/Sapphire.tscn").Instantiate<Sapphire>();
+            this.changeScene(this.Sapphire);
+            this.Sapphire.onSetFight(Universe.fight);
         }
     }
 
-    [Subscribe(Fight.EventSet)]
-    public void onFigthStarted(Fight fight)
-    {
-        if(fight == null)
-        {
-            this.changeScene(this.Lapis);
-        } 
-        else
-        {
-            var sapphire = AssetCache.Load<PackedScene>("res://scenes/sapphire/Sapphire.tscn").Instantiate();
-            if (this.currentScene != this.Sapphire)
-            {
-                this.changeScene(this.Sapphire);
-            }
-        }
-    }
+    //[Subscribe(Fight.EventSet)]
+    //public void onFigthStarted(Fight fight)
+    //{
+    //    if(fight == null)
+    //    {
+    //        this.changeScene(this.Lapis);
+    //    } 
+    //    else
+    //    {
+    //        this.Sapphire = AssetCache.Load<PackedScene>("res://scenes/sapphire/Sapphire.tscn").Instantiate<Sapphire>();
+    //        this.changeScene(this.Sapphire);
+    //        this.Sapphire.onSetFight(fight);
+    //    }
+    //    //else if (this.currentScene != this.Sapphire)
+    //    //{
+    //    //    this.changeScene(this.Sapphire);
+    //    //}
+    //}
 
     private void changeScene(Node newScene)
     {

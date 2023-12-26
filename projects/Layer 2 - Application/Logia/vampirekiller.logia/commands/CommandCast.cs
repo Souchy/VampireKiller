@@ -11,7 +11,7 @@ namespace vampirekiller.logia.commands;
 
 public record struct CommandCast : ICommand
 {
-    public int playerId { get; set; }
+    public int playerId { get; set; } = -1;
     //public CreatureInstance source { get; private set; }
     public Vector3 raycastMouse { get; private set; }
     // Would also contain the spell/ability being casted/used
@@ -20,6 +20,7 @@ public record struct CommandCast : ICommand
     public CommandCast(int playerId, Vector3 raycastMouse, int activeSlot) //CreatureInstance source)
     {
         //this.source = source;
+        this.playerId = playerId;
         this.raycastMouse = raycastMouse;
         this.activeSlot = activeSlot;
     }

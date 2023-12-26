@@ -33,6 +33,7 @@ public partial class EspeonNet : Node //, Net
     {
         this.OnReady();
         this.Inject();
+        this.Name = this.GetType().Name;
         Espeon.net = this;
 
         var error = peer.CreateServer(port);
@@ -85,6 +86,13 @@ public partial class EspeonNet : Node //, Net
     /// </summary>
     private void PeerDisconnected(long id)
     {
+        var crea = Universe.fight.creatures.get(c => c.playerId == id);
+        if(crea != null)
+        {
+            Universe.fight.creatures.remove(crea);
+            Universe.fight.entities.remove(crea);
+            crea.Dispose();
+        }
         GD.Print("Espeon Peer disconnected " + id);
     }
 

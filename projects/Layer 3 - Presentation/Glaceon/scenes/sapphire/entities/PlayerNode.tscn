@@ -35,7 +35,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_u8uq0")
 [node name="TeamRing" parent="." index="2"]
 mesh = SubResource("TorusMesh_4rlo3")
 
-[node name="UiGame" parent="." index="6" instance=ExtResource("5_du3oj")]
+[node name="UiSapphire" parent="." index="6" instance=ExtResource("5_du3oj")]
 
 [node name="PlayerCamera" type="Camera3D" parent="." index="7"]
 unique_name_in_owner = true

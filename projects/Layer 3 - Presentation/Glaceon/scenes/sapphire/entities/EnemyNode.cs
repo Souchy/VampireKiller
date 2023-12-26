@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Sharp.Extras;
+using Logia.vampirekiller.logia;
 using System;
 using Util.communication.events;
 using vampirekiller.eevee.ai;
@@ -31,6 +32,14 @@ public partial class EnemyNode : CreatureNode
         }
         if (this.trackingTarget != null)
             this.NavigationAgent3D.TargetPosition = this.trackingTarget.GlobalPosition;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        //base._PhysicsProcess(delta);
+        if (Universe.isOnline && !this.Multiplayer.IsServer()) //!this.IsMultiplayerAuthority())
+            return;
+        physicsNavigationProcess(delta);
     }
 
 }

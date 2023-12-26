@@ -34,14 +34,33 @@ public partial class Sapphire : Node
     [NodePath]
     public Node Effects { get; set; }
 
-    [NodePath]
-    public MultiplayerSpawner MultiplayerSpawner { get; set; }
+    [NodePath] public MultiplayerSpawner EntitySpawner { get; set; }
+    [NodePath] public MultiplayerSpawner PlayerSpawner { get; set; }
+    [NodePath] public MultiplayerSpawner EffectSpawner { get; set; }
+    [NodePath] public MultiplayerSpawner ProjectileSpawner { get; set; }
 
+    public Sapphire()
+    {
+
+    }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         this.OnReady();
+        GD.Print("Sapphire ready");
+        clearNodes();
+
+        EntitySpawner.AddSpawnableScene("res://scenes/sapphire/entities/CreatureNode.tscn");
+        EntitySpawner.AddSpawnableScene("res://scenes/sapphire/entities/EnemyNode.tscn");
+        EntitySpawner.AddSpawnableScene("res://scenes/db/creatures/Orc.tscn");
+        PlayerSpawner.AddSpawnableScene("res://scenes/sapphire/entities/PlayerNode.tscn");
+        EffectSpawner.AddSpawnableScene("res://scenes/sapphire/entities/effects/FxNode.tscn");
+        EffectSpawner.AddSpawnableScene("res://scenes/db/spells/shockNova.tscn");
+        EffectSpawner.AddSpawnableScene("res://scenes/db/spells/fireball/fireball_explosion.tscn");
+        EffectSpawner.AddSpawnableScene("res://scenes/db/spells/fireball/fireball_burn.tscn");
+        ProjectileSpawner.AddSpawnableScene("res://scenes/sapphire/entities/effects/ProjectileNode.tscn");
+        ProjectileSpawner.AddSpawnableScene("res://scenes/db/spells/fireball/fireball_projectile.tscn");
         if (Universe.isOnline && !this.IsMultiplayerAuthority())
             return;
         EventBus.centralBus.subscribe(this);
@@ -61,7 +80,8 @@ public partial class Sapphire : Node
     [Subscribe(Fight.EventSet)]
     public void onSetFight(Fight fight)
     {
-        clearNodes();
+        if (Universe.isOnline && !this.IsMultiplayerAuthority())
+            return;
         if (fight == null)
             return;
         fight.creatures.GetEntityBus().subscribe(this);
@@ -84,9 +104,10 @@ public partial class Sapphire : Node
     [Subscribe("fx")]
     public void onFxScene(string scene, Entity entity)
     {
+        EffectSpawner.AddSpawnableScene(scene);
         var pos = entity.get<Func<Vector3>>()();
         var node = AssetCache.Load<PackedScene>(scene).Instantiate<Node3D>();
-        Effects.AddChild(node);
+        Effects.AddChild(node, true);
         node.GlobalPosition = pos;
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.add))]
@@ -94,10 +115,18 @@ public partial class Sapphire : Node
     {
         CreatureNode node = AssetCache.Load<PackedScene>(inst.model.meshScenePath).Instantiate<CreatureNode>();
         node.init(inst);
+        //PlayerSpawner.SpawnFunction
         if(inst.creatureGroup == EntityGroupType.Players)
-            Players.AddChild(node);
+        {
+            PlayerSpawner.Spawn(inst.playerId);
+            //PlayerSpawner.AddSpawnableScene(inst.model.meshScenePath);
+            Players.AddChild(node, true);
+        }
         if(inst.creatureGroup == EntityGroupType.Enemies)
-            Entities.AddChild(node);
+        {
+            //EntitySpawner.AddSpawnableScene(inst.model.meshScenePath);
+            Entities.AddChild(node, true);
+        }
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
@@ -110,10 +139,11 @@ public partial class Sapphire : Node
     [Subscribe(nameof(SmartSet<ProjectileInstance>.add))]
     public void onAddProjectile(SmartSet<ProjectileInstance> list, ProjectileInstance inst)
     {
+        ProjectileSpawner.AddSpawnableScene(inst.meshScenePath);
         ProjectileNode node = AssetCache.Load<PackedScene>(inst.meshScenePath).Instantiate<ProjectileNode>();
         node.init(inst);
         //this.Entities.AddChild(node);
-        this.Projectiles.AddChild(node);
+        this.Projectiles.AddChild(node, true);
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveProjectile(SmartSet<ProjectileInstance> list, ProjectileInstance inst)

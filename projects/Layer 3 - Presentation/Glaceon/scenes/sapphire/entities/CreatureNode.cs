@@ -50,20 +50,19 @@ public partial class CreatureNode : CharacterBody3D
         {
             // this.GlobalPosition = creatureInstance.spawnPosition;
             updateHPBar();
+            LabelOwner.Text = "" + creatureInstance.playerId;
         }
     }
 
-    public override void _Process(double delta)
-    {
-        base._Process(delta);
-    }
+    //public override void _Process(double delta)
+    //{
+    //    base._Process(delta);
+    //}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        if (Universe.isOnline && !this.IsMultiplayerAuthority())
-            return;
-        physicsNavigationProcess(delta);
-    }
+    //public override void _PhysicsProcess(double delta)
+    //{
+    //    physicsNavigationProcess(delta);
+    //}
 
     protected bool physicsNavigationProcess(double delta)
     {
@@ -102,9 +101,7 @@ public partial class CreatureNode : CharacterBody3D
         creatureInstance.getPositionHook = () => this.GlobalPosition;
         creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
         creatureInstance.set<Func<Vector3>>(() => this.GlobalPosition);
-
-        this.SetMultiplayerAuthority((int) crea.playerId);
-        LabelOwner.Text = "" + crea.playerId;
+        this.SetMultiplayerAuthority((int) creatureInstance.playerId);
     }
 
     public override void _EnterTree()
@@ -114,6 +111,7 @@ public partial class CreatureNode : CharacterBody3D
         if (creatureInstance != null)
         {
             this.GlobalPosition = creatureInstance.spawnPosition;
+            this.SetMultiplayerAuthority((int) creatureInstance.playerId);
         }
     }
 

@@ -37,6 +37,7 @@ public partial class UiSapphire : Control
     public override void _Ready()
     {
         this.OnReady();
+        GD.Print("UiSapphire ready");
         if (Universe.isOnline && !this.IsMultiplayerAuthority())
             return;
         EventBus.centralBus.subscribe(this, nameof(onRaycast));

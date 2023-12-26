@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cpem6fjwcxe78"]
+[gd_scene load_steps=5 format=3 uid="uid://cpem6fjwcxe78"]
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_opbch"]
+[ext_resource type="PackedScene" uid="uid://cfienbmnvqxw4" path="res://scenes/sapphire/entities/effects/FxNode.tscn" id="1_5og7e"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qj4ji"]
 emission_shape = 1
 emission_sphere_radius = 1.0
 angle_max = 720.0
@@ -9,13 +11,13 @@ turbulence_enabled = true
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cq6pe"]
 albedo_color = Color(1, 0.486275, 0.109804, 1)
 
-[sub_resource type="PrismMesh" id="PrismMesh_lk8ts"]
+[sub_resource type="PrismMesh" id="PrismMesh_sqlgg"]
 material = SubResource("StandardMaterial3D_cq6pe")
 size = Vector3(0.2, 0.2, 0.2)
 
-[node name="FireballBurn" type="Node3D"]
+[node name="FxNode" instance=ExtResource("1_5og7e")]
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.504387, 0)
-process_material = SubResource("ParticleProcessMaterial_opbch")
-draw_pass_1 = SubResource("PrismMesh_lk8ts")
+process_material = SubResource("ParticleProcessMaterial_qj4ji")
+draw_pass_1 = SubResource("PrismMesh_sqlgg")

@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cfienbmnvqxw4"]
+[gd_scene load_steps=6 format=3 uid="uid://cfienbmnvqxw4"]
 
 [ext_resource type="Script" path="res://scenes/sapphire/entities/effects/FxNode.cs" id="1_5hhy8"]
 
-[sub_resource type="Animation" id="Animation_iyi1l"]
-resource_name = "play"
+[sub_resource type="Animation" id="Animation_mx44n"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -17,8 +17,8 @@ tracks/0/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_mx44n"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_iyi1l"]
+resource_name = "play"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -38,6 +38,11 @@ _data = {
 "play": SubResource("Animation_iyi1l")
 }
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mdl4f"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="FxNode" type="Node3D"]
 script = ExtResource("1_5hhy8")
 
@@ -45,3 +50,6 @@ script = ExtResource("1_5hhy8")
 libraries = {
 "": SubResource("AnimationLibrary_bie57")
 }
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_mdl4f")

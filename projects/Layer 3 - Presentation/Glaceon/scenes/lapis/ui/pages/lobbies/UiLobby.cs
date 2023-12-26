@@ -28,12 +28,14 @@ public partial class UiLobby : Control
     {
         // TODO should send command to Application layer
         publisher.publish(new CommandHost());
+        this.QueueFree();
     }
 
     private void BtnJoin_ButtonDown()
     {
         // TODO should send command to Application layer
         publisher.publish(new CommandJoin());
+        this.QueueFree();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
