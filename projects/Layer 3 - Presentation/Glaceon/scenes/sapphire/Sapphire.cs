@@ -115,10 +115,11 @@ public partial class Sapphire : Node
     {
         CreatureNode node = AssetCache.Load<PackedScene>(inst.model.meshScenePath).Instantiate<CreatureNode>();
         node.init(inst);
+        node.Name = "player_" + inst.playerId;
         //PlayerSpawner.SpawnFunction
         if(inst.creatureGroup == EntityGroupType.Players)
         {
-            PlayerSpawner.Spawn(inst.playerId);
+            //PlayerSpawner.Spawn(inst.playerId);
             //PlayerSpawner.AddSpawnableScene(inst.model.meshScenePath);
             Players.AddChild(node, true);
         }

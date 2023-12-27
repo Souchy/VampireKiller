@@ -21,6 +21,8 @@ inner_radius = 0.7
 outer_radius = 0.75
 
 [node name="PlayerNode" groups=["Players"] instance=ExtResource("1_pqufn")]
+collision_layer = 2
+collision_mask = 1
 script = ExtResource("2_eiksd")
 
 [node name="ResourceBars" parent="CollisionShape3D" index="0"]

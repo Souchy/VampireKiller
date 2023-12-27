@@ -101,17 +101,17 @@ public partial class CreatureNode : CharacterBody3D
         creatureInstance.getPositionHook = () => this.GlobalPosition;
         creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
         creatureInstance.set<Func<Vector3>>(() => this.GlobalPosition);
-        this.SetMultiplayerAuthority((int) creatureInstance.playerId);
     }
 
     public override void _EnterTree()
     {
         base._EnterTree();
+        var id = this.Name.ToString().Replace("player_", "");
+        this.SetMultiplayerAuthority(int.Parse(id));
         // GD.Print(this.Name + " enter tree");
         if (creatureInstance != null)
         {
             this.GlobalPosition = creatureInstance.spawnPosition;
-            this.SetMultiplayerAuthority((int) creatureInstance.playerId);
         }
     }
 

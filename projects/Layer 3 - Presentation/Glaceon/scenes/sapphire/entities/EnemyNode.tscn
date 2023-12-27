@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://hdx0iag2udn1"]
 
-[ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/sapphire/entities/CreatureNode.tscn" id="1_t1gyw"]
-[ext_resource type="Script" path="res://scenes/sapphire/entities/EnemyNode.cs" id="2_yera2"]
+[ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/sapphire/entities/CreatureNode.tscn" id="1_0fsy2"]
+[ext_resource type="Script" path="res://scenes/sapphire/entities/EnemyNode.cs" id="2_7iw2f"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_wyh3w"]
 viewport_path = NodePath("SubViewport")
@@ -14,8 +14,8 @@ material = SubResource("StandardMaterial3D_2eine")
 inner_radius = 0.7
 outer_radius = 0.75
 
-[node name="EnemyNode" groups=["Enemies"] instance=ExtResource("1_t1gyw")]
-script = ExtResource("2_yera2")
+[node name="EnemyNode" groups=["Enemies"] instance=ExtResource("1_0fsy2")]
+script = ExtResource("2_7iw2f")
 
 [node name="ResourceBars" parent="CollisionShape3D" index="0"]
 texture = SubResource("ViewportTexture_wyh3w")
