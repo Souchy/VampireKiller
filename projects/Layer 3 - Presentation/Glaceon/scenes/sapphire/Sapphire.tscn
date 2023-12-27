@@ -51,14 +51,14 @@ unique_name_in_owner = true
 [node name="Players" type="Node" parent="."]
 unique_name_in_owner = true
 
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("../Players")
-
-[node name="EffectSpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("../Effects")
+[node name="EntitySpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Entities")
 
 [node name="ProjectileSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../Projectiles")
 
-[node name="EntitySpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("..")
+[node name="EffectSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Effects")
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Players")

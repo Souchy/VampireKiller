@@ -10,6 +10,8 @@ using vampirekiller.logia.extensions;
 using vampirekiller.glaceon.util;
 using vampirekiller.eevee.stats.schemas.resources;
 using Logia.vampirekiller.logia;
+using vampirekiller.eevee.statements.schemas;
+using Util.structures;
 
 /// <summary>
 /// Properties that need to be shown:
@@ -38,6 +40,8 @@ public partial class CreatureNode : CharacterBody3D
     public ProgressBar Healthbar { get; set; }
     [NodePath]
     public Label3D LabelOwner { get; set; }
+    [NodePath]
+    public Node3D StatusEffects { get; set; }
 
     public float Speed = 5.0f;
     public float JumpVelocity = 6.0f;
@@ -96,8 +100,12 @@ public partial class CreatureNode : CharacterBody3D
     {
         // GD.Print(this.Name + " init");
         creatureInstance = crea;
-        creatureInstance.set<CreatureNode>(this);
         creatureInstance.GetEntityBus().subscribe(this);
+        creatureInstance.statuses.GetEntityBus().subscribe(this);
+        creatureInstance.activeSkills.GetEntityBus().subscribe(this);
+        creatureInstance.items.GetEntityBus().subscribe(this);
+
+        creatureInstance.set<CreatureNode>(this);
         creatureInstance.getPositionHook = () => this.GlobalPosition;
         creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
         creatureInstance.set<Func<Vector3>>(() => this.GlobalPosition);
@@ -146,11 +154,12 @@ public partial class CreatureNode : CharacterBody3D
     // {
 
     // }
-    // [Subscribe]
-    // public void onStatusListRemove(object list, object item)
-    // {
 
-    // }
+    [Subscribe(nameof(SmartList<Status>.remove))]
+    public void onStatusListRemove(SmartList<Status> list, Status item)
+    {
+
+    }
 
     private void updateHPBar()
     {

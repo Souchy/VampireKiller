@@ -11,6 +11,7 @@ using Util.structures;
 using vampierkiller.logia.commands;
 using vampirekiller.eevee.actions;
 using vampirekiller.eevee.enums;
+using vampirekiller.eevee.statements.schemas;
 using vampirekiller.glaceon.util;
 using vampirekiller.logia.extensions;
 using VampireKiller.eevee;
@@ -101,31 +102,36 @@ public partial class Sapphire : Node
     }
 
 
-    [Subscribe("fx")]
-    public void onFxScene(string scene, Entity entity)
+    [Subscribe(SpawnFxSchema.EventFx)]
+    public void onFxScene(string scene, Entity entity, bool follow, Status? status)
     {
-        EffectSpawner.AddSpawnableScene(scene);
-        var pos = entity.get<Func<Vector3>>()();
-        var node = AssetCache.Load<PackedScene>(scene).Instantiate<Node3D>();
-        Effects.AddChild(node, true);
-        node.GlobalPosition = pos;
+        var node = AssetCache.Load<PackedScene>(scene).Instantiate<FxNode>();
+        node.init(status);
+        if (follow && entity.get<CreatureNode>() != null)
+        {
+            var creaNode = entity.get<CreatureNode>();
+            creaNode.StatusEffects.AddChild(node);
+        }
+        else
+        {
+            var pos = entity.get<Func<Vector3>>()();
+            Effects.AddChild(node, true);
+            node.GlobalPosition = pos;
+        }
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.add))]
     public void onAddCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {
         CreatureNode node = AssetCache.Load<PackedScene>(inst.model.meshScenePath).Instantiate<CreatureNode>();
         node.init(inst);
-        node.Name = "player_" + inst.playerId;
-        //PlayerSpawner.SpawnFunction
         if(inst.creatureGroup == EntityGroupType.Players)
         {
-            //PlayerSpawner.Spawn(inst.playerId);
-            //PlayerSpawner.AddSpawnableScene(inst.model.meshScenePath);
+            node.Name = "player_" + inst.playerId;
             Players.AddChild(node, true);
         }
+        else
         if(inst.creatureGroup == EntityGroupType.Enemies)
         {
-            //EntitySpawner.AddSpawnableScene(inst.model.meshScenePath);
             Entities.AddChild(node, true);
         }
     }
@@ -140,7 +146,6 @@ public partial class Sapphire : Node
     [Subscribe(nameof(SmartSet<ProjectileInstance>.add))]
     public void onAddProjectile(SmartSet<ProjectileInstance> list, ProjectileInstance inst)
     {
-        ProjectileSpawner.AddSpawnableScene(inst.meshScenePath);
         ProjectileNode node = AssetCache.Load<PackedScene>(inst.meshScenePath).Instantiate<ProjectileNode>();
         node.init(inst);
         //this.Entities.AddChild(node);

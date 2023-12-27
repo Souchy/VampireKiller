@@ -18,6 +18,7 @@ using VampireKiller.eevee.vampirekiller.eevee.conditions;
 using VampireKiller.eevee.vampirekiller.eevee.enums;
 using System.Timers;
 using Timer = System.Timers.Timer;
+using Logia.vampirekiller.logia;
 
 namespace vampirekiller.logia.statements;
 
@@ -36,8 +37,20 @@ public class CreateStatusScript : IStatementScript
         if (target == null || source == null)
             return;
 
-        var castAction = action.getParent<ActionCastActive>();
-        action.getContext<CreatureInstance>(IActionTrigger.creature);
+
+        var actionCast = action.getParent<ActionCastActive>();
+        var actionTrigger = action.getParent<ActionTrigger>();
+        ID? modelID = actionCast?.getActive()?.modelUid;
+        if(modelID == null)
+        {
+            modelID = actionTrigger?.getContextProjectile()?.spellModelUid;
+        }
+        if (modelID == null)
+        {
+            modelID = actionTrigger?.getContextStatus()?.modelUid;
+        }
+
+        //action.getContext<CreatureInstance>(IActionTrigger.creature);
 
         // Gather properties
         var props = action.statement.GetProperties<CreateStatusSchema>();
@@ -59,6 +72,7 @@ public class CreateStatusScript : IStatementScript
         {
             // Create status
             var status = Register.Create<Status>();
+            status.modelUid = (ID) modelID;
             foreach (var statement in props.statusStatements)
             {
                 status.statements.add(statement);
@@ -67,24 +81,30 @@ public class CreateStatusScript : IStatementScript
             status.stats.set(maxDuration);
             status.stats.set(maxStacks);
 
-            // maybe use a Timer instead of "polling" the processTick lol.
             //status.statements.add(getExpirationStatement());
+            // maybe use a Timer instead of "polling" the processTick lol.
+            // Should put in inside the status for reference to refresh the timer
             var expirationTimer = new Timer(totalDuration);
-            expirationTimer.Start();
             expirationTimer.Elapsed += (object? sender, ElapsedEventArgs e) =>
             {
                 expirationTimer.Stop();
+                status.GetEntityBus().publish(Status.EventRemove, status);
                 target.statuses.remove(status);
             };
+            expirationTimer.Start();
             
-            var activationTimer = new Timer(1); // StatusTotalActiovationFrequency
-            activationTimer.Start();
-            activationTimer.Elapsed += (object? sender, ElapsedEventArgs e) =>
-            {
-                // proc/activate a statement ....
-            };
+            //var activationTimer = new Timer(1); // StatusTotalActiovationFrequency
+            //activationTimer.Start();
+            //activationTimer.Elapsed += (object? sender, ElapsedEventArgs e) =>
+            //{
+            //    // proc/activate a statement ....
+            //};
 
             target.statuses.add(status);
+
+            // Proc onAdd triggers
+            var triggerAction = new ActionTriggerOnStatusAdd(action) { status = status };
+            Universe.fight.procTriggers(triggerAction);
         }
 
     }

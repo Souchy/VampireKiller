@@ -29,6 +29,13 @@ using JsonConverter = Newtonsoft.Json.JsonConverter;
 
 namespace vampirekiller.gems.spells;
 
+// Je ne pense pas qu'on ai besoin du SpawnFxSchema dans ce cas pcq 
+//      1. On a besoin des enfants dans le ProjectileInstance
+//      2. Donc le SpawnProjSchema va créer un ProjectileInstance et l'ajouter au fight
+//      3. Donc le GameNode va créer un ProjectileNode en recevant l'event de ProjectileInstance
+//      4. Donc on doit déjà avoir la scene au même endroit que les enfants pour créer le ProjectileInstance
+// SpawnFxSchema reste utile pour spawn une scène sans logique ni projectile
+// SpawnProjectileSchema pourrait inhériter de SpawnFxSchema en quelque sorte
 /// <summary>
 /// Fireball -> projectile (inst + node) -> explosion (node) -> damage zone -> burn (inst + node)
 /// </summary>
@@ -100,14 +107,7 @@ public class TestFireball
         };
         spell.statements.add(proj);
 
-        // Je ne pense pas qu'on ai besoin du SpawnFxSchema dans ce cas pcq 
-        //      1. On a besoin des enfants dans le ProjectileInstance
-        //      2. Donc le SpawnProjSchema va créer un ProjectileInstance et l'ajouter au fight
-        //      3. Donc le GameNode va créer un ProjectileNode en recevant l'event de ProjectileInstance
-        //      4. Donc on doit déjà avoir la scene au même endroit que les enfants pour créer le ProjectileInstance
-        // SpawnFxSchema reste utile pour spawn une scène sans logique ni projectile
-        // SpawnProjectileSchema pourrait inhériter de SpawnFxSchema en quelque sorte
-
+        // Status --------------------
         // Status burn va s'appliquer à tous les targets du explosionDmg vu qu'il est son enfant
         var statusSchema = new CreateStatusSchema()
         {
@@ -123,7 +123,10 @@ public class TestFireball
                 }
         };
         statusSchema.stats.set(new SkillBaseDuration() { value = 3 });
+        statusSchema.stats.set(new SkillMaxDuration() { value = 3 });
         statusSchema.stats.set(new StatusUnbewitchable() { value = true });
+        statusSchema.stats.set(new StatusStacks() { value = 1 });
+        statusSchema.stats.set(new StatusMaxStacks() { value = 4 });
         IStatement addStatus = new Statement()
         {
             targetFilter = new Condition() {
@@ -133,15 +136,28 @@ public class TestFireball
             },
             schema = statusSchema
         };
+        // status doit être enfant de explosion pour l'appliquer à tous les targets dans la zone
+        explosionDmg.statements.add(addStatus);
+
+        // Burn FX --------------------
+        var onStatusAddListener = new TriggerListener()
+        {
+            schema = new TriggerSchemaOnStatusAdd() {
+                spellModelIdFilter = spell.entityUid
+                //creatorStatement = addStatus
+            }
+        };
         // ajoute le burn fx en enfant du status, pourrait être l'inverse sans problème
         var burnFx = new Statement() {
             schema = new SpawnFxSchema() {
-                scene = "res://scenes/db/spells/fireball/fireball_burn.tscn"
-            }
+                scene = "res://scenes/db/spells/fireball/fireball_burn.tscn",
+                follow = true
+            },
         };
-        addStatus.statements.add(burnFx);
-        // status doit être enfant de explosion pour l'appliquer à tous les targets dans la zone
-        explosionDmg.statements.add(addStatus);
+        burnFx.triggers.add(onStatusAddListener);
+        statusSchema.statusStatements.Add(burnFx);
+
+
 
         // todo: spell.stats: costs, cooldown, etc
         spell.iconPath = "res://scenes/db/spells/fireball/fireball.png";

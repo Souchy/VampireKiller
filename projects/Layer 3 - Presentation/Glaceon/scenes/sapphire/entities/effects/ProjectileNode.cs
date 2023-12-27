@@ -106,6 +106,7 @@ public partial class ProjectileNode : Area3D
                 // GD.Print("Collision with a creature other than caster: " + collider);
                 // Action proc tous les listeners onCollision
                 var action = new ActionCollision(projectileInstance, collider.creatureInstance);
+                action.setContextProjectile(projectileInstance);
                 projectileInstance.procTriggers(action);
 
                 expire();

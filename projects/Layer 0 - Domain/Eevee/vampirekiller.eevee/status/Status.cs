@@ -15,6 +15,8 @@ namespace vampirekiller.eevee.statements.schemas;
 /// </summary>
 public class Status : Identifiable, IStatementContainer
 {
+    public const string EventRemove = "status.end";
+
     public ID entityUid { get; set; }
     /// <summary>
     /// Can be a status model or a skill model

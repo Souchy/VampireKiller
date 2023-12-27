@@ -30,6 +30,19 @@ public class ActionStatementTrigger : ActionTrigger, IActionTrigger
     }
 }
 
+public class ActionTriggerOnStatusAdd : ActionTrigger
+{
+    public override TriggerType triggerType => TriggerType.onStatusAdd;
+    public Status status { get; set; }
+
+    public ActionTriggerOnStatusAdd() : base() { }
+    public ActionTriggerOnStatusAdd(IAction parent) : base(parent) { }
+    protected override IAction copyImplementation()
+    {
+        throw new NotImplementedException();
+    }
+}
+
 /// <summary>
 /// Leaf action
 /// </summary>

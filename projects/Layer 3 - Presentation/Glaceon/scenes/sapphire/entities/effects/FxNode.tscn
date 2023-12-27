@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://scenes/sapphire/entities/effects/FxNode.cs" id="1_5hhy8"]
 
 [sub_resource type="Animation" id="Animation_mx44n"]
-length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true

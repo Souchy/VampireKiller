@@ -32,7 +32,9 @@ public record TriggerType(Type schemaType)
     public static readonly TriggerType onCollision = new(typeof(TriggerSchemaOnCollision));
     public static readonly TriggerType onCastActive = new(typeof(TriggerSchemaOnCastActive));
     public static readonly TriggerType onDeath = new(typeof(TriggerSchemaOnDeath));
-    
+
+    public static readonly TriggerType onStatusAdd = new(typeof(TriggerSchemaOnStatusAdd));
+
 }
 
 // public class TriggerTypeAddStats : TriggerType { }
