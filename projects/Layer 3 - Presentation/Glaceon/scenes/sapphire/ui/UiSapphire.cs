@@ -7,7 +7,9 @@ using System.Linq;
 using Util.communication.events;
 using Util.entity;
 using Util.structures;
+using vampirekiller.eevee.enums;
 using vampirekiller.glaceon.util;
+using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 
 public partial class UiSapphire : Control
@@ -32,14 +34,21 @@ public partial class UiSapphire : Control
     public UiSlotActive UiSlotActive4 { get; set; }
 
     private CreatureNode player { get; set; }
+    //private Sapphire sapphire { get; set; }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         this.OnReady();
-        GD.Print("UiSapphire ready");
+        this.player = this.GetParent<PlayerNode>();
+        //this.sapphire = (Sapphire) this.FindParent("Sapphire");
+        //GD.Print("UiSapphire ready");
         if (Universe.isOnline && !this.IsMultiplayerAuthority())
             return;
+        if(player.creatureInstance != null)
+        {
+            setPlayer(player.creatureInstance);
+        }
         EventBus.centralBus.subscribe(this, nameof(onRaycast));
     }
     public override void _ExitTree()
@@ -53,21 +62,24 @@ public partial class UiSapphire : Control
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        if (Universe.isOnline && !this.IsMultiplayerAuthority())
-            return;
-        if (player == null)
-        {
-            var crea = Universe.fight.creatures.get(c => c.creatureGroup == vampirekiller.eevee.enums.EntityGroupType.Players);
-            setPlayer(crea.entityUid);
-        }
-        // Le set player devrait etre fait par RPC, sauf en local.
-        else
-        {
+        /// FIXMEEEEEEEEEEEEEEEEEEEE MULTIPLAYER NO PLAYER + NO SKILL ICONS
+        //if (player == null)
+        //{
+        //    var players = sapphire.Players.GetChildren<PlayerNode>();
+        //    var crea = Universe.fight.creatures.get(c => c.creatureGroup == EntityGroupType.Players);
+        //    setPlayer(crea.entityUid);
+        //}
+        //// Le set player devrait etre fait par RPC, sauf en local.
+        //else
+        //{
             LblPlayerPos.Text = "player: " + player.GlobalPosition;
-        }
+        //}
         var fps = Engine.GetFramesPerSecond();
         LblFps.Text = "fps: " + fps.ToString();
-        LblProjCount.Text = "projectiles: " + Universe.fight.projectiles.size();
+
+        if (Universe.isOnline && !this.IsMultiplayerAuthority())
+            return;
+        LblProjCount.Text = "projectiles: " + Universe.fight?.projectiles.size();
     }
 
     /// <summary>
@@ -75,10 +87,13 @@ public partial class UiSapphire : Control
     /// FIXME: si on est Online, le fight sera vide et on aura aucun data sur lequal se baser ni se subscribe
     /// </summary>
     [Rpc]
-    public void setPlayer(ID creatureId)
+    public void setPlayer(CreatureInstance crea) //ID creatureId)
     {
-        var crea = Universe.fight.creatures.get(c => c.entityUid == creatureId);
-        this.player = crea.get<CreatureNode>();
+        if (Universe.isOnline && !this.Multiplayer.IsServer())
+            return;
+        //this.player = crea.get<CreatureNode>();
+
+        //var crea = Universe.fight.creatures.get(c => c.entityUid == creatureId);
 
         // update active skills
         crea.activeSkills.GetEntityBus().subscribe(this, nameof(onSetActive));

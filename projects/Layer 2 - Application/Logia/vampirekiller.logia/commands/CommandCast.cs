@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Godot;
 using Util.communication.commands;
+using vampirekiller.eevee.util.json;
 using VampireKiller.eevee.creature;
+using Json = vampirekiller.eevee.util.json.Json;
 
 namespace vampirekiller.logia.commands;
 
@@ -27,6 +29,8 @@ public record struct CommandCast : ICommand
 
     public byte[] serialize()
     {
-        throw new NotImplementedException();
+        var json = Json.serialize(this);
+        var bytes = Encoding.UTF8.GetBytes(json);
+        return bytes;
     }
 }

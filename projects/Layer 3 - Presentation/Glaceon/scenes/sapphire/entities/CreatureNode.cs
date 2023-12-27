@@ -106,8 +106,11 @@ public partial class CreatureNode : CharacterBody3D
     public override void _EnterTree()
     {
         base._EnterTree();
-        var id = this.Name.ToString().Replace("player_", "");
-        this.SetMultiplayerAuthority(int.Parse(id));
+        if(this.Name.ToString().Contains("player_"))
+        {
+            var id = this.Name.ToString().Replace("player_", "");
+            this.SetMultiplayerAuthority(int.Parse(id));
+        }
         // GD.Print(this.Name + " enter tree");
         if (creatureInstance != null)
         {

@@ -19,24 +19,24 @@ public class UmbreonCommandPublisher : ICommandPublisher
 
     public void publish<T>(T command) where T : ICommand
     {
-        //if (command.preferOnline && Universe.isOnline)
+        if (command.preferOnline && Universe.isOnline)
         //{
-        //    Umbreon.net.RpcServer(Rpcs.onPacketCommand, command.serialize());
+            Umbreon.net?.RpcId(1, Rpcs.onPacketCommand, command.serialize());
         //}
-        //else
-        //{
+        else
+            //{
             _manager.handle(command);
         //}
     }
 
     public async Task publishAsync<T>(T command) where T : ICommand
     {
-        //if (command.preferOnline && Universe.isOnline)
+        if (command.preferOnline && Universe.isOnline)
         //{
-        //    Umbreon.net.RpcServer(Rpcs.onPacketCommand, command.serialize());
+            Umbreon.net?.RpcId(1, Rpcs.onPacketCommand, command.serialize());
         //}
-        //else
-        //{
+        else
+            //{
             await _manager.handleAsync(command);
         //}
     }
