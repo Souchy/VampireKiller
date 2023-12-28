@@ -55,14 +55,17 @@ public class TestFireball
 
         // Explosion devrait proc sur le onCollision du projectile
         var explosionFx = new Statement() {
-            schema = new SpawnFxSchema() {
+            zone = new Zone() { worldOrigin = ZoneOriginType.Target },
+            schema = new SpawnFxSchema()
+            {
                 scene = "res://scenes/db/spells/fireball/fireball_explosion.tscn"
             }
         };
         var explosionDmg = new Statement() {
             zone = new Zone() {
                 zoneType = ZoneType.circle,
-                size = new ZoneSize(3, 0, 0)
+                size = new ZoneSize(3, 0, 0),
+                worldOrigin = ZoneOriginType.Target
             },
             targetFilter = new Condition() {
                 schema = new TeamFilter() {
@@ -102,7 +105,9 @@ public class TestFireball
             value = 2
         });
         projSchema.spawnOffset = 0.1f;
-        var proj = new Statement() {
+        var proj = new Statement()
+        {
+            zone = new Zone() { worldOrigin = ZoneOriginType.Raycast },
             schema = projSchema
         };
         spell.statements.add(proj);
@@ -117,6 +122,7 @@ public class TestFireball
         statusSchema.stats.set(new StatusMaxStacks() { value = 4 });
         IStatement addStatus = new Statement()
         {
+            zone = new Zone() { worldOrigin = ZoneOriginType.Target },
             targetFilter = new Condition() {
                 schema = new TeamFilter() {
                     team = TeamRelationType.Enemy
@@ -133,19 +139,22 @@ public class TestFireball
             schema = new TriggerSchemaOnStatusAdd() { spellModelIdFilter = spell.entityUid }
         };
 
-        // Burn dot --------------------
+        // Status effects: Burn dot --------------------
         // Créé un timer de 1 second de base activation period
         var timerSchema = new CreateActivationTimerSchema();
         timerSchema.stats.set(new SpellBaseCastTime() { value = 1 });
         var timerStatement = new Statement()
         {
+            zone = new Zone() { worldOrigin = ZoneOriginType.Target },
             schema = timerSchema
         };
         timerStatement.triggers.add(onStatusAddListener);
         statusSchema.statusStatements.Add(timerStatement);
 
         // Apply un damage à chq fois que le timer active.
-        var damageOverTime = new Statement() {
+        var damageOverTime = new Statement()
+        {
+            zone = new Zone() { worldOrigin = ZoneOriginType.Target },
             schema = new DamageSchema() { //DamageOverTimeSchema() {
                 baseDamage = 3
             }

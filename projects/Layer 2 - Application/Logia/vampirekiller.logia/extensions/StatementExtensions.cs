@@ -1,9 +1,14 @@
 using Godot;
 using Logia.vampirekiller.logia;
 using Namespace;
+using souchy.celebi.eevee.enums;
+using System.Linq;
+using Util.ecs;
 using vampirekiller.eevee;
 using vampirekiller.eevee.actions;
+using vampirekiller.eevee.enums;
 using vampirekiller.eevee.triggers;
+using vampirekiller.eevee.util;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
@@ -24,25 +29,53 @@ public static class StatementExtensions
         Action a = (Action) action;
         // Test ça en attendant, mais c'est pas exact. desfois on veut la position sur le caster, desfois la position sur le curseur, ou sur le proj..
         //      Ex: shockNova check par rapport au crea caster vs fireballExplosion check par rapport au crea target de la collision
-        var sourcePos = a.getSourceEntity().get<Func<Vector3>>()();
+
         // Va chercher toutes les zones avant d'appliquer les effets
-        var statementActions = container.statements.values.Select(statement =>
+        List<ActionStatementZone> subs = new();
+        foreach (var statement in container.statements.values)
         {
             // todo: calcul zone, get toutes les fight.entity.position qui sont dedans (creatures, projectiles, glyphs..)
             // disons qu'on prend juste les creatures pour l'instant
             // pourra être utile d'avoir des CreatureSystem, ProjectileSystem, etc qui regroupent toutes les entités
             //      peuvent être populés automatiquement via Register.Create<>();
-            var radius = statement.zone?.size.radius;
-            IEnumerable<CreatureInstance> targets = action.fight.creatures.values.Where(c => c.position.DistanceTo(sourcePos) <= radius);
-            var sub = new ActionStatementZone(action)
+
+            Vector3? spawnPos = statement.zone.getZoneOrigin(action);
+            if (spawnPos == null)
             {
-                statement = statement,
-                targets = targets
-            };
-            return sub;
-        });
+                // Cancel the action
+                if (statement.isRequiredForContainer)
+                    return;
+            }
+            else
+            if (statement.zone.zoneType != ZoneType.point)
+            {
+                var radius = statement.zone.size.radius;
+                IEnumerable<Entity> targets = action.fight.entities.values.ToList().Where(c =>
+                {
+                    var getter = c.get<PositionGetter>();
+                    if(getter == null) return false;
+                    var dist = getter().DistanceTo((Vector3) spawnPos);
+                    return dist <= radius;
+                });
+                var sub = new ActionStatementZone(action)
+                {
+                    statement = statement,
+                    targets = targets
+                };
+                subs.Add(sub);
+            }
+            else
+            {
+                var sub = new ActionStatementZone(action)
+                {
+                    statement = statement,
+                    targets = null
+                };
+                subs.Add(sub);
+            }
+        }
         // Applique à toute la zone
-        foreach (var sub in statementActions)
+        foreach (var sub in subs)
         {
             sub.applyStatementZone();
         }

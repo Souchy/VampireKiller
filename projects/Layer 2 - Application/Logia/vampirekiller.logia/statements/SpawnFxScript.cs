@@ -31,20 +31,22 @@ public class SpawnFxScript : IStatementScript
     public void apply(ActionStatementTarget action)
     {
         var props = action.statement.GetProperties<SpawnFxSchema>();
-        Entity spawnTarget = null;
-        if (props.followActor == ActorType.Source)
-        {
-            spawnTarget = action.getSourceEntity();
-        }
-        else
-        if (props.followActor == ActorType.Target)
-        {
-            spawnTarget = action.getTargetEntity();
-        }
+
+        //Entity spawnTarget = null;
+        //if (props.followActor == ActorType.Source)
+        //{
+        //    spawnTarget = action.getSourceEntity();
+        //}
+        //else
+        //if (props.followActor == ActorType.Target)
+        //{
+        //    spawnTarget = action.getTargetEntity();
+        //}
         var status = action.getParent<ActionTrigger>()?.getContextStatus();
+        var spawnTarget = action.currentTargetEntity;
+        var spawnPos = action.currentTargetPos;
 
-
-        EventBus.centralBus.publish(SpawnFxSchema.EventFx, props.scene, spawnTarget, props.follow, status);
+        EventBus.centralBus.publish(SpawnFxSchema.EventFx, props.scene, spawnPos, spawnTarget, props.follow, status); //spawnTarget, props.follow, status);
 
     }
 }

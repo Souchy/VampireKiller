@@ -102,31 +102,31 @@ public partial class PlayerNode : CreatureNode
 
         base._Input(@event);
 
-		Vector3 raycast = Vector3.Zero;
+        (CreatureNode? raycastEntity, Vector3? raycastPosition)? raycast = null;
 
 		bool clicked = Input.IsActionJustPressed("click_move") || Input.IsActionPressed("click_move");
 		if (clicked)
 		{
-			if (raycast == Vector3.Zero)
+			if (raycast == null)
 				raycast = getRayCast();
-			NavigationAgent3D.TargetPosition = raycast;
+			NavigationAgent3D.TargetPosition = (Vector3) raycast.Value.raycastPosition;
 		}
 
         var playerId = this.GetMultiplayerAuthority();
 		bool casted1 = Input.IsActionJustPressed("cast_slot_1");
 		if (casted1)
 		{
-			if (raycast == Vector3.Zero)
+			if (raycast == null)
 				raycast = getRayCast();
-			var cmd = new CommandCast(playerId, raycast, 0);
+			var cmd = new CommandCast(playerId, raycast.Value.raycastEntity?.creatureInstance, (Vector3) raycast.Value.raycastPosition, 0);
             this.publisher.publish(cmd);
 		}
 		bool casted2 = Input.IsActionJustPressed("cast_slot_2");
 		if (casted2)
 		{
-			if (raycast == Vector3.Zero)
+			if (raycast == null)
 				raycast = getRayCast();
-			var cmd = new CommandCast(playerId, raycast, 1);
+			var cmd = new CommandCast(playerId, raycast.Value.raycastEntity?.creatureInstance, (Vector3) raycast.Value.raycastPosition, 1);
 			this.publisher.publish(cmd);
 		}
 		bool clear_projs = Input.IsActionJustPressed("clear_projs");
@@ -136,7 +136,7 @@ public partial class PlayerNode : CreatureNode
 		}
 	}
 
-	private Vector3 getRayCast()
+	private (CreatureNode?, Vector3?) getRayCast()
 	{
 		var mousePos = this.GetViewport().GetMousePosition();
 		var rayLength = 100;
@@ -150,13 +150,24 @@ public partial class PlayerNode : CreatureNode
 			CollideWithAreas = true
 		};
 		var result = space.IntersectRay(ray);
-		if (result.ContainsKey("position")){
-			Vector3 pos = (Vector3)result["position"];
+        CreatureNode? raycastEntity = null;
+        Vector3? raycastPosition = null;
+        if (result.ContainsKey("collider"))
+        {
+            // Different colliders: ground (StaticBody3D), creature (CreatureNode).
+            // Theorical: poe corpses (spectres), totems (prob a creature), maybe some bullshit doors or destructible decor  
+            Node3D collider = (Node3D) result["collider"];
+            if(collider is CreatureNode crea)
+                raycastEntity = crea;
+        }
+		if (result.ContainsKey("position")) {
+			Vector3 pos = (Vector3) result["position"];
 			pos.Y = 0;
-			EventBus.centralBus.publish(nameof(UiSapphire.onRaycast), pos);
-			return pos;
-		}
-		return Vector3.Zero;
+            raycastPosition = pos;
+        }
+        EventBus.centralBus.publish(nameof(UiSapphire.onRaycast), raycastEntity, raycastPosition);
+        return (raycastEntity, raycastPosition);
+		//return Vector3.Zero;
 	}
 
 }

@@ -19,8 +19,9 @@ public class HandlerOnCast : ICommandHandler<CommandCast>
     {
         var playerCreature = Universe.fight.creatures.get(c => c.playerId == command.playerId);
         var action = new ActionCastActive() {
-            raycastPosition = command.raycastMouse,
             sourceEntity = playerCreature.entityUid, //command.source.entityUid,
+            raycastEntity = command.raycastEntity,
+            raycastPosition = command.raycastMouse,
             fight = Universe.fight,
             slot = command.activeSlot,
         };

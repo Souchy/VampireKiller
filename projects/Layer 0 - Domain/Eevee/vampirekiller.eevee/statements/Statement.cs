@@ -29,20 +29,26 @@ public interface IStatement : IStatementContainer //: Identifiable
     public IZone zone { get; set; }
     // TODO create Triggers
     public SmartList<TriggerListener> triggers { get; set; }
-    public T GetProperties<T>() where T : IStatementSchema => (T) schema;
+    public bool isRequiredForContainer { get; set; }
 
+    public T GetProperties<T>() where T : IStatementSchema => (T) schema;
     public IStatement copy();
 }
 public class Statement : IStatement
 {
     // public ID entityUid { get; set; }
     //public ID modelUid { get; set; }
+    /// <summary>
     public IStatementSchema schema { get; set; }
     public ICondition sourceCondition { get; set; }
     public ICondition targetFilter { get; set; }
-    public IZone zone { get; set; } //= new Zone();
+    public IZone zone { get; set; } = new Zone();
     public SmartList<TriggerListener> triggers { get; set; } = SmartList<TriggerListener>.Create();
     public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
+    /// If true, when cancelled, cancels the whole statement container (spell, etc). <br></br>
+    /// Otherwise, just dont apply this statement, but still apply the others
+    /// </summary>
+    public bool isRequiredForContainer { get; set; }
 
     public IStatement copy()
     {

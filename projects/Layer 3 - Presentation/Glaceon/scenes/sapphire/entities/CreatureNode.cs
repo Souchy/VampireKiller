@@ -12,6 +12,8 @@ using vampirekiller.eevee.stats.schemas.resources;
 using Logia.vampirekiller.logia;
 using vampirekiller.eevee.statements.schemas;
 using Util.structures;
+using vampirekiller.eevee.util;
+using VampireKiller.eevee;
 
 /// <summary>
 /// Properties that need to be shown:
@@ -106,9 +108,18 @@ public partial class CreatureNode : CharacterBody3D
         creatureInstance.items.GetEntityBus().subscribe(this);
 
         creatureInstance.set<CreatureNode>(this);
-        creatureInstance.getPositionHook = () => this.GlobalPosition;
-        creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
-        creatureInstance.set<Func<Vector3>>(() => this.GlobalPosition);
+        //creatureInstance.getPositionHook = () => this.GlobalPosition;
+        //creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
+        //creatureInstance.set<Func<Vector3>>(() => this.GlobalPosition);
+        creatureInstance.set<PositionGetter>(() => this.GlobalPosition);
+    }
+
+    //TEST TDOTDO ka sdklajm SD
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        creatureInstance?.remove<ProjectileNode>();
+        creatureInstance?.remove<PositionGetter>();
     }
 
     public override void _EnterTree()

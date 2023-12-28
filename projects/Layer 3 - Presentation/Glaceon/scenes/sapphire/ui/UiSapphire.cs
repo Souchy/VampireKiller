@@ -105,9 +105,9 @@ public partial class UiSapphire : Control
 
 
     [Subscribe(nameof(onRaycast))]
-    public void onRaycast(Vector3 pos)
+    public void onRaycast(CreatureNode? crea, Vector3? pos)
     {
-        LblLastRaycast.Text = "raycast: " + pos;
+        LblLastRaycast.Text = "raycast: " + pos + " - " + crea?.Name;
     }
 
     /// <summary>

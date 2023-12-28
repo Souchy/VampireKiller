@@ -19,6 +19,5 @@ size = Vector3(0.2, 0.2, 0.2)
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50439, 0)
-one_shot = true
 process_material = SubResource("ParticleProcessMaterial_qj4ji")
 draw_pass_1 = SubResource("PrismMesh_sqlgg")

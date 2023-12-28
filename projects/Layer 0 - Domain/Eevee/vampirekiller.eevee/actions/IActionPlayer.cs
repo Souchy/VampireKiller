@@ -26,7 +26,7 @@ public class ActionCastActive : Action //, IActionTrigger
     //public Item getItem() => fight.items.get(i => i.entityUid == activeItem);
     public SpellInstance? getActive() => getSourceCreature().activeSkills.getAt(slot);
     public CreatureInstance getSourceCreature() => fight.creatures.values.FirstOrDefault(c => c.entityUid == sourceEntity);
-    public CreatureInstance getRaycastCreature() => fight.creatures.values.FirstOrDefault(c => c.entityUid == targetEntity);
+    public CreatureInstance getRaycastCreature() => fight.creatures.values.FirstOrDefault(c => c.entityUid == raycastEntity);
     protected override IAction copyImplementation()
         => new ActionCastActive(slot); //activeItem);
 }

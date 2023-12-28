@@ -32,7 +32,7 @@ public class CreateStatusScript : IStatementScript
     public void apply(ActionStatementTarget action)
     {
         // TODO status creation script
-        var target = action.currentTarget as CreatureInstance;
+        var target = action.currentTargetEntity as CreatureInstance;
         var source = action.getSourceEntity();
         if (target == null || source == null)
             return;

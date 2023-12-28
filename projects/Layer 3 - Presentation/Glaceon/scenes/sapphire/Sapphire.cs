@@ -12,6 +12,7 @@ using vampierkiller.logia.commands;
 using vampirekiller.eevee.actions;
 using vampirekiller.eevee.enums;
 using vampirekiller.eevee.statements.schemas;
+using vampirekiller.eevee.util;
 using vampirekiller.glaceon.util;
 using vampirekiller.logia.extensions;
 using VampireKiller.eevee;
@@ -103,20 +104,37 @@ public partial class Sapphire : Node
 
 
     [Subscribe(SpawnFxSchema.EventFx)]
-    public void onFxScene(string scene, Entity entity, bool follow, Status? status)
+    public void onFxScene(string scene, Vector3? spawnPos, Entity? attachEntity, bool follow, Status? status)
     {
-        var node = AssetCache.Load<PackedScene>(scene).Instantiate<FxNode>();
-        node.init(status);
-        if (follow && entity.get<CreatureNode>() != null)
+        if(spawnPos != null)
         {
-            var creaNode = entity.get<CreatureNode>();
-            creaNode.StatusEffects.AddChild(node);
+            var node = AssetCache.Load<PackedScene>(scene).Instantiate<FxNode>();
+            node.init(status);
+            Effects.AddChild(node, true);
+            node.GlobalPosition = (Vector3) spawnPos!;
         }
         else
+        if(attachEntity != null)
         {
-            var pos = entity.get<Func<Vector3>>()();
-            Effects.AddChild(node, true);
-            node.GlobalPosition = pos;
+            if (follow && attachEntity.get<CreatureNode>() != null)
+            {
+                var creaNode = attachEntity.get<CreatureNode>();
+                var node = AssetCache.Load<PackedScene>(scene).Instantiate<FxNode>();
+                node.init(status);
+                creaNode.StatusEffects.AddChild(node);
+            }
+            // normalement, si on fait ca, le spawnPos serait surement set, c'est le meme usecase
+            else
+            {
+                var getter = attachEntity.get<PositionGetter>();
+                if(getter == null)
+                    return;
+                var pos = getter();
+                var node = AssetCache.Load<PackedScene>(scene).Instantiate<FxNode>();
+                node.init(status);
+                Effects.AddChild(node, true);
+                node.GlobalPosition = pos;
+            }
         }
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.add))]

@@ -13,7 +13,7 @@ public class SpawnFxSchema : IStatementSchema
     /// </summary>
     public string scene { get; set; }
     public bool follow { get; set; } = false;
-    public ActorType followActor { get; set; } = ActorType.Target;
+    //public ActorType followActor { get; set; } = ActorType.Target;
 
     public IStatementSchema copy()
     {

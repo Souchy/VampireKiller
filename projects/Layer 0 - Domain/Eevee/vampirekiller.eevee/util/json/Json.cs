@@ -13,6 +13,7 @@ public static class Json
     {
         Formatting = Formatting.Indented,
         TypeNameHandling = TypeNameHandling.All,
+        NullValueHandling = NullValueHandling.Ignore,
         //Converters = new List<JsonConverter> { new SmartListStatementConverter() }
     };
 

@@ -12,6 +12,7 @@ using vampirekiller.eevee.triggers.schemas;
 using Logia.vampirekiller.logia;
 using vampirekiller.eevee.stats.schemas.skill;
 using Eevee.vampirekiller.eevee.stats.schemas;
+using vampirekiller.eevee.util;
 
 /// <summary>
 /// TODO: remove any projectile that goes outside the process range.
@@ -89,7 +90,7 @@ public partial class ProjectileNode : Area3D
         projectileInstance = proj;
         projectileInstance.set<ProjectileNode>(this);
         projectileInstance.GetEntityBus().subscribe(this);
-        projectileInstance.set<Func<Vector3>>(() =>
+        projectileInstance.set<PositionGetter>(() =>
         {
             //try
             //{
@@ -99,12 +100,12 @@ public partial class ProjectileNode : Area3D
         });
     }
 
-     TEST TDOTDO ka sdklajm SD
+     //TEST TDOTDO ka sdklajm SD
     public override void _ExitTree()
     {
         base._ExitTree();
-        projectileInstance.remove<ProjectileNode>();
-        projectileInstance.remove<Func<Vector3>>();
+        projectileInstance?.remove<ProjectileNode>();
+        projectileInstance?.remove<PositionGetter>();
     }
 
     private void onBodyEntered(Node3D body)

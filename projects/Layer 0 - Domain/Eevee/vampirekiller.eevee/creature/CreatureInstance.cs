@@ -12,6 +12,7 @@ using vampirekiller.eevee.actions;
 using vampirekiller.eevee.enums;
 using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
+using vampirekiller.eevee.util;
 using VampireKiller.eevee.vampirekiller.eevee.enums;
 using VampireKiller.eevee.vampirekiller.eevee.equipment;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
@@ -30,9 +31,16 @@ public class CreatureInstance : Entity, Identifiable
     public EntityGroupType creatureGroup { get => get<EntityGroupType>(); set => set<EntityGroupType>(value); }
 
     public Vector3 spawnPosition { get; set; }
-    public Vector3 position { get => getPositionHook(); set => setPositionHook(value); }
-    public Func<Vector3> getPositionHook { get; set; }
-    public Action<Vector3> setPositionHook { get; set; }
+    public Vector3 position
+    {
+        get
+        {
+            var getter = get<PositionGetter>();
+            //if (getter == null) return null;
+            return getter();
+        }
+        // set => setPositionHook(value); }
+    } 
 
     /// <summary>
     /// Fight stats like added life (-damage + heal...),  max added life (erosion...), etc

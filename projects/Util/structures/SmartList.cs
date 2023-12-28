@@ -60,10 +60,13 @@ public class SmartList<T> : Identifiable
     }
     public bool remove(T value)
     {
-        if(value is null) return false;
+        //if(value is null) return false;
         var result = list.Remove(value);
-        this.GetEntityBus().publish(nameof(remove), this, value);
-        this.GetEntityBus().unsubscribe(value);
+        if(result)
+        {
+            this.GetEntityBus().publish(nameof(remove), this, value);
+            this.GetEntityBus().unsubscribe(value);
+        }
         return result;
     }
 

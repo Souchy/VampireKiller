@@ -38,6 +38,7 @@ public class ShockNova {
         spell.entityUid = "spell_shock_nova"; // Set un ID constant pour pouvoir load toujours le même
 
         var fx = new Statement() {
+            zone = new Zone() { worldOrigin = ZoneOriginType.Source },
             // Glaceon has to take this effect, spawn a ProjectileNode, keep a ref to the effect, then trigger the children OnCollision
             //  In the case of Shock Nova, we don't need collision as it's not a moving aoe
             schema = new SpawnFxSchema() {
@@ -48,6 +49,7 @@ public class ShockNova {
             zone = new Zone() {
                 zoneType = ZoneType.circle,
                 size = new ZoneSize(3),
+                worldOrigin = ZoneOriginType.Source
             },
             targetFilter = new Condition() {
                 schema = new TeamFilter() {
@@ -63,6 +65,7 @@ public class ShockNova {
             zone = new Zone() {
                 zoneType = ZoneType.circle,
                 size = new ZoneSize(3, 0, 1),
+                worldOrigin = ZoneOriginType.Source
             },
             targetFilter = new Condition() {
                 schema = new TeamFilter() {

@@ -44,6 +44,11 @@ public static class TriggerExtensions {
         action.setContextItem(null);
         foreach (var status in crea.statuses.values.ToList())
         {
+            if(status == null)
+            {
+                crea.statuses.remove(null);
+                continue;
+            }
             action.setContextStatus(status);
             status.procTriggers(action); //new ActionStatus(action, crea, status)); //, trigger);
         }
