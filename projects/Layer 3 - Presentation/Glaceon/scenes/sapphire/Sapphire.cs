@@ -73,8 +73,8 @@ public partial class Sapphire : Node
     {
         if (Universe.isOnline && !this.IsMultiplayerAuthority())
             return;
-        var action = new ActionProcessTick(delta);
-        Universe.fight.procTriggers(action);
+        //var action = new ActionProcessTick(delta);
+        //Universe.fight.procTriggers(action);
     }
 
 

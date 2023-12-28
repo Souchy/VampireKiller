@@ -23,6 +23,7 @@ public static class StatementExtensions
     {
         Action a = (Action) action;
         // Test ça en attendant, mais c'est pas exact. desfois on veut la position sur le caster, desfois la position sur le curseur, ou sur le proj..
+        //      Ex: shockNova check par rapport au crea caster vs fireballExplosion check par rapport au crea target de la collision
         var sourcePos = a.getSourceEntity().get<Func<Vector3>>()();
         // Va chercher toutes les zones avant d'appliquer les effets
         var statementActions = container.statements.values.Select(statement =>

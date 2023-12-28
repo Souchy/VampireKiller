@@ -89,7 +89,22 @@ public partial class ProjectileNode : Area3D
         projectileInstance = proj;
         projectileInstance.set<ProjectileNode>(this);
         projectileInstance.GetEntityBus().subscribe(this);
-        projectileInstance.set<Func<Vector3>>(() => this.GlobalPosition);
+        projectileInstance.set<Func<Vector3>>(() =>
+        {
+            //try
+            //{
+                return this.GlobalPosition;
+            //} catch(Exception e) { }
+            //return Vector3.Zero;
+        });
+    }
+
+     TEST TDOTDO ka sdklajm SD
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        projectileInstance.remove<ProjectileNode>();
+        projectileInstance.remove<Func<Vector3>>();
     }
 
     private void onBodyEntered(Node3D body)

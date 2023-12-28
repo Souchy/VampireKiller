@@ -108,20 +108,8 @@ public class TestFireball
         spell.statements.add(proj);
 
         // Status --------------------
-        // Status burn va s'appliquer à tous les targets du explosionDmg vu qu'il est son enfant
-        var statusSchema = new CreateStatusSchema()
-        {
-            //duration = 3,
-            //unbewitchable = true,
-            statusStatements = new List<IStatement>() {
-                    // burn damage
-                    new Statement() {
-                        schema = new DamageSchema() {
-                            baseDamage = 3
-                        }
-                    }
-                }
-        };
+        // Status va s'appliquer à tous les targets du explosionDmg vu qu'il est son enfant
+        var statusSchema = new CreateStatusSchema();
         statusSchema.stats.set(new SkillBaseDuration() { value = 3 });
         statusSchema.stats.set(new SkillMaxDuration() { value = 3 });
         statusSchema.stats.set(new StatusUnbewitchable() { value = true });
@@ -139,14 +127,44 @@ public class TestFireball
         // status doit être enfant de explosion pour l'appliquer à tous les targets dans la zone
         explosionDmg.statements.add(addStatus);
 
-        // Burn FX --------------------
+        // OnAdd listener
         var onStatusAddListener = new TriggerListener()
         {
-            schema = new TriggerSchemaOnStatusAdd() {
-                spellModelIdFilter = spell.entityUid
-                //creatorStatement = addStatus
+            schema = new TriggerSchemaOnStatusAdd() { spellModelIdFilter = spell.entityUid }
+        };
+
+        // Burn dot --------------------
+        // Créé un timer de 1 second de base activation period
+        var timerSchema = new CreateActivationTimerSchema();
+        timerSchema.stats.set(new SpellBaseCastTime() { value = 1 });
+        var timerStatement = new Statement()
+        {
+            schema = timerSchema
+        };
+        timerStatement.triggers.add(onStatusAddListener);
+        statusSchema.statusStatements.Add(timerStatement);
+
+        // Apply un damage à chq fois que le timer active.
+        var damageOverTime = new Statement() {
+            schema = new DamageSchema() { //DamageOverTimeSchema() {
+                baseDamage = 3
             }
         };
+        timerSchema.statements.add(damageOverTime);
+        // todo: faut un flag pour trigger à toutes les secondes.
+        //      CreateStatus check les flags + crée un timer avec le activationFrequency
+        // damage activation listener
+        //var activationSchema = new TriggerSchemaOnProcess();
+        //activationSchema.stats.set(new SpellBaseCastTime() { value = 1 });
+        //damageOverTime.triggers.add(new TriggerListener()
+        //{
+        //    // BaseCastTime + IncCastTime = TimeBetweenActivations
+        //    schema = activationSchema
+        //});
+        // add the dot to the status schema
+        //statusSchema.statusStatements.Add(damageOverTime);
+
+        // Burn FX --------------------
         // ajoute le burn fx en enfant du status, pourrait être l'inverse sans problème
         var burnFx = new Statement() {
             schema = new SpawnFxSchema() {
@@ -155,6 +173,7 @@ public class TestFireball
             },
         };
         burnFx.triggers.add(onStatusAddListener);
+        // add the fx to the status schema
         statusSchema.statusStatements.Add(burnFx);
 
 
