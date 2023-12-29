@@ -119,9 +119,9 @@ public partial class CreatureNode : CharacterBody3D
         this.animationController.playAnimation(CreatureNodeAnimationController.SupportedAnimation.Attack);
     }
 
-    protected void die()
+    protected void death()
     {
-        this.animationController.playAnimation(CreatureNodeAnimationController.SupportedAnimation.Idle);
+        this.animationController.playAnimation(CreatureNodeAnimationController.SupportedAnimation.Death);
     }
 
     public void init(CreatureInstance crea)
@@ -200,7 +200,7 @@ public class CreatureNodeAnimationController
         Walk,   // Loop animation
         Jump,   // Action animation
         Attack, // Action animation
-        Die,    // Action animation
+        Death,  // Action animation
         Unknown // Used as a fallback
     }
 
@@ -276,7 +276,7 @@ public class CreatureNodeAnimationController
             case SupportedAnimation.Attack:
                 return this.attackWindupTimeInSeconds;
             default:
-                return 0;
+                return this.player.GetAnimation(this.animationToAnimationName[animation]).Length;
         }
     }
 
