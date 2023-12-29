@@ -1,3 +1,4 @@
+using Godot;
 using Util.ecs;
 using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
@@ -24,6 +25,19 @@ public class ActionStatementTrigger : ActionTrigger, IActionTrigger
     public ActionStatementTrigger(ActionStatementTarget parent, TriggerType triggerType) : base(parent) { }
 
     public ActionStatementTarget getParentStatement() => (ActionStatementTarget) parent;
+    protected override IAction copyImplementation()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class ActionTriggerOnStatusAdd : ActionTrigger
+{
+    public override TriggerType triggerType => TriggerType.onStatusAdd;
+    public Status status { get; set; }
+
+    public ActionTriggerOnStatusAdd() : base() { }
+    public ActionTriggerOnStatusAdd(IAction parent) : base(parent) { }
     protected override IAction copyImplementation()
     {
         throw new NotImplementedException();
@@ -68,16 +82,26 @@ public class ActionStatementZone : Action, IActionStatement
 /// </summary>
 public class ActionStatementTarget : ActionStatementZone
 {
-    public Entity currentTarget { get; set; }
+    public Entity? currentTargetEntity { 
+        get
+        {
+            return base.getRaycastEntity();
+        }
+        set
+        {
+            this.raycastEntity = value?.entityUid;
+        }
+    }
+    public Vector3? currentTargetPos { get; set; }
 
     protected ActionStatementTarget() { }
     public ActionStatementTarget(IAction parent) : base(parent) { 
         if(parent is ActionStatementTarget actionStatementTarget)
-            this.currentTarget = actionStatementTarget.currentTarget;
+            this.currentTargetEntity = actionStatementTarget.currentTargetEntity;
     }
     public ActionStatementTarget(IAction parent, IStatement statement, IEnumerable<Entity>? targets, Entity currentTarget) 
         : base(parent, statement, targets) { 
-        this.currentTarget = currentTarget;
+        this.currentTargetEntity = currentTarget;
     }
 
 
@@ -89,6 +113,6 @@ public class ActionStatementTarget : ActionStatementZone
         => new ActionStatementTarget() {
             statement = this.statement,
             targets = this.targets?.ToList(),
-            currentTarget = this.currentTarget,
+            currentTargetEntity = this.currentTargetEntity,
         };
 }

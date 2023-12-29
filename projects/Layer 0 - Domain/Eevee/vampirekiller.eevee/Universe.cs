@@ -31,4 +31,19 @@ public class Universe
             EventBus.centralBus.publish(Fight.EventSet, fight);
         }
     }
+
+    /// <summary>
+    /// Sapphire
+    /// </summary>
+    public static Node root { get; set; }
+    public static Godot.Timer createTimer(System.Action lambda, double activationPeriod)
+    {
+        var timer = new Godot.Timer();
+        timer.AddToGroup("timers");
+        timer.WaitTime = activationPeriod;
+        timer.Timeout += lambda;
+        root.AddChild(timer);
+        return timer;
+    }
+
 }

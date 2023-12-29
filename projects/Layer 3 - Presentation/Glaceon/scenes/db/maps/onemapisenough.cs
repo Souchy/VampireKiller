@@ -32,6 +32,7 @@ public partial class onemapisenough : Node3D
     public override void _Ready()
     {
         this.OnReady();
+        //this.timer.Timeout += spawn;
         //GD.Print("Map isReady");
     }
 
@@ -46,8 +47,18 @@ public partial class onemapisenough : Node3D
     {
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        base._Input(@event);
+        bool clicked = Input.IsActionJustPressed("spawn_enemy");
+        if (clicked)
+        {
+            spawn();
+        }
+    }
+
     //[SignalHandler(nameof(Timer.Timeout), nameof(timer))]
-    public void _on_timer_timeout() => spawn();
+    //public void _on_timer_timeout() => spawn();
     public void spawn()
     {
         if (Universe.fight != null)

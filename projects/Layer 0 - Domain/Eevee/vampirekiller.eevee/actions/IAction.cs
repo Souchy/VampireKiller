@@ -21,9 +21,9 @@ public interface IAction
     /// </summary>
     public ID sourceEntity { get; set; }
     /// <summary>
-    /// Creature/Projectile targeted by mouse ray cast or by statement (ActionEffectTarget)
+    /// Creature targeted by Mouse Raycast or by Collision engine action  ////////or by statement (ActionEffectTarget)
     /// </summary>
-    public ID targetEntity { get; set; }
+    public ID? raycastEntity { get; set; }
     /// <summary>
     /// Mouse position projected to the 3d ground by raycast
     /// </summary>
@@ -44,8 +44,8 @@ public interface IAction
     /// Get the closest parent of type T
     /// </summary>
     public T? getParent<T>();
-    public Entity getSourceEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == sourceEntity);
-    public Entity getTargetEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == targetEntity);
+    public Entity getSourceEntity() => fight.entities.values.First(c => c.entityUid == sourceEntity);
+    public Entity? getRaycastEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == raycastEntity);
 
     /// <summary>
     /// Contextual components like the procTrigger's current creature, item, status, ...
@@ -58,7 +58,7 @@ public abstract class Action : IAction
 {
     public ID sourceEntity { get; set; }
     public Vector3 raycastPosition { get; set; }
-    public ID targetEntity { get; set; }
+    public ID? raycastEntity { get; set; }
     public IAction parent { get; set; }
     public HashSet<IAction> children { get; set; } = new();
     public Fight fight { get; set; } = Universe.fight;
@@ -70,15 +70,15 @@ public abstract class Action : IAction
         this.parent = parent;
         this.sourceEntity = parent.sourceEntity;
         this.raycastPosition = parent.raycastPosition;
-        this.targetEntity = parent.targetEntity;
+        this.raycastEntity = parent.raycastEntity;
         parent.children.Add(this);
         foreach (var key in context.Keys)
         {
             setContext(key, parent.getContext<object>(key));
         }
     }
-    public Entity getSourceEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == sourceEntity);
-    public Entity getTargetEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == targetEntity);
+    public Entity getSourceEntity() => fight.entities.values.First(c => c.entityUid == sourceEntity);
+    public Entity? getRaycastEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == raycastEntity);
     public void setContext(string key, object value)
     {
         context[key] = value;
@@ -94,7 +94,7 @@ public abstract class Action : IAction
         IAction copy = copyImplementation();
         copy.sourceEntity = this.sourceEntity;
         copy.raycastPosition = this.raycastPosition;
-        copy.targetEntity = this.targetEntity;
+        copy.raycastEntity = this.raycastEntity;
         copy.parent = this.parent;
         foreach (var child in children)
             copy.children.Add(child);

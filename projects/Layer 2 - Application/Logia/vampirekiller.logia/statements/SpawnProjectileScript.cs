@@ -35,7 +35,19 @@ public class SpawnProjectileScript : IStatementScript
 
     public void apply(ActionStatementTarget action)
     {
-        // ActionCastActive castAction = action.getParent<ActionCastActive>();
+        var actionCast = action.getParent<ActionCastActive>();
+        var actionTrigger = action.getParent<ActionTrigger>();
+        ID? modelID = actionCast?.getActive()?.modelUid;
+        if (modelID == null)
+        {
+            modelID = actionTrigger?.getContextProjectile()?.spellModelUid;
+        }
+        if (modelID == null)
+        {
+            modelID = actionTrigger?.getContextStatus()?.modelUid;
+        }
+
+
         CreatureInstance caster = (CreatureInstance) action.getSourceEntity();
         SpawnProjectileSchema schema = (SpawnProjectileSchema) action.statement.schema;
 
@@ -53,15 +65,16 @@ public class SpawnProjectileScript : IStatementScript
 
 
         if (fireAsRain)
-            fireRain(action, caster, schema, projectileCount, speed, expirationDate);
+            fireRain(action, caster, schema, projectileCount, speed, expirationDate, (ID) modelID);
         else
         if (fireInCircle)
-            fireCircle(action, caster, schema, projectileCount, speed, expirationDate);
+            fireCircle(action, caster, schema, projectileCount, speed, expirationDate, (ID) modelID);
         else
-            fireNormal(action, caster, schema, projectileCount, speed, expirationDate);
+            fireNormal(action, caster, schema, projectileCount, speed, expirationDate, (ID) modelID);
     }
 
-    private void fireRain(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed, DateTime? expirationDate)
+    private void fireRain(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, 
+        int projectileCount, double speed, DateTime? expirationDate, ID spellModelId)
     {
         var rainRadius = caster.getTotalStat<ProjectileRainTotalRadius>(schema.stats);
     
@@ -73,6 +86,7 @@ public class SpawnProjectileScript : IStatementScript
         for (int i = 0; i < projectileCount; i++)
         {
             ProjectileInstance proj = ProjectileInstance.create();
+            proj.spellModelUid = spellModelId;
             proj.meshScenePath = schema.scene;
             proj.set<Team>(caster.get<Team>());
             foreach (var s in schema.children)
@@ -95,7 +109,8 @@ public class SpawnProjectileScript : IStatementScript
         }
     }
 
-    private void fireCircle(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed, DateTime? expirationDate)
+    private void fireCircle(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, 
+        int projectileCount, double speed, DateTime? expirationDate, ID spellModelId)
     {
         bool shouldReturn = caster.getTotalStat<ProjectileReturn>(schema.stats).value;
         float radius = schema.spawnOffset;
@@ -104,6 +119,7 @@ public class SpawnProjectileScript : IStatementScript
         for (int i = 0; i < projectileCount; i++)
         {
             ProjectileInstance proj = ProjectileInstance.create();
+            proj.spellModelUid = spellModelId;
             proj.meshScenePath = schema.scene;
             proj.set<Team>(caster.get<Team>());
             foreach (var s in schema.children)
@@ -128,7 +144,8 @@ public class SpawnProjectileScript : IStatementScript
             action.fight.projectiles.add(proj);
         }
     }
-    private void fireNormal(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema, int projectileCount, double speed, DateTime? expirationDate)
+    private void fireNormal(ActionStatementTarget action, CreatureInstance caster, SpawnProjectileSchema schema,
+        int projectileCount, double speed, DateTime? expirationDate, ID spellModelId)
     {
         bool shouldReturn = caster.getTotalStat<ProjectileReturn>(schema.stats).value;
         // Spawn math
@@ -162,6 +179,7 @@ public class SpawnProjectileScript : IStatementScript
         for (int i = 0; i < projectileCount; i++)
         {
             ProjectileInstance proj = ProjectileInstance.create();
+            proj.spellModelUid = spellModelId;
             proj.meshScenePath = schema.scene;
             proj.set<Team>(caster.get<Team>());
             foreach (var s in schema.children)

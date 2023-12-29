@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://ue1ig1g41bt0"]
+
+[ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_bo3q4"]
+[ext_resource type="Script" path="res://scenes/lapis/Lapis.cs" id="1_xm7gr"]
+[ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/Orc.tscn" id="2_qvsm4"]
+[ext_resource type="PackedScene" uid="uid://y4taei5hmpa5" path="res://scenes/lapis/ui/pages/mainMenu/UiMainMenu.tscn" id="4_g0xq4"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bmsaf"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_osoqg"]
+sky_material = SubResource("ProceduralSkyMaterial_bmsaf")
+
+[sub_resource type="Environment" id="Environment_wq3dl"]
+background_mode = 2
+sky = SubResource("Sky_osoqg")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Lapis" type="Node"]
+script = ExtResource("1_xm7gr")
+
+[node name="Background" type="Node" parent="."]
+
+[node name="Environment" type="Node" parent="Background"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Background/Environment"]
+environment = SubResource("Environment_wq3dl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Background/Environment"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="Background/Environment"]
+unique_name_in_owner = true
+transform = Transform3D(0.976224, 0, 0.216763, 0, 1, 0, -0.216763, 0, 0.976224, 1.43077, 1.96739, 5.84156)
+current = true
+
+[node name="Objects" type="Node" parent="Background"]
+
+[node name="onemapisenough" parent="Background/Objects" instance=ExtResource("1_bo3q4")]
+
+[node name="Orc" parent="Background/Objects" instance=ExtResource("2_qvsm4")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.30734, 0, 0)
+collision_mask = 1
+
+[node name="Orc2" parent="Background/Objects" instance=ExtResource("2_qvsm4")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.79683, 0, 0)
+collision_mask = 1
+
+[node name="UiMainMenu" parent="." instance=ExtResource("4_g0xq4")]

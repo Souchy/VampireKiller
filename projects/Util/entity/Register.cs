@@ -65,6 +65,8 @@ public class Register : IRegister
     {
         if (entity.entityUid == null)
             entity.entityUid = IDGenerator.instance.Generate();
+        if(eventBuses.ContainsKey(entity.entityUid))
+            return false;
         var result = RegisterEventBus(entity.entityUid);
         if (result)
             EventBus.centralBus.publish(nameof(RegisterEventBus), entity);

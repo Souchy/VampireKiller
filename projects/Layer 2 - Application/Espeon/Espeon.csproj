@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Logia\Logia.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="vampirekiller.espeon\commands\" />
-  </ItemGroup>
-
 </Project>

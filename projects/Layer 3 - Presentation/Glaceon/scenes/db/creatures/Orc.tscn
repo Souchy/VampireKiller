@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" path="res://assets/synty/orc/SM_Bean_Cowboy_01_4300000.mesh" id="2_6dckq"]
 [ext_resource type="Texture2D" path="res://assets/synty/PolygonStarter_Texture_01.tex" id="3_v2kij"]
-[ext_resource type="PackedScene" uid="uid://hdx0iag2udn1" path="res://scenes/game/EnemyNode.tscn" id="69"]
+[ext_resource type="PackedScene" uid="uid://hdx0iag2udn1" path="res://scenes/sapphire/entities/EnemyNode.tscn" id="69"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_p5lgb"]
 viewport_path = NodePath("SubViewport")

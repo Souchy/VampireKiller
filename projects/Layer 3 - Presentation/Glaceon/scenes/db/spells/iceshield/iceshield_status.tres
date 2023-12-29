@@ -27,6 +27,7 @@ code = "shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
 
 uniform vec4 Color : source_color;
+uniform float RimSteepness;
 
 
 
@@ -59,7 +60,6 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-468.067, -143.409)
 nodes/fragment/0/position = Vector2(680, 140)
 nodes/fragment/3/node = SubResource("VisualShaderNodeDotProduct_p0yng")
 nodes/fragment/3/position = Vector2(-20, 400)
@@ -75,4 +75,4 @@ nodes/fragment/9/node = SubResource("VisualShaderNodeFloatOp_bbj0r")
 nodes/fragment/9/position = Vector2(420, 380)
 nodes/fragment/10/node = SubResource("VisualShaderNodeFloatParameter_3aht5")
 nodes/fragment/10/position = Vector2(180, 580)
-nodes/fragment/connections = PackedInt32Array(6, 0, 3, 1, 5, 0, 3, 0, 3, 0, 7, 1, 8, 0, 0, 0, 7, 0, 9, 0, 7, 0, 0, 1)
+nodes/fragment/connections = PackedInt32Array(6, 0, 3, 1, 5, 0, 3, 0, 3, 0, 7, 1, 8, 0, 0, 0, 7, 0, 9, 0, 7, 0, 0, 1, 10, 0, 9, 1, 9, 0, 0, 1)

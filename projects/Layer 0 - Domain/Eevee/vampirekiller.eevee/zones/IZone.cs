@@ -34,7 +34,7 @@ public interface IZone
     /// World origin: source or target of the spelleffect  <br></br>
     /// aka the zone Anchor in the world
     /// </summary>
-    public ActorType worldOrigin { get; set; }
+    public ZoneOriginType worldOrigin { get; set; } // ActorType
     /// <summary>
     /// offset from cast cell to local origin in the direction of the orientation
     /// </summary>
@@ -66,6 +66,10 @@ public interface IZone
     /// </summary>
     public SmartList<IZone> children { get; set; }
     /// <summary>
+    /// Don't apply the zone if we dont have at least this amount of targets in it
+    /// </summary>
+    public int minSampleCount { get; set; }
+    /// <summary>
     /// If value = 4, it will take a maximum of 4 targets among the cells in the area <br></br>
     /// If value = 1, it will only take the first target in the area. (Good for bouncing skills) <br></br>
     /// If value = int.MaxValue, then it can take infinite targets obviously. <br></br>
@@ -78,7 +82,7 @@ public interface IZone
     /// This is also the order in which effects are applied to the targets. <br></br>
     /// This respects maxSampleCount.
     /// </summary>
-    public TargetSamplingType samplingType { get; set; }
+    public ZoneSamplingType samplingType { get; set; }
 
 
     public float GetLengthForward() => size.radius;
@@ -94,16 +98,17 @@ public interface IZone
 
 public class Zone : IZone
 {
-    public ZoneType zoneType { get; set; }
-    public ZoneSize size { get; set; }
+    public ZoneType zoneType { get; set; } = ZoneType.point;
+    public ZoneSize size { get; set; } = ZoneSize.Zone0;
     public bool negative { get; set; }
-    public ActorType worldOrigin { get; set; }
+    public ZoneOriginType worldOrigin { get; set; } = ZoneOriginType.Target;
     public Vector3 worldOffset { get; set; }
     public bool canRotate { get; set; }
     public int sizeIndexExtendFromSource { get; set; }
     public SmartList<IZone> children { get; set; }
+    public int minSampleCount { get; set; }
     public int maxSampleCount { get; set; }
-    public TargetSamplingType samplingType { get; set; } = TargetSamplingType.all;
+    public ZoneSamplingType samplingType { get; set; } = ZoneSamplingType.all;
 
     public IZone copy()
     {
@@ -113,6 +118,7 @@ public class Zone : IZone
 
 public struct ZoneSize
 {
+    public static readonly ZoneSize Zone0 = new();
     /// <summary>
     /// Also known as forwardLength
     /// </summary>

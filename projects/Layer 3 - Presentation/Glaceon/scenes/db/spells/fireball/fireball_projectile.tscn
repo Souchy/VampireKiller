@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://clufawpdjq6ph"]
 
-[ext_resource type="PackedScene" uid="uid://x0s5lkrnrtif" path="res://scenes/game/effects/ProjectileNode.tscn" id="1_j1x1s"]
+[ext_resource type="PackedScene" uid="uid://x0s5lkrnrtif" path="res://scenes/sapphire/entities/effects/ProjectileNode.tscn" id="1_j1x1s"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_17cwc"]
 

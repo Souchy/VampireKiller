@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=3 uid="uid://blovcywatgmkk"]
+
+[ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_4bi0r"]
+[ext_resource type="Script" path="res://scenes/sapphire/Sapphire.cs" id="1_wcjfi"]
+[ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/Orc.tscn" id="3_ncqtn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kfsoe"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ssxgm"]
+sky_material = SubResource("ProceduralSkyMaterial_kfsoe")
+
+[sub_resource type="Environment" id="Environment_n8s21"]
+background_mode = 2
+sky = SubResource("Sky_ssxgm")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Sapphire" type="Node"]
+script = ExtResource("1_wcjfi")
+
+[node name="Environment" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="onemapisenough" parent="Environment" instance=ExtResource("1_4bi0r")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_n8s21")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Entities" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Orc" parent="Entities" instance=ExtResource("3_ncqtn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.92863, 0, 0)
+collision_mask = 1
+axis_lock_linear_y = false
+axis_lock_angular_x = false
+axis_lock_angular_z = false
+
+[node name="Projectiles" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Effects" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Players" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="EntitySpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Entities")
+
+[node name="ProjectileSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Projectiles")
+
+[node name="EffectSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Effects")
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Players")

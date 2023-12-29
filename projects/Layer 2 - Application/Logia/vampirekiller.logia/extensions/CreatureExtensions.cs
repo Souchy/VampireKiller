@@ -27,9 +27,9 @@ public static class CreatureExtensions
         var t = new T();
         t.add(crea.model.baseStats);
         t.add(crea.fightStats.dic);
-        foreach (var item in crea.items.values)
+        foreach (var item in crea.items.values.ToList())
             item.addStat<T>(t);
-         foreach (var status in crea.statuses.values)
+        foreach (var status in crea.statuses.values.ToList())
             status.addStat<T>(t);
         if (additional != null)
             t.add(additional);
@@ -43,7 +43,7 @@ public static class CreatureExtensions
     }
     public static T getTotalStat<T>(this Entity entity, StatsDic additional = null) where T : IStat, new()
     {
-        if(entity is ProjectileInstance proj)
+        if (entity is ProjectileInstance proj)
         {
             return proj.getTotalStat<T>(additional);
         }
