@@ -7,6 +7,7 @@ using vampierkiller.logia;
 using vampirekiller.logia.commands;
 using VampireKiller.eevee;
 using vampirekiller.logia.extensions;
+using Logia.vampirekiller.logia;
 using vampirekiller.eevee.actions;
 using vampirekiller.eevee.triggers.schemas;
 
@@ -42,9 +43,9 @@ public partial class ProjectileNode : Area3D
 
 		if (timeAlive > expiry)
 		{
-			CommandProjectileCollision commandProjectileCollision = new CommandProjectileCollision(this.projectileInstance, null);
-			this.publisher.publish(commandProjectileCollision);
-		}
+			// temporaire
+			Universe.fight.projectiles.remove(this.projectileInstance);
+        }
 	}
 
 	public void init(ProjectileInstance proj)

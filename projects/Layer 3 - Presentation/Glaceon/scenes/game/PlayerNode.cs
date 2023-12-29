@@ -48,11 +48,14 @@ public partial class PlayerNode : CreatureNode
 		base._PhysicsProcess(delta);
 
 		// Have character face in the mouse's direction
-		var mousePos = this.GetViewport().GetMousePosition();
-		var from = this._gameCamera.ProjectRayOrigin(mousePos);
-		var to = from + this._gameCamera.ProjectRayNormal(mousePos) * 20;
-		to.Y = this.Position.Y;
-		this.LookAt(to);
+		var raycast = this.getRayCast();
+        Vector3 lookAtTarget = new Vector3(
+            raycast.X,
+            this.Position.Y,
+            raycast.Z
+        );
+        if (!lookAtTarget.IsEqualApprox(this.Position))
+            this.LookAt(lookAtTarget);
 
 		// Have game camera follow player
 		if (this.isCamLocked)
@@ -144,6 +147,7 @@ public partial class PlayerNode : CreatureNode
 			EventBus.centralBus.publish(nameof(UiGame.onRaycast), pos);
 			return pos;
 		}
+		return Vector3.Zero;
 	}
 
 }
