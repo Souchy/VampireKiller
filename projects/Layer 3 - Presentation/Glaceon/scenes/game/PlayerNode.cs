@@ -12,7 +12,10 @@ public partial class PlayerNode : CreatureNode
 
 	private Game _game;
 	private Camera3D _gameCamera;
-	private Vector3 cameraOffset = new Vector3(0, 0, 5);
+    private bool isCamLocked = true;
+	private int CAMERA_Z_OFFSET = 5;
+	private int CAMERA_MAX_ZOOM = 25;
+	private int CAMERA_MIN_ZOOM = 8;
 	[Inject]
 	public ICommandPublisher publisher { get; set; }
 
@@ -26,27 +29,12 @@ public partial class PlayerNode : CreatureNode
 		_gameCamera.Current = true;
 	}
 
-	private bool isCamLocked = false;
-
 	public override void _PhysicsProcess(double delta)
 	{
 		// TODO multiplayer authority, but also shouldn't block local serverless play
 		// this.SetMultiplayerAuthority(1);		// put this omewhere else in the spawner
 		// if(!this.IsMultiplayerAuthority())	// here, control physics access. chaque joueur est autoritaire de son PlayerNode, les enemy ont l'autorité du serveur ou du joueur local
 		// 	return;
-
-		//if (Input.IsActionJustPressed("lock_camera"))
-		//{
-			//isCamLocked = !isCamLocked;
-			//GD.Print("Cam locked: " + isCamLocked);
-			//if (isCamLocked) {
-				//_game.Environment.RemoveChild(_gameCamera);
-				//this.SpringArm3D.AddChild(_gameCamera);
-			//} else {
-				//this.SpringArm3D.RemoveChild(_gameCamera);
-				//_game.Environment.AddChild(_gameCamera);
-			//}
-		//}
 
 		Vector2 inputDir2D = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 		if (!inputDir2D.IsZeroApprox()) this.NavigationAgent3D.TargetPosition = this.Position;
@@ -63,9 +51,14 @@ public partial class PlayerNode : CreatureNode
 		this.LookAt(to);
 
 		// Have game camera follow player
-		var cameraPos = this.Position;
-		cameraPos.Y = this._gameCamera.Position.Y;
-		this._gameCamera.Position = cameraPos + cameraOffset;
+		if (this.isCamLocked)
+		{
+			this._gameCamera.Position = new Vector3(
+				this.Position.X, 
+				this._gameCamera.Position.Y,
+				this.Position.Z + CAMERA_Z_OFFSET
+			);
+		}
 	}
 
 	public override void _Input(InputEvent @event)
@@ -105,6 +98,16 @@ public partial class PlayerNode : CreatureNode
 			var cmd = new CommandCast(this.creatureInstance, -this.Transform.Basis.Z);
 			this.publisher.publish(cmd);
 		}
+
+		bool zoomed_in = Input.IsActionJustPressed("zoom_in");
+		if (zoomed_in && this._gameCamera.Position.Y > CAMERA_MIN_ZOOM)
+			this._gameCamera.Position += new Vector3(0, -1, 0);
+		bool zoomed_out = Input.IsActionJustPressed("zoom_out");
+		if (zoomed_out && this._gameCamera.Position.Y < CAMERA_MAX_ZOOM)
+			this._gameCamera.Position += new Vector3(0, 1, 0);
+		bool toggle_cam_lock = Input.IsActionJustPressed("lock_camera");
+		if (toggle_cam_lock)
+			this.isCamLocked = !this.isCamLocked;
 	}
 
 }
