@@ -104,13 +104,14 @@ public partial class PlayerNode : CreatureNode
 
         (CreatureNode? raycastEntity, Vector3? raycastPosition)? raycast = null;
 
-		bool clicked = Input.IsActionJustPressed("click_move") || Input.IsActionPressed("click_move");
-		if (clicked)
-		{
-			if (raycast == null)
-				raycast = getRayCast();
-			NavigationAgent3D.TargetPosition = (Vector3) raycast.Value.raycastPosition;
-		}
+        bool clicked = Input.IsActionJustPressed("click_move") || Input.IsActionPressed("click_move");
+        if (clicked)
+        {
+            if (raycast == null)
+                raycast = getRayCast();
+            if (raycast.Value.raycastPosition != null)
+                NavigationAgent3D.TargetPosition = (Vector3) raycast.Value.raycastPosition;
+        }
 
         var playerId = this.GetMultiplayerAuthority();
 		bool casted1 = Input.IsActionJustPressed("cast_slot_1");

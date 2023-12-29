@@ -43,7 +43,6 @@ public partial class Sapphire : Node
 
     public Sapphire()
     {
-
     }
 
     // Called when the node enters the scene tree for the first time.
@@ -51,6 +50,7 @@ public partial class Sapphire : Node
     {
         this.OnReady();
         GD.Print("Sapphire ready");
+        Universe.root = this;
         clearNodes();
 
         EntitySpawner.AddSpawnableScene("res://scenes/sapphire/entities/CreatureNode.tscn");

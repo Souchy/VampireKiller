@@ -84,7 +84,7 @@ public class CreateStatusScript : IStatementScript
             //status.statements.add(getExpirationStatement());
             // maybe use a Timer instead of "polling" the processTick lol.
             // Should put in inside the status for reference to refresh the timer
-            var expirationTimer = new Timer(totalDuration);
+            var expirationTimer = new Timer(totalDuration * 1000);
             expirationTimer.Elapsed += (object? sender, ElapsedEventArgs e) =>
             {
                 expirationTimer.Stop();

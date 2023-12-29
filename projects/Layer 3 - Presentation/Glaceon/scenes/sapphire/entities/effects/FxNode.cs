@@ -33,7 +33,7 @@ public partial class FxNode : Node3D
     public void onStatusRemove(Status s)
     {
         _status?.GetEntityBus()?.unsubscribe(this);
-        // Free only if not freed already. Could be removed if the creature holder dies before the status ends.
+
         //if(this.IsInsideTree())
         //{
         //    var tree = this.GetTree();
@@ -43,8 +43,10 @@ public partial class FxNode : Node3D
         //    if (root.HasNode(path))
         //        this.QueueFree();
         //}
+
         try
         {
+            // Free only if not freed already. Could be removed if the creature holder dies before the status ends.
             this.QueueFree();
         } catch(Exception e)
         {

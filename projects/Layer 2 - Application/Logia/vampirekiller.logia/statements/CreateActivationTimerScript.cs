@@ -1,4 +1,5 @@
 ﻿using Godot;
+using Logia.vampirekiller.logia;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ using vampirekiller.logia.extensions;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 using static System.Collections.Specialized.BitVector32;
-using Timer = System.Timers.Timer;
+using GTimer = Godot.Timer;
+//using Timer = System.Timers.Timer;
 
 namespace vampirekiller.logia.statements;
 
@@ -33,14 +35,11 @@ public class CreateActivationTimerScript : IStatementScript
 
         var activationPeriod = action.getSourceEntity().getTotalStat<SpellTotalCastTime>(props.stats);
 
-        var actimer = new ActivationTimer(status, activationPeriod.value, (sender, args) =>
-        {
-            GD.Print("ActivationTimer: Activate");
-            //var sub = new ActionStatementTarget(action)
-            //{
 
-            //};
-            props.applyStatementContainer(action); //props.activationStatements
+        var actimer = new ActivationTimer(status, activationPeriod.value, () =>
+        {
+            //GD.Print("ActivationTimer: Activate");
+            props.applyStatementContainer(action);
         });
         actimer.start();
     }
@@ -48,23 +47,19 @@ public class CreateActivationTimerScript : IStatementScript
 
 public class ActivationTimer
 {
-    private Timer _timer;
-    //private Status _status;
-    public ActivationTimer(Status status, double activationPeriod, ElapsedEventHandler onElapsed)
+    private GTimer _timer;
+    public ActivationTimer(Status status, double activationPeriod, System.Action lambda)
     {
-        //this._status = status;
-        _timer = new Timer(activationPeriod);
-        _timer.Elapsed += onElapsed;
+        _timer = Universe.createTimer(lambda, activationPeriod);
         status.GetEntityBus().subscribe(this);
     }
     public void start() => this._timer.Start();
 
     [Subscribe(Status.EventRemove)]
-    public void onStatusRemove(Status s)
+    public void onStatusRemove(Status status)
     {
-        GD.Print("ActivationTimer: Remove");
-        s.GetEntityBus().unsubscribe(this);
-        //_status?.GetEntityBus()?.unsubscribe(this);
+        //GD.Print("ActivationTimer: Remove");
+        status.GetEntityBus().unsubscribe(this);
         this._timer?.Stop();
     }
 }
