@@ -7,7 +7,7 @@ namespace Util.structures;
 public class SmartSet<T> : Identifiable
 {
     public ID entityUid { get; set; }
-    private HashSet<T> list { get; set; } = new();
+    protected HashSet<T> list { get; set; } = new();
 
     protected SmartSet() { }
     protected SmartSet(ID entityUid) : base()
@@ -28,7 +28,7 @@ public class SmartSet<T> : Identifiable
     /// </summary>
     public virtual void initialize() { }
 
-    public T? get(Func<T, bool> predicate) => list.First(predicate);
+    public T? get(Func<T, bool> predicate) => list.FirstOrDefault(predicate);
 
     public bool add(T value)
     {
@@ -47,12 +47,17 @@ public class SmartSet<T> : Identifiable
         return result;
     }
 
+    public void clear() {
+        foreach(var item in list.ToList())
+            remove(item);
+    }
+
     public void Dispose()
     {
         foreach(var item in list)
             if(item is IDisposable d) 
                 d.Dispose();
-        this.list.Clear();
+        clear();
         this.DisposeEventBus();
     }
 }

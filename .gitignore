@@ -1,5 +1,7 @@
 # ..
-.vscode
+.vscode/
+**/DB/**/*.json
+launchSettings.json
 
 # Godot 4+ specific ignores
 .godot/

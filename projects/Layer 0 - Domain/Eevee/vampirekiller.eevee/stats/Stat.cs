@@ -35,12 +35,12 @@ public class StatInt : IStat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(IStat.EventSet, this, before);
-            this.GetEntityBus().publish(IStat.EventSet, this);
+            this.GetEntityBus()?.publish(IStat.EventSet, this, before);
+            this.GetEntityBus()?.publish(IStat.EventSet, this);
         }
     }
 
-    public StatInt() { }
+    protected StatInt() { }
     public virtual void add(StatsDic dic)
     {
         var val = dic.get<StatInt>(this.GetType());
@@ -78,11 +78,11 @@ public class StatType : IStat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(IStat.EventSet, this, before);
-            this.GetEntityBus().publish(IStat.EventSet, this);
+            this.GetEntityBus()?.publish(IStat.EventSet, this, before);
+            this.GetEntityBus()?.publish(IStat.EventSet, this);
         }
     }
-    public StatType() { }
+    protected StatType() { }
     public virtual void add(StatsDic dic)
     {
         throw new NotImplementedException();
@@ -117,11 +117,11 @@ public class StatDate : IStat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(IStat.EventSet, this, before);
-            this.GetEntityBus().publish(IStat.EventSet, this);
+            this.GetEntityBus()?.publish(IStat.EventSet, this, before);
+            this.GetEntityBus()?.publish(IStat.EventSet, this);
         }
     }
-    public StatDate() { }
+    protected StatDate() { }
     public virtual void add(StatsDic dic)
     {
         throw new NotImplementedException();
@@ -156,11 +156,11 @@ public class StatTimeSpan : IStat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(IStat.EventSet, this, before);
-            this.GetEntityBus().publish(IStat.EventSet, this);
+            this.GetEntityBus()?.publish(IStat.EventSet, this, before);
+            this.GetEntityBus()?.publish(IStat.EventSet, this);
         }
     }
-    public StatTimeSpan() { }
+    protected StatTimeSpan() { }
     public virtual void add(StatsDic dic)
     {
         var val = dic.get<StatTimeSpan>(this.GetType());
@@ -197,11 +197,11 @@ public class StatDouble : IStat
         {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(IStat.EventSet, this, before);
-            this.GetEntityBus().publish(IStat.EventSet, this);
+            this.GetEntityBus()?.publish(IStat.EventSet, this, before);
+            this.GetEntityBus()?.publish(IStat.EventSet, this);
         }
     }
-    public StatDouble() { }
+    protected StatDouble() { }
     public virtual void add(StatsDic dic)
     {
         var val = dic.get<StatDouble>(this.GetType());
@@ -236,11 +236,11 @@ public class StatBool : IStat
         set {
             var before = _value;
             _value = value;
-            this.GetEntityBus().publish(IStat.EventSet, this, before);
-            this.GetEntityBus().publish(IStat.EventSet, this);
+            this.GetEntityBus()?.publish(IStat.EventSet, this, before);
+            this.GetEntityBus()?.publish(IStat.EventSet, this);
         }
     }
-    public StatBool() { }
+    protected StatBool() { }
     public virtual void add(StatsDic dic)
     {
         var val = dic.get<StatBool>(this.GetType());
@@ -267,5 +267,46 @@ public class StatBool : IStat
     public void Dispose()
     {
         this.DisposeEventBus();
+    }
+}
+
+
+public class StatIntTotal<B, I> : StatInt where B : StatInt where I : StatInt {
+    private int totalFlat = 0;
+    private int totalIncrease = 0;
+    public override int value
+    {
+        get
+        {
+            return (int)(totalFlat * ((100.0 + totalIncrease) / 100.0));
+        }
+        set { }
+    }
+    public override void add(StatsDic dic)
+    {
+        var flat = dic.get<B>();
+        var inc = dic.get<I>();
+        if (flat != null) totalFlat += flat.value;
+        if (inc != null) totalIncrease += inc.value;
+    }
+}
+
+public class StatDoubleTotal<B, I> : StatDouble where B : StatDouble where I : StatDouble {
+    private double totalFlat = 0;
+    private double totalIncrease = 0;
+    public override double value
+    {
+        get
+        {
+            return (int)(totalFlat * ((100.0 + totalIncrease) / 100.0));
+        }
+        set { }
+    }
+    public override void add(StatsDic dic)
+    {
+        var flat = dic.get<B>();
+        var inc = dic.get<I>();
+        if (flat != null) totalFlat += flat.value;
+        if (inc != null) totalIncrease += inc.value;
     }
 }

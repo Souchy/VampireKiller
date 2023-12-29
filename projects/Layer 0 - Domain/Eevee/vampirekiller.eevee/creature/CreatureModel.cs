@@ -14,7 +14,7 @@ public class CreatureModel : Identifiable
 
     public StatsDic baseStats = Register.Create<StatsDic>();
 
-    public CreatureModel()
+    protected CreatureModel()
     {
         baseStats.set(Register.Create<CreatureBaseLife>());
         baseStats.set(Register.Create<CreatureBaseLifeMax>());

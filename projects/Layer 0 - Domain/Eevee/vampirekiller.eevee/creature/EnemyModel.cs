@@ -11,4 +11,6 @@ namespace vampirekiller.eevee.creature;
 public class EnemyModel : CreatureModel
 {
     public Ai ai { get; set; }
+
+    private EnemyModel() {}
 }

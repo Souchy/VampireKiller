@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ public class SmartDictionary<K, V> : Identifiable
     public const string EventSet = "SmartDictionary." + nameof(set);
     public const string EventRemove = "SmartDictionary." + nameof(remove);
 
+    [JsonIgnore]
     public ID entityUid { get; set; }
     public Dictionary<K, V> dic { get; set; } = new();
 
@@ -28,8 +30,11 @@ public class SmartDictionary<K, V> : Identifiable
         return dic;
     }
 
+    [JsonIgnore]
     public IEnumerable<K> keys => dic.Keys;
+    [JsonIgnore]
     public IEnumerable<V> values => dic.Values;
+    [JsonIgnore]
     public IEnumerable<KeyValuePair<K, V>> pairs => dic;
 
     /// <summary>

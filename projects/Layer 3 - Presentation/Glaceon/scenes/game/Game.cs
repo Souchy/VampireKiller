@@ -5,10 +5,13 @@ using Godot.Collections;
 using Godot.Sharp.Extras;
 using Logia.vampirekiller.logia;
 using Util.communication.events;
+using Util.ecs;
 using Util.entity;
 using Util.structures;
 using vampierkiller.logia.commands;
+using vampirekiller.eevee.actions;
 using vampirekiller.glaceon.util;
+using vampirekiller.logia.extensions;
 using VampireKiller.eevee;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee;
@@ -31,6 +34,15 @@ public partial class Game : Node
         this.OnReady();
         EventBus.centralBus.subscribe(this);
     }
+    
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
+        var action = new ActionProcessTick(delta);
+        Universe.fight.procTriggers(action);
+    }
+
 
     [Subscribe(Fight.EventSet)]
     public void onChangeFight(Fight fight)
@@ -54,6 +66,15 @@ public partial class Game : Node
         clearNodes();
     }
 
+
+    [Subscribe("fx")]
+    public void onFxScene(string scene, Entity entity)
+    {
+        var pos = entity.get<Func<Vector3>>()();
+        var node = AssetCache.Load<PackedScene>(scene).Instantiate<Node3D>();
+        Entities.AddChild(node);
+        node.GlobalPosition = pos;
+    }
     [Subscribe(nameof(SmartSet<CreatureInstance>.add))]
     public void onAddCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {

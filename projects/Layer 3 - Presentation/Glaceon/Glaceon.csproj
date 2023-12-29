@@ -15,5 +15,6 @@
     <ProjectReference Include="..\..\Layer 0 - Domain\Eevee\Eevee.csproj" />
     <ProjectReference Include="..\..\Layer 2 - Application\Espeon\Espeon.csproj" />
     <ProjectReference Include="..\..\Layer 2 - Application\Umbreon\Umbreon.csproj" />
+    <ProjectReference Include="..\..\Layer 2 - Application\Logia\Logia.csproj" />
   </ItemGroup>
 </Project>

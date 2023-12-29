@@ -8,18 +8,10 @@ using VampireKiller.eevee.vampirekiller.eevee.enums;
 using Util.structures;
 using souchy.celebi.eevee.enums;
 using Godot;
+using vampirekiller.eevee.enums;
 
 namespace VampireKiller.eevee.vampirekiller.eevee.zones;
 
-public enum TargetSamplingType
-{
-    // careful, the origin can be placed on Actor.Source as well as Actor.Target
-    closestToOrigin,
-    furthestToOrigin,
-    closestToSource,
-    furthestToSource,
-    random,
-}
 
 public interface IZone
 {
@@ -28,11 +20,11 @@ public interface IZone
     /// </summary>
     public ZoneType zoneType { get; set; }
     /// <summary>
-    /// 1) x = lengthMin (forward length)
-    /// 2) z = lengthMax (side length)
-    /// 3) y = ring width: 0 = full shape, y = actual ring width
+    /// 1) x = lengthMin (forward length) (radius)
+    /// 2) z = lengthMax (side length) (secondary length)
+    /// 3) y = ring width: 0 = full shape, y = actual ring width = (outer_radius - inter_radius)
     /// </summary>
-    public Vector3 size { get; set; }
+    public ZoneSize size { get; set; }
     /// <summary>
     /// If we substract this zone from its parent and siblings
     /// </summary>
@@ -89,14 +81,57 @@ public interface IZone
     public TargetSamplingType samplingType { get; set; }
 
 
-
-    public float GetLengthForward() => size.X;
-    public float GetLengthSide() => size.Z;
-    public float GetRingWidth() => size.Y;
+    public float GetLengthForward() => size.radius;
+    public float GetLengthSide() => size.sideRadius;
+    public float GetRingWidth() => size.radius - size.ringWidth;
 
     /// <summary>
     /// Get the cells touched by this area at target point
     /// </summary>
     //public IArea getArea(IFight fight, IPosition targetCell);
     public IZone copy();
+}
+
+public class Zone : IZone
+{
+    public ZoneType zoneType { get; set; }
+    public ZoneSize size { get; set; }
+    public bool negative { get; set; }
+    public ActorType worldOrigin { get; set; }
+    public Vector3 worldOffset { get; set; }
+    public bool canRotate { get; set; }
+    public int sizeIndexExtendFromSource { get; set; }
+    public SmartList<IZone> children { get; set; }
+    public int maxSampleCount { get; set; }
+    public TargetSamplingType samplingType { get; set; } = TargetSamplingType.all;
+
+    public IZone copy()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public struct ZoneSize
+{
+    /// <summary>
+    /// Also known as forwardLength
+    /// </summary>
+    public float radius;
+    /// <summary>
+    /// Also known as sideLength
+    /// Example: rectangle side
+    /// </summary>
+    public float sideRadius;
+    /// <summary>
+    /// Ring width = the hit zone.
+    /// innerRadius = radius - ringWidth.
+    /// If ring width = 0, then the aoe is full.
+    /// </summary>
+    public float ringWidth;
+    public ZoneSize(float radius, float sideRadius = 0, float ringWidth = 0)
+    {
+        this.radius = radius;
+        this.sideRadius = sideRadius;
+        this.ringWidth = ringWidth;
+    }
 }

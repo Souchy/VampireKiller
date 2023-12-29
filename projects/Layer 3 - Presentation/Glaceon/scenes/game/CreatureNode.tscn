@@ -26,6 +26,7 @@ properties/1/spawn = true
 properties/1/replication_mode = 1
 
 [node name="CreatureNode" type="CharacterBody3D"]
+axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 script = ExtResource("1_4o42t")

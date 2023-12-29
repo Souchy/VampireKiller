@@ -152,20 +152,23 @@ public class EventBus : IEventBus
     public virtual void publish(params object[] param) => publish("", param);
     public virtual void publish(string path = "", params object[] param)
     {
-        lock (subs)
+        List<Subscription> subs;
+        lock (this.subs)
         {
-            foreach (var sub in subs)
+            subs = this.subs.ToList();
+        }
+        foreach (var sub in subs)
+        {
+            if (sub.path == path && sub.eventParameterTypes.Count == param.Length)
             {
-                if (sub.path == path && sub.eventParameterTypes.Count == param.Length)
+                var match = true;
+                for (int i = 0; i < param.Length; i++)
                 {
-                    var match = true;
-                    for (int i = 0; i < param.Length; i++)
-                    {
+                    if (param[i] != null)
                         match &= sub.eventParameterTypes[i].IsAssignableFrom(param[i].GetType());
-                    }
-                    if (match)
-                        sub.method.Invoke(sub.subscriber, param);
                 }
+                if (match)
+                    sub.method.Invoke(sub.subscriber, param);
             }
         }
     }

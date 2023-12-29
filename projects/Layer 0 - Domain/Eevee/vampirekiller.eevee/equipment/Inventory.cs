@@ -13,8 +13,8 @@ public class Inventory
     /// All items, include passive and active
     /// </summary>
     public SmartList<Item> items { get; set; } = SmartList<Item>.Create();
-    /// <summary>
-    /// Items placed in active slots
-    /// </summary>
-    public SmartList<Item> activeSlots { get; set; } = SmartList<Item>.Create();
+    // /// <summary>
+    // /// Items placed in active slots
+    // /// </summary>
+    // public SmartList<Item> activeSlots { get; set; } = SmartList<Item>.Create();
 }

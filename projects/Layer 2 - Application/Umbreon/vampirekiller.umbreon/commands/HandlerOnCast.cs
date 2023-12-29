@@ -8,22 +8,21 @@ using Logia.vampirekiller.logia;
 using vampirekiller.logia.commands;
 using VampireKiller.eevee;
 using Util.entity;
+using vampirekiller.eevee.actions;
+using vampirekiller.logia.extensions;
 
 namespace vampirekiller.umbreon.commands;
 
 public class HandlerOnCast : ICommandHandler<CommandCast>
 {
-    public void handle(CommandCast t)
+    public void handle(CommandCast command)
     {
-        // Temp
-        ProjectileInstance projectile = Register.Create<ProjectileInstance>();
-        projectile.init(
-            t.originator,
-            t.originatorFacing,
-            9.69f,
-            "res://scenes/db/projectiles/Fireball.tscn",
-            1
-        );
-        Universe.fight.projectiles.add(projectile);
+        var action = new ActionCastActive() {
+            raycastPosition = command.raycastMouse,
+            sourceEntity = command.source.entityUid,
+            fight = Universe.fight,
+            slot = command.activeSlot,
+        };
+        action.applyActionCast();
     }
 }

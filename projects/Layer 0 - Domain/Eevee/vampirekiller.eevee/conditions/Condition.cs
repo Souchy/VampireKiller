@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.entity;
+using vampirekiller.eevee;
+using vampirekiller.eevee.actions;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.enums;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
@@ -25,6 +27,7 @@ public class Condition : ICondition
     public ConditionComparatorType comparator { get; set; } = ConditionComparatorType.EQ;
     public IConditionSchema schema { get; set; }
 
+    public IConditionScript getScript() => schema.getScript();
     public ICondition copy()
     {
         var cond = new Condition(); //Register.Create<Condition>(); // maybe?
@@ -39,8 +42,10 @@ public interface IConditionSchema
 }
 public interface IConditionScript
 {
+    public Type schemaType { get; }
+    public bool checkCondition(IAction action, ICondition condition);
     //public abstract bool check(IAction action, TriggerEvent trigger, ICreature boardSource, IBoardEntity boardTarget);
-    public bool check(ICondition s, Vector3 position, CreatureInstance caster, CreatureInstance currentTarget);
+    //public bool check(ICondition s, Vector3 position, CreatureInstance caster, CreatureInstance currentTarget);
 }
 
 public enum ConditionComparatorType

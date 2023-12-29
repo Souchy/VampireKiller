@@ -11,6 +11,7 @@ using Util.entity;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
+using vampirekiller.logia.extensions;
 
 
 /// <summary>
@@ -56,6 +57,7 @@ public partial class CreatureNode : CharacterBody3D
         // GD.Print(this.Name + " ready");
         if (creatureInstance != null)
         {
+            // this.GlobalPosition = creatureInstance.spawnPosition;
             updateHPBar();
         }
     }
@@ -132,13 +134,15 @@ public partial class CreatureNode : CharacterBody3D
         creatureInstance.GetEntityBus().subscribe(this);
         creatureInstance.getPositionHook = () => this.GlobalPosition;
         creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
+        creatureInstance.set<Func<Vector3>>(() => this.GlobalPosition);
     }
 
     public override void _EnterTree()
     {
         base._EnterTree();
         // GD.Print(this.Name + " enter tree");
-        if(creatureInstance != null) {
+        if (creatureInstance != null)
+        {
             this.GlobalPosition = creatureInstance.spawnPosition;
         }
     }
@@ -155,33 +159,33 @@ public partial class CreatureNode : CharacterBody3D
         }
     }
 
-    [Subscribe]
-    public void onItemListAdd(object list, object item)
-    {
-        // check all statements 
-        //      modify mesh / material / etc si nécessaire
-    }
-    [Subscribe]
-    public void onItemListRemove(object list, object item)
-    {
+    // [Subscribe]
+    // public void onItemListAdd(object list, object item)
+    // {
+    //     // check all statements 
+    //     //      modify mesh / material / etc si nécessaire
+    // }
+    // [Subscribe]
+    // public void onItemListRemove(object list, object item)
+    // {
 
-    }
-    [Subscribe]
-    public void onStatusListAdd(object list, object item)
-    {
+    // }
+    // [Subscribe]
+    // public void onStatusListAdd(object list, object item)
+    // {
 
-    }
-    [Subscribe]
-    public void onStatusListRemove(object list, object item)
-    {
+    // }
+    // [Subscribe]
+    // public void onStatusListRemove(object list, object item)
+    // {
 
-    }
+    // }
 
     private void updateHPBar()
     {
         var life = this.creatureInstance.getTotalStat<CreatureTotalLife>();
         var max = this.creatureInstance.getTotalStat<CreatureTotalLifeMax>();
-        double value = ((double)life.value / (double)max.value) * 100;
+        double value = ((double) life.value / (double) max.value) * 100;
         // GD.Print("Crea (" + this.Name + ") update hp %: " + value); // + "............" + Healthbar + " vs " + hpbar);
         Healthbar.Value = value;
     }

@@ -11,14 +11,16 @@ namespace vampirekiller.logia.commands;
 
 public record struct CommandCast : ICommand
 {
-    public CreatureInstance originator { get; private set; }
-    public Vector3 originatorFacing { get; private set; }
+    public CreatureInstance source { get; private set; }
+    public Vector3 raycastMouse { get; private set; }
     // Would also contain the spell/ability being casted/used
+    public int activeSlot = 0;
 
-    public CommandCast(CreatureInstance originator, Vector3 originatorFacing)
+    public CommandCast(CreatureInstance source, Vector3 raycastMouse, int activeSlot)
     {
-        this.originator = originator;
-        this.originatorFacing = originatorFacing;
+        this.source = source;
+        this.raycastMouse = raycastMouse;
+        this.activeSlot = activeSlot;
     }
 
     public byte[] serialize()
