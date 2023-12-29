@@ -12,9 +12,6 @@ public partial class PlayerNode : CreatureNode
 
 	private Game _game;
 	private Camera3D _gameCamera;
-	private bool jumping = false;
-	private double jump_offset = 0.7; // seconds
-	private double jump_time = 0;
 	private Vector3 cameraOffset = new Vector3(0, 0, 5);
 	[Inject]
 	public ICommandPublisher publisher { get; set; }
@@ -51,9 +48,11 @@ public partial class PlayerNode : CreatureNode
 			//}
 		//}
 
-		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-		Vector3 direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
-		this.walk(direction);
+		Vector2 inputDir2D = Input.GetVector("move_left", "move_right", "move_up", "move_down");
+		if (!inputDir2D.IsZeroApprox()) this.NavigationAgent3D.TargetPosition = this.Position;
+		Vector3 inputDir = new Vector3(inputDir2D.X, 0, inputDir2D.Y);
+		Vector3 navDir = this.getNavigationVector();
+		this.walk(inputDir.IsZeroApprox() ? navDir : inputDir);
 		base._PhysicsProcess(delta);
 
 		// Have character face in the mouse's direction
