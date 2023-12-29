@@ -35,10 +35,17 @@ public partial class EnemyNode : CreatureNode
 
     public override void _PhysicsProcess(double delta)
     {
-        var direction = this.getNavigationVector();
+        Vector3 direction = this.getNavigationVector();
         this.walk(direction);
-        //this.LookAt(nextPos);
         base._PhysicsProcess(delta);
+
+        Vector3 lookAtTarget = new Vector3(
+            this.NavigationAgent3D.TargetPosition.X,
+            this.Position.Y,
+            this.NavigationAgent3D.TargetPosition.Z
+        );
+        if (!lookAtTarget.IsEqualApprox(this.Position))
+            this.LookAt(lookAtTarget);
     }
 
 }
