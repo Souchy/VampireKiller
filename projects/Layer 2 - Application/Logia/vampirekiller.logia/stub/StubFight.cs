@@ -72,7 +72,7 @@ public class StubFight : Fight
     public static CreatureInstance spawnStubCreature(Vector3 vec)
     {
         var creaModel = Register.Create<EnemyModel>();
-        creaModel.meshScenePath = "res://scenes/db/creatures/Orc.tscn";
+        creaModel.meshScenePath = "res://scenes/db/creatures/PFRCharacterBR.tscn";
         creaModel.iconPath = "res://icon.svg";
         creaModel.ai = new AiMelee();
         creaModel.baseStats.get<CreatureBaseLife>()!.value = 2;

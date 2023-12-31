@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_en7m8"]
 [ext_resource type="Script" path="res://scenes/ui/UiMainMenu.cs" id="1_ivhjp"]
-[ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/Orc.tscn" id="2_e2pfm"]
+[ext_resource type="PackedScene" uid="uid://c4xb7jni5e0r2" path="res://scenes/db/creatures/PFRCharacterBR.tscn" id="2_e2pfm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8a1fc"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
