@@ -82,12 +82,6 @@ public partial class CreatureNode : CharacterBody3D
             this.Velocity = velocity;
         }
 
-        // Set idle animation if not moving
-        if (this.Velocity.IsZeroApprox())
-        {
-            this.animationController.playAnimation(CreatureNodeAnimationController.SupportedAnimation.Idle);
-        }
-
         MoveAndSlide();
     }
 
@@ -107,7 +101,13 @@ public partial class CreatureNode : CharacterBody3D
         velocity.X = direction.X * Speed;
         velocity.Z = direction.Z * Speed;
         this.Velocity = velocity;
-        this.animationController.playAnimation(CreatureNodeAnimationController.SupportedAnimation.Walk);
+        if (this.Velocity.IsZeroApprox())
+        {
+            this.animationController.playAnimation(CreatureNodeAnimationController.SupportedAnimation.Idle);
+        } else
+        {
+            this.animationController.playAnimation(CreatureNodeAnimationController.SupportedAnimation.Walk);
+        }
     }
 
     protected void jump()
@@ -205,10 +205,13 @@ public partial class CreatureNode : CharacterBody3D
             String? mostSimilarNode = null;
             foreach (var node in variantParent.GetChildren<MeshInstance3D>())
             {
-                node.Visible = false;
-                if (node.Name.ToString().ToLower().Contains(this.variant.ToLower()))
+                if (node != null)
                 {
-                    mostSimilarNode = node.Name;
+                    node.Visible = false;
+                    if (node.Name.ToString().ToLower().Contains(this.variant.ToLower()))
+                    {
+                        mostSimilarNode = node.Name;
+                    }
                 }
             }
 
@@ -323,7 +326,9 @@ public class CreatureNodeAnimationController
         var result = new System.Collections.Generic.Dictionary<SupportedAnimation, string>();
         foreach (var animationName in player.GetAnimationList())
         {
-            result.Add(matchAnimation(animationName), animationName);
+            SupportedAnimation matchedAnimation = matchAnimation(animationName);
+            if (!result.ContainsKey(matchedAnimation))
+                result.Add(matchedAnimation, animationName);
         }
         return result;
     }
