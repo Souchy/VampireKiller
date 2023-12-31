@@ -20,6 +20,8 @@ namespace vampirekiller.logia.stub;
 
 public class StubFight : Fight
 {
+    private static String[] creatureMeshSceneVariantNames = new String[] { "Ork", "Golem", "Slayer", "Dwarf", "Pig" };
+
     public StubFight()
     {
         var player = spawnStubPlayer();
@@ -73,6 +75,7 @@ public class StubFight : Fight
     {
         var creaModel = Register.Create<EnemyModel>();
         creaModel.meshScenePath = "res://scenes/db/creatures/PFRCharacterBR.tscn";
+        creaModel.meshSceneVariant = getRandomCreatureMeshSceneVariant();
         creaModel.iconPath = "res://icon.svg";
         creaModel.ai = new AiMelee();
         creaModel.baseStats.get<CreatureBaseLife>()!.value = 2;
@@ -85,6 +88,13 @@ public class StubFight : Fight
         crea.set<Team>(Team.B);
 
         return crea;
+    }
+
+    private static String getRandomCreatureMeshSceneVariant()
+    {
+        var r = new Random();
+        var index = r.Next(creatureMeshSceneVariantNames.Length);
+        return creatureMeshSceneVariantNames[index];
     }
 
 }

@@ -10,6 +10,7 @@ public class CreatureModel : Identifiable
 {
     public ID entityUid { get; set; }
     public string meshScenePath { get; set; }
+    public String meshSceneVariant { get; set; }
     public string iconPath { get; set; }
 
     public StatsDic baseStats = Register.Create<StatsDic>();

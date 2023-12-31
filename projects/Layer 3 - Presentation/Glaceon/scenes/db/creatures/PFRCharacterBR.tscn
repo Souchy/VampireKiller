@@ -14,10 +14,12 @@ albedo_texture = ExtResource("3_2acnb")
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cu1nd"]
 
-[node name="PFRCharacterBR" instance=ExtResource("1_klpkl")]
+[node name="PFRCharacterBR" node_paths=PackedStringArray("variantParent") instance=ExtResource("1_klpkl")]
+variantParent = NodePath("PFRCharacterBR/Skeleton3D")
 variant = "Ork"
 
 [node name="ResourceBars" parent="CollisionShape3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2599, 0)
 texture = SubResource("ViewportTexture_p5lgb")
 
 [node name="MeshInstance3D" parent="." index="1"]
@@ -36,7 +38,7 @@ libraries = {
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
 
 [node name="Skeleton3D" parent="PFRCharacterBR" index="0"]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+transform = Transform3D(-1.25, 0, 1.88745e-07, 0, 1.25, 0, -1.88745e-07, 0, -1.25, 0, 0, 0)
 bones/0/rotation = Quaternion(2.9e-16, 5.61e-15, 0.167701, 0.985838)
 bones/2/rotation = Quaternion(5.37001e-23, -1e-14, -0.167701, 0.985838)
 bones/4/rotation = Quaternion(-0.0732367, 5.96046e-08, -2.98023e-08, 0.997315)

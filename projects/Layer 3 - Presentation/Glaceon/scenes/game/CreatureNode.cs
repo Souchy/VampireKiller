@@ -25,6 +25,10 @@ public partial class CreatureNode : CharacterBody3D
     public CreatureInstance creatureInstance;
     public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
+    [Export]
+    public Node variantParent;
+    [Export]
+    private String variant;
 
     [Export]
     private double jumpWindupTimeInSeconds= 0.7;
@@ -59,6 +63,7 @@ public partial class CreatureNode : CharacterBody3D
         {
             // this.GlobalPosition = creatureInstance.spawnPosition;
             updateHPBar();
+            updateVariant();
         }
     }
 
@@ -135,6 +140,9 @@ public partial class CreatureNode : CharacterBody3D
         creatureInstance.getPositionHook = () => this.GlobalPosition;
         creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
         creatureInstance.set<Func<Vector3>>(() => this.GlobalPosition);
+
+        this.variant = creatureInstance.model.meshSceneVariant;
+        updateVariant();
     }
 
     public override void _EnterTree()
@@ -188,6 +196,27 @@ public partial class CreatureNode : CharacterBody3D
         double value = ((double) life.value / (double) max.value) * 100;
         // GD.Print("Crea (" + this.Name + ") update hp %: " + value); // + "............" + Healthbar + " vs " + hpbar);
         Healthbar.Value = value;
+    }
+
+    private void updateVariant()
+    {
+        if (variantParent != null)
+        {
+            String? mostSimilarNode = null;
+            foreach (var node in variantParent.GetChildren<MeshInstance3D>())
+            {
+                node.Visible = false;
+                if (node.Name.ToString().ToLower().Contains(this.variant.ToLower()))
+                {
+                    mostSimilarNode = node.Name;
+                }
+            }
+
+            if (mostSimilarNode != null)
+            {
+                variantParent.GetNode<MeshInstance3D>(mostSimilarNode).Visible = true;
+            }
+        }
     }
 
 }
