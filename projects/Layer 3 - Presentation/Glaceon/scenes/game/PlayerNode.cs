@@ -100,15 +100,16 @@ public partial class PlayerNode : CreatureNode
 			if (raycast == Vector3.Zero)
 				raycast = getRayCast();
 			var cmd = new CommandCast(this.creatureInstance, raycast, 0); //-this.Transform.Basis.Z, 1);
-			this.publisher.publish(cmd);
+			this.attack(() => this.publisher.publish(cmd));
+			
 		}
 		bool casted2 = Input.IsActionJustPressed("cast_slot_2");
 		if (casted2)
 		{
 			if (raycast == Vector3.Zero)
 				raycast = getRayCast();
-			var cmd = new CommandCast(this.creatureInstance, raycast, 1); 
-			this.publisher.publish(cmd);
+			var cmd = new CommandCast(this.creatureInstance, raycast, 1);
+			this.attack(() => this.publisher.publish(cmd));
 		}
 		bool clear_projs = Input.IsActionJustPressed("clear_projs");
 		if (clear_projs)

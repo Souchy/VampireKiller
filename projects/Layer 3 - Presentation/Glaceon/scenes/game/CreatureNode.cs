@@ -121,9 +121,9 @@ public partial class CreatureNode : CharacterBody3D
         this.animationController.playAnimation(CreatureNodeAnimationController.SupportedAnimation.Jump, windupCallback);
     }
 
-    protected void attack()
+    protected void attack(Action attackCallback)
     {
-        this.animationController.playAnimation(CreatureNodeAnimationController.SupportedAnimation.Attack);
+        this.animationController.playAnimation(CreatureNodeAnimationController.SupportedAnimation.Attack, attackCallback);
     }
 
     protected void death()

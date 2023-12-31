@@ -10,6 +10,7 @@ viewport_path = NodePath("SubViewport")
 [node name="PlayerNode" node_paths=PackedStringArray("variantParent") instance=ExtResource("1_17fmj")]
 variantParent = NodePath("MeshHolder/PFCCharacter/Skeleton3D")
 variant = "Sorcerer"
+attackWindupTimeInSeconds = 0.9
 
 [node name="ResourceBars" parent="CollisionShape3D" index="0"]
 texture = SubResource("ViewportTexture_34cfr")

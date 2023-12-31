@@ -7,12 +7,15 @@ using vampirekiller.eevee.creature;
 
 public partial class EnemyNode : CreatureNode
 {
+    [NodePath]
+    private Area3D AreaOfAttack;
 
     private Node3D trackingTarget;
 
     public override void _Ready()
     {
         base._Ready();
+        AreaOfAttack.BodyEntered += this.onBodyEnterAreaOfAttack;
         Speed = 3.0f;
     }
 
@@ -46,6 +49,14 @@ public partial class EnemyNode : CreatureNode
         );
         if (!lookAtTarget.IsEqualApprox(this.Position))
             this.LookAt(lookAtTarget);
+    }
+
+    private void onBodyEnterAreaOfAttack(Node3D body)
+    {
+        if (body is PlayerNode)
+        {
+            this.attack(() => { });
+        }
     }
 
 }
