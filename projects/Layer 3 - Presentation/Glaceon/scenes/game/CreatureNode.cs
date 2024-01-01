@@ -31,8 +31,6 @@ public partial class CreatureNode : CharacterBody3D
     private String variant;
 
     [Export]
-    private double jumpWindupTimeInSeconds= 0.7;
-    [Export]
     private double attackWindupTimeInSeconds = 0;
     
     // [NodePath]
@@ -49,14 +47,13 @@ public partial class CreatureNode : CharacterBody3D
     public ProgressBar Healthbar { get; set; }
 
     public float Speed = 5.0f;
-    public float JumpVelocity = 6.0f;
 
     private CreatureNodeAnimationController animationController;
 
     public override void _Ready()
     {
         this.OnReady();
-        this.animationController = new CreatureNodeAnimationController(this.AnimationPlayer, this.jumpWindupTimeInSeconds, this.attackWindupTimeInSeconds);
+        this.animationController = new CreatureNodeAnimationController(this.AnimationPlayer, this.attackWindupTimeInSeconds);
         
         // GD.Print(this.Name + " ready");
         if (creatureInstance != null)
@@ -108,17 +105,6 @@ public partial class CreatureNode : CharacterBody3D
         {
             this.animationController.playAnimation(CreatureNodeAnimationController.SupportedAnimation.Walk);
         }
-    }
-
-    protected void jump()
-    {
-        Action windupCallback = () =>
-        {
-            var velocity = this.Velocity;
-            velocity.Y = JumpVelocity;
-            this.Velocity = velocity;
-        };
-        this.animationController.playAnimation(CreatureNodeAnimationController.SupportedAnimation.Jump, windupCallback);
     }
 
     protected void attack(Action attackCallback)
@@ -228,29 +214,26 @@ public partial class CreatureNode : CharacterBody3D
 public class CreatureNodeAnimationController
 {
     // Defined in the order of priorities
-    // if the player is jumping, keep animating jump if walk input is received
-    // if the player is walking, cancel the walk animation and start jumping if jump input is received
+    // if the player is attacking, keep animating attack if walk input is received
+    // if the player is walking, cancel the walk animation and start attacking if attack input is received
     public enum SupportedAnimation
     {
         Idle,   // Loop animation
         Walk,   // Loop animation
-        Jump,   // Action animation
         Attack, // Action animation
         Death,  // Action animation
         Unknown // Used as a fallback
     }
 
     private AnimationPlayer player;
-    private double jumpWindupTimeInSeconds;
     private double attackWindupTimeInSeconds;
 
     private System.Collections.Generic.Dictionary<SupportedAnimation, string> animationToAnimationName;
     private SupportedAnimation currentAnimation = SupportedAnimation.Idle;
 
-    public CreatureNodeAnimationController(AnimationPlayer player, double jumpWindupTimeInSeconds, double attackWindupTimeInSeconds)
+    public CreatureNodeAnimationController(AnimationPlayer player, double attackWindupTimeInSeconds)
     {
         this.player = player;
-        this.jumpWindupTimeInSeconds = jumpWindupTimeInSeconds;
         this.attackWindupTimeInSeconds = attackWindupTimeInSeconds;
         this.animationToAnimationName = initAnimations(player);
         this.playAnimation(SupportedAnimation.Idle);
@@ -307,8 +290,6 @@ public class CreatureNodeAnimationController
     {
         switch (animation)
         {
-            case SupportedAnimation.Jump:
-                return this.jumpWindupTimeInSeconds;
             case SupportedAnimation.Attack:
                 return this.attackWindupTimeInSeconds;
             default:

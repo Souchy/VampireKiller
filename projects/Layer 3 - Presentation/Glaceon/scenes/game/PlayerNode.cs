@@ -80,12 +80,6 @@ public partial class PlayerNode : CreatureNode
 
 		Vector3 raycast = Vector3.Zero;
 
-		bool jumped = Input.IsActionJustPressed("move_jump") || Input.IsActionPressed("move_jump");
-		if (jumped)
-		{
-			this.jump();
-		}
-
 		bool clicked = Input.IsActionJustPressed("click_move") || Input.IsActionPressed("click_move");
 		if (clicked)
 		{
