@@ -18,16 +18,17 @@ texture = SubResource("ViewportTexture_34cfr")
 [node name="MeshInstance3D" parent="." index="1"]
 visible = false
 
-[node name="AnimationPlayer" parent="." index="6"]
+[node name="CreatureNodeAnimationPlayer" parent="." index="6"]
 root_node = NodePath("../MeshHolder")
 libraries = {
-"PFCCharacterArmature": ExtResource("2_uuarg")
+"PFCCharacterAnimations": ExtResource("2_uuarg")
 }
 
 [node name="MeshHolder" type="Node3D" parent="." index="7"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="PFCCharacter" parent="MeshHolder" index="0" instance=ExtResource("3_r7sq6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Skeleton3D" parent="MeshHolder/PFCCharacter" index="0"]
 bones/2/rotation = Quaternion(0.99502, 0.0996789, -1.66264e-24, 2e-16)
@@ -176,10 +177,10 @@ visible = false
 lod_bias = 128.0
 
 [node name="Character_Male_Baird" parent="MeshHolder/PFCCharacter/Skeleton3D" index="18"]
-visible = false
 lod_bias = 128.0
 
 [node name="Character_Male_Sorcerer" parent="MeshHolder/PFCCharacter/Skeleton3D" index="19"]
+visible = false
 lod_bias = 128.0
 
 [node name="Character_Male_King" parent="MeshHolder/PFCCharacter/Skeleton3D" index="20"]
