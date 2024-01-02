@@ -121,7 +121,7 @@ public partial class Sapphire : Node
                 var creaNode = attachEntity.get<CreatureNode>();
                 var node = AssetCache.Load<PackedScene>(scene).Instantiate<FxNode>();
                 node.init(status);
-                creaNode.StatusEffects.AddChild(node);
+                creaNode.StatusEffects.AddChild(node, true);
             }
             // normalement, si on fait ca, le spawnPos serait surement set, c'est le meme usecase
             else

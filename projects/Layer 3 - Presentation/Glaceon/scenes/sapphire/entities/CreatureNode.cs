@@ -44,6 +44,8 @@ public partial class CreatureNode : CharacterBody3D
     public Label3D LabelOwner { get; set; }
     [NodePath]
     public Node3D StatusEffects { get; set; }
+    [NodePath]
+    public MultiplayerSpawner StatusEffectsSpawner { get; set; }
 
     public float Speed = 5.0f;
     public float JumpVelocity = 6.0f;
@@ -58,17 +60,8 @@ public partial class CreatureNode : CharacterBody3D
             updateHPBar();
             LabelOwner.Text = "" + creatureInstance.playerId;
         }
+        StatusEffectsSpawner.AddSpawnableScene("res://scenes/db/spells/fireball/fireball_burn.tscn");
     }
-
-    //public override void _Process(double delta)
-    //{
-    //    base._Process(delta);
-    //}
-
-    //public override void _PhysicsProcess(double delta)
-    //{
-    //    physicsNavigationProcess(delta);
-    //}
 
     protected bool physicsNavigationProcess(double delta)
     {

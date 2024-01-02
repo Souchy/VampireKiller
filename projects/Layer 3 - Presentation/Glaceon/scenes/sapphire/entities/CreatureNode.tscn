@@ -70,3 +70,6 @@ billboard = 1
 text = "Owner:"
 
 [node name="StatusEffects" type="Node3D" parent="."]
+
+[node name="StatusEffectsSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../StatusEffects")
