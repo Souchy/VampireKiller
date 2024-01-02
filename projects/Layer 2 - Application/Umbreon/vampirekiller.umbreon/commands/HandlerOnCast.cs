@@ -25,6 +25,7 @@ public class HandlerOnCast : ICommandHandler<CommandCast>
             fight = Universe.fight,
             slot = command.activeSlot,
         };
-        action.applyActionCast();
+        if (action.canApplyCast())
+            action.applyActionCast();
     }
 }

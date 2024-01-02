@@ -244,7 +244,8 @@ public class TestFireball
             slot = 0,
             fight = fight
         };
-        action.applyActionCast();
+        if (action.canApplyCast())
+            action.applyActionCast();
 
         // TODO: Mock ActionCollision qqpart
         new ActionCollision(null, null);
