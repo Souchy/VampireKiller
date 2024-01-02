@@ -24,15 +24,7 @@ public partial class CreatureNode : CharacterBody3D
 {
     public CreatureInstance creatureInstance;
     public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
-
-    [Export]
-    public Node variantParent;
-    [Export]
-    private String variant;
-
-    [Export]
-    private double attackWindupTimeInSeconds = 0;
-    
+        
     // [NodePath]
     // public Node3D Model3d { get; set; }
     [NodePath]
@@ -46,6 +38,9 @@ public partial class CreatureNode : CharacterBody3D
     [NodePath("SubViewport/UiResourceBars/VBoxContainer/Healthbar")]
     public ProgressBar Healthbar { get; set; }
 
+    [NodePath]
+    public VariantController VariantController;
+
     public float Speed = 5.0f;
 
     public override void _Ready()
@@ -57,7 +52,7 @@ public partial class CreatureNode : CharacterBody3D
         {
             // this.GlobalPosition = creatureInstance.spawnPosition;
             updateHPBar();
-            updateVariant();
+            VariantController.updateVariant(this.creatureInstance.model.meshSceneVariant);
         }
     }
 
@@ -123,9 +118,6 @@ public partial class CreatureNode : CharacterBody3D
         creatureInstance.getPositionHook = () => this.GlobalPosition;
         creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
         creatureInstance.set<Func<Vector3>>(() => this.GlobalPosition);
-
-        this.variant = creatureInstance.model.meshSceneVariant;
-        updateVariant();
     }
 
     public override void _EnterTree()
@@ -172,37 +164,13 @@ public partial class CreatureNode : CharacterBody3D
 
     // }
 
-    private void updateHPBar()
+private void updateHPBar()
     {
         var life = this.creatureInstance.getTotalStat<CreatureTotalLife>();
         var max = this.creatureInstance.getTotalStat<CreatureTotalLifeMax>();
         double value = ((double) life.value / (double) max.value) * 100;
         // GD.Print("Crea (" + this.Name + ") update hp %: " + value); // + "............" + Healthbar + " vs " + hpbar);
         Healthbar.Value = value;
-    }
-
-    private void updateVariant()
-    {
-        if (variantParent != null)
-        {
-            String? mostSimilarNode = null;
-            foreach (var node in variantParent.GetChildren<MeshInstance3D>())
-            {
-                if (node != null)
-                {
-                    node.Visible = false;
-                    if (node.Name.ToString().ToLower().Contains(this.variant.ToLower()))
-                    {
-                        mostSimilarNode = node.Name;
-                    }
-                }
-            }
-
-            if (mostSimilarNode != null)
-            {
-                variantParent.GetNode<MeshInstance3D>(mostSimilarNode).Visible = true;
-            }
-        }
     }
 
 }

@@ -28,7 +28,11 @@ public partial class PlayerNode : CreatureNode
 		base._Ready();
 		this.OnReady();
 		this.Inject();
-		_game = (Game)this.GetParent().GetParent();
+		Node game = this.GetParent().GetParent();
+		if (game is Game)
+		{
+			_game = (Game) game;
+		}
 		_gameCamera = this.GetViewport().GetCamera3D();
 		_gameCamera.Current = true;
 	}

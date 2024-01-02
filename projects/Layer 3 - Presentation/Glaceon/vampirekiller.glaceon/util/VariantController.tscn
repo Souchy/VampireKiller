@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbgm5wdpuj815"]
+
+[ext_resource type="Script" path="res://vampirekiller.glaceon/util/VariantController.cs" id="1_ncpsl"]
+
+[node name="VariantController" type="Node"]
+script = ExtResource("1_ncpsl")
+variantParentPath = NodePath("")

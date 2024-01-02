@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://mmu2tpnln6i1"]
+[gd_scene load_steps=11 format=3 uid="uid://mmu2tpnln6i1"]
 
 [ext_resource type="Script" path="res://scenes/game/CreatureNode.cs" id="1_4o42t"]
 [ext_resource type="PackedScene" uid="uid://cvmjjemmg48w3" path="res://scenes/ui/components/UiResourceBars.tscn" id="2_44t2c"]
 [ext_resource type="Script" path="res://scenes/game/CreatureNodeAnimationPlayer.cs" id="3_8r57m"]
+[ext_resource type="PackedScene" uid="uid://bbgm5wdpuj815" path="res://vampirekiller.glaceon/util/VariantController.tscn" id="4_i75cx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pwek4"]
 
@@ -63,3 +64,5 @@ replication_config = SubResource("SceneReplicationConfig_ytwpu")
 
 [node name="CreatureNodeAnimationPlayer" type="AnimationPlayer" parent="."]
 script = ExtResource("3_8r57m")
+
+[node name="VariantController" parent="." instance=ExtResource("4_i75cx")]

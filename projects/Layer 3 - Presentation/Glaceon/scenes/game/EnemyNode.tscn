@@ -16,6 +16,7 @@ outer_radius = 0.75
 
 [node name="EnemyNode" groups=["Enemies"] instance=ExtResource("1_ion10")]
 script = ExtResource("2_lkian")
+variant = null
 
 [node name="ResourceBars" parent="CollisionShape3D" index="0"]
 texture = SubResource("ViewportTexture_wyh3w")
