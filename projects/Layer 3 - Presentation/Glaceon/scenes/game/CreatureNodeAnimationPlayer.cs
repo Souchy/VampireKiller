@@ -78,14 +78,17 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
 
     public void executeWindupCallback()
     {
-        this.animationCallback();
+		if (this.animationCallback != null) 
+		{
+	        this.animationCallback();
 
-        // Cleanup
-        this.animationCallback = null;
-        if (this.IsConnected(SignalName.AnimationFinished, Callable.From(this.executeWindupCallback)))
-        {
-            this.AnimationFinished -= this.executeWindupCallback;
-        }
+	        // Cleanup
+	        this.animationCallback = null;
+	        if (this.IsConnected(SignalName.AnimationFinished, Callable.From(this.executeWindupCallback)))
+	        {
+	            this.AnimationFinished -= this.executeWindupCallback;
+	        }
+		}
     }
 
     // Method overload is to allow it to be connected to the AnimationFinished signal
