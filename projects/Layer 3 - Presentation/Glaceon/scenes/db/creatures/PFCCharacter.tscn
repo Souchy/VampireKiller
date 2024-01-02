@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://s2lqki324awv"]
 
 [ext_resource type="PackedScene" uid="uid://bom0kubl7xo2v" path="res://scenes/game/PlayerNode.tscn" id="1_17fmj"]
-[ext_resource type="AnimationLibrary" uid="uid://cxb0yfu8wooyn" path="res://assets/synty/player/PFCCharacterAnimations.res" id="2_uuarg"]
-[ext_resource type="PackedScene" uid="uid://bdnrm5oe4d2nn" path="res://assets/synty/player/PFCCharacter.gltf" id="3_r7sq6"]
+[ext_resource type="AnimationLibrary" uid="uid://cxb0yfu8wooyn" path="res://assets/synty/creatures/PFCCharacterAnimations.res" id="2_uuarg"]
+[ext_resource type="PackedScene" uid="uid://bdnrm5oe4d2nn" path="res://assets/synty/creatures/PFCCharacter.gltf" id="3_r7sq6"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_34cfr"]
 viewport_path = NodePath("SubViewport")
@@ -28,7 +28,6 @@ libraries = {
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="PFCCharacter" parent="MeshHolder" index="0" instance=ExtResource("3_r7sq6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Skeleton3D" parent="MeshHolder/PFCCharacter" index="0"]
 bones/2/rotation = Quaternion(0.99502, 0.0996789, -1.66264e-24, 2e-16)
