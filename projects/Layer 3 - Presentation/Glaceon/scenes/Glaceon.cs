@@ -79,25 +79,6 @@ public partial class Glaceon : Node
         }
     }
 
-    //[Subscribe(Fight.EventSet)]
-    //public void onFigthStarted(Fight fight)
-    //{
-    //    if(fight == null)
-    //    {
-    //        this.changeScene(this.Lapis);
-    //    } 
-    //    else
-    //    {
-    //        this.Sapphire = AssetCache.Load<PackedScene>("res://scenes/sapphire/Sapphire.tscn").Instantiate<Sapphire>();
-    //        this.changeScene(this.Sapphire);
-    //        this.Sapphire.onSetFight(fight);
-    //    }
-    //    //else if (this.currentScene != this.Sapphire)
-    //    //{
-    //    //    this.changeScene(this.Sapphire);
-    //    //}
-    //}
-
     private void changeScene(Node newScene)
     {
         this.RemoveChild(this.currentScene);

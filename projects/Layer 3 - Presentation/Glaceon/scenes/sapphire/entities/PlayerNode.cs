@@ -7,7 +7,9 @@ using System.Reflection.Emit;
 using Util.communication.commands;
 using Util.communication.events;
 using vampierkiller.logia;
+using vampirekiller.glaceon.autoload;
 using vampirekiller.logia.commands;
+using vampirekiller.logia.net;
 
 public partial class PlayerNode : CreatureNode
 {
@@ -104,6 +106,7 @@ public partial class PlayerNode : CreatureNode
 
         (CreatureNode? raycastEntity, Vector3? raycastPosition)? raycast = null;
 
+
         bool clicked = Input.IsActionJustPressed("click_move") || Input.IsActionPressed("click_move");
         if (clicked)
         {
@@ -132,8 +135,8 @@ public partial class PlayerNode : CreatureNode
 		}
 		bool clear_projs = Input.IsActionJustPressed("clear_projs");
 		if (clear_projs)
-		{
-			Universe.fight.projectiles.clear();
+        {
+            Universe.fight?.projectiles.clear();
 		}
 	}
 

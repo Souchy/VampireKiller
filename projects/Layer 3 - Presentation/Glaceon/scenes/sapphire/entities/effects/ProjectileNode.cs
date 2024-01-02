@@ -100,7 +100,7 @@ public partial class ProjectileNode : Area3D
         });
     }
 
-     //TEST TDOTDO ka sdklajm SD
+
     public override void _ExitTree()
     {
         base._ExitTree();
