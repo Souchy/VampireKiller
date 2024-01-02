@@ -9,6 +9,7 @@ using vampirekiller.eevee.actions;
 using vampirekiller.eevee.conditions.schemas;
 using vampirekiller.eevee.enums;
 using vampirekiller.eevee.statements.schemas;
+using vampirekiller.eevee.stats.schemas.skill;
 using vampirekiller.eevee.triggers;
 using vampirekiller.eevee.triggers.schemas;
 using vampirekiller.eevee.util.json;
@@ -108,18 +109,11 @@ public class TestFireball
         // SpawnProjectileSchema pourrait inhériter de SpawnFxSchema en quelque sorte
 
         // Status burn va s'appliquer à tous les targets du explosionDmg vu qu'il est son enfant
-        IStatement addStatus = new Statement()
+        var statusSchema = new CreateStatusSchema()
         {
-            targetFilter = new Condition() {
-                schema = new TeamFilter() {
-                    team = TeamRelationType.Enemy
-                }
-            },
-            schema = new CreateStatusSchema()
-            {
-                duration = 3,
-                unbewitchable = true,
-                statusStatements = new List<IStatement>() {
+            //duration = 3,
+            //unbewitchable = true,
+            statusStatements = new List<IStatement>() {
                     // burn damage
                     new Statement() {
                         schema = new DamageSchema() {
@@ -127,7 +121,17 @@ public class TestFireball
                         }
                     }
                 }
-            }
+        };
+        statusSchema.stats.set(new SkillBaseDuration() { value = 3 });
+        statusSchema.stats.set(new StatusUnbewitchable() { value = true });
+        IStatement addStatus = new Statement()
+        {
+            targetFilter = new Condition() {
+                schema = new TeamFilter() {
+                    team = TeamRelationType.Enemy
+                }
+            },
+            schema = statusSchema
         };
         // ajoute le burn fx en enfant du status, pourrait être l'inverse sans problème
         var burnFx = new Statement() {
@@ -140,6 +144,7 @@ public class TestFireball
         explosionDmg.statements.add(addStatus);
 
         // todo: spell.stats: costs, cooldown, etc
+        spell.iconPath = "res://scenes/db/spells/fireball/fireball.png";
 
         return spell;
     }
@@ -150,6 +155,7 @@ public class TestFireball
         var spell = generateFireballModel();
         var json = Json.serialize(spell);
         output.WriteLine(json);
+        Directory.CreateDirectory("../../../../DB/spells/");
         File.WriteAllText("../../../../DB/spells/" + spell.entityUid + ".json", json);
     }
 
@@ -162,7 +168,7 @@ public class TestFireball
         var spellModel = generateFireballModel();
         // loadup a mock fight
         Fight fight = new StubFight();
-        Diamonds.spells.Add(spellModel.entityUid, spellModel);
+        Diamonds.spellModels.Add(spellModel.entityUid, spellModel);
 
         // create an item that can cast the spell
         var item = Register.Create<Item>();

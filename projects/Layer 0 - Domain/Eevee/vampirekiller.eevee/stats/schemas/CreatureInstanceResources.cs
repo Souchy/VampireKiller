@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Util.communication.events;
 using Util.entity;
 using Util.structures;
+using vampirekiller.eevee.stats.schemas.resources;
 
 namespace VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 
@@ -32,8 +33,8 @@ public class CreatureFightStats : IDisposable
         // Stats influencées par les levels? (growth)
         dic.set(Register.Create<CreatureBaseLife>());
         dic.set(Register.Create<CreatureBaseLifeMax>());
-        dic.set(Register.Create<CreatureIncreaseLife>());
-        dic.set(Register.Create<CreatureIncreaseLifeMax>());
+        dic.set(Register.Create<CreatureIncreasedLife>());
+        dic.set(Register.Create<CreatureIncreasedLifeMax>());
         // Si on veut un arbre de passifs avec des choix,
         //      alors faudrait un objet dans creature: PassiveTree { list<Passive> } et Passive { StatsDic bonus; ou List<Statement> statements; }
         //      de la même manière que les items et status
@@ -44,56 +45,16 @@ public class CreatureFightStats : IDisposable
 }
 
 
-public class CreatureBaseLife : StatInt { }
-public class CreatureBaseLifeMax : StatInt { }
-public class CreatureIncreaseLife : StatInt { }
-public class CreatureIncreaseLifeMax : StatInt { }
-public class CreatureAddedLife : StatInt { }
-public class CreatureAddedLifeMax : StatInt { }
+// Damage & Resistance
+public class IncreasedDamage : StatInt { }
+public class IncreasedDirectDamage : StatInt { }
+public class IncreasedIndirectDamage : StatInt { }
+public class PercentResistance : StatInt { }
+public class AddedDamageReduction : StatInt { }
 
-public class CreatureTotalLife : StatInt
-{
-    private int totalBase = 0;
-    private int totalIncrease = 0;
-    private int totalAdded = 0;
-    public override int value
-    {
-        get
-        {
-            return (int)(totalBase * ((100.0 + totalIncrease) / 100.0)) + totalAdded;
-        }
-        set { }
-    }
-    public override void add(StatsDic dic)
-    {
-        var flat = dic.get<CreatureBaseLife>();
-        var inc = dic.get<CreatureIncreaseLife>();
-        var added = dic.get<CreatureAddedLife>();
-        if (flat != null) totalBase += flat.value;
-        if (inc != null) totalIncrease += inc.value;
-        if (added != null) totalAdded += added.value;
-    }
-}
-public class CreatureTotalLifeMax : StatInt
-{
-    private int totalFlat = 0;
-    private int totalIncrease = 0;
-    private int totalAdded = 0;
-    public override int value
-    {
-        get
-        {
-            return (int)(totalFlat * ((100.0 + totalIncrease) / 100.0)) + totalAdded;
-        }
-        set { }
-    }
-    public override void add(StatsDic dic)
-    {
-        var flat = dic.get<CreatureBaseLifeMax>();
-        var inc = dic.get<CreatureIncreaseLifeMax>();
-        var added = dic.get<CreatureAddedLifeMax>();
-        if (flat != null) totalFlat += flat.value;
-        if (inc != null) totalIncrease += inc.value;
-        if (added != null) totalAdded += added.value;
-    }
-}
+// Movement speed
+public class CreatureBaseMovementSpeed : StatDouble { }
+public class CreatureIncreasedMovementSpeed : StatDouble { }
+public class CreatureTotalMovementSpeed : StatDoubleTotal<CreatureBaseMovementSpeed, CreatureIncreasedMovementSpeed> { }
+
+

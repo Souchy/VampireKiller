@@ -79,6 +79,7 @@ public class ShockNova {
         spell.statements.add(innerRing);
         // todo add spell.stats (costs, cooldown, maxcharges...)
         // todo add spell.range
+        spell.iconPath = "res://scenes/db/spells/shockNova.png";
         return spell;
     }
     
@@ -87,6 +88,7 @@ public class ShockNova {
     public void serializeShockNova() {
         var spell = generateShockNova();
         var json = Json.serialize(spell);
+        Directory.CreateDirectory("../../../../DB/spells/");
         File.WriteAllText("../../../../DB/spells/" + spell.entityUid + ".json", json);
     }
 
@@ -99,7 +101,7 @@ public class ShockNova {
         var spellModel = generateShockNova();
         // loadup a mock fight
         Fight fight = new StubFight();
-        Diamonds.spells.Add(spellModel.entityUid, spellModel);
+        Diamonds.spellModels.Add(spellModel.entityUid, spellModel);
 
         // create an item that can cast the spell
         var item = Register.Create<Item>();

@@ -11,6 +11,15 @@ namespace vampirekiller.eevee.statements.schemas;
 public class Status : Identifiable, IStatementContainer
 {
     public ID entityUid { get; set; }
+    /// <summary>
+    /// Can be a status model or a skill model
+    /// </summary>
+    public ID modelUid { get; set; }
+    /// <summary>
+    /// Set it in statuses schemas. -> used with AddStatus
+    /// Otherwise CreateStatus uses the spell's icon
+    /// </summary>
+    public string iconPath { get; set; }
     public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
     /// <summary>
     /// Model stats:
@@ -31,3 +40,17 @@ public class Status : Identifiable, IStatementContainer
         throw new NotImplementedException();
     }
 }
+
+/// <summary>
+/// Current Status stacks
+/// </summary>
+public class StatusStacks : StatInt { }
+/// <summary>
+/// Max stacks set by the status model.
+/// </summary>
+public class StatusMaxStacks : StatInt { }
+
+/// <summary>
+/// Can we unbewitch the status
+/// </summary>
+public class StatusUnbewitchable : StatBool { }

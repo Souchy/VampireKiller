@@ -2,7 +2,10 @@ using Godot;
 using Logia.vampirekiller.logia;
 using Util.ecs;
 using Util.entity;
+using vampirekiller.eevee.actions;
+using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
+using VampireKiller.eevee;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee;
 using VampireKiller.eevee.vampirekiller.eevee.enums;
@@ -43,6 +46,12 @@ public interface IAction
     public T? getParent<T>();
     public Entity getSourceEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == sourceEntity);
     public Entity getTargetEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == targetEntity);
+
+    /// <summary>
+    /// Contextual components like the procTrigger's current creature, item, status, ...
+    /// </summary>
+    public T? getContext<T>(string key) where T : class;
+    public void setContext(string key, object value);
 }
 
 public abstract class Action : IAction
@@ -53,6 +62,7 @@ public abstract class Action : IAction
     public IAction parent { get; set; }
     public HashSet<IAction> children { get; set; } = new();
     public Fight fight { get; set; } = Universe.fight;
+    protected Dictionary<string, object> context { get; set; } = new();
 
     protected Action() { }
     public Action(IAction parent)
@@ -62,9 +72,23 @@ public abstract class Action : IAction
         this.raycastPosition = parent.raycastPosition;
         this.targetEntity = parent.targetEntity;
         parent.children.Add(this);
+        foreach (var key in context.Keys)
+        {
+            setContext(key, parent.getContext<object>(key));
+        }
     }
     public Entity getSourceEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == sourceEntity);
     public Entity getTargetEntity() => fight.entities.values.FirstOrDefault(c => c.entityUid == targetEntity);
+    public void setContext(string key, object value)
+    {
+        context[key] = value;
+    }
+    public T? getContext<T>(string key) where T : class
+    {
+        if(context.ContainsKey(key))
+            return context[key] as T;
+        return default;
+    }
     public IAction copy()
     {
         IAction copy = copyImplementation();
@@ -74,6 +98,10 @@ public abstract class Action : IAction
         copy.parent = this.parent;
         foreach (var child in children)
             copy.children.Add(child);
+        foreach(var key in context.Keys)
+        {
+            copy.setContext(key, context[key]);
+        }
         return copy;
     }
     public T? getParent<T>()
@@ -88,5 +116,40 @@ public abstract class Action : IAction
 }
 
 public interface IActionTrigger : IAction {
+    public const string creature = "trigger.creature";
+    public const string projectile = "trigger.projectile";
+    public const string status = "trigger.status";
+    public const string item = "trigger.status";
     public TriggerType triggerType { get; }
+    public CreatureInstance? getContextCreature();
+    public ProjectileInstance? getContextProjectile();
+    public Status? getContextStatus();
+    public Item? getContextItem();
+    public void setContextCreature(CreatureInstance creature);
+    public void setContextProjectile(ProjectileInstance projectile);
+    public void setContextStatus(Status status);
+    public void setContextItem(Item item);
+}
+public abstract class ActionTrigger : Action, IActionTrigger
+{
+    public abstract TriggerType triggerType { get; }
+    public CreatureInstance? getContextCreature()
+        => getContext<CreatureInstance>(IActionTrigger.creature);
+    public ProjectileInstance? getContextProjectile()
+        => getContext<ProjectileInstance>(IActionTrigger.projectile);
+    public Status? getContextStatus()
+        => getContext<Status>(IActionTrigger.status);
+    public Item? getContextItem()
+        => getContext<Item>(IActionTrigger.item);
+    public void setContextCreature(CreatureInstance creature)
+        => setContext(IActionTrigger.creature, creature);
+    public void setContextProjectile(ProjectileInstance projectile)
+        => setContext(IActionTrigger.projectile, projectile);
+    public void setContextStatus(Status status)
+        => setContext(IActionTrigger.status, status);
+    public void setContextItem(Item item)
+        => setContext(IActionTrigger.item, item);
+
+    public ActionTrigger() : base() { }
+    public ActionTrigger(IAction parent) : base(parent) { }
 }

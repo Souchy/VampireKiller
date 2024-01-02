@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Util.entity;
 using vampirekiller.eevee.actions;
+using vampirekiller.eevee.stats.schemas.resources;
 using vampirekiller.eevee.triggers;
 using vampirekiller.logia.extensions;
 using VampireKiller.eevee.creature;
@@ -21,7 +22,7 @@ namespace vampirekiller.logia.statements;
 public class DamageScript : IStatementScript
 {
     public Type schemaType => typeof(DamageSchema);
-    
+
     /// <summary>
     /// Petit problème à méditer: les entity source/target peuvent être des projectile (ex proj attack crea ou crea attack proj)
     /// Donc, sachant que les proj ont des stats aussi,
@@ -32,8 +33,8 @@ public class DamageScript : IStatementScript
     public void apply(ActionStatementTarget action)
     {
         var currentTarget = action.currentTarget as CreatureInstance;
-        // var caster = action.getSourceEntity(); // as CreatureInstance;
-        if(currentTarget == null)
+        var source = action.getSourceEntity(); // as CreatureInstance;
+        if (source == null || currentTarget == null)
             return;
         var statement = action.getParentStatement();
 
@@ -48,19 +49,28 @@ public class DamageScript : IStatementScript
         dam = (int) (dam * (1 + variance / 100.0));
 
         // apply affinities
-        // var casterStats = caster.get<StatsDic>();
-        var casterAttack = 0; //caster.getTotalStat<Attack>();
-        dam = (int) (dam * (1 + casterAttack / 100.0));
+        var incDmg = source.getTotalStat<IncreasedDamage>().value;
+        var incDirectDmg = source.getTotalStat<IncreasedDirectDamage>().value;
+        //var incIndirectDmg = source.getTotalStat<IncreasedIndirectDamage>(); // dans un IndirectDamageScript 
+        var casterIncreasedDamage = incDmg + incDirectDmg;
+        dam = (int) (dam * (1 + casterIncreasedDamage / 100.0));
 
         // apply resistances
-        var targetRes = 0; //currentTarget.getTotalStat<Resistance>();
+        var res = currentTarget.getTotalStat<PercentResistance>().value;
+        var targetRes = res;
         dam = (int) (dam * (1 - targetRes / 100.0));
+        
+        var dmgReduction = currentTarget.getTotalStat<AddedDamageReduction>();
+        dam -= dmgReduction.value;
 
         // update life, which will send an event
         var addLife = Math.Clamp(dam, -totalCurrentLife.value, totalMaxLife.value - totalCurrentLife.value);
         currentTarget.fightStats.addedLife.value += addLife; //+= dam;
 
-        if(addLife == -totalCurrentLife.value) {
+        currentTarget.GetEntityBus().publish("damage", addLife);
+
+        if (addLife == -totalCurrentLife.value)
+        {
             // TODO actionTrigger apply
             // var actionTrigger = new ActionStatementTrigger(action, TriggerType.onDeath);
             // actionTrigger.apply(); 

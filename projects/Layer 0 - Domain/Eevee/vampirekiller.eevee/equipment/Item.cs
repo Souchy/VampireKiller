@@ -10,6 +10,10 @@ using VampireKiller.eevee.vampirekiller.eevee.statements;
 
 namespace VampireKiller.eevee.vampirekiller.eevee.equipment;
 
+/// <summary>
+/// Items are all permanent passives.
+/// Some of them give new skills.
+/// </summary>
 public class Item : Identifiable, IStatementContainer
 {
     public ID entityUid { get; set; }

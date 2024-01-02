@@ -7,7 +7,8 @@ using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 using vampirekiller.logia.extensions;
-
+using vampirekiller.glaceon.util;
+using vampirekiller.eevee.stats.schemas.resources;
 
 /// <summary>
 /// Properties that need to be shown:
@@ -112,7 +113,7 @@ public partial class CreatureNode : CharacterBody3D
     {
         // GD.Print("CreatureNode: onStatChanged: " + stat.GetType().Name + " = " + stat.genericValue);
         // todo regrouper les life stats en une liste<type> automatique genre / avoir une annotation [Life] p.ex, etc
-        if (stat is CreatureAddedLife || stat is CreatureAddedLifeMax || stat is CreatureBaseLife || stat is CreatureBaseLifeMax || stat is CreatureIncreaseLife || stat is CreatureIncreaseLifeMax)
+        if (stat is CreatureAddedLife || stat is CreatureAddedLifeMax || stat is CreatureBaseLife || stat is CreatureBaseLifeMax || stat is CreatureIncreasedLife || stat is CreatureIncreasedLifeMax)
         {
             updateHPBar();
         }
@@ -147,6 +148,14 @@ public partial class CreatureNode : CharacterBody3D
         double value = ((double) life.value / (double) max.value) * 100;
         // GD.Print("Crea (" + this.Name + ") update hp %: " + value); // + "............" + Healthbar + " vs " + hpbar);
         Healthbar.Value = value;
+    }
+
+    [Subscribe("damage")]
+    public void onDamage(int value)
+    {
+        var popup = AssetCache.Load<PackedScene>("res://scenes//ui/components/UiResourcePopup.tscn").Instantiate<UiResourcePopup>();
+        popup.value = value;
+        this.AddChild(popup);
     }
 
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Util.entity;
+using vampirekiller.eevee.stats.schemas.resources;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
 
@@ -18,8 +19,8 @@ public class CreatureModel : Identifiable
     {
         baseStats.set(Register.Create<CreatureBaseLife>());
         baseStats.set(Register.Create<CreatureBaseLifeMax>());
-        baseStats.set(Register.Create<CreatureIncreaseLife>());
-        baseStats.set(Register.Create<CreatureIncreaseLifeMax>());
+        baseStats.set(Register.Create<CreatureIncreasedLife>());
+        baseStats.set(Register.Create<CreatureIncreasedLifeMax>());
     }
 
     /*

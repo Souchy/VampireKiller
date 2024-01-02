@@ -272,13 +272,13 @@ public class StatBool : IStat
 
 
 public class StatIntTotal<B, I> : StatInt where B : StatInt where I : StatInt {
-    private int totalFlat = 0;
-    private int totalIncrease = 0;
+    protected int totalBase = 0;
+    protected int totalIncrease = 0;
     public override int value
     {
         get
         {
-            return (int)(totalFlat * ((100.0 + totalIncrease) / 100.0));
+            return (int)(totalBase * ((100.0 + totalIncrease) / 100.0));
         }
         set { }
     }
@@ -286,19 +286,40 @@ public class StatIntTotal<B, I> : StatInt where B : StatInt where I : StatInt {
     {
         var flat = dic.get<B>();
         var inc = dic.get<I>();
-        if (flat != null) totalFlat += flat.value;
+        if (flat != null) totalBase += flat.value;
         if (inc != null) totalIncrease += inc.value;
+    }
+}
+/// <summary>
+/// used for things like CreatureTotalLife, CreatureTotalLifeMax, which include fight damage, heals, erosion, buffs...
+/// </summary>
+public class StatIntTotalFight<B, I, A> : StatIntTotal<B, I> where B : StatInt where I : StatInt where A : StatInt
+{
+    protected int totalAdded = 0;
+    public override int value
+    {
+        get
+        {
+            return (int) (totalBase * ((100.0 + totalIncrease) / 100.0)) + totalAdded;
+        }
+        set { }
+    }
+    public override void add(StatsDic dic)
+    {
+        base.add(dic);
+        var added = dic.get<A>();
+        if (added != null) totalAdded += added.value;
     }
 }
 
 public class StatDoubleTotal<B, I> : StatDouble where B : StatDouble where I : StatDouble {
-    private double totalFlat = 0;
-    private double totalIncrease = 0;
+    protected double totalBase = 0;
+    protected double totalIncrease = 0;
     public override double value
     {
         get
         {
-            return (int)(totalFlat * ((100.0 + totalIncrease) / 100.0));
+            return totalBase * ((100.0 + totalIncrease) / 100.0);
         }
         set { }
     }
@@ -306,7 +327,7 @@ public class StatDoubleTotal<B, I> : StatDouble where B : StatDouble where I : S
     {
         var flat = dic.get<B>();
         var inc = dic.get<I>();
-        if (flat != null) totalFlat += flat.value;
+        if (flat != null) totalBase += flat.value;
         if (inc != null) totalIncrease += inc.value;
     }
 }

@@ -22,7 +22,7 @@ public class SpellInstance : Identifiable, IStatementContainer
     protected SpellInstance() { }
 
 
-    public SpellModel getModel() => Diamonds.spells[modelUid];
+    public SpellModel getModel() => Diamonds.spellModels[modelUid];
     public void Dispose()
     {
         throw new NotImplementedException();

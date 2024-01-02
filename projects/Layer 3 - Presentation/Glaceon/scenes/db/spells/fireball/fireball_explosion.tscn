@@ -18,7 +18,8 @@ material = SubResource("StandardMaterial3D_dtru8")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.542237, 0)
-amount = 443
+amount = 20
+lifetime = 0.2
 one_shot = true
 process_material = SubResource("ParticleProcessMaterial_lpprr")
 draw_pass_1 = SubResource("SphereMesh_kqi1o")

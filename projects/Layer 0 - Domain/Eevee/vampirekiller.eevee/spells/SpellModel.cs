@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Util.entity;
 using Util.structures;
+using vampirekiller.eevee.enums;
 using VampireKiller.eevee.vampirekiller.eevee.conditions;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
@@ -36,15 +37,14 @@ public class SpellModel : Identifiable, IStatementContainer
     }
 }
 
-
 /// <summary>
 /// ?? what about different resources: mana, life, rage, bullets, arrows, consumables....
 /// Maybe just dont have costs. Cooldowns & cast speed & charges could be enough.
 /// Charges + cd already kinda act like a ressource that automatically recharges, which is nicer than having to buy ammo for example.
 /// So maybe just have mana for some spells, rage for special stuff, charges for ammo....
 /// </summary>
-public class SpellBaseCostMana : StatInt { }
 public class SpellBaseCostLife : StatInt { }
+public class SpellBaseCostMana : StatInt { }
 public class SpellBaseCostRage : StatInt { }
 /// <summary>
 /// Could use the same increase to apply to all resources? 
@@ -52,19 +52,31 @@ public class SpellBaseCostRage : StatInt { }
 /// </summary>
 public class SpellIncreasedCost : StatInt { }
 
-public class SpellTotalCostMana : StatInt { }
-public class SpellTotalCostLife : StatInt { }
-public class SpellTotalCostRage : StatInt { }
+public class SpellTotalCostLife : StatIntTotal<SpellBaseCostLife, SpellIncreasedCost> { }
+public class SpellTotalCostMana : StatIntTotal<SpellBaseCostMana, SpellIncreasedCost> { }
+public class SpellTotalCostRage : StatIntTotal<SpellBaseCostRage, SpellIncreasedCost> { }
 
 // Range
 public class SpellBaseRange : StatDouble { }
 public class SpellIncreasedRange : StatDouble { }
-public class SpellTotalRange : StatDouble { }
+public class SpellTotalRange : StatDoubleTotal<SpellBaseRange, SpellIncreasedRange> { }
 
 // Cooldown
 public class SpellBaseCooldown : StatDouble { }
 public class SpellIncreasedCooldownRecovery : StatDouble { }
-public class SpellTotalCooldown : StatDouble { }
+public class SpellTotalCooldown : StatDoubleTotal<SpellBaseCooldown, SpellIncreasedCooldownRecovery>  {
+    public override double value
+    {
+        get
+        {
+            double castPerSecond = 1 / totalBase;
+            double improvedCastPerSecond = castPerSecond * (100 + totalIncrease) / 100;
+            double improvedCastTime = 1 / improvedCastPerSecond;
+            return improvedCastTime;
+        }
+        set { }
+    }
+}
 
 // Charges
 public class SpellAddMaxCharges : StatInt { }
@@ -84,9 +96,18 @@ public class SpellIncreasedCastSpeed : StatDouble { }
 /// Number of casts per seconds increased = 1.66/s * (100 + 30%) = 2.166/s 
 /// Final cast time = 1 / 2.166 = 0.46s
 /// </summary>
-public class SpellTotalCastTime : StatDouble
+public class SpellTotalCastTime : StatDoubleTotal<SpellBaseCastTime, SpellIncreasedCastSpeed>
 {
-    private int baseCastTime;
-    private int increasedCastSpeed;
     // todo sum with player stats
+    public override double value
+    {
+        get
+        {
+            double castPerSecond = 1 / totalBase;
+            double improvedCastPerSecond = castPerSecond * (100 + totalIncrease) / 100;
+            double improvedCastTime = 1 / improvedCastPerSecond;
+            return improvedCastTime;
+        }
+        set { }
+    }
 }

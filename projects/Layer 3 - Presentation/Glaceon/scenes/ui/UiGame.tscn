@@ -79,7 +79,7 @@ layout_mode = 2
 size_flags_vertical = 4
 color = Color(1, 0.427451, 0.337255, 1)
 
-[node name="UiSlotActive" parent="MarginContainer2/ActiveBar" instance=ExtResource("1_74isw")]
+[node name="UiSlotActive1" parent="MarginContainer2/ActiveBar" instance=ExtResource("1_74isw")]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -128,3 +128,7 @@ text = "player: "
 unique_name_in_owner = true
 layout_mode = 2
 text = "raycast:"
+
+[node name="LblProjCount" type="Label" parent="MarginContainer3/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2

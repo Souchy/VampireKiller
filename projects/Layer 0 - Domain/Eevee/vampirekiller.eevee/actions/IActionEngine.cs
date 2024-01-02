@@ -12,9 +12,10 @@ public interface IEngineAction : IActionTrigger
 /// <summary>
 /// Root action
 /// </summary>
-public class ActionCollision : Action, IEngineAction
+public class ActionCollision : ActionTrigger, IEngineAction
 {
-    public TriggerType triggerType => TriggerType.onCollision;
+    public override TriggerType triggerType => TriggerType.onCollision;
+
     public ActionCollision() { }
     public ActionCollision(Entity collider, Entity collidee)
     {
@@ -29,9 +30,9 @@ public class ActionCollision : Action, IEngineAction
 /// <summary>
 /// Root action
 /// </summary>
-public class ActionProcessTick : Action, IEngineAction
+public class ActionProcessTick : ActionTrigger, IEngineAction
 {
-    public TriggerType triggerType => TriggerType.onProcess;
+    public override TriggerType triggerType => TriggerType.onProcess;
     public double delta { get; set; }
 
     public ActionProcessTick(double delta) => this.delta = delta;

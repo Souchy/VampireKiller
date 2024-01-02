@@ -10,6 +10,7 @@ using vampirekiller.eevee;
 using vampirekiller.eevee.ai;
 using vampirekiller.eevee.creature;
 using vampirekiller.eevee.enums;
+using vampirekiller.eevee.stats.schemas.resources;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee;
 using VampireKiller.eevee.vampirekiller.eevee.enums;
@@ -43,14 +44,11 @@ public class StubFight : Fight
         var creaModel = Register.Create<CreatureModel>();
         creaModel.meshScenePath = "res://scenes/game/PlayerNode.tscn";
         creaModel.iconPath = "res://icon.svg";
-        creaModel.baseStats.get<CreatureBaseLife>()!.value = 2;
-        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 2;
-        creaModel.baseStats.set(Register.Create<ProjectileAddCount>());
-        creaModel.baseStats.get<ProjectileAddCount>()!.value = 2;
-        creaModel.baseStats.set(new ProjectileIncreasedSpeed()
-        {
-            value = 500
-        });
+        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
+        creaModel.baseStats.get<CreatureBaseLife>()!.value = 100;
+        creaModel.baseStats.set(new ProjectileAddCount() { value = 2 });
+        creaModel.baseStats.set(new ProjectileIncreasedSpeed() { value = 100 });
+        creaModel.baseStats.set(new IncreasedDamage() { value = 100 });
 
         var crea = Register.Create<CreatureInstance>();
         crea.model = creaModel;
@@ -59,11 +57,11 @@ public class StubFight : Fight
         crea.set<Team>(Team.A);
 
         var fireball = Register.Create<SpellInstance>();
-        fireball.modelUid = Diamonds.spells["spell_fireball"].entityUid;
+        fireball.modelUid = Diamonds.spellModels["spell_fireball"].entityUid;
         crea.activeSkills.add(fireball);
 
         var shocknova = Register.Create<SpellInstance>();
-        shocknova.modelUid = Diamonds.spells["spell_shock_nova"].entityUid;
+        shocknova.modelUid = Diamonds.spellModels["spell_shock_nova"].entityUid;
         crea.activeSkills.add(shocknova);
 
         return crea;
@@ -75,8 +73,8 @@ public class StubFight : Fight
         creaModel.meshScenePath = "res://scenes/db/creatures/Orc.tscn";
         creaModel.iconPath = "res://icon.svg";
         creaModel.ai = new AiMelee();
-        creaModel.baseStats.get<CreatureBaseLife>()!.value = 2;
-        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 2;
+        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
+        creaModel.baseStats.get<CreatureBaseLife>()!.value = 100;
 
         var crea = Register.Create<CreatureInstance>();
         crea.model = creaModel;
