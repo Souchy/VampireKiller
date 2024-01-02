@@ -17,8 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Main="*res://vampirekiller.glaceon/autoload/Main.cs"
 DependencyInjectionSystem="*res://vampirekiller.glaceon/autoload/DependencyInjectionSystem.cs"
+Main="*res://vampirekiller.glaceon/autoload/Main.cs"
+RpcClient="*res://vampirekiller.glaceon/autoload/RpcClient.cs"
 
 [display]
 

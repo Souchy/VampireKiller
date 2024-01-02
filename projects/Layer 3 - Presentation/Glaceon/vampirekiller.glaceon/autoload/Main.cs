@@ -3,9 +3,7 @@ using Logia.vampirekiller.logia;
 using System;
 using System.Linq;
 using vampierkiller.espeon;
-using vampirekiller.eevee;
 using vampirekiller.logia;
-using vampirekiller.logia.statements;
 using vampirekiller.umbreon;
 
 namespace vampirekiller.glaceon.autoload;
@@ -24,7 +22,7 @@ public partial class Main : Node
         // DisplayServer.GetName() == "headless"
         Universe.root = GetTree().Root;
         LogiaDiamonds.loadTypes();
-        if(Universe.isServer)
+        if (Universe.isServer)
             Espeon.main();
         else
             Umbreon.main();

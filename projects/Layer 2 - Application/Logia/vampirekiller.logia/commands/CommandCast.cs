@@ -17,10 +17,11 @@ public record struct CommandCast : ICommand
 {
     public int playerId { get; set; } = -1;
     public ID? raycastEntity { get; set; }
-    public Vector3 raycastMouse { get; private set; }
+    public Vector3 raycastMouse { get; set; }
     // Would also contain the spell/ability being casted/used
-    public int activeSlot = 0;
+    public int activeSlot { get; set; }
 
+    public CommandCast() { }
     public CommandCast(int playerId, Entity raycastEntity, Vector3 raycastMouse, int activeSlot) //CreatureInstance source)
     {
         //this.source = source;

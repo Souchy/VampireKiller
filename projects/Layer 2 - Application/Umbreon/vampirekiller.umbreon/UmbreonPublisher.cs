@@ -1,4 +1,5 @@
-﻿using Logia.vampirekiller.logia;
+﻿using Godot;
+using Logia.vampirekiller.logia;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,25 +20,25 @@ public class UmbreonCommandPublisher : ICommandPublisher
 
     public void publish<T>(T command) where T : ICommand
     {
-        if (command.preferOnline && Universe.isOnline)
-        //{
-            Umbreon.net?.RpcId(1, Rpcs.onPacketCommand, command.serialize());
-        //}
+        if (command.preferOnline && Universe.isOnline && Umbreon.net != null)
+        {
+            IRpcClient.Instance.sendCommand(command.serialize());
+        }
         else
-            //{
+        {
             _manager.handle(command);
-        //}
+        }
     }
 
     public async Task publishAsync<T>(T command) where T : ICommand
     {
-        if (command.preferOnline && Universe.isOnline)
-        //{
-            Umbreon.net?.RpcId(1, Rpcs.onPacketCommand, command.serialize());
-        //}
+        if (command.preferOnline && Universe.isOnline && Umbreon.net != null)
+        {
+            IRpcClient.Instance.sendCommand(command.serialize());
+        }
         else
-            //{
+        {
             await _manager.handleAsync(command);
-        //}
+        }
     }
 }

@@ -53,19 +53,6 @@ public partial class UmbreonNet : Node //, Net
     }
 
     /// <summary>
-    /// Receive command packet and pass it to EspeonCommandManager
-    /// </summary>
-    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-    public void onPacketCommand(byte[] bytes)
-    {
-        GD.Print("Umbreon: onPacketCommand: " + bytes);
-        //string json = Encoding.UTF8.GetString(bytes);
-        //var command = Json.deserialize<ICommand>(json);
-        ////ICommand command = null; // deserialize bytes
-        //_commandManager.handle(command);
-    }
-
-    /// <summary>
     /// Runs when a player connects and runs on all peers
     /// </summary>
     private void PeerConnected(long id)
