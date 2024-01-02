@@ -70,7 +70,7 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
             // If animation does not contain a callback, setup callback when animation ends
             if (!this.animationToHasCallback.GetValueOrDefault(animation, false))
             {
-                this.AnimationFinished += this.executeWindupCallback;
+                this.Connect(SignalName.AnimationFinished, Callable.From<string>(this.executeWindupCallback));
             }
         }
         return animationPlayed;
@@ -84,15 +84,15 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
 
 	        // Cleanup
 	        this.animationCallback = null;
-	        if (this.IsConnected(SignalName.AnimationFinished, Callable.From(this.executeWindupCallback)))
+	        if (this.IsConnected(SignalName.AnimationFinished, Callable.From<string>(this.executeWindupCallback)))
 	        {
-	            this.AnimationFinished -= this.executeWindupCallback;
+	            this.Disconnect(SignalName.AnimationFinished, Callable.From<string>(this.executeWindupCallback));
 	        }
 		}
     }
 
     // Method overload is to allow it to be connected to the AnimationFinished signal
-    public void executeWindupCallback(StringName onWindupEnd)
+    public void executeWindupCallback(string onWindupEnd)
     {
         this.executeWindupCallback();
     }
