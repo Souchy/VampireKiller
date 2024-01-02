@@ -22,6 +22,7 @@ public partial class Main : Node
         // Sinon:
         // OS.HasFeature("dedicated_server")
         // DisplayServer.GetName() == "headless"
+        Universe.root = GetTree().Root;
         LogiaDiamonds.loadTypes();
         if(Universe.isServer)
             Espeon.main();

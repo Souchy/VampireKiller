@@ -50,7 +50,6 @@ public partial class Sapphire : Node
     {
         this.OnReady();
         GD.Print("Sapphire ready");
-        Universe.root = this;
         clearNodes();
 
         EntitySpawner.AddSpawnableScene("res://scenes/sapphire/entities/CreatureNode.tscn");
