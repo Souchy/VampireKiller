@@ -1,21 +1,32 @@
 using Godot;
 using Godot.Sharp.Extras;
 using System;
+using Util.communication.commands;
 using Util.communication.events;
+using vampierkiller.logia;
 using vampirekiller.eevee.ai;
 using vampirekiller.eevee.creature;
+using vampirekiller.logia.commands;
 
 public partial class EnemyNode : CreatureNode
 {
+
+    [Inject]
+    public ICommandPublisher publisher { get; set; }
+
     [NodePath]
     private Area3D AreaOfAttack;
 
     private Node3D trackingTarget;
 
+    private int playersInAOE = 0;
+
     public override void _Ready()
     {
         base._Ready();
+        this.Inject();
         AreaOfAttack.BodyEntered += this.onBodyEnterAreaOfAttack;
+        AreaOfAttack.BodyExited += this.onBodyExitAreaOfAttack;
         Speed = 3.0f;
     }
 
@@ -49,13 +60,27 @@ public partial class EnemyNode : CreatureNode
         );
         if (!lookAtTarget.IsEqualApprox(this.Position))
             this.LookAt(lookAtTarget);
+
+        if (playersInAOE != 0)
+        {
+            var cmd = new CommandCast(this.creatureInstance, this.Transform.Basis.Z, 0); //-this.Transform.Basis.Z, 1);
+            this.attack(() => this.publisher.publish(cmd));
+        }
     }
 
     private void onBodyEnterAreaOfAttack(Node3D body)
     {
         if (body is PlayerNode)
         {
-            this.attack(() => { });
+            playersInAOE += 1;
+        }
+    }
+
+    private void onBodyExitAreaOfAttack(Node3D body)
+    {
+        if (body is PlayerNode)
+        {
+            playersInAOE -= 1;
         }
     }
 

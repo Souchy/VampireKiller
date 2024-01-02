@@ -46,8 +46,8 @@ public class StubFight : Fight
         creaModel.meshScenePath = "res://scenes/db/creatures/PFCCharacter.tscn";
         creaModel.meshSceneVariant = "Sorcerer";
         creaModel.iconPath = "res://icon.svg";
-        creaModel.baseStats.get<CreatureBaseLife>()!.value = 2;
-        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 2;
+        creaModel.baseStats.get<CreatureBaseLife>()!.value = 200;
+        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 200;
         creaModel.baseStats.set(Register.Create<ProjectileAddCount>());
         creaModel.baseStats.get<ProjectileAddCount>()!.value = 2;
         creaModel.baseStats.set(new ProjectileIncreasedSpeed()
@@ -87,6 +87,10 @@ public class StubFight : Fight
         crea.spawnPosition = vec;
         crea.creatureGroup = EntityGroupType.Enemies;
         crea.set<Team>(Team.B);
+
+        var swipe = Register.Create<SpellInstance>();
+        swipe.modelUid = Diamonds.spells["spell_swipe"].entityUid;
+        crea.activeSkills.add(swipe);
 
         return crea;
     }
