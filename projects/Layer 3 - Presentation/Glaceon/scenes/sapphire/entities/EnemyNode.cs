@@ -69,6 +69,10 @@ public partial class EnemyNode : CreatureNode
             // this.attack(() => this.publisher.publish(cmd));
         }
     }
+    
+	protected override Vector3 getNextDirection() {
+		return getNextNavigationDirection();
+	}
 
     // public override void _PhysicsProcess(double delta)
     // {
