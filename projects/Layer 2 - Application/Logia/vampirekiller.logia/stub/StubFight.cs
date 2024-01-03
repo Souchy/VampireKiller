@@ -43,7 +43,7 @@ public class StubFight : Fight
     public static CreatureInstance spawnStubPlayer()
     {
         var creaModel = Register.Create<CreatureModel>();
-        creaModel.meshScenePath = "res://scenes/sapphire/entities/PlayerNode.tscn";
+        creaModel.meshScenePath = "res://scenes/db/creatures/PFCCharacter.tscn";
         creaModel.iconPath = "res://icon.svg";
         creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
         creaModel.baseStats.get<CreatureBaseLife>()!.value = 100;
@@ -71,7 +71,7 @@ public class StubFight : Fight
     public static CreatureInstance spawnStubCreature(Vector3 vec)
     {
         var creaModel = Register.Create<EnemyModel>();
-        creaModel.meshScenePath = "res://scenes/db/creatures/Orc.tscn";
+        creaModel.meshScenePath = "res://scenes/db/creatures/PFRCharacterBR.tscn";
         creaModel.iconPath = "res://icon.svg";
         creaModel.ai = new AiMelee();
         creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
@@ -82,6 +82,10 @@ public class StubFight : Fight
         crea.spawnPosition = vec;
         crea.creatureGroup = EntityGroupType.Enemies;
         crea.set<Team>(Team.B);
+
+        var swipe = Register.Create<SpellInstance>();
+        swipe.modelUid = Diamonds.spells["spell_swipe"].entityUid;
+        crea.activeSkills.add(swipe);
 
         return crea;
     }
