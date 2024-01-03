@@ -122,6 +122,21 @@ public partial class PlayerNode : CreatureNode
         {
             Universe.fight?.projectiles.clear();
 		}
+        if (Input.IsActionJustPressed("lock_camera"))
+        {
+            isCamLocked = !isCamLocked;
+            GD.Print("Cam locked: " + isCamLocked);
+            this.PlayerCamera.TopLevel = !isCamLocked;
+			this.PlayerCamera.Position = Vector3.Zero;
+        }
+		bool zoomed_in = Input.IsActionJustPressed("zoom_in");
+		if (zoomed_in && this.PlayerCamera.Position.Y > CAMERA_MIN_ZOOM) {
+			this.PlayerCamera.Position += new Vector3(0, -1, 0);
+		}
+		bool zoomed_out = Input.IsActionJustPressed("zoom_out");
+		if (zoomed_out && this.PlayerCamera.Position.Y < CAMERA_MAX_ZOOM) {
+			this.PlayerCamera.Position += new Vector3(0, 1, 0);
+		}
 	}
 
 	private (CreatureNode?, Vector3?) getRayCast()
