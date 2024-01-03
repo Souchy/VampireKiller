@@ -8,13 +8,21 @@ namespace vampirekiller.logia.extensions;
 
 public static class ActionExtensions
 {
-    public static void applyActionCast(this ActionCastActive action) {
+
+    public static bool canApplyCast(this ActionCastActive action)
+    {
         var skill = action.getActive();
 
         // TODO: 
         // check spell costs against creature's resources
         // check spell cast conditions
-        skill.getModel().castCondition.checkCondition(action);
+        var result = skill.getModel().castCondition.checkCondition(action);
+
+        return result;
+    }
+
+    public static void applyActionCast(this ActionCastActive action) {
+        var skill = action.getActive();
 
         // TODO: update les ressources du player, update le nombre de charges dans le spellinstance, update le cooldown, 
         // l'action devrait déjà contenir le raycast mousetarget depuis la root action

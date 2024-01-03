@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="GodotSharp" Version="4.2.0" />
+    <PackageReference Include="GodotSharpExtras" Version="0.4.0" />
     <PackageReference Include="SimpleInjector" Version="5.4.3" />
   </ItemGroup>
 

@@ -1,0 +1,37 @@
+
+
+Vampire Survivors
+	- infinite waves coming at you
+	- passives
+
+Slay the spire 
+	- campaign
+
+Risk of Rain 2 
+	- items/stacks
+	- base classes
+
+Dead Cells
+	- generic character (can use anything)
+	- item = skill
+	- show weapon only on animation
+
+Path of Exile
+	- attack vs spell
+	- base classes only have ascendancy passives + tree start position 
+	- can use any skill
+	- controls
+
+League of Legends
+	- attack vs spell (phys/ability)
+	- controls
+
+Pokemon
+	- attack vs spell (phys/special)
+	- creature model base stats + base skills + base passive
+	- can learn any skill
+
+Disgaea
+	- infinite levels
+	- base classes have base stats + base skills + base passive
+	- can learn any skill

@@ -134,7 +134,8 @@ public class ShockNova {
             slot = 0, //item.entityUid,
             fight = fight
         };
-        action.applyActionCast();
+        if(action.canApplyCast())
+            action.applyActionCast();
 
         // ASSERT
         // todo: check enemies lives

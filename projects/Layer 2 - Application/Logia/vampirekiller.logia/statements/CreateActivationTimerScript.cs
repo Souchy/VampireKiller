@@ -61,6 +61,7 @@ public class ActivationTimer
         //GD.Print("ActivationTimer: Remove");
         status.GetEntityBus().unsubscribe(this);
         this._timer.CallThreadSafe(Godot.Timer.MethodName.Stop);
+        this._timer.CallThreadSafe(Godot.Timer.MethodName.QueueFree);
         //this._timer?.Stop();
     }
 }
