@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Util.entity;
 using vampirekiller.eevee.actions;
+using vampirekiller.eevee.spells;
 using vampirekiller.eevee.stats.schemas.resources;
 using vampirekiller.eevee.triggers;
 using vampirekiller.logia.extensions;
@@ -74,7 +75,7 @@ public class DamageScript : IStatementScript
             // TODO actionTrigger apply
             // var actionTrigger = new ActionStatementTrigger(action, TriggerType.onDeath);
             // actionTrigger.apply(); 
-            currentTarget.GetEntityBus().publish("death", currentTarget);
+            currentTarget.GetEntityBus().publish(DomainEvents.EventDeath, currentTarget);
             action.fight.creatures.remove(currentTarget);
             action.fight.entities.remove(currentTarget);
             currentTarget.Dispose();
