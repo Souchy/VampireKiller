@@ -14,16 +14,17 @@ using vampirekiller.logia.net;
 public partial class PlayerNode : CreatureNode
 {
 
+	private readonly string[] directionInput = new string[] { "move_left", "move_right", "move_up", "move_down" };
+
     [NodePath]
     public Camera3D PlayerCamera { get; set; }
     [NodePath]
     public UiSapphire UiSapphire { get; set; }
 
-
-    // Get the gravity from the project settings to be synced with RigidBody nodes.
-    public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 	private Sapphire _game;
 	private bool isCamLocked = true;
+	private int CAMERA_MAX_ZOOM = 25;
+	private int CAMERA_MIN_ZOOM = 8;
 
     [Inject]
 	public ICommandPublisher publisher { get; set; }
@@ -43,57 +44,36 @@ public partial class PlayerNode : CreatureNode
         }
     }
 
+	/// <summary>
+	/// Calculate next direction based on inputs (directionInputs + point & click)
+	/// </summary>
+	protected override Vector3 getNextDirection() {
+		var direction = getNextInputDirection();
+		// If input, set velocity
+		if (direction != Vector3.Zero)
+		{
+			return direction;
+		}
+		return getNextNavigationDirection();
+	}
 
-	public override void _PhysicsProcess(double delta)
-	{
-        // TODO multiplayer authority, but also shouldn't block local serverless play
-        // this.SetMultiplayerAuthority(1);		// put this omewhere else in the spawner
-        //if (Universe.isOnline && !Multiplayer.IsServer())
-        //    return;
-        // here, control physics access. chaque joueur est autoritaire de son PlayerNode, les enemy ont l'autorité du serveur ou du joueur local
-        if (Universe.isOnline && !this.IsMultiplayerAuthority()) 
-            return;
-
-        if (Input.IsActionJustPressed("lock_camera"))
-        {
-            isCamLocked = !isCamLocked;
-            GD.Print("Cam locked: " + isCamLocked);
-            this.PlayerCamera.TopLevel = !isCamLocked;
-        }
-
-        Vector3 velocity = Velocity;
-
+	private Vector3 getNextInputDirection() {
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 		Vector3 direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
-		// If input, set velocity
-		if (direction != Vector3.Zero)
-		{
-			velocity.X = direction.X * Speed;
-			velocity.Z = direction.Z * Speed;
-			// stop the point & click navigation
-			NavigationAgent3D.TargetPosition = GlobalPosition;
-		}
-		else
-		// If point & click, set velocity
-		if (physicsNavigationProcess(delta))
-		{
-			return;
-		}
-		else
-		// If no input, slow down 
-		if (NavigationAgent3D.IsNavigationFinished())
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
-		}
+		return direction;
+	}
 
-		Velocity = velocity;
-		Vector3 fowardPoint = this.Position + velocity * 1;
-        Vector3 lookAtTarget = new Vector3(fowardPoint.X, 0, fowardPoint.Z);
-		betterLookAt(lookAtTarget);
-        MoveAndSlide();
+
+	public bool isAnyActionPressed(params string[] actions)
+	{
+		foreach (var name in actions)
+		{
+			if (Input.IsActionPressed(name))
+				return true;
+		}
+		return false;
 	}
 
 	public override void _Input(InputEvent @event)
@@ -103,6 +83,11 @@ public partial class PlayerNode : CreatureNode
             return;
 
         base._Input(@event);
+		
+		if(isAnyActionPressed(directionInput)){
+			// stop the point & click navigation
+			NavigationAgent3D.TargetPosition = GlobalPosition;
+		}
 
         (CreatureNode? raycastEntity, Vector3? raycastPosition)? raycast = null;
 
@@ -122,7 +107,7 @@ public partial class PlayerNode : CreatureNode
 			if (raycast == null)
 				raycast = getRayCast();
 			var cmd = new CommandCast(playerId, raycast.Value.raycastEntity?.creatureInstance, (Vector3) raycast.Value.raycastPosition, 0);
-            this.publisher.publish(cmd);
+            this.playAttack(() => this.publisher.publish(cmd));
 		}
 		bool casted2 = Input.IsActionJustPressed("cast_slot_2");
 		if (casted2)
@@ -130,12 +115,27 @@ public partial class PlayerNode : CreatureNode
 			if (raycast == null)
 				raycast = getRayCast();
 			var cmd = new CommandCast(playerId, raycast.Value.raycastEntity?.creatureInstance, (Vector3) raycast.Value.raycastPosition, 1);
-			this.publisher.publish(cmd);
+			this.playAttack(() => this.publisher.publish(cmd));
 		}
 		bool clear_projs = Input.IsActionJustPressed("clear_projs");
 		if (clear_projs)
         {
             Universe.fight?.projectiles.clear();
+		}
+        if (Input.IsActionJustPressed("lock_camera"))
+        {
+            isCamLocked = !isCamLocked;
+            GD.Print("Cam locked: " + isCamLocked);
+            this.PlayerCamera.TopLevel = !isCamLocked;
+			this.PlayerCamera.Position = Vector3.Zero;
+        }
+		bool zoomed_in = Input.IsActionJustPressed("zoom_in");
+		if (zoomed_in && this.PlayerCamera.Position.Y > CAMERA_MIN_ZOOM) {
+			this.PlayerCamera.Position += new Vector3(0, -1, 0);
+		}
+		bool zoomed_out = Input.IsActionJustPressed("zoom_out");
+		if (zoomed_out && this.PlayerCamera.Position.Y < CAMERA_MAX_ZOOM) {
+			this.PlayerCamera.Position += new Vector3(0, 1, 0);
 		}
 	}
 
@@ -172,5 +172,6 @@ public partial class PlayerNode : CreatureNode
         return (raycastEntity, raycastPosition);
 		//return Vector3.Zero;
 	}
+
 
 }
