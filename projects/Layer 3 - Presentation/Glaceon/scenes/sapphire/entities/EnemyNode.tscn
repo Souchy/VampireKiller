@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://hdx0iag2udn1"]
+[gd_scene load_steps=7 format=3 uid="uid://hdx0iag2udn1"]
 
 [ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/sapphire/entities/CreatureNode.tscn" id="1_0fsy2"]
 [ext_resource type="Script" path="res://scenes/sapphire/entities/EnemyNode.cs" id="2_7iw2f"]
@@ -14,11 +14,20 @@ material = SubResource("StandardMaterial3D_2eine")
 inner_radius = 0.7
 outer_radius = 0.75
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_cxr0b"]
+radius = 2.5
+
 [node name="EnemyNode" groups=["Enemies"] instance=ExtResource("1_0fsy2")]
 script = ExtResource("2_7iw2f")
 
 [node name="ResourceBars" parent="CollisionShape3D" index="0"]
 texture = SubResource("ViewportTexture_wyh3w")
 
-[node name="TeamRing" parent="." index="2"]
+[node name="TeamRing" parent="." index="3"]
 mesh = SubResource("TorusMesh_p21iv")
+
+[node name="AreaOfAttack" type="Area3D" parent="." index="10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaOfAttack" index="0"]
+shape = SubResource("CylinderShape3D_cxr0b")
