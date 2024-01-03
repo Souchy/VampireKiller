@@ -100,7 +100,6 @@ public partial class ProjectileNode : Area3D
         });
     }
 
-
     public override void _ExitTree()
     {
         base._ExitTree();

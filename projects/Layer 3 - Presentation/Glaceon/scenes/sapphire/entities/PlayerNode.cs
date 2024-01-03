@@ -106,7 +106,6 @@ public partial class PlayerNode : CreatureNode
 
         (CreatureNode? raycastEntity, Vector3? raycastPosition)? raycast = null;
 
-
         bool clicked = Input.IsActionJustPressed("click_move") || Input.IsActionPressed("click_move");
         if (clicked)
         {
