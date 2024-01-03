@@ -1,0 +1,88 @@
+[gd_scene load_steps=2 format=3 uid="uid://cc0f3tjdvnedn"]
+
+[ext_resource type="PackedScene" uid="uid://bdnrm5oe4d2nn" path="res://assets/synty/creatures/PFCCharacter.gltf" id="1_7orpt"]
+
+[node name="PFCCharacter" instance=ExtResource("1_7orpt")]
+
+[node name="Item_WarriorSholderArmor3" parent="Skeleton3D" index="0"]
+transform = Transform3D(1, 1.04308e-07, -8.56817e-08, -1.26424e-07, 1, 2.49685e-08, 1.86265e-08, -6.67351e-08, 1, -1.3411e-07, 0, 7.82311e-08)
+
+[node name="Item_WarriorSholderArmor_23" parent="Skeleton3D" index="1"]
+transform = Transform3D(0.882852, 0.0114634, 0.469511, 0.0129834, -0.999916, -8.19564e-08, 0.469472, 0.00609596, -0.882927, -0.0744715, 1.39211, 0.0135378)
+
+[node name="Item_Sword3" parent="Skeleton3D" index="2"]
+transform = Transform3D(1, 1.19209e-07, 1.19209e-07, -1.09809e-07, 1, -8.19564e-08, -1.2792e-07, 3.72529e-08, 1, -8.98128e-15, -0.0325273, 5.96046e-08)
+
+[node name="Item_SwordHolder3" parent="Skeleton3D" index="3"]
+transform = Transform3D(1, 1.19209e-07, 1.19209e-07, -1.09809e-07, 1, -8.19564e-08, -1.2792e-07, 3.72529e-08, 1, -8.77677e-15, 1.19209e-07, 5.96046e-08)
+
+[node name="Item_WaterCanteen3" parent="Skeleton3D" index="4"]
+transform = Transform3D(1, 1.49012e-07, 0, -1.04513e-07, 1, 2.68221e-07, 1.06215e-07, -2.68221e-07, 1, 0, 0, 2.98023e-08)
+
+[node name="Item_WaterBladder_013" parent="Skeleton3D" index="5"]
+transform = Transform3D(1, 1.49012e-07, 0, -1.04513e-07, 1, 2.68221e-07, 1.06215e-07, -2.68221e-07, 1, -8.51179e-05, -0.00762296, 0.00102395)
+
+[node name="SM_Prop_SpellBook_033" parent="Skeleton3D" index="6"]
+transform = Transform3D(0.207507, 0.974658, -0.0835656, -0.85479, 0.139119, -0.499981, -0.475685, 0.17518, 0.861995, 0.214467, 0.981819, -0.0215693)
+
+[node name="Item_Pouch3" parent="Skeleton3D" index="7"]
+transform = Transform3D(1.05988, 0, 0, 0, 1.05859, -0.0522582, 0, 0.0522581, 1.05859, -0.0231286, -0.0655643, -0.0497768)
+
+[node name="SM_Prop_Vials3" parent="Skeleton3D" index="8"]
+transform = Transform3D(-0.0548626, 7.45058e-09, -0.998494, 8.9407e-08, 1, 7.45058e-09, 0.998494, -2.98023e-08, -0.0548626, -0.192773, 0.929564, 0.00871111)
+
+[node name="Item_SwordSheath3" parent="Skeleton3D" index="9"]
+transform = Transform3D(0.258133, -0.238648, 0.93617, 0.549586, 0.833217, 0.0608647, -0.794558, 0.498795, 0.346239, 0.207686, -0.602495, 0.627345)
+
+[node name="Item_Dagger3" parent="Skeleton3D" index="10"]
+transform = Transform3D(1, 1.49012e-07, 0, -1.04513e-07, 1, 2.68221e-07, 1.06215e-07, -2.68221e-07, 1, 0, 0, 2.98023e-08)
+
+[node name="Item_CoinBag3" parent="Skeleton3D" index="11"]
+transform = Transform3D(1, 1.49012e-07, 0, -1.04513e-07, 1, 2.68221e-07, 1.06215e-07, -2.68221e-07, 1, 0, 0, 2.98023e-08)
+
+[node name="Character_Female_Witch" parent="Skeleton3D" index="12"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Female_Queen" parent="Skeleton3D" index="13"]
+lod_bias = 128.0
+
+[node name="Character_Female_Druid" parent="Skeleton3D" index="14"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Female_Gypsy" parent="Skeleton3D" index="15"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Female_Peasant_01" parent="Skeleton3D" index="16"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Female_Peasant_02" parent="Skeleton3D" index="17"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Male_Baird" parent="Skeleton3D" index="18"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Male_Sorcerer" parent="Skeleton3D" index="19"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Male_King" parent="Skeleton3D" index="20"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Male_Peasant_01" parent="Skeleton3D" index="21"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Male_Rouge_01" parent="Skeleton3D" index="22"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Male_Wizard" parent="Skeleton3D" index="23"]
+visible = false
+lod_bias = 128.0

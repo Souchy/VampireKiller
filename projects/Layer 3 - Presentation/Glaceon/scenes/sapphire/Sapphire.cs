@@ -54,7 +54,8 @@ public partial class Sapphire : Node
 
         EntitySpawner.AddSpawnableScene("res://scenes/sapphire/entities/CreatureNode.tscn");
         EntitySpawner.AddSpawnableScene("res://scenes/sapphire/entities/EnemyNode.tscn");
-        EntitySpawner.AddSpawnableScene("res://scenes/db/creatures/Orc.tscn");
+        EntitySpawner.AddSpawnableScene("res://scenes/db/creatures/EnemyCharacters.tscn");
+        PlayerSpawner.AddSpawnableScene("res://scenes/db/creatures/PlayerCharacters.tscn");
         PlayerSpawner.AddSpawnableScene("res://scenes/sapphire/entities/PlayerNode.tscn");
         EffectSpawner.AddSpawnableScene("res://scenes/sapphire/entities/effects/FxNode.tscn");
         EffectSpawner.AddSpawnableScene("res://scenes/db/spells/shockNova.tscn");

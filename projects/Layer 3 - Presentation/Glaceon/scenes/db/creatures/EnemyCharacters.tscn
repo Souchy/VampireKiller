@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cx0ji8ujsmpqy"]
+
+[ext_resource type="PackedScene" uid="uid://hdx0iag2udn1" path="res://scenes/sapphire/entities/EnemyNode.tscn" id="1_2egbo"]
+[ext_resource type="PackedScene" uid="uid://7xpl7dyo1wbv" path="res://assets/synty/creatures/pfr_character_br.tscn" id="2_dycof"]
+[ext_resource type="AnimationLibrary" uid="uid://d12frktqop5lw" path="res://assets/synty/creatures/PFRCharacterBRAnimations.res" id="3_clfbi"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_fnaxe"]
+viewport_path = NodePath("SubViewport")
+
+[node name="EnemyCharacters" instance=ExtResource("1_2egbo")]
+
+[node name="ResourceBars" parent="CollisionShape3D" index="0"]
+texture = SubResource("ViewportTexture_fnaxe")
+
+[node name="MeshInstance3D" parent="Model" index="0"]
+visible = false
+
+[node name="PFRCharacterBR" parent="Model" index="1" instance=ExtResource("2_dycof")]
+
+[node name="CreatureNodeAnimationPlayer" parent="." index="2"]
+libraries = {
+"PFRCharacterBRAnimations": ExtResource("3_clfbi")
+}
