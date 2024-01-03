@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://s1gwwxmdnud7"]
 
-[ext_resource type="PackedScene" uid="uid://cfienbmnvqxw4" path="res://scenes/game/effects/FxNode.tscn" id="1_pdbb1"]
+[ext_resource type="PackedScene" uid="uid://cfienbmnvqxw4" path="res://scenes/sapphire/entities/effects/FxNode.tscn" id="1_pdbb1"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dvtqj"]
 direction = Vector3(0, 0, 0)

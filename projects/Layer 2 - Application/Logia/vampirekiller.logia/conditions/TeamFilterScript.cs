@@ -19,26 +19,13 @@ public class TeamFilterScript : IConditionScript
 {
     public Type schemaType => typeof(TeamFilter);
 
-    // public bool check(ICondition s, Vector3 position, CreatureInstance caster, CreatureInstance currentTarget)
-    // {
-    //     throw new NotImplementedException();
-    // }
-
     public bool checkCondition(IAction action, ICondition condition)
     {
         // todo clean this up, hacking shortcuts
         var schema = (TeamFilter)condition.schema;
         Entity source = action.getSourceEntity();
-        Entity target = action.getTargetEntity();
-        if (action is ActionCollision actionCollision)
-        {
-            target = action.getTargetEntity();
-        }
-        if (action is ActionStatementTarget actionStatementTarget)
-        {
-            target = actionStatementTarget.currentTarget;
-        }
-        if(target == null) {
+        Entity? target = getTarget(action);
+        if (target == null) {
             return false;
         }
         if (schema.team == TeamRelationType.Enemy)
@@ -54,5 +41,25 @@ public class TeamFilterScript : IConditionScript
             return source == target;
         }
         return false;
+    }
+
+    private Entity? getTarget(IAction action)
+    {
+        Entity? target = action.getRaycastEntity();
+        if (action is ActionCollision actionCollision)
+        {
+            target = action.getRaycastEntity();
+        }
+        else
+        if (action is ActionStatementTarget actionStatementTarget)
+        {
+            target = actionStatementTarget.currentTargetEntity;
+        }
+        else
+        if (action is IActionTrigger actionTrigger)
+        {
+            target = actionTrigger.getContextCreature();
+        }
+        return target;
     }
 }

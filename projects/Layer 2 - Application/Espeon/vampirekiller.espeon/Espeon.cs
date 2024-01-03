@@ -19,7 +19,7 @@ namespace vampierkiller.espeon;
 
 public static class Espeon
 {
-    public static Net net { get; set; }
+    public static Node net { get; set; }
 
     public static void main()
     {

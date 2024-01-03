@@ -20,7 +20,7 @@ public class ActionCollision : ActionTrigger, IEngineAction
     public ActionCollision(Entity collider, Entity collidee)
     {
         this.sourceEntity = collider.entityUid;
-        this.targetEntity = collidee.entityUid;
+        this.raycastEntity = collidee.entityUid;
     }
     protected override IAction copyImplementation()
         => new ActionCollision();

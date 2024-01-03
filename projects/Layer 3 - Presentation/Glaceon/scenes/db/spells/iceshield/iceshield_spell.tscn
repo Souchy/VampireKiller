@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dij6f6r0ymb0x"]
+
+[ext_resource type="Shader" uid="uid://dr2jdkoispdt7" path="res://scenes/db/spells/iceshield/iceshield_status.tres" id="1_mscgs"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jr3tp"]
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 3.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2nf6q"]
+render_priority = 0
+shader = ExtResource("1_mscgs")
+shader_parameter/Color = Color(0.184314, 0.588235, 0.952941, 1)
+shader_parameter/RimSteepness = 0.945
+
+[sub_resource type="PrismMesh" id="PrismMesh_x1vjs"]
+material = SubResource("ShaderMaterial_2nf6q")
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="Iceshield" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.00222, 0)
+amount = 68
+process_material = SubResource("ParticleProcessMaterial_jr3tp")
+draw_pass_1 = SubResource("PrismMesh_x1vjs")

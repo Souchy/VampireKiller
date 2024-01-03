@@ -42,8 +42,11 @@ public class SmartSet<T> : Identifiable
     public bool remove(T value)
     {
         var result = list.Remove(value);
-        this.GetEntityBus().publish(nameof(remove), this, value);
-        this.GetEntityBus().unsubscribe(value);
+        if(result)
+        {
+            this.GetEntityBus().publish(nameof(remove), this, value);
+            this.GetEntityBus().unsubscribe(value);
+        }
         return result;
     }
 

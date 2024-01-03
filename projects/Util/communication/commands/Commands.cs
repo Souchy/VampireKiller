@@ -14,7 +14,7 @@ public interface ICommand
 
 public interface ICommandHandler<T> where T : ICommand
 {
-    public void handle(T t);
+    public void handle(T command);
 }
 
 public interface ICommandPublisher

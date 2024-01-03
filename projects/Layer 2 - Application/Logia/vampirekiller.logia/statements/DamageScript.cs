@@ -32,7 +32,7 @@ public class DamageScript : IStatementScript
     /// </summary>
     public void apply(ActionStatementTarget action)
     {
-        var currentTarget = action.currentTarget as CreatureInstance;
+        var currentTarget = action.currentTargetEntity as CreatureInstance;
         var source = action.getSourceEntity(); // as CreatureInstance;
         if (source == null || currentTarget == null)
             return;

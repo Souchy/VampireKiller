@@ -1,4 +1,5 @@
-﻿using Godot.Sharp.Extras;
+﻿using Godot;
+using Godot.Sharp.Extras;
 using SimpleInjector;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace vampirekiller.umbreon;
 public static class Umbreon
 {
 
-    public static Net net { get; set; }
+    public static Node net { get; set; }
 
     public static void main()
     {

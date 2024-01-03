@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsd6h30mrgy4u"]
+
+[ext_resource type="Script" path="res://scenes/lapis/ui/pages/lobbies/UiLobby.cs" id="1_mxu70"]
+
+[node name="UiLobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mxu70")
+
+[node name="BtnHost" type="Button" parent="."]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 150.0
+offset_right = 283.0
+offset_bottom = 219.0
+text = "Host"
+
+[node name="BtnJoin" type="Button" parent="."]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 298.0
+offset_right = 288.0
+offset_bottom = 367.0
+text = "Join"

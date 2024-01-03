@@ -17,6 +17,7 @@ public class ProjectileInstance : Entity, Identifiable, IStatementContainer
     // public ID entityUid { get; set; }
     public EntityGroupType creatureGroup { get => get<EntityGroupType>(); set => set<EntityGroupType>(value); }
     public CreatureInstance source { get; set; } // For retrieving spawn location & to avoid collisions with caster as the projectile spawns
+    public ID spellModelUid { get; set; }
     public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
 
 

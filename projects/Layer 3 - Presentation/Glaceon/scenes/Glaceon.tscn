@@ -1,12 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://bfwpiktimyeoc"]
 
 [ext_resource type="Script" path="res://scenes/Glaceon.cs" id="1_ftd5y"]
-[ext_resource type="PackedScene" uid="uid://y4taei5hmpa5" path="res://scenes/ui/UiMainMenu.tscn" id="1_lww8c"]
-[ext_resource type="PackedScene" uid="uid://blovcywatgmkk" path="res://scenes/game/Game.tscn" id="2_rr871"]
+[ext_resource type="PackedScene" uid="uid://ue1ig1g41bt0" path="res://scenes/lapis/Lapis.tscn" id="2_uim4k"]
+[ext_resource type="PackedScene" uid="uid://bsd6h30mrgy4u" path="res://scenes/lapis/ui/pages/lobbies/UiLobby.tscn" id="4_sv36j"]
 
 [node name="Glaceon" type="Node"]
 script = ExtResource("1_ftd5y")
 
-[node name="UiMainMenu" parent="." instance=ExtResource("1_lww8c")]
+[node name="Lapis" parent="." instance=ExtResource("2_uim4k")]
 
-[node name="Game" parent="." instance=ExtResource("2_rr871")]
+[node name="UiLobby" parent="." instance=ExtResource("4_sv36j")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_bottom = 6.10352e-05
+grow_horizontal = 1
+grow_vertical = 1
+size_flags_horizontal = 4

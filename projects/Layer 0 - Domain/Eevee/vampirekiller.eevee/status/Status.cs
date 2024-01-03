@@ -8,8 +8,15 @@ using VampireKiller.eevee.vampirekiller.eevee.stats;
 
 namespace vampirekiller.eevee.statements.schemas;
 
+/// <summary>
+/// One way to sinchronize statuses & items over multiplayer might be to put them as an export on creatureNode, 
+/// then we could reference them in the MultiSynchronizer.
+/// Which means the UI would have to be based off the CreatureNode.statuses + CreatureNode.items instead of the CreatureInstance's
+/// </summary>
 public class Status : Identifiable, IStatementContainer
 {
+    public const string EventRemove = "status.end";
+
     public ID entityUid { get; set; }
     /// <summary>
     /// Can be a status model or a skill model

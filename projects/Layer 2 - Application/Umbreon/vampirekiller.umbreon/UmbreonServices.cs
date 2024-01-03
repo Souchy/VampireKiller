@@ -19,8 +19,13 @@ public static class UmbreonServices
         container.Register<ICommandPublisher, UmbreonCommandPublisher>(Lifestyle.Singleton);
 
         var commands = container.GetInstance<ICommandManager>();
+
         commands.setHandler(new HandlerOnPlay());
         commands.setHandler(new HandlerOnExitToMain());
+
+        commands.setHandler(new HandlerOnJoin());
+        commands.setHandler(new HandlerOnHost());
+
         commands.setHandler(new HandlerOnCast());
     }
 }
