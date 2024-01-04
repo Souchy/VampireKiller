@@ -222,6 +222,7 @@ public abstract partial class CreatureNode : CharacterBody3D
     public void onStatusListRemove(SmartList<Status> list, Status item)
     {
 
+    [Subscribe(DomainEvents.EventDamage)]
     }
 
     private void updateHPBar()
@@ -233,7 +234,6 @@ public abstract partial class CreatureNode : CharacterBody3D
         Healthbar.Value = value;
     }
 
-    [Subscribe("damage")]
     public void onDamage(int value)
     {
         var popup = AssetCache.Load<PackedScene>("res://scenes/sapphire/ui/components/UiResourcePopup.tscn").Instantiate<UiResourcePopup>();
