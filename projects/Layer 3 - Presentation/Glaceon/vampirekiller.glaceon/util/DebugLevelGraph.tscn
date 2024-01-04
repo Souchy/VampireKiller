@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://do0r521a0qyfa"]
+
+[ext_resource type="Script" path="res://vampirekiller.glaceon/util/DebugLevelGraph.cs" id="1_4c4sj"]
+
+[node name="DebugLevelGraph" type="Node2D"]
+script = ExtResource("1_4c4sj")
+
+[node name="Camera2D" type="Camera2D" parent="."]
