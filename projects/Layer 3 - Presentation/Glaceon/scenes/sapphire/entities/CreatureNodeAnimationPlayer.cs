@@ -29,51 +29,54 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
         this.playAnimation(SupportedAnimation.Idle);
     }
 
-    public bool playAnimation(SupportedAnimation animation)
+    private bool canPlayAnimation(SupportedAnimation animation)
     {
         // Make sure animation exists
         if (!this.animationToAnimationName.ContainsKey(animation))
-        {
             return false;
-        }
+
+        if(!this.IsPlaying())
+            return true;
 
         // If animation playing, make sure we are in a state that allows us to override it
-        if (this.IsPlaying())
-        {
-            // If the animation is the same as current one, do not override
-            if (this.currentAnimation == animation)
-            {
-                return false;
-            }
-            // If the animation has lower priority than the current one, and the current animation is not looping, do not override
-            // (looping animations need to be able to override eachother to avoid needing to wait until the end of the loop to change animation)
-            if (this.currentAnimation > animation && !isLoopingAnimation(this.currentAnimation))
-            {
-                return false;
-            }
-        }
+
+        // If the animation is the same as current one, do not override
+        if (this.currentAnimation == animation)
+            return false;
+
+        // If the animation has lower priority than the current one, and the current animation is not looping, do not override
+        // (looping animations need to be able to override eachother to avoid needing to wait until the end of the loop to change animation)
+        if (this.currentAnimation > animation && !isLoopingAnimation(this.currentAnimation))
+            return false;
+
+        return true;
+    }
+
+    public void playAnimation(SupportedAnimation animation)
+    {
+        if(!canPlayAnimation(animation)) 
+            return;
 
         var animationName = animationToAnimationName.GetValue(animation);
         this.currentAnimation = animation;
         this.animationCallback = null; // Cleanup old callback
         this.Play(animationName);
-        return true;
     }
 
-    public bool playAnimation(SupportedAnimation animation, Action onWindupEnd)
+    public void playAnimation(SupportedAnimation animation, Action onWindupEnd)
     {
-        bool animationPlayed = this.playAnimation(animation);
-        if (animationPlayed)
+        if (!canPlayAnimation(animation))
+            return;
+
+        // Setup windup callback
+        this.animationCallback = onWindupEnd;
+        // If animation does not contain a callback, setup callback when animation ends
+        if (!this.animationToHasCallback.GetValueOrDefault(animation, false))
         {
-            // Setup windup callback
-            this.animationCallback = onWindupEnd;
-            // If animation does not contain a callback, setup callback when animation ends
-            if (!this.animationToHasCallback.GetValueOrDefault(animation, false))
-            {
-                this.Connect(SignalName.AnimationFinished, Callable.From<string>(this.executeWindupCallback));
-            }
+            this.Connect(SignalName.AnimationFinished, Callable.From<string>(this.executeWindupCallback));
         }
-        return animationPlayed;
+        // Play
+        this.playAnimation(animation);
     }
 
     public void executeWindupCallback()
