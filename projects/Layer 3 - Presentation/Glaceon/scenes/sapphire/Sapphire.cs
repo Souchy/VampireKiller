@@ -137,6 +137,7 @@ public partial class Sapphire : Node
             }
         }
     }
+
     [Subscribe(nameof(SmartSet<CreatureInstance>.add))]
     public void onAddCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {

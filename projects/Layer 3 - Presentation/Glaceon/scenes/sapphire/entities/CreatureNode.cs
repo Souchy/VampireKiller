@@ -15,6 +15,7 @@ using Util.structures;
 using vampirekiller.eevee.util;
 using VampireKiller.eevee;
 using vampirekiller.eevee.spells;
+using static CreatureNodeAnimationPlayer;
 
 /// <summary>
 /// Properties that need to be shown:
@@ -49,8 +50,11 @@ public abstract partial class CreatureNode : CharacterBody3D
     [NodePath]
     public MultiplayerSpawner StatusEffectsSpawner { get; set; }
 
-    public float Speed = 5.0f;
-    public float JumpVelocity = 6.0f;
+    private const double cacheRefreshTime = 1000;
+    private double cacheRefreshDelta = 0;
+
+    private float cachedMovementSpeed = 0;
+    protected float defaultSpeed { get; } = 5.0f;
 
     public override void _EnterTree()
     {
@@ -66,6 +70,7 @@ public abstract partial class CreatureNode : CharacterBody3D
             this.GlobalPosition = creatureInstance.spawnPosition;
         }
     }
+
     public override void _Ready()
     {
         this.OnReady();
@@ -78,6 +83,7 @@ public abstract partial class CreatureNode : CharacterBody3D
         }
         StatusEffectsSpawner.AddSpawnableScene("res://scenes/db/spells/fireball/fireball_burn.tscn");
     }
+
     public void init(CreatureInstance crea)
     {
         // GD.Print(this.Name + " init");
@@ -92,6 +98,7 @@ public abstract partial class CreatureNode : CharacterBody3D
         //creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
         //creatureInstance.set<Func<Vector3>>(() => this.GlobalPosition);
         creatureInstance.set<PositionGetter>(() => this.GlobalPosition);
+        recalculateCache();
     }
 
     public override void _ExitTree()
@@ -103,51 +110,74 @@ public abstract partial class CreatureNode : CharacterBody3D
 
 
     public override void _PhysicsProcess(double delta)
-    {
-        base._PhysicsProcess(delta);
-        
+    {   
         if (Universe.isOnline && !this.IsMultiplayerAuthority()) 
             return;
 
+        refreshCache(delta);
+
         var direction = getNextDirection();
+        var speed = cachedMovementSpeed;
 
         var velocity = this.Velocity;
         if (direction != Vector3.Zero)
         {
-            velocity.X = direction.X * Speed;
-            velocity.Z = direction.Z * Speed;
+            velocity.X = direction.X * speed;
+            velocity.Z = direction.Z * speed;
         }
         // If no input, slow down 
         else
         {
-            velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-            velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
+            velocity.X = Mathf.MoveToward(Velocity.X, 0, speed);
+            velocity.Z = Mathf.MoveToward(Velocity.Z, 0, speed);
         }
         // Add the gravity.
         if (!IsOnFloor())
         {
-            // Vector3 velocity = this.Velocity;
             velocity.Y -= gravity * (float)delta;
-            this.Velocity = velocity;
         }
-        this.Velocity = velocity;
 
+        // Set velocity
+        this.Velocity = velocity;
+        MoveAndSlide();
+
+        // Look at
         Vector3 fowardPoint = this.Position + Velocity * 1;
         Vector3 lookAtTarget = new Vector3(fowardPoint.X, 0, fowardPoint.Z);
         betterLookAt(lookAtTarget);
-        MoveAndSlide();
 
-        if (this.Velocity.IsZeroApprox())
-        {
-            this.CreatureNodeAnimationPlayer.playAnimation(CreatureNodeAnimationPlayer.SupportedAnimation.Idle);
-        } else
-        {
-            this.CreatureNodeAnimationPlayer.playAnimation(CreatureNodeAnimationPlayer.SupportedAnimation.Walk);
-        }
+        // Animation idle/walk
+        SupportedAnimation animation = this.Velocity.IsZeroApprox() ? SupportedAnimation.Idle : SupportedAnimation.Walk;
+        this.CreatureNodeAnimationPlayer.playAnimation(animation);
     }
 
+    /// <summary>
+    /// Permet de debounce le calcul de certaines stats a un interval de temps (ex: 1000ms) plutot que chaque frame
+    /// </summary>
+    private void refreshCache(double delta)
+    {
+        cacheRefreshDelta += delta;
+        if(cacheRefreshDelta > cacheRefreshTime)
+        {
+            cacheRefreshDelta = 0;
+            recalculateCache();
+        }
+    }
+    private void recalculateCache()
+    {
+        cachedMovementSpeed = (float) (creatureInstance?.getTotalStat<CreatureTotalMovementSpeed>().value ?? defaultSpeed);
+    }
+
+    /// <summary>
+    /// Get the next frame's direction
+    /// </summary>
+    /// <returns></returns>
     protected abstract Vector3 getNextDirection();
 
+    /// <summary>
+    /// Get the next frame's direction from the navigation agent, or Zero if no current path.
+    /// </summary>
+    /// <returns></returns>
     protected Vector3 getNextNavigationDirection()
     {
         // If point & click, set velocity
@@ -157,7 +187,7 @@ public abstract partial class CreatureNode : CharacterBody3D
             nextPos.Y = 0;
             var direction = GlobalPosition.DirectionTo(nextPos);
             direction.Y = 0;
-            return direction;
+            return direction.Normalized();
         }
         return Vector3.Zero;
     }
@@ -174,20 +204,13 @@ public abstract partial class CreatureNode : CharacterBody3D
     
     protected void playAttack(Action attackCallback)
     {
-        this.CreatureNodeAnimationPlayer.playAnimation(CreatureNodeAnimationPlayer.SupportedAnimation.Attack, attackCallback);
+        this.CreatureNodeAnimationPlayer.playAnimation(SupportedAnimation.Attack, attackCallback);
     }
 
-    // TODO regroupe les action de cast. 
-    // protected void inpuCastSkill(int slot, raycast) {
-	// 		if (raycast == Vector3.Zero)
-	// 			raycast = getRayCast();
-	// 		var cmd = new CommandCast(this.creatureInstance, raycast, 0); //-this.Transform.Basis.Z, 1);
-	// 		this.attack(() => this.publisher.publish(cmd));
-    // }
-
+    #region Event Handlers
     [Subscribe(DomainEvents.EventDeath)]
     public void onDeath(CreatureInstance crea) {
-        this.CreatureNodeAnimationPlayer.playAnimation(CreatureNodeAnimationPlayer.SupportedAnimation.Death);
+        this.CreatureNodeAnimationPlayer.playAnimation(SupportedAnimation.Death);
     }
 
     [Subscribe(CreatureInstance.EventUpdateStats)]
@@ -201,29 +224,38 @@ public abstract partial class CreatureNode : CharacterBody3D
         }
     }
 
-    // [Subscribe]
-    // public void onItemListAdd(object list, object item)
-    // {
-    //     // check all statements 
-    //     //      modify mesh / material / etc si nécessaire
-    // }
-    // [Subscribe]
-    // public void onItemListRemove(object list, object item)
-    // {
-
-    // }
-    // [Subscribe]
-    // public void onStatusListAdd(object list, object item)
-    // {
-
-    // }
+    [Subscribe]
+    public void onItemListAdd(object list, object item)
+    {
+        // check all statements 
+        //      modify mesh / material / etc si nécessaire
+        recalculateCache();
+    }
+    [Subscribe]
+    public void onItemListRemove(object list, object item)
+    {
+        recalculateCache();
+    }
+    [Subscribe]
+    public void onStatusListAdd(object list, object item)
+    {
+        recalculateCache();
+    }
 
     [Subscribe(nameof(SmartList<Status>.remove))]
     public void onStatusListRemove(SmartList<Status> list, Status item)
     {
-
-    [Subscribe(DomainEvents.EventDamage)]
+        //  TODO recalculate cache on status change/item change
+        recalculateCache();
     }
+    [Subscribe(DomainEvents.EventDamage)]
+    public void onDamage(int value)
+    {
+        var popup = AssetCache.Load<PackedScene>("res://scenes/sapphire/ui/components/UiResourcePopup.tscn").Instantiate<UiResourcePopup>();
+        popup.value = value;
+        this.AddChild(popup);
+    }
+    #endregion
 
     private void updateHPBar()
     {
@@ -234,11 +266,5 @@ public abstract partial class CreatureNode : CharacterBody3D
         Healthbar.Value = value;
     }
 
-    public void onDamage(int value)
-    {
-        var popup = AssetCache.Load<PackedScene>("res://scenes/sapphire/ui/components/UiResourcePopup.tscn").Instantiate<UiResourcePopup>();
-        popup.value = value;
-        this.AddChild(popup);
-    }
 
 }

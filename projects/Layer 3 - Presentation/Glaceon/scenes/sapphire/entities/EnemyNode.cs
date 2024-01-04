@@ -24,7 +24,6 @@ public partial class EnemyNode : CreatureNode
     public override void _Ready()
     {
         base._Ready();
-        Speed = 3.0f;
         AreaOfAttack.BodyEntered += this.onBodyEnterAreaOfAttack;
         AreaOfAttack.BodyExited += this.onBodyExitAreaOfAttack;
     }
@@ -73,14 +72,6 @@ public partial class EnemyNode : CreatureNode
 	protected override Vector3 getNextDirection() {
 		return getNextNavigationDirection();
 	}
-
-    // public override void _PhysicsProcess(double delta)
-    // {
-    //     //base._PhysicsProcess(delta);
-    //     if (Universe.isOnline && !this.Multiplayer.IsServer()) //!this.IsMultiplayerAuthority())
-    //         return;
-    //     getNextNavigationDirection(delta);
-    // }
     
     private void onBodyEnterAreaOfAttack(Node3D body)
     {
