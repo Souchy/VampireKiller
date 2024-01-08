@@ -26,77 +26,40 @@ using vampirekiller.eevee.actions;
 
 namespace vampirekiller.gems.spells;
 
-public class Swipe
+public class Swipe : TestGemBaseSpellModel
 {
-    private SpellModel generate()
+    public override string getName()
     {
-        var spell = Register.Create<SpellModel>();
-        spell.entityUid = "spell_swipe";
+        return "spell_swipe";
+    }
 
-        var swipeAoe = new Statement() {
-            zone = new Zone() {
+    public override SpellModel generateImpl(SpellModel model)
+    {
+        var swipeAoe = new Statement()
+        {
+            zone = new Zone()
+            {
                 zoneType = ZoneType.circleHalf,
                 size = new ZoneSize(2),
             },
-            targetFilter = new Condition() {
-                schema = new TeamFilter() {
+            targetFilter = new Condition()
+            {
+                schema = new TeamFilter()
+                {
                     team = TeamRelationType.Enemy
                 }
             },
-            schema = new DamageSchema() {
+            schema = new DamageSchema()
+            {
                 baseDamage = 5
             }
         };
-
-        spell.statements.add(swipeAoe);
-        return spell;
+        model.statements.add(swipeAoe);
+        return model;
     }
 
-    [Trait("Category", "ModelGenerator")]
-    [Fact]
-    public void serialize()
+    protected override void testAssert(TestGemFight fight)
     {
-        var spell = generate();
-        var json = Json.serialize(spell);
-        File.WriteAllText("../../../../DB/spells/" + spell.entityUid + ".json", json);
+        // TODO
     }
-
-    //[Trait("Category", "ModelTester")]
-    //[Fact]
-    //public void test() {
-
-    //    // ARRANGE
-    //    var spellModel = generate();
-    //    Fight fight = new StubFight();
-    //    Diamonds.spells.Add(spellModel.entityUid, spellModel);
-
-    //    var item = Register.Create<Item>();
-    //    var cast = new Statement() {
-    //        schema = new CastSpellSchema() {
-    //            spellModelId = spellModel.entityUid
-    //        }
-    //    };
-    //    var listener = new TriggerListener() {
-    //        schema = new TriggerSchemaOnCastActive()
-    //    };
-    //    cast.triggers.add(listener);
-    //    item.statements.add(cast);
-
-    //    var player = fight.creatures.values.First(c => c.creatureGroup == EntityGroupType.Players);
-    //    player.equip(item);
-    //    player.activeSkills.add(player.allSkills.getAt(0)!);
-
-    //    // ACT
-    //    var action = new ActionCastActive()
-    //    {
-    //        sourceEntity = player.entityUid,
-    //        raycastPosition = new Godot.Vector3(0, 0, 0),
-    //        slot = 0,
-    //        fight = fight
-    //    };
-    //    action.applyActionCast();
-
-    //    // ASSERT
-
-    //}
 }
