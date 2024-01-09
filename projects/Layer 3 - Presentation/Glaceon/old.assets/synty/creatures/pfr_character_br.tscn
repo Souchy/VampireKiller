@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://7xpl7dyo1wbv"]
 
-[ext_resource type="PackedScene" uid="uid://daod1aymjtg26" path="res://assets/synty/creatures/PFRCharacterBR.gltf" id="1_juysb"]
+[ext_resource type="PackedScene" uid="uid://daod1aymjtg26" path="res://old.assets/synty/creatures/PFRCharacterBR.gltf" id="1_juysb"]
 
 [node name="PFRCharacterBR" instance=ExtResource("1_juysb")]
 

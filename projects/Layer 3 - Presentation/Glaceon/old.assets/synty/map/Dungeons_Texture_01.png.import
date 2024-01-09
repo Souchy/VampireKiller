@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://rrr8q1oqpdbn"
-path.s3tc="res://.godot/imported/Dungeons_Texture_01.png-e3df40c9895c0a0bef4b89dfc0fc0196.s3tc.ctex"
+path.s3tc="res://.godot/imported/Dungeons_Texture_01.png-009d0d3ae1d101d31defe34fbf44795e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/synty/map/Dungeons_Texture_01.png"
-dest_files=["res://.godot/imported/Dungeons_Texture_01.png-e3df40c9895c0a0bef4b89dfc0fc0196.s3tc.ctex"]
+source_file="res://old.assets/synty/map/Dungeons_Texture_01.png"
+dest_files=["res://.godot/imported/Dungeons_Texture_01.png-009d0d3ae1d101d31defe34fbf44795e.s3tc.ctex"]
 
 [params]
 

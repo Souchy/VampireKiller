@@ -34,7 +34,7 @@ project/assembly_name="Glaceon"
 
 folder_colors={
 "res://VampireAssets/": "red",
-"res://assets/": "purple",
+"res://old.assets/": "purple",
 "res://scenes/": "pink"
 }
 

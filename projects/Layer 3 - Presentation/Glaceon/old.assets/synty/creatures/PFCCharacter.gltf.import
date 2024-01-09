@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bdnrm5oe4d2nn"
-path="res://.godot/imported/PFCCharacter.gltf-7775a3322c6c41f784c6666394aa81d6.scn"
+path="res://.godot/imported/PFCCharacter.gltf-a5a774f74b7c6469b72b0b6982796fb7.scn"
 
 [deps]
 
-source_file="res://assets/synty/creatures/PFCCharacter.gltf"
-dest_files=["res://.godot/imported/PFCCharacter.gltf-7775a3322c6c41f784c6666394aa81d6.scn"]
+source_file="res://old.assets/synty/creatures/PFCCharacter.gltf"
+dest_files=["res://.godot/imported/PFCCharacter.gltf-a5a774f74b7c6469b72b0b6982796fb7.scn"]
 
 [params]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://el52dejpkxyc"]
 
-[ext_resource type="MeshLibrary" uid="uid://db5iq0ajt27os" path="res://assets/synty/map/PolygonDungeonsMeshLibrary.tres" id="1_lky6p"]
+[ext_resource type="MeshLibrary" uid="uid://db5iq0ajt27os" path="res://old.assets/synty/map/PolygonDungeonsMeshLibrary.tres" id="1_lky6p"]
 [ext_resource type="Script" path="res://scenes/db/maps/onemapisenough.cs" id="1_tit80"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_e5v7w"]

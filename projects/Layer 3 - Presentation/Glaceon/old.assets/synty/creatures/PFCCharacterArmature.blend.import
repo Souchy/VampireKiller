@@ -8,7 +8,7 @@ path="res://.godot/imported/PFCCharacterArmature.blend-598be95db5fe4b1413b586815
 
 [deps]
 
-source_file="res://assets/synty/creatures/PFCCharacterArmature.blend"
+source_file="res://old.assets/synty/creatures/PFCCharacterArmature.blend"
 dest_files=["res://.godot/imported/PFCCharacterArmature.blend-598be95db5fe4b1413b586815e413fda.scn"]
 
 [params]

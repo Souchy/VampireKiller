@@ -1,7 +1,7 @@
 [gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://4buwc3yg01l"]
 
-[ext_resource type="Texture2D" uid="uid://csx0m7acg54nt" path="res://assets/synty/creatures/textures/FantasyRivals_01_A_albedo.png" id="1_ln5xh"]
-[ext_resource type="Texture2D" uid="uid://sgl5ivan1ory" path="res://assets/synty/creatures/textures/FantasyRivals_01_A_emission.png" id="2_83kdh"]
+[ext_resource type="Texture2D" uid="uid://csx0m7acg54nt" path="res://old.assets/synty/creatures/textures/FantasyRivals_01_A_albedo.png" id="1_ln5xh"]
+[ext_resource type="Texture2D" uid="uid://sgl5ivan1ory" path="res://old.assets/synty/creatures/textures/FantasyRivals_01_A_emission.png" id="2_83kdh"]
 
 [resource]
 resource_name = "FantasyRivals_01_A"

@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://daod1aymjtg26"
-path="res://.godot/imported/PFRCharacterBR.gltf-e8274f375f48e98f9242d65b749f0a9e.scn"
+path="res://.godot/imported/PFRCharacterBR.gltf-6d1a76a970f32428352af0b7fc994eda.scn"
 
 [deps]
 
-source_file="res://assets/synty/creatures/PFRCharacterBR.gltf"
-dest_files=["res://.godot/imported/PFRCharacterBR.gltf-e8274f375f48e98f9242d65b749f0a9e.scn"]
+source_file="res://old.assets/synty/creatures/PFRCharacterBR.gltf"
+dest_files=["res://.godot/imported/PFRCharacterBR.gltf-6d1a76a970f32428352af0b7fc994eda.scn"]
 
 [params]
 
@@ -33,7 +33,7 @@ _subresources={
 "materials": {
 "FantasyRivals_01_A": {
 "use_external/enabled": true,
-"use_external/path": "res://assets/synty/creatures/textures/FantasyRivals_Material.tres"
+"use_external/path": "res://old.assets/synty/creatures/textures/FantasyRivals_Material.tres"
 }
 }
 }

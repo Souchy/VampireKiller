@@ -1,6 +1,6 @@
 [gd_resource type="MeshLibrary" load_steps=51 format=3 uid="uid://db5iq0ajt27os"]
 
-[ext_resource type="Material" uid="uid://cpvceans0fs7a" path="res://assets/synty/map/Dungeons_Material.tres" id="1_mxls1"]
+[ext_resource type="Material" uid="uid://cpvceans0fs7a" path="res://old.assets/synty/map/Dungeons_Material.tres" id="1_mxls1"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_qs70j"]
 resource_name = "Root Scene_SM_Env_Door_02"
