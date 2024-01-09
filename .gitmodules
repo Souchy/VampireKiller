@@ -1,0 +1,7 @@
+[submodule "projects/Layer 2 - Application/Godot"]
+	path = projects/Layer 2 - Application/Godot
+	url = https://github.com/Souchy/godot.git
+	branch = souchy/master
+[submodule "projects/Layer 1 - Data/VampireAssets"]
+	path = projects/Layer 1 - Data/VampireAssets
+	url = https://github.com/Souchy/VampireAssets
