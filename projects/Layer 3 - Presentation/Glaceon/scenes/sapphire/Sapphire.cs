@@ -141,18 +141,23 @@ public partial class Sapphire : Node
     [Subscribe(nameof(SmartSet<CreatureInstance>.add))]
     public void onAddCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {
-        CreatureNode node = AssetCache.Load<PackedScene>(inst.model.meshScenePath).Instantiate<CreatureNode>();
-        node.init(inst);
         if(inst.creatureGroup == EntityGroupType.Players)
         {
+            CreatureNode node = AssetCache.Load<PackedScene>("res:\\scenes\\sapphire\\entities\\PlayerNode.tscn").Instantiate<PlayerNode>();
+            node.init(inst);
             node.Name = "player_" + inst.playerId;
             Players.AddChild(node, true);
+            node.setSkin(inst.currentSkin);
         }
         else
         if(inst.creatureGroup == EntityGroupType.Enemies)
         {
+            CreatureNode node = AssetCache.Load<PackedScene>("res:\\scenes\\sapphire\\entities\\EnemyNode.tscn").Instantiate<EnemyNode>();
+            node.init(inst);
             Entities.AddChild(node, true);
+            node.setSkin(inst.currentSkin);
         }
+
     }
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)

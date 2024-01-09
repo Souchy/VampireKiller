@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_bo3q4"]
 [ext_resource type="Script" path="res://scenes/lapis/Lapis.cs" id="1_xm7gr"]
-[ext_resource type="PackedScene" uid="uid://cx0ji8ujsmpqy" path="res://scenes/db/creatures/EnemyCharacters.tscn" id="2_qvsm4"]
+[ext_resource type="PackedScene" uid="uid://hdx0iag2udn1" path="res://scenes/sapphire/entities/EnemyNode.tscn" id="2_qvsm4"]
 [ext_resource type="PackedScene" path="res://scenes/lapis/ui/pages/mainMenu/UiMainMenu.tscn" id="4_g0xq4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bmsaf"]
@@ -41,12 +41,10 @@ current = true
 
 [node name="onemapisenough" parent="Background/Objects" instance=ExtResource("1_bo3q4")]
 
-[node name="Orc" parent="Background/Objects" instance=ExtResource("2_qvsm4")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.30734, 0, 0)
-collision_mask = 1
+[node name="EnemyNode" parent="Background/Objects" instance=ExtResource("2_qvsm4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.58655, 0, 0)
 
-[node name="Orc2" parent="Background/Objects" instance=ExtResource("2_qvsm4")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.79683, 0, 0)
-collision_mask = 1
+[node name="EnemyNode2" parent="Background/Objects" instance=ExtResource("2_qvsm4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.95114, 0, 0)
 
 [node name="UiMainMenu" parent="." instance=ExtResource("4_g0xq4")]

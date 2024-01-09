@@ -21,6 +21,19 @@ namespace vampirekiller.logia.stub;
 
 public class StubFight : Fight
 {
+    private static List<String> animationLibraries = new() { "action_adventure", "pro_magic_pack" };
+    private static CreatureAnimationData anims = new()
+    {
+        idle = "action_adventure/idle (2)", // TODO add oneShot 'idle' + 'idle (3)'
+        run = "action_adventure/running", // TODO add transition' run_to_stop' -> idle
+        walk = "action_adventure/walking",
+        cast = "pro_magic_pack/",
+        receiveHit = "pro_magic_pack/Standing React Small From Front",
+        death = "pro_magic_pack/Standing React Death Forward",
+        victory = "",
+        defeat = ""
+    };
+
     public StubFight()
     {
         var player = spawnStubPlayer();
@@ -43,16 +56,24 @@ public class StubFight : Fight
     public static CreatureInstance spawnStubPlayer()
     {
         var creaModel = Register.Create<CreatureModel>();
-        creaModel.meshScenePath = "res://scenes/db/creatures/PlayerCharacters.tscn";
-        creaModel.iconPath = "res://icon.svg";
+        //creaModel.meshScenePath = "res://scenes/db/creatures/PlayerCharacters.tscn";
+        //creaModel.iconPath = "res://icon.svg";
+        var skin = new CreatureSkin()
+        {
+            iconPath = "res://icon.svg",
+            scenePath = "res://VampireAssets\\test\\dg chars\\small\\character_spirit_demon",
+        };
+        creaModel.skins.Add(skin);
         creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
         creaModel.baseStats.get<CreatureBaseLife>()!.value = 100;
         creaModel.baseStats.set(new ProjectileAddCount() { value = 2 });
         creaModel.baseStats.set(new ProjectileIncreasedSpeed() { value = 300 });
         creaModel.baseStats.set(new IncreasedDamage() { value = 100 });
+        creaModel.baseStats.set(new SpellIncreasedCastSpeed() { value = 100 });
 
         var crea = Register.Create<CreatureInstance>();
         crea.model = creaModel;
+        crea.currentSkin = creaModel.skins[0];
         crea.spawnPosition = new Vector3(0.1f, 0, 0); // pas sur pourquoi ça bug si on déplace pas le player au spawn
         crea.creatureGroup = EntityGroupType.Players;
         crea.set<Team>(Team.A);
@@ -65,20 +86,29 @@ public class StubFight : Fight
         shocknova.modelUid = Diamonds.spellModels["spell_shock_nova"].entityUid;
         crea.activeSkills.add(shocknova);
 
+
         return crea;
     }
 
     public static CreatureInstance spawnStubCreature(Vector3 vec)
     {
         var creaModel = Register.Create<EnemyModel>();
-        creaModel.meshScenePath = "res://scenes/db/creatures/EnemyCharacters.tscn";
-        creaModel.iconPath = "res://icon.svg";
+        //creaModel.meshScenePath = "res://scenes/db/creatures/EnemyCharacters.tscn";
+        //creaModel.iconPath = "res://icon.svg";
+        var skin = new CreatureSkin()
+        {
+            iconPath = "res://icon.svg",
+            scenePath = "res://VampireAssets\\test\\dg chars\\small\\character_medusa_01",
+            animationLibraries = StubFight.animationLibraries,
+            animations = StubFight.anims
+        };
         creaModel.ai = new AiMelee();
         creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
         creaModel.baseStats.get<CreatureBaseLife>()!.value = 100;
 
         var crea = Register.Create<CreatureInstance>();
         crea.model = creaModel;
+        crea.currentSkin = creaModel.skins[0];
         crea.spawnPosition = vec;
         crea.creatureGroup = EntityGroupType.Enemies;
         crea.set<Team>(Team.B);

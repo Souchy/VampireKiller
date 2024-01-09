@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Util.entity;
 using Util.structures;
 using vampirekiller.eevee;
+using vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
 
@@ -15,6 +16,11 @@ public class SpellInstance : Identifiable, IStatementContainer
 {
     public ID entityUid { get; set; }
     public ID modelUid { get; set; }
+    /// <summary>
+    /// Set at creation. Mostly depends on the creature skin, could change it later through events too or with MTX.
+    /// </summary>
+    public SkillSkin skin { get; set; } 
+
     public SmartList<IStatement> statements { get => getModel().statements; set => throw new NotImplementedException(); }
 
     public StatsDic stats = Register.Create<StatsDic>();

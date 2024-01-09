@@ -9,26 +9,30 @@ using Util.ecs;
 using Util.entity;
 using vampirekiller.eevee.util.json;
 using VampireKiller.eevee.creature;
+using VampireKiller.eevee.vampirekiller.eevee.spells;
 using Json = vampirekiller.eevee.util.json.Json;
 
 namespace vampirekiller.logia.commands;
 
 public record struct CommandCast : ICommand
 {
-    public int playerId { get; set; } = -1;
+    public ID sourceCreature { get; set; }
     public ID? raycastEntity { get; set; }
     public Vector3 raycastMouse { get; set; }
-    // Would also contain the spell/ability being casted/used
-    public int activeSlot { get; set; }
+    public ID skillInstanceId { get; set; }
 
+    /// <summary>
+    /// Pour la deserialisation
+    /// </summary>
     public CommandCast() { }
-    public CommandCast(int playerId, Entity raycastEntity, Vector3 raycastMouse, int activeSlot) //CreatureInstance source)
+    public CommandCast(CreatureInstance sourceCreature, Entity raycastEntity, Vector3 raycastMouse, SpellInstance skill)
+       : this(sourceCreature.entityUid, raycastEntity.entityUid, raycastMouse, skill.entityUid) { }
+    public CommandCast(ID sourceCreature, ID raycastEntity, Vector3 raycastMouse, ID skillInstanceId)
     {
-        //this.source = source;
-        this.playerId = playerId;
-        this.raycastEntity = raycastEntity?.entityUid;
+        this.sourceCreature = sourceCreature;
+        this.raycastEntity = raycastEntity;
         this.raycastMouse = raycastMouse;
-        this.activeSlot = activeSlot;
+        this.skillInstanceId = skillInstanceId;
     }
 
     public byte[] serialize()

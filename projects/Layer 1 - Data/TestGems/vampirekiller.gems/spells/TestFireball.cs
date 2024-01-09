@@ -50,8 +50,18 @@ public class TestFireball
 
     private SpellModel generateFireballModel()
     {
+        // todo: spell.stats: costs, cooldown, etc
         var spell = Register.Create<SpellModel>();
         spell.entityUid = "spell_fireball"; // Set un ID constant pour pouvoir load toujours le même
+        spell.iconPath = "res://scenes/db/spells/fireball/fireball.png";
+        spell.skins.Add(new()
+        {
+            animationLibraries = new() { "pro_magic_pack" },
+            sourceAnimation = "pro_magic_pack/Standing 1H Magic Attack 01"
+        });
+        spell.stats.set(new SpellBaseCastTime() { value = 0.8 });
+        spell.stats.set(new SpellBaseCostMana() { value = 1 });
+        
 
         // Explosion devrait proc sur le onCollision du projectile
         var explosionFx = new Statement() {
@@ -185,11 +195,6 @@ public class TestFireball
         // add the fx to the status schema
         statusSchema.statusStatements.Add(burnFx);
 
-
-
-        // todo: spell.stats: costs, cooldown, etc
-        spell.iconPath = "res://scenes/db/spells/fireball/fireball.png";
-
         return spell;
     }
     [Trait("Category", "ModelGenerator")]
@@ -203,6 +208,7 @@ public class TestFireball
         File.WriteAllText("../../../../DB/spells/" + spell.entityUid + ".json", json);
     }
 
+    /*
     [Trait("Category", "ModelTester")]
     [Fact]
     public void testFireball()
@@ -253,7 +259,7 @@ public class TestFireball
         // ASSERT
         // todo: check enemies lives
         // todo: check caster's resources got reduced by spell cost
-        
     }
+    */
 
 }

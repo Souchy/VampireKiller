@@ -9,6 +9,7 @@ using Util.ecs;
 using Util.entity;
 using Util.structures;
 using vampirekiller.eevee.actions;
+using vampirekiller.eevee.creature;
 using vampirekiller.eevee.enums;
 using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
@@ -63,6 +64,10 @@ public class CreatureInstance : Entity, Identifiable
     /// Maximum of 4 active skills at a time
     /// </summary>
     public SmartList<SpellInstance> activeSkills { get; set; } = SmartList<SpellInstance>.Create();
+    /// <summary>
+    /// Current skin can be chosen at the start of the game (MTX), or modified through the game (transformations)
+    /// </summary>
+    public CreatureSkin currentSkin { get; set; }
 
     private CreatureInstance() { }
 

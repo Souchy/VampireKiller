@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Util.entity;
 using Util.structures;
 using vampirekiller.eevee.enums;
+using vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.conditions;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
@@ -20,6 +21,8 @@ public class SpellModel : Identifiable, IStatementContainer
     /// TODO skill icon
     /// </summary>
     public string iconPath { get; set; }
+    public List<SkillSkin> skins { get; set; } = new();
+
     public StatsDic stats = Register.Create<StatsDic>();
     public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
 

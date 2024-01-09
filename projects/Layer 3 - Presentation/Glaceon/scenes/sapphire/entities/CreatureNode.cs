@@ -16,6 +16,9 @@ using vampirekiller.eevee.util;
 using VampireKiller.eevee;
 using vampirekiller.eevee.spells;
 using static CreatureNodeAnimationPlayer;
+using vampirekiller.umbreon.commands;
+using vampirekiller.eevee.actions;
+using vampirekiller.eevee.creature;
 
 /// <summary>
 /// Properties that need to be shown:
@@ -53,7 +56,8 @@ public abstract partial class CreatureNode : CharacterBody3D
     private const double cacheRefreshTime = 1000;
     private double cacheRefreshDelta = 0;
 
-    private float cachedMovementSpeed = 0;
+    private float cachedTotalMovementSpeed = 0;
+    private float cachedIncreasedMovementSpeed;
     protected float defaultSpeed { get; } = 5.0f;
 
     public override void _EnterTree()
@@ -94,9 +98,6 @@ public abstract partial class CreatureNode : CharacterBody3D
         creatureInstance.items.GetEntityBus().subscribe(this);
 
         creatureInstance.set<CreatureNode>(this);
-        //creatureInstance.getPositionHook = () => this.GlobalPosition;
-        //creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
-        //creatureInstance.set<Func<Vector3>>(() => this.GlobalPosition);
         creatureInstance.set<PositionGetter>(() => this.GlobalPosition);
         recalculateCache();
     }
@@ -117,7 +118,7 @@ public abstract partial class CreatureNode : CharacterBody3D
         refreshCache(delta);
 
         var direction = getNextDirection();
-        var speed = cachedMovementSpeed;
+        var speed = cachedTotalMovementSpeed;
 
         var velocity = this.Velocity;
         if (direction != Vector3.Zero)
@@ -147,8 +148,21 @@ public abstract partial class CreatureNode : CharacterBody3D
         betterLookAt(lookAtTarget);
 
         // Animation idle/walk
-        SupportedAnimation animation = this.Velocity.IsZeroApprox() ? SupportedAnimation.Idle : SupportedAnimation.Walk;
-        this.CreatureNodeAnimationPlayer.playAnimation(animation);
+        //SupportedAnimation animation = this.Velocity.IsZeroApprox() ? SupportedAnimation.Idle : SupportedAnimation.Walk;
+        //this.CreatureNodeAnimationPlayer.playAnimation(animation);
+        var velo = this.Velocity.Length();
+        if (velo <= 0.01)
+        {
+            this.CreatureNodeAnimationPlayer.playAnimationLoop(this.creatureInstance.currentSkin.animations.idle);
+        } else 
+        if (velo >= 1 && velo < 2)
+        {
+            this.CreatureNodeAnimationPlayer.playAnimationLoop(this.creatureInstance.currentSkin.animations.walk, cachedIncreasedMovementSpeed);
+        } else
+        if (velo >= 2)
+        {
+            this.CreatureNodeAnimationPlayer.playAnimationLoop(this.creatureInstance.currentSkin.animations.run, cachedIncreasedMovementSpeed);
+        }
     }
 
     /// <summary>
@@ -165,7 +179,8 @@ public abstract partial class CreatureNode : CharacterBody3D
     }
     private void recalculateCache()
     {
-        cachedMovementSpeed = (float) (creatureInstance?.getTotalStat<CreatureTotalMovementSpeed>().value ?? defaultSpeed);
+        cachedTotalMovementSpeed = (float) (creatureInstance?.getTotalStat<CreatureTotalMovementSpeed>().value ?? defaultSpeed);
+        cachedIncreasedMovementSpeed = (float) (creatureInstance?.getTotalStat<CreatureIncreasedMovementSpeed>().value ?? 0);
     }
 
     /// <summary>
@@ -192,6 +207,15 @@ public abstract partial class CreatureNode : CharacterBody3D
         return Vector3.Zero;
     }
 
+    public void setSkin(CreatureSkin skin)
+    {
+        Node3D newModel = AssetCache.Load<PackedScene>(skin.scenePath).Instantiate<Node3D>();
+        this.RemoveChild(Model);
+        this.AddChild(newModel);
+        Model.QueueFree();
+        Model = newModel;
+    }
+
     protected void betterLookAt(Vector3 nextPos)
     {
         // check is to avoid following warning: Up vector and direction between node origin and target are aligned, look_at() failed
@@ -202,15 +226,15 @@ public abstract partial class CreatureNode : CharacterBody3D
         }
     }
     
-    protected void playAttack(Action attackCallback)
-    {
-        this.CreatureNodeAnimationPlayer.playAnimation(SupportedAnimation.Attack, attackCallback);
-    }
+    //protected void playAttack(System.Action attackCallback, double animationTime)
+    //{
+    //    this.CreatureNodeAnimationPlayer.playAnimation(SupportedAnimation.Attack, attackCallback, animationTime);
+    //}
 
     #region Event Handlers
     [Subscribe(DomainEvents.EventDeath)]
     public void onDeath(CreatureInstance crea) {
-        this.CreatureNodeAnimationPlayer.playAnimation(SupportedAnimation.Death);
+        this.CreatureNodeAnimationPlayer.playAnimationOneShot(creatureInstance.currentSkin.animations.death); //.playAnimation(SupportedAnimation.Death);
     }
 
     [Subscribe(CreatureInstance.EventUpdateStats)]
@@ -222,6 +246,19 @@ public abstract partial class CreatureNode : CharacterBody3D
         {
             updateHPBar();
         }
+    }
+
+    [Subscribe(HandlerOnCast.EventAnimationCast)]
+    public void onAnimationCast(ActionCastActive action, double castTime)
+    {
+        var skill = action.getActive();
+        var anim = skill.skin.sourceAnimation;
+        if(anim == null)
+        {
+            anim = action.getSourceCreature().currentSkin.animations.cast;
+        }
+        this.CreatureNodeAnimationPlayer.playAnimationOneShot(anim, action.applyActionCast, (float) castTime);
+        //playAttack(action.applyActionCast, castTime);
     }
 
     [Subscribe]

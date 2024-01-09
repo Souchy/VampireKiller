@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Util.entity;
+using vampirekiller.eevee.creature;
 using vampirekiller.eevee.stats.schemas.resources;
 using VampireKiller.eevee.vampirekiller.eevee.stats;
 using VampireKiller.eevee.vampirekiller.eevee.stats.schemas;
@@ -10,8 +11,9 @@ namespace VampireKiller.eevee.creature;
 public class CreatureModel : Identifiable
 {
     public ID entityUid { get; set; }
-    public string meshScenePath { get; set; }
-    public string iconPath { get; set; }
+    public List <CreatureSkin> skins { get; set; }
+    //public string meshScenePath { get; set; }
+    //public string iconPath { get; set; }
 
     public StatsDic baseStats = Register.Create<StatsDic>();
 
@@ -39,11 +41,6 @@ public class CreatureModel : Identifiable
         }
      }
      */
-
-    public CreatureInstance createInstance()
-    {
-        return null;
-    }
 
     public void Dispose()
     {

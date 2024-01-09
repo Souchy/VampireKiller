@@ -4,7 +4,9 @@ using Logia.vampirekiller.logia;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Util.communication.commands;
 using Util.communication.events;
+using vampierkiller.logia;
 using vampirekiller.eevee.actions;
 using vampirekiller.eevee.ai;
 using vampirekiller.eevee.creature;
@@ -21,9 +23,13 @@ public partial class EnemyNode : CreatureNode
 
     private List<CreatureNode> playersInRange = new();
 
+    [Inject]
+    public ICommandPublisher publisher { get; set; }
+
     public override void _Ready()
     {
         base._Ready();
+        this.Inject();
         AreaOfAttack.BodyEntered += this.onBodyEnterAreaOfAttack;
         AreaOfAttack.BodyExited += this.onBodyExitAreaOfAttack;
     }
@@ -51,19 +57,28 @@ public partial class EnemyNode : CreatureNode
         {
             // TODO select player & active in AI
             var selectedPlayer = playersInRange.First();
-            var selectedActive = 0; // cast le premier skill.
-            
+            var selectedSlot = 0; // cast le premier skill.
+
+            var skill = creatureInstance.activeSkills.getAt(selectedSlot);
+            var raycastEntity = selectedPlayer.creatureInstance;
+            var raycastPosition  = selectedPlayer.creatureInstance.position;
+
+            var cmd = new CommandCast(creatureInstance, raycastEntity, raycastPosition, skill);
+            this.publisher.publish(cmd);
+            //this.playAttack(() => this.publisher.publish(cmd));
+
             // TODO: CommandCast pour mobs (pas de playerid)
-            var action = new ActionCastActive() {
-                sourceEntity = this.creatureInstance.entityUid, //command.source.entityUid,
-                raycastEntity = selectedPlayer.creatureInstance.entityUid,
-                raycastPosition = selectedPlayer.creatureInstance.position,
-                fight = Universe.fight,
-                slot = selectedActive,
-            };
-            if (action.canApplyCast()) {
-                this.playAttack(action.applyActionCast);
-            }
+            //var action = new ActionCastActive() {
+            //    sourceEntity = this.creatureInstance.entityUid, //command.source.entityUid,
+            //    raycastEntity = selectedPlayer.creatureInstance.entityUid,
+            //    raycastPosition = selectedPlayer.creatureInstance.position,
+            //    fight = Universe.fight,
+            //    slot = selectedActive,
+            //};
+            //if (action.canApplyCast()) {
+            //    this.playAttack(action.applyActionCast);
+            //}
+            //var cmd = new CommandCast(playerId, raycast.Value.raycastEntity?.creatureInstance, (Vector3) raycast.Value.raycastPosition, slot);
             // var cmd = new CommandCast(this.creatureInstance, this.Transform.Basis.Z, 0); //-this.Transform.Basis.Z, 1);
             // this.attack(() => this.publisher.publish(cmd));
         }

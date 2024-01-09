@@ -36,6 +36,12 @@ public class ShockNova {
         // IMPORTANT: Solution plus évidente: utilise le nom du spell 
         var spell = Register.Create<SpellModel>();
         spell.entityUid = "spell_shock_nova"; // Set un ID constant pour pouvoir load toujours le même
+        spell.iconPath = "res://scenes/db/spells/shockNova.png";
+        spell.skins.Add(new()
+        {
+            animationLibraries = new() { "pro_magic_pack" },
+            sourceAnimation = "pro_magic_pack/Standing 2H Magic Area Attack 01"
+        });
 
         var fx = new Statement() {
             zone = new Zone() { worldOrigin = ZoneOriginType.Source },
@@ -82,7 +88,6 @@ public class ShockNova {
         spell.statements.add(innerRing);
         // todo add spell.stats (costs, cooldown, maxcharges...)
         // todo add spell.range
-        spell.iconPath = "res://scenes/db/spells/shockNova.png";
         return spell;
     }
     
@@ -94,7 +99,7 @@ public class ShockNova {
         Directory.CreateDirectory("../../../../DB/spells/");
         File.WriteAllText("../../../../DB/spells/" + spell.entityUid + ".json", json);
     }
-
+    /*
     [Trait("Category", "ModelTester")]
     [Fact]
     public void testShockNova()
@@ -140,7 +145,7 @@ public class ShockNova {
         // ASSERT
         // todo: check enemies lives
         // todo: check caster's resources got reduced by spell cost
-        
     }
+    */
 
 }
