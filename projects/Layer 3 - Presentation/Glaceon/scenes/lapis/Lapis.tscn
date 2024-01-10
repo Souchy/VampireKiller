@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://ue1ig1g41bt0"]
 
-[ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_bo3q4"]
+[ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://vampireassets/maps/onemapisenough.tscn" id="1_bo3q4"]
 [ext_resource type="Script" path="res://scenes/lapis/Lapis.cs" id="1_xm7gr"]
 [ext_resource type="PackedScene" uid="uid://0tqoqqbyhc4l" path="res://vampireassets/creatures/dg/Character_Goblin_Female.glb" id="3_yvkcn"]
 [ext_resource type="PackedScene" uid="uid://dp68pr8h2th5r" path="res://vampireassets/creatures/dg/Character_Goblin_Male.glb" id="4_fuboo"]

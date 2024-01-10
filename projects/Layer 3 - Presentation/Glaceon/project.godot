@@ -38,10 +38,9 @@ enabled=PackedStringArray("res://addons/myplugin/plugin.cfg", "res://addons/unid
 
 folder_colors={
 "res://Assets/": "purple",
-"res://addons/": "yellow",
+"res://addons/": "orange",
 "res://old.assets/": "purple",
 "res://scenes/": "blue",
-"res://scenes/db/": "pink",
 "res://scenes/lapis/": "blue",
 "res://scenes/sapphire/": "blue",
 "res://vampireassets/": "pink",

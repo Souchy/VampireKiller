@@ -7,19 +7,28 @@ using vampirekiller.eevee.util;
 using System.Linq;
 using static Godot.Animation;
 
+
+//public partial class MyMaterial : ParticleProcessMaterial
+//{
+//    public void adasd()
+//    {
+        
+//    }
+//}
+
 public partial class CreatureNodeAnimationPlayer : AnimationPlayer
 {
     // Defined in the order of priorities
     // if the player is attacking, keep animating attack if walk input is received
     // if the player is walking, cancel the walk animation and start attacking if attack input is received
-    public enum SupportedAnimation
-    {
-        Idle,   // Loop animation
-        Walk,   // Loop animation
-        Attack, // Action animation
-        Death,  // Action animation
-        Unknown // Used as a fallback
-    }
+    // public enum SupportedAnimation
+    // {
+    //     Idle,   // Loop animation
+    //     Walk,   // Loop animation
+    //     Attack, // Action animation
+    //     Death,  // Action animation
+    //     Unknown // Used as a fallback
+    // }
 
     //private Dictionary<SupportedAnimation, string> animationToAnimationName;
     //private Dictionary<SupportedAnimation, bool> animationToHasCallback;

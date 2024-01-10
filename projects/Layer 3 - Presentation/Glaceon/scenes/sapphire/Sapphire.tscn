@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://blovcywatgmkk"]
 
-[ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_4bi0r"]
+[ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://vampireassets/maps/onemapisenough.tscn" id="1_4bi0r"]
 [ext_resource type="Script" path="res://scenes/sapphire/Sapphire.cs" id="1_wcjfi"]
 [ext_resource type="PackedScene" uid="uid://hdx0iag2udn1" path="res://scenes/sapphire/entities/EnemyNode.tscn" id="3_ncqtn"]
-[ext_resource type="PackedScene" uid="uid://el52dejpkxyc" path="res://scenes/db/maps/whataboutseconds.tscn" id="3_wyuc4"]
+[ext_resource type="PackedScene" uid="uid://el52dejpkxyc" path="res://vampireassets/maps/whataboutseconds.tscn" id="3_wyuc4"]
 [ext_resource type="PackedScene" uid="uid://dkiytyp1g7pjx" path="res://scenes/sapphire/entities/PlayerNode.tscn" id="5_ma5mk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kfsoe"]

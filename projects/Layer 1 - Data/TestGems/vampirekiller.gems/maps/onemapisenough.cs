@@ -6,6 +6,25 @@ using Util.communication.events;
 using vampirekiller.logia.stub;
 using VampireKiller.eevee.vampirekiller.eevee;
 
+// Eevee
+//public class Map
+//{
+//    public void spawnmachin()
+//    {
+//        //asdassdsd
+//    }
+//}
+
+//// gems
+//public class MapBossMachin : Map
+//{
+
+//}
+
+//// Glaceon
+//// .tscn
+
+
 /// <summary>
 /// TODO: inherit a MapNode with a NavigationRegion3D and the spawn() methods
 /// </summary>
