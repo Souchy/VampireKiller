@@ -30,12 +30,22 @@ window/size/viewport_height=720
 
 project/assembly_name="Glaceon"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/myplugin/plugin.cfg", "res://addons/unidot_importer/plugin.cfg")
+
 [file_customization]
 
 folder_colors={
-"res://VampireAssets/": "red",
+"res://Assets/": "purple",
+"res://addons/": "yellow",
 "res://old.assets/": "purple",
-"res://scenes/": "pink"
+"res://scenes/": "blue",
+"res://scenes/db/": "pink",
+"res://scenes/lapis/": "blue",
+"res://scenes/sapphire/": "blue",
+"res://vampireassets/": "pink",
+"res://vampirekiller.glaceon/": "blue"
 }
 
 [input]
@@ -112,6 +122,8 @@ zoom_out={
 
 [rendering]
 
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=4
+lights_and_shadows/positional_shadow/soft_shadow_filter_quality=4
 anti_aliasing/quality/msaa_2d=3
 anti_aliasing/quality/msaa_3d=3
 anti_aliasing/quality/screen_space_aa=1

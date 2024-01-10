@@ -118,12 +118,10 @@ public partial class PlayerNode : CreatureNode
         {
             if (raycast == null)
                 raycast = PlayerCamera.getRayCast();
-            var playerId = this.GetMultiplayerAuthority();
             var skill = creatureInstance.activeSkills.getAt(slot);
-            // todo command pour creatures sans playerId ou qui prend direct le CREAture INSTance caster a la place
             var cmd = new CommandCast(creatureInstance, raycast.Value.raycastEntity?.creatureInstance, (Vector3) raycast.Value.raycastPosition, skill);
-            //var cmd = new CommandCast(playerId, raycast.Value.raycastEntity?.creatureInstance, (Vector3) raycast.Value.raycastPosition, slot);
             this.publisher.publish(cmd);
+            //var cmd = new CommandCast(playerId, raycast.Value.raycastEntity?.creatureInstance, (Vector3) raycast.Value.raycastPosition, slot);
             //this.playAttack(() => this.publisher.publish(cmd));
         }
 	}

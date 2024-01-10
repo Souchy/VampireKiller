@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dibbuq4i3rrqo"]
+[gd_scene load_steps=7 format=3 uid="uid://dibbuq4i3rrqo"]
 
 [ext_resource type="Script" path="res://scenes/db/maps/onemapisenough.cs" id="1_bn2o5"]
+[ext_resource type="Texture2D" uid="uid://cl5wwk1lip4mb" path="res://addons/kenney_prototype_textures/green/texture_08.png" id="2_06tim"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_b8yhv"]
 vertices = PackedVector3Array(-14.5, 0.02, -14.5, -14.5, 0.02, 14.5, 14.5, 0.02, 14.5, 14.5, 0.02, -14.5)
@@ -8,7 +9,8 @@ polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 cell_height = 0.01
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cw2bb"]
-albedo_color = Color(0.0784314, 0.0980392, 0.0823529, 1)
+albedo_color = Color(0.207843, 0.262745, 0.219608, 1)
+albedo_texture = ExtResource("2_06tim")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_d7rg8"]
 material = SubResource("StandardMaterial3D_cw2bb")
