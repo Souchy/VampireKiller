@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Util.entity;
+using vampirekiller.eevee;
 using vampirekiller.eevee.actions;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 
@@ -20,6 +22,18 @@ public static class SpellExtensions
         // TODO: update les ressources du player, update le nombre de charges dans le spellinstance, update le cooldown, 
         // l'action devrait déjà contenir le raycast mousetarget depuis la root action
         spell.applyStatementContainer(action);
+    }
+
+    public static SpellInstance createInstance(this SpellModel model)
+    {
+        var spell = Register.Create<SpellInstance>();
+        spell.modelUid = model.entityUid;
+        spell.skin = model.skins[0];
+        foreach(var s in model.stats.values)
+        {
+            spell.stats.set(s.copy());
+        }
+        return spell;
     }
 
 }
