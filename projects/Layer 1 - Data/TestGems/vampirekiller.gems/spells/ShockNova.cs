@@ -11,6 +11,7 @@ using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
 using vampirekiller.eevee.triggers.schemas;
 using vampirekiller.eevee.util.json;
+using vampirekiller.logia;
 using vampirekiller.logia.extensions;
 using vampirekiller.logia.stub;
 using VampireKiller.eevee.vampirekiller.eevee;
@@ -36,19 +37,21 @@ public class ShockNova {
         // IMPORTANT: Solution plus évidente: utilise le nom du spell 
         var spell = Register.Create<SpellModel>();
         spell.entityUid = "spell_shock_nova"; // Set un ID constant pour pouvoir load toujours le même
-        spell.iconPath = "res://scenes/db/spells/shockNova.png";
+        spell.iconPath = Paths.fromSpells("shock_nova/yellow_17.PNG");
         spell.skins.Add(new()
         {
             animationLibraries = new() { "pro_magic_pack" },
             sourceAnimation = "pro_magic_pack/Standing 2H Magic Area Attack 01"
         });
+        spell.stats.set(new SpellBaseCastTime() { value = 0.6 });
+        spell.stats.set(new SpellBaseCostMana() { value = 1 });
 
         var fx = new Statement() {
             zone = new Zone() { worldOrigin = ZoneOriginType.Source },
             // Glaceon has to take this effect, spawn a ProjectileNode, keep a ref to the effect, then trigger the children OnCollision
             //  In the case of Shock Nova, we don't need collision as it's not a moving aoe
             schema = new SpawnFxSchema() {
-                scene = "res://scenes/db/spells/shockNova.tscn"
+                scene = Paths.fromSpells("shock_nova/shockNova.tscn")
             }
         };
         var outerAoe = new Statement() {
