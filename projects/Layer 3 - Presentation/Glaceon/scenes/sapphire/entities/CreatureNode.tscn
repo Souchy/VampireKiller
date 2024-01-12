@@ -1,15 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://mmu2tpnln6i1"]
 
-[ext_resource type="Script" path="res://scenes/sapphire/entities/CreatureNodeAnimationPlayer.cs" id="1_jc7hb"]
-[ext_resource type="PackedScene" path="res://scenes/sapphire/ui/components/UiResourceBars.tscn" id="2_hhil7"]
+[ext_resource type="PackedScene" uid="uid://cpjohwq80i3qu" path="res://vampireassets/creatures/rivals/small/Character_ForestGuardian_01.glb" id="1_jft51"]
+[ext_resource type="PackedScene" uid="uid://dp0me8ewcg2sp" path="res://scenes/sapphire/ui/components/UiResourceBars.tscn" id="2_hhil7"]
+[ext_resource type="Script" path="res://scenes/sapphire/entities/component/CharacterModelNode.cs" id="3_jyxfq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pwek4"]
-height = 1.8
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_6b8gj"]
-viewport_path = NodePath("SubViewport")
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_f2l0y"]
 height = 1.8
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bcwia"]
@@ -18,6 +13,9 @@ height = 1.8
 material = SubResource("StandardMaterial3D_bcwia")
 inner_radius = 0.7
 outer_radius = 0.75
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_6b8gj"]
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ytwpu"]
 properties/0/path = NodePath(".:position")
@@ -36,25 +34,12 @@ axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 
+[node name="Model" parent="." instance=ExtResource("1_jft51")]
+script = ExtResource("3_jyxfq")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_pwek4")
-
-[node name="ResourceBars" type="Sprite3D" parent="CollisionShape3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
-billboard = 1
-texture = SubResource("ViewportTexture_6b8gj")
-
-[node name="Model" type="Node3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.9, 0)
-mesh = SubResource("CapsuleMesh_f2l0y")
-skeleton = NodePath("../..")
-
-[node name="CreatureNodeAnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Model")
-script = ExtResource("1_jc7hb")
 
 [node name="TeamRing" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
@@ -71,16 +56,24 @@ transparent_bg = true
 
 [node name="UiResourceBars" parent="SubViewport" instance=ExtResource("2_hhil7")]
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_ytwpu")
+[node name="ResourceBars" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_6b8gj")
 
 [node name="LabelOwner" type="Label3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, -0.5)
 billboard = 1
 text = "Owner:"
 
 [node name="StatusEffects" type="Node3D" parent="."]
 
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ytwpu")
+
 [node name="StatusEffectsSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../StatusEffects")
+
+[node name="ModelSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")

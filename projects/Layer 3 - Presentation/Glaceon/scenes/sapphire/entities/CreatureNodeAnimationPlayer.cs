@@ -6,50 +6,57 @@ using vampirekiller.glaceon.util;
 using vampirekiller.eevee.util;
 using System.Linq;
 using static Godot.Animation;
+using vampirekiller.logia;
+using Godot.Collections;
 
 
 //public partial class MyMaterial : ParticleProcessMaterial
 //{
 //    public void adasd()
 //    {
-        
+
 //    }
 //}
 
+
+public enum AnimationState
+{
+    idle,
+    idle_gesture,
+    moving,
+    casting,
+    receiveHit,
+    death
+}
+
 public partial class CreatureNodeAnimationPlayer : AnimationPlayer
 {
-    // Defined in the order of priorities
-    // if the player is attacking, keep animating attack if walk input is received
-    // if the player is walking, cancel the walk animation and start attacking if attack input is received
-    // public enum SupportedAnimation
-    // {
-    //     Idle,   // Loop animation
-    //     Walk,   // Loop animation
-    //     Attack, // Action animation
-    //     Death,  // Action animation
-    //     Unknown // Used as a fallback
-    // }
-
-    //private Dictionary<SupportedAnimation, string> animationToAnimationName;
-    //private Dictionary<SupportedAnimation, bool> animationToHasCallback;
-    //private SupportedAnimation currentAnimation = SupportedAnimation.Idle;
-    //private Action animationCallback;
+    private Action currentCallback;
+    private string previousAnimation;
+    private AnimationState state = AnimationState.idle;
+    private double gestureTimer = 5;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        //(this.animationToAnimationName, this.animationToHasCallback) = initAnimations(this);
-        //this.playAnimation(SupportedAnimation.Idle);
-        //foreach(var anim in this.GetAnimationList())
-        //{
-        //    // If animation does not contain a callback, setup callback when animation ends
-        //    if (!this.animationToHasCallback.GetValueOrDefault(anim, false))
-        //    {
-        //        this.Connect(SignalName.AnimationFinished, Callable.From<string>(this.executeWindupCallback));
-        //    }
-        //}
         foreach(var lib in this.GetAnimationLibraryList().Select(n => this.GetAnimationLibrary(n)))
             initLibrary(lib);
+    }
+
+    /// <summary>
+    /// TODO: fix Random idle "looking" animations. AnimationPlayer.process doesn't process.
+    /// </summary>
+    public override void _Process(double delta)
+    {
+        if(state == AnimationState.idle)
+        {
+            gestureTimer -= delta;
+            if(gestureTimer < 0)
+            {
+                if(playAnimationOneShot(AnimationState.idle_gesture, "action_adventure/idle"))
+                    gestureTimer = 5;
+            }
+        }
     }
 
     public void loadLibrary(string libraryPath)
@@ -57,40 +64,89 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
         var name = libraryPath.trimPathExt();
         if(this.HasAnimationLibrary(name))
             return;
+        if(!libraryPath.Contains("res://"))
+            libraryPath = Paths.animations + libraryPath;
         var lib = AssetCache.Load<AnimationLibrary>(libraryPath, ".glb");
         this.AddAnimationLibrary(name, lib);
         initLibrary(lib);
     }
 
-    private static void initLibrary(AnimationLibrary lib)
+    private void initLibrary(AnimationLibrary lib)
     {
         foreach(var anim in lib.GetAnimationList().Select(n => lib.GetAnimation(n)))
         {
             // Disable root translation
-            int root = anim.FindTrack("Root", TrackType.Position3D);
-            anim.TrackSetEnabled(root, false);
+            int root = anim.FindTrack("%GeneralSkeleton:Root", TrackType.Position3D);
+            if (root != -1)
+                anim.TrackSetEnabled(root, false);
             // Add method callback
-            if(!hasMethodTrack(anim))
+            if(!hasMethodTrack(anim) && anim.LoopMode == LoopModeEnum.None)
             {
+                var dic = new Godot.Collections.Dictionary<string, Variant>
+                {
+                    //{ "name", nameof(executeWindupCallback) },
+                    { "method", nameof(executeWindupCallback) },
+                    { "args", new Godot.Collections.Array() }
+                };
                 var newTrack = anim.AddTrack(TrackType.Method);
-                anim.TrackInsertKey(newTrack, anim.Length, nameof(executeWindupCallback));
+                anim.TrackSetPath(newTrack, "AnimationPlayer");
+                var a = anim.TrackInsertKey(newTrack, anim.Length - 0.01f, dic);
+                GD.Print("new track: " + newTrack + ", " + a);
             }
         }
     }
 
-    private bool canPlayAnimation(string animation) //SupportedAnimation animation)
+    public bool playAnimationLoop(AnimationState state, string animation, double increasedSpeedPercent = 100)
     {
-        // Make sure animation exists
-        if (!this.HasAnimation(animation)) //this.animationToAnimationName.ContainsKey(animation))
+        if(!canPlayAnimation(state, animation))
+            return false;
+        this.state = state;
+        this.currentCallback = null;
+        // TODO: transitions? ex: if(this.state = running && newState == idle) -> play("run_to_stop") + on finish play("idle") ou animationTree...
+        this.Play(animation, customSpeed: (float) increasedSpeedPercent / 100f);
+        return true;
+    }
+
+    public bool playAnimationOneShot(AnimationState state, string animation, Action callback = null, double animationTime = 0)
+    {
+        if (!canPlayAnimation(state, animation))
+            return false;
+        this.state = state;
+        this.currentCallback = callback;
+        if (animationTime != 0)
+        {
+            //this.GetAnimation(animation).Length = (float) animationTime;
+            var customSpeed = this.GetAnimation(animation).Length / (float) animationTime;
+            this.Play(animation, customSpeed: customSpeed);
+        } else
+        {
+            this.Play(animation);
+        }
+        var asd = this.CurrentAnimation;
+        return true;
+    }
+
+    private bool canPlayAnimation(AnimationState newState, string animation) //SupportedAnimation animation)
+    {
+        if(newState < this.state && this.state > AnimationState.moving)
             return false;
 
-        if(!this.IsPlaying())
+        var libs = this.GetAnimationLibraryList();
+
+        // Make sure animation exists
+        if (!this.HasAnimation(animation)) //this.animationToAnimationName.ContainsKey(animation)) 
+        {
+            loadLibrary("pro_magic_pack");
+            return false;
+        }
+
+        if (!this.IsPlaying())
             return true;
 
         // If animation playing, make sure we are in a state that allows us to override it
 
         // If the animation is the same as current one, do not override
-        if (this.currentAnimation == animation)
+        if (this.CurrentAnimation == animation)
             return false;
 
         // TODO: check animation cancelling timer
@@ -103,56 +159,6 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
         return true;
     }
 
-    private string currentAnimation;
-    private Action currentCallback;
-
-    public void playAnimationLoop(string animation, double increasedSpeedPercent = 100)
-    {
-        if(canPlayAnimation(animation))
-            return;
-        // TODO: transitions? ex: if(this.state = running && newState == idle) -> play("run_to_stop") + on finish play("idle") ou animationTree...
-        this.Play(animation, customSpeed: (float) increasedSpeedPercent / 100f);
-    }
-    public void playAnimationOneShot(string animation, Action callback = null, double animationTime = 0)
-    {
-        if (canPlayAnimation(animation))
-            return;
-        if(callback != null)
-        {
-            currentCallback = callback;
-        }
-        if(animationTime != 0)
-        {
-            //this.GetAnimation(animation).Length = (float) animationTime;
-            var customSpeed = this.GetAnimation(animation).Length / (float) animationTime;
-            this.Play(animation, customSpeed: customSpeed);
-        }
-    }
-    //public void playAnimation(SupportedAnimation animation, Action onWindupEnd = null, double animationTime = 0)
-    //{
-    //    if(!canPlayAnimation(animation)) 
-    //        return;
-
-    //    var animationName = animationToAnimationName.GetValue(animation);
-    //    this.currentAnimation = animation;
-    //    //p r o b l e m :
-    //    this.animationCallback = null; // Cleanup old callback
-        
-    //    this.GetAnimation(animationName).Length = (float) animationTime;
-    //    this.Play(animationName);
-    //}
-
-    //public void playAnimation(SupportedAnimation animation, Action onWindupEnd)
-    //{
-    //    if (!canPlayAnimation(animation))
-    //        return;
-
-    //    // Setup windup callback
-    //    this.animationCallback = onWindupEnd;
-    //    // Play
-    //    this.playAnimation(animation);
-    //}
-
     // Method overload is to allow it to be connected to the AnimationFinished signal
     public void executeWindupCallback() //string onWindupEnd)
     {
@@ -160,50 +166,12 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
 		{
             var call = currentCallback;
             // Clean avant de call pour la concurrency.
-            // si le player envoie une autre commande avant que ca finisse, vu que c'est nul, il peut deja l'appliquer
+            // si le player envoie une autre commande avant que ca finisse, vu que c'est null, il peut deja l'appliquer
             this.currentCallback = null;
+            this.state = AnimationState.idle;
 	        call();
-
-	        //if (this.IsConnected(SignalName.AnimationFinished, Callable.From<string>(this.executeWindupCallback)))
-	        //{
-	        //    this.Disconnect(SignalName.AnimationFinished, Callable.From<string>(this.executeWindupCallback));
-	        //}
 		}
     }
-
-    //private static bool isLoopingAnimation(SupportedAnimation animation)
-    //{
-    //    return animation <= SupportedAnimation.Walk;
-    //}
-
-    //private static (Dictionary<SupportedAnimation, string>, Dictionary<SupportedAnimation, bool>) initAnimations(AnimationPlayer player)
-    //{
-    //    var animationNames = new Dictionary<SupportedAnimation, string>();
-    //    var hasCallbacks = new Dictionary<SupportedAnimation, bool>();
-    //    foreach (var animationName in player.GetAnimationList())
-    //    {
-    //        SupportedAnimation matchedAnimation = matchAnimation(animationName);
-    //        if (!animationNames.ContainsKey(matchedAnimation))
-    //        {
-    //            animationNames.Add(matchedAnimation, animationName);
-    //            hasCallbacks.Add(matchedAnimation, checkForMethodTrack(player.GetAnimation(animationName)));
-    //        }
-    //    }
-    //    return (animationNames, hasCallbacks);
-    //}
-
-    //private static SupportedAnimation matchAnimation(String animationName)
-    //{
-    //    var lowerCaseAnimationName = animationName.ToLower();
-    //    foreach (var supportedAnimation in Enum.GetValues<SupportedAnimation>())
-    //    {
-    //        if (lowerCaseAnimationName.Contains(supportedAnimation.ToString().ToLower()))
-    //        {
-    //            return supportedAnimation;
-    //        }
-    //    }
-    //    return SupportedAnimation.Unknown;
-    //}
 
     private static bool hasMethodTrack(Animation animation)
     {
