@@ -36,7 +36,6 @@ public partial class CharacterModelNode : Node3D
         MeshInstances = GeneralSkeleton.GetChildren<MeshInstance3D>().Where(n => n != null);
         BoneAttachments = GeneralSkeleton.GetChildren<BoneAttachment3D>().Where(n => n != null);
         // Animation script
-        //this.AnimationPlayer.SetScript(new CreatureNodeAnimationPlayer());
         this.AnimationPlayer = this.AnimationPlayer.SafelySetScript<CreatureNodeAnimationPlayer>(Paths.entities + nameof(CreatureNodeAnimationPlayer) + ".cs");
         this.AnimationPlayer._Ready();
 

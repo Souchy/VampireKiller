@@ -37,7 +37,7 @@ public class ShockNova {
         // IMPORTANT: Solution plus évidente: utilise le nom du spell 
         var spell = Register.Create<SpellModel>();
         spell.entityUid = "spell_shock_nova"; // Set un ID constant pour pouvoir load toujours le même
-        spell.iconPath = Paths.fromSpells("shock_nova/yellow_17.PNG");
+        spell.iconPath = Paths.spells + "shock_nova/yellow_17.PNG";
         spell.skins.Add(new()
         {
             animationLibraries = new() { "pro_magic_pack" },
@@ -51,7 +51,7 @@ public class ShockNova {
             // Glaceon has to take this effect, spawn a ProjectileNode, keep a ref to the effect, then trigger the children OnCollision
             //  In the case of Shock Nova, we don't need collision as it's not a moving aoe
             schema = new SpawnFxSchema() {
-                scene = Paths.fromSpells("shock_nova/shockNova.tscn")
+                scene = Paths.spells + "shock_nova/shockNova.tscn"
             }
         };
         var outerAoe = new Statement() {

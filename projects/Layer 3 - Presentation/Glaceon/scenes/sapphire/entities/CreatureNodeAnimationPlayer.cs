@@ -25,7 +25,7 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
     private Action currentCallback;
     private string previousAnimation;
     private AnimationState state = AnimationState.idle;
-    private double gestureTimer = 5;
+    //private double gestureTimer = 5;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -38,18 +38,18 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
     /// <summary>
     /// TODO: add Random idle "looking" animations. AnimationPlayer.process doesn't process.
     /// </summary>
-    public override void _Process(double delta)
-    {
-        if(state == AnimationState.idle)
-        {
-            gestureTimer -= delta;
-            if(gestureTimer < 0)
-            {
-                if(playAnimationOneShot(AnimationState.idle_gesture, "action_adventure/idle"))
-                    gestureTimer = 5;
-            }
-        }
-    }
+    //public override void _Process(double delta)
+    //{
+    //    if(state == AnimationState.idle)
+    //    {
+    //        gestureTimer -= delta;
+    //        if(gestureTimer < 0)
+    //        {
+    //            if(playAnimationOneShot(AnimationState.idle_gesture, "action_adventure/idle"))
+    //                gestureTimer = 5;
+    //        }
+    //    }
+    //}
 
     public void loadLibrary(string libraryPath)
     {
@@ -78,14 +78,12 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
             {
                 var dic = new Godot.Collections.Dictionary<string, Variant>
                 {
-                    //{ "name", nameof(executeWindupCallback) },
                     { "method", nameof(executeWindupCallback) },
                     { "args", new Godot.Collections.Array() }
                 };
                 var newTrack = anim.AddTrack(TrackType.Method);
                 anim.TrackSetPath(newTrack, "AnimationPlayer");
                 var a = anim.TrackInsertKey(newTrack, anim.Length - 0.01f, dic);
-                GD.Print("new track: " + newTrack + ", " + a);
             }
         }
     }
@@ -120,7 +118,7 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
         return true;
     }
 
-    private bool canPlayAnimation(AnimationState newState, string animation) //SupportedAnimation animation)
+    private bool canPlayAnimation(AnimationState newState, string animation)
     {
         if(newState < this.state && this.state > AnimationState.moving)
             return false;

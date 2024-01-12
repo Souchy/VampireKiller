@@ -13,8 +13,4 @@ public static class Paths
     public const string spells = "res://vampireassets/spells/";
     public const string maps = "res://vampireassets/maps/";
     public const string entities = "res://scenes/sapphire/entities/";
-
-    public static string fromSpells(string append)
-        => spells + append;
-
 }
