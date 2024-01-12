@@ -40,9 +40,6 @@ public partial class CharacterModelNode : Node3D
         this.AnimationPlayer = this.AnimationPlayer.SafelySetScript<CreatureNodeAnimationPlayer>(Paths.entities + nameof(CreatureNodeAnimationPlayer) + ".cs");
         this.AnimationPlayer._Ready();
 
-        var libs = AnimationPlayer.GetAnimationLibraryList();
-
-
         if (Universe.isOnline && !this.Multiplayer.IsServer())
             return;
 

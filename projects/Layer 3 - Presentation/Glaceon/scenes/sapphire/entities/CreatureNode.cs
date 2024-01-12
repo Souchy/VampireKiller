@@ -147,13 +147,17 @@ public abstract partial class CreatureNode : CharacterBody3D
     {
         var oldModel = Model;
         var scriptPath = Paths.entities + "component/" + nameof(CharacterModelNode) + ".cs";
-        //GD.Print("Set skin: " + skin.scenePath + " , " + scriptPath);
         var scene = AssetCache.Load<PackedScene>(skin.scenePath, ".tscn", ".glb", ".gltf").Instantiate<Node3D>();
-        //GD.Print("Set skin scene: " + scene);
         CharacterModelNode newModel = scene.SafelySetScript<CharacterModelNode>(scriptPath);
-        //GD.Print("Set skin newModel: " + newModel);
         newModel.Name = "Model";
-        // Load animation libraries
+
+        // Replace model node
+        this.RemoveChild(oldModel);
+        Model = newModel;
+        this.AddChild(Model, true);
+        oldModel.QueueFree();
+
+        // Load animation libraries in the new model's animation player
         foreach (var lib in skin.animationLibraries)
         {
             this.CreatureNodeAnimationPlayer.loadLibrary(lib);
@@ -162,17 +166,7 @@ public abstract partial class CreatureNode : CharacterBody3D
         {
             onActiveSkillAdd(creatureInstance.activeSkills, skill);
         }
-        // Replace model node
-        this.RemoveChild(oldModel);
-        Model = newModel;
-        this.AddChild(Model, true);
-        oldModel.QueueFree();
     }
-
-    //protected void playAttack(System.Action attackCallback, double animationTime)
-    //{
-    //    this.CreatureNodeAnimationPlayer.playAnimation(SupportedAnimation.Attack, attackCallback, animationTime);
-    //}
 
     private void updateHPBar()
     {

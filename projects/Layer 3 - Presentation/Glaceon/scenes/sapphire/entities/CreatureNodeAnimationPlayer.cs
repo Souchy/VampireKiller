@@ -10,15 +10,6 @@ using vampirekiller.logia;
 using Godot.Collections;
 
 
-//public partial class MyMaterial : ParticleProcessMaterial
-//{
-//    public void adasd()
-//    {
-
-//    }
-//}
-
-
 public enum AnimationState
 {
     idle,
@@ -39,12 +30,13 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
 	{
-        foreach(var lib in this.GetAnimationLibraryList().Select(n => this.GetAnimationLibrary(n)))
-            initLibrary(lib);
+        // Clear preset anim libraries
+        foreach (var lib in this.GetAnimationLibraryList().ToList())
+            RemoveAnimationLibrary(lib);
     }
 
     /// <summary>
-    /// TODO: fix Random idle "looking" animations. AnimationPlayer.process doesn't process.
+    /// TODO: add Random idle "looking" animations. AnimationPlayer.process doesn't process.
     /// </summary>
     public override void _Process(double delta)
     {
@@ -67,6 +59,8 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
         if(!libraryPath.Contains("res://"))
             libraryPath = Paths.animations + libraryPath;
         var lib = AssetCache.Load<AnimationLibrary>(libraryPath, ".glb");
+        if(lib == null)
+            throw new Exception("Null animation library");
         this.AddAnimationLibrary(name, lib);
         initLibrary(lib);
     }
@@ -96,14 +90,14 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
         }
     }
 
-    public bool playAnimationLoop(AnimationState state, string animation, double increasedSpeedPercent = 100)
+    public bool playAnimationLoop(AnimationState state, string animation, double increasedSpeedPercent = 0)
     {
         if(!canPlayAnimation(state, animation))
             return false;
         this.state = state;
         this.currentCallback = null;
         // TODO: transitions? ex: if(this.state = running && newState == idle) -> play("run_to_stop") + on finish play("idle") ou animationTree...
-        this.Play(animation, customSpeed: (float) increasedSpeedPercent / 100f);
+        this.Play(animation, customSpeed: (float) (increasedSpeedPercent + 100f) / 100f);
         return true;
     }
 
@@ -131,19 +125,12 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
         if(newState < this.state && this.state > AnimationState.moving)
             return false;
 
-        var libs = this.GetAnimationLibraryList();
-
         // Make sure animation exists
-        if (!this.HasAnimation(animation)) //this.animationToAnimationName.ContainsKey(animation)) 
-        {
-            loadLibrary("pro_magic_pack");
+        if (!this.HasAnimation(animation))
             return false;
-        }
 
         if (!this.IsPlaying())
             return true;
-
-        // If animation playing, make sure we are in a state that allows us to override it
 
         // If the animation is the same as current one, do not override
         if (this.CurrentAnimation == animation)

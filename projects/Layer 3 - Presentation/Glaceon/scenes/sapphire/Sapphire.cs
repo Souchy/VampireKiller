@@ -158,8 +158,8 @@ public partial class Sapphire : Node
             Entities.AddChild(node, true);
             node.setSkin(inst.currentSkin);
         }
-
     }
+
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveCreatureInstance(SmartSet<CreatureInstance> list, CreatureInstance inst)
     {
@@ -176,6 +176,7 @@ public partial class Sapphire : Node
         //this.Entities.AddChild(node);
         this.Projectiles.AddChild(node, true);
     }
+
     [Subscribe(nameof(SmartSet<CreatureInstance>.remove))]
     public void onRemoveProjectile(SmartSet<ProjectileInstance> list, ProjectileInstance inst)
     {

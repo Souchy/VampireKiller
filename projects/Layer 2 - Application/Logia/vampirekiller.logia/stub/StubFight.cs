@@ -26,10 +26,10 @@ public class StubFight : Fight
     private static List<String> animLibraries = new() { "action_adventure_pack", "pro_longbow_pack", "pro_magic_pack" }; // "pro_magic_pack" };
     private static CreatureAnimationData anims = new()
     {
-        idle = "action_adventure/idle (2)", // TODO add oneShot 'idle' + 'idle (3)'
-        idleOneShots = new[] { "action_adventure/idle", "action_adventure/idle (3)" },
-        run = "action_adventure/running", // TODO add transition' run_to_stop' -> idle
-        walk = "action_adventure/walking",
+        idle = "action_adventure_pack/idle (2)", // TODO add oneShot 'idle' + 'idle (3)'
+        idleOneShots = new[] { "action_adventure_pack/idle", "action_adventure_pack/idle (3)" },
+        run = "action_adventure_pack/running", // TODO add transition' run_to_stop' -> idle
+        walk = "action_adventure_pack/walking",
         cast = "pro_longbow_pack/standing melee punch", // "pro_magic_pack/",
         receiveHit = "pro_longbow_pack/standing react small from headshot", // "pro_magic_pack/Standing React Small From Front",
         death = "pro_longbow_pack/standing death backward 01", // "pro_magic_pack /Standing React Death Forward",
