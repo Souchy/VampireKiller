@@ -4,9 +4,6 @@
 [ext_resource type="Script" path="res://scenes/sapphire/entities/PlayerNode.cs" id="2_eiksd"]
 [ext_resource type="PackedScene" uid="uid://d2p107wfvpyw" path="res://scenes/sapphire/ui/UiSapphire.tscn" id="5_du3oj"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_g7nte"]
-viewport_path = NodePath("SubViewport")
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7t4hi"]
 albedo_color = Color(0.333333, 0.737255, 1, 1)
 
@@ -15,20 +12,22 @@ material = SubResource("StandardMaterial3D_7t4hi")
 inner_radius = 0.7
 outer_radius = 0.75
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_k4asa"]
+viewport_path = NodePath("SubViewport")
+
 [node name="PlayerNode" groups=["Players"] instance=ExtResource("1_pqufn")]
 collision_layer = 2
 collision_mask = 1
 script = ExtResource("2_eiksd")
 
-[node name="ResourceBars" parent="CollisionShape3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12, 0)
-texture = SubResource("ViewportTexture_g7nte")
-
-[node name="TeamRing" parent="." index="3"]
+[node name="TeamRing" parent="." index="2"]
 mesh = SubResource("TorusMesh_4rlo3")
+
+[node name="ResourceBars" parent="." index="5"]
+texture = SubResource("ViewportTexture_k4asa")
 
 [node name="PlayerCamera" type="Camera3D" parent="." index="10"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 14.336, 3.95403)
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 8, 3)
 
 [node name="UiSapphire" parent="." index="11" instance=ExtResource("5_du3oj")]

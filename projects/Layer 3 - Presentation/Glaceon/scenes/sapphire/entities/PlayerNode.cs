@@ -34,7 +34,7 @@ public partial class PlayerNode : CreatureNode
 	public override void _Ready()
 	{
 		base._Ready();
-		this.OnReady();
+		//this.OnReady();
 		this.Inject();
 		_game = (Sapphire) this.GetParent().GetParent();
         if(this.IsMultiplayerAuthority())
@@ -119,6 +119,10 @@ public partial class PlayerNode : CreatureNode
             if (raycast == null)
                 raycast = PlayerCamera.getRayCast();
             var skill = creatureInstance.activeSkills.getAt(slot);
+            if(skill == null)
+            {
+                return;
+            }
             var cmd = new CommandCast(creatureInstance, raycast.Value.raycastEntity?.creatureInstance, (Vector3) raycast.Value.raycastPosition, skill);
             this.publisher.publish(cmd);
             //var cmd = new CommandCast(playerId, raycast.Value.raycastEntity?.creatureInstance, (Vector3) raycast.Value.raycastPosition, slot);
@@ -135,13 +139,17 @@ public partial class PlayerNode : CreatureNode
 		}
     }
 
+    /// <summary>
+    /// TODO: zoom en restant a -60 degre en x
+    /// </summary>
     private void inputsCamera()
     {
         if (Input.IsActionJustPressed("lock_camera"))
         {
             isCamLocked = !isCamLocked;
             this.PlayerCamera.TopLevel = !isCamLocked;
-			this.PlayerCamera.Position = Vector3.Zero;
+            if (isCamLocked)
+                this.PlayerCamera.Position = new Vector3(0, 8, 3);
         }
 		bool zoomed_in = Input.IsActionJustPressed("zoom_in");
 		if (zoomed_in && this.PlayerCamera.Position.Y > CAMERA_MIN_ZOOM) {

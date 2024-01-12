@@ -14,6 +14,7 @@ using vampirekiller.eevee.enums;
 using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.util;
 using vampirekiller.glaceon.util;
+using vampirekiller.logia;
 using vampirekiller.logia.extensions;
 using VampireKiller.eevee;
 using VampireKiller.eevee.creature;
@@ -52,17 +53,17 @@ public partial class Sapphire : Node
         GD.Print("Sapphire ready");
         clearNodes();
 
-        EntitySpawner.AddSpawnableScene("res://scenes/sapphire/entities/CreatureNode.tscn");
-        EntitySpawner.AddSpawnableScene("res://scenes/sapphire/entities/EnemyNode.tscn");
-        EntitySpawner.AddSpawnableScene("res://scenes/db/creatures/EnemyCharacters.tscn");
-        PlayerSpawner.AddSpawnableScene("res://scenes/db/creatures/PlayerCharacters.tscn");
-        PlayerSpawner.AddSpawnableScene("res://scenes/sapphire/entities/PlayerNode.tscn");
-        EffectSpawner.AddSpawnableScene("res://scenes/sapphire/entities/effects/FxNode.tscn");
-        EffectSpawner.AddSpawnableScene("res://scenes/db/spells/shockNova.tscn");
-        EffectSpawner.AddSpawnableScene("res://scenes/db/spells/fireball/fireball_explosion.tscn");
-        EffectSpawner.AddSpawnableScene("res://scenes/db/spells/fireball/fireball_burn.tscn");
-        ProjectileSpawner.AddSpawnableScene("res://scenes/sapphire/entities/effects/ProjectileNode.tscn");
-        ProjectileSpawner.AddSpawnableScene("res://scenes/db/spells/fireball/fireball_projectile.tscn");
+        EntitySpawner.AddSpawnableScene(Paths.entities + "CreatureNode.tscn");
+        EntitySpawner.AddSpawnableScene(Paths.entities + "EnemyNode.tscn");
+
+        PlayerSpawner.AddSpawnableScene(Paths.entities + "PlayerNode.tscn");
+
+        EffectSpawner._SpawnableScenes = AssetCache.skills.ToArray();
+        EffectSpawner.AddSpawnableScene(Paths.entities + "effects/FxNode.tscn");
+
+        ProjectileSpawner._SpawnableScenes = AssetCache.skills.ToArray();
+        ProjectileSpawner.AddSpawnableScene(Paths.entities + "effects/ProjectileNode.tscn");
+
         if (Universe.isOnline && !this.IsMultiplayerAuthority())
             return;
         EventBus.centralBus.subscribe(this);
@@ -143,7 +144,7 @@ public partial class Sapphire : Node
     {
         if(inst.creatureGroup == EntityGroupType.Players)
         {
-            CreatureNode node = AssetCache.Load<PackedScene>("res:\\scenes\\sapphire\\entities\\PlayerNode.tscn").Instantiate<PlayerNode>();
+            CreatureNode node = AssetCache.Load<PackedScene>(Paths.entities + "PlayerNode.tscn").Instantiate<PlayerNode>();
             node.init(inst);
             node.Name = "player_" + inst.playerId;
             Players.AddChild(node, true);
@@ -152,7 +153,7 @@ public partial class Sapphire : Node
         else
         if(inst.creatureGroup == EntityGroupType.Enemies)
         {
-            CreatureNode node = AssetCache.Load<PackedScene>("res:\\scenes\\sapphire\\entities\\EnemyNode.tscn").Instantiate<EnemyNode>();
+            CreatureNode node = AssetCache.Load<PackedScene>(Paths.entities + "EnemyNode.tscn").Instantiate<EnemyNode>();
             node.init(inst);
             Entities.AddChild(node, true);
             node.setSkin(inst.currentSkin);

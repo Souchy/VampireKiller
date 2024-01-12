@@ -11,7 +11,7 @@ namespace VampireKiller.eevee.creature;
 public class CreatureModel : Identifiable
 {
     public ID entityUid { get; set; }
-    public List <CreatureSkin> skins { get; set; }
+    public List <CreatureSkin> skins { get; set; } = new();
     //public string meshScenePath { get; set; }
     //public string iconPath { get; set; }
 

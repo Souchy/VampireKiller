@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d2p107wfvpyw"]
 
 [ext_resource type="Script" path="res://scenes/sapphire/ui/UiSapphire.cs" id="1_307wc"]
-[ext_resource type="PackedScene" uid="uid://c6lsjokg5j7m8" path="res://scenes/sapphire/ui/components/UiSlotActive.tscn" id="2_tw62e"]
+[ext_resource type="PackedScene" uid="uid://bhxmrukjfg5oe" path="res://scenes/sapphire/ui/components/UiSlotActive.tscn" id="2_tw62e"]
 
 [node name="UiSapphire" type="Control"]
 layout_mode = 3

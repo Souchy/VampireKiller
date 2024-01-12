@@ -26,8 +26,8 @@ public record struct CommandCast : ICommand
     /// </summary>
     public CommandCast() { }
     public CommandCast(CreatureInstance sourceCreature, Entity raycastEntity, Vector3 raycastMouse, SpellInstance skill)
-       : this(sourceCreature.entityUid, raycastEntity.entityUid, raycastMouse, skill.entityUid) { }
-    public CommandCast(ID sourceCreature, ID raycastEntity, Vector3 raycastMouse, ID skillInstanceId)
+       : this(sourceCreature.entityUid, raycastEntity?.entityUid, raycastMouse, skill.entityUid) { }
+    public CommandCast(ID sourceCreature, ID? raycastEntity, Vector3 raycastMouse, ID skillInstanceId)
     {
         this.sourceCreature = sourceCreature;
         this.raycastEntity = raycastEntity;

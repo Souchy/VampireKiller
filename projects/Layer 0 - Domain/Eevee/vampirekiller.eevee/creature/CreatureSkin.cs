@@ -41,6 +41,10 @@ public class CreatureSkin : Identifiable
 public class CreatureAnimationData
 {
     public string idle;
+    /// <summary>
+    /// ex: some gestures like looking around
+    /// </summary>
+    public string[] idleOneShots = new string[0];
     public string run;
     public string walk;
     public string cast;

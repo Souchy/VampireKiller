@@ -32,7 +32,7 @@ public partial class onemapisenough : Node3D
 {
     // private System.Threading.Timer timer { get; set; }
     [NodePath]
-    private Timer timer { get; set; }
+    private Godot.Timer timer { get; set; }
 
     public onemapisenough()
     {

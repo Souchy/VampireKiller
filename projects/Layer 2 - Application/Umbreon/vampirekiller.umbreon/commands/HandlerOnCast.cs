@@ -12,6 +12,7 @@ using vampirekiller.eevee.actions;
 using vampirekiller.logia.extensions;
 using Util.communication.events;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
+using vampirekiller.eevee;
 
 namespace vampirekiller.umbreon.commands;
 
@@ -35,7 +36,7 @@ public class HandlerOnCast : ICommandHandler<CommandCast>
             var caster = Universe.fight.creatures.get(c => c.entityUid == command.sourceCreature)!;
             var castTime = caster.getTotalStat<SpellTotalCastTime>(skill.stats);
 
-            EventBus.centralBus.publish(EventAnimationCast, action, castTime.value);
+            caster.GetEntityBus().publish(EventAnimationCast, action, castTime.value);
         }
     }
 }

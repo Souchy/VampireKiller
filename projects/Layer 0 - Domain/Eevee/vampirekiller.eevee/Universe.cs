@@ -42,7 +42,7 @@ public class Universe
         timer.AddToGroup("timers");
         timer.WaitTime = activationPeriod;
         timer.Timeout += lambda;
-        root.AddChild(timer);
+        root.AddChild(timer, true);
         return timer;
     }
 
