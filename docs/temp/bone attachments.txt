@@ -1,0 +1,10 @@
+
+
+bone attachments:
+	belt		(character fx)
+	feet x2		(footsteps)
+	hands x2	(weapons)
+	head		(helmets, horns, glasses, hair) 
+	body 		(body armours)
+	upper back / shoulders (wings/cloak/quiver)
+	pets		(slightly behind to the sides)

@@ -10,22 +10,33 @@ using VampireKiller.eevee;
 using Util.entity;
 using vampirekiller.eevee.actions;
 using vampirekiller.logia.extensions;
+using Util.communication.events;
+using VampireKiller.eevee.vampirekiller.eevee.spells;
+using vampirekiller.eevee;
 
 namespace vampirekiller.umbreon.commands;
 
 public class HandlerOnCast : ICommandHandler<CommandCast>
 {
+    public const string EventAnimationCast = "animation.cast";
     public void handle(CommandCast command)
     {
-        var playerCreature = Universe.fight.creatures.get(c => c.playerId == command.playerId);
         var action = new ActionCastActive() {
-            sourceEntity = playerCreature.entityUid, //command.source.entityUid,
+            sourceEntity = command.sourceCreature,
             raycastEntity = command.raycastEntity,
             raycastPosition = command.raycastMouse,
+            skillInstanceId = command.skillInstanceId,
             fight = Universe.fight,
-            slot = command.activeSlot,
         };
+
+        // canApplyCast assures that skill & caster are valid
         if (action.canApplyCast())
-            action.applyActionCast();
+        {
+            var skill = action.getActive()!;
+            var caster = Universe.fight.creatures.get(c => c.entityUid == command.sourceCreature)!;
+            var castTime = caster.getTotalStat<SpellTotalCastTime>(skill.stats);
+
+            caster.GetEntityBus().publish(EventAnimationCast, action, castTime.value);
+        }
     }
 }

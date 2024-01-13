@@ -1,9 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://ue1ig1g41bt0"]
+[gd_scene load_steps=11 format=3 uid="uid://ue1ig1g41bt0"]
 
-[ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://scenes/db/maps/onemapisenough.tscn" id="1_bo3q4"]
+[ext_resource type="PackedScene" uid="uid://dibbuq4i3rrqo" path="res://vampireassets/maps/onemapisenough.tscn" id="1_bo3q4"]
 [ext_resource type="Script" path="res://scenes/lapis/Lapis.cs" id="1_xm7gr"]
-[ext_resource type="PackedScene" uid="uid://cx0ji8ujsmpqy" path="res://scenes/db/creatures/EnemyCharacters.tscn" id="2_qvsm4"]
+[ext_resource type="PackedScene" uid="uid://0tqoqqbyhc4l" path="res://vampireassets/creatures/dg/Character_Goblin_Female.glb" id="3_yvkcn"]
+[ext_resource type="PackedScene" uid="uid://dp68pr8h2th5r" path="res://vampireassets/creatures/dg/Character_Goblin_Male.glb" id="4_fuboo"]
 [ext_resource type="PackedScene" path="res://scenes/lapis/ui/pages/mainMenu/UiMainMenu.tscn" id="4_g0xq4"]
+[ext_resource type="PackedScene" uid="uid://cnem6avqhp0g1" path="res://vampireassets/creatures/dg/Character_Goblin_Shaman.glb" id="5_amxfo"]
+[ext_resource type="PackedScene" uid="uid://dmxqwehqxovs4" path="res://vampireassets/creatures/dg/Character_Goblin_WarChief.glb" id="6_dstlv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bmsaf"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -29,24 +32,28 @@ script = ExtResource("1_xm7gr")
 environment = SubResource("Environment_wq3dl")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Background/Environment"]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 4.881, 0)
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="Background/Environment"]
 unique_name_in_owner = true
-transform = Transform3D(0.976224, 0, 0.216763, 0, 1, 0, -0.216763, 0, 0.976224, 1.43077, 1.96739, 5.84156)
+transform = Transform3D(0.98687, 0, 0.161517, 0, 1, 0, -0.161517, 0, 0.98687, 0.407608, 0.93377, 3.10922)
 current = true
 
 [node name="Objects" type="Node" parent="Background"]
 
 [node name="onemapisenough" parent="Background/Objects" instance=ExtResource("1_bo3q4")]
 
-[node name="Orc" parent="Background/Objects" instance=ExtResource("2_qvsm4")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.30734, 0, 0)
-collision_mask = 1
+[node name="Character_Goblin_WarChief" parent="Background/Objects" instance=ExtResource("6_dstlv")]
+transform = Transform3D(0.961818, 0, 0.273691, 0, 1, 0, -0.273691, 0, 0.961818, 0.203263, 0, 0.736969)
 
-[node name="Orc2" parent="Background/Objects" instance=ExtResource("2_qvsm4")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.79683, 0, 0)
-collision_mask = 1
+[node name="Character_Goblin_Male" parent="Background/Objects" instance=ExtResource("4_fuboo")]
+transform = Transform3D(0.999382, 0, -0.0351437, 0, 1, 0, 0.0351437, 0, 0.999382, -1.32155, 0, 0.279553)
+
+[node name="Character_Goblin_Female" parent="Background/Objects" instance=ExtResource("3_yvkcn")]
+transform = Transform3D(0.94512, 0, 0.326723, 0, 1, 0, -0.326723, 0, 0.94512, 0.838693, 0, -0.228726)
+
+[node name="Character_Goblin_Shaman" parent="Background/Objects" instance=ExtResource("5_amxfo")]
+transform = Transform3D(0.983115, 0, 0.182991, 0, 1, 0, -0.182991, 0, 0.983115, -0.946745, 0, -0.817373)
 
 [node name="UiMainMenu" parent="." instance=ExtResource("4_g0xq4")]

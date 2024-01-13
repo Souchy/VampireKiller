@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cpvceans0fs7a"]
+
+[ext_resource type="Texture2D" uid="uid://rrr8q1oqpdbn" path="res://old.assets/synty/map/Dungeons_Texture_01.png" id="1_xcdye"]
+
+[resource]
+albedo_texture = ExtResource("1_xcdye")

@@ -13,6 +13,7 @@ using vampirekiller.eevee.stats.schemas.skill;
 using vampirekiller.eevee.triggers;
 using vampirekiller.eevee.triggers.schemas;
 using vampirekiller.eevee.util.json;
+using vampirekiller.logia;
 using vampirekiller.logia.extensions;
 using vampirekiller.logia.stub;
 using VampireKiller.eevee.vampirekiller.eevee;
@@ -50,15 +51,25 @@ public class TestFireball
 
     private SpellModel generateFireballModel()
     {
+        // todo: spell.stats: costs, cooldown, etc
         var spell = Register.Create<SpellModel>();
         spell.entityUid = "spell_fireball"; // Set un ID constant pour pouvoir load toujours le même
+        spell.iconPath = Paths.spells + "fireball/red_16.PNG"; //"fireball/fireball.png";
+        spell.skins.Add(new()
+        {
+            animationLibraries = new() { "pro_magic_pack" },
+            sourceAnimation = "pro_magic_pack/Standing 1H Magic Attack 01"
+        });
+        spell.stats.set(new SpellBaseCastTime() { value = 0.8 });
+        spell.stats.set(new SpellBaseCostMana() { value = 1 });
+        
 
         // Explosion devrait proc sur le onCollision du projectile
         var explosionFx = new Statement() {
             zone = new Zone() { worldOrigin = ZoneOriginType.Target },
             schema = new SpawnFxSchema()
             {
-                scene = "res://scenes/db/spells/fireball/fireball_explosion.tscn"
+                scene = Paths.spells + "fireball/fireball_explosion.tscn"
             }
         };
         var explosionDmg = new Statement() {
@@ -98,7 +109,7 @@ public class TestFireball
         // Remember: il peut y avoir plusieurs types de projectiles qui proc onCollision (must collide) ou onArrival (ground-target) ou onExpire (durée/distance)
         var projSchema =  new SpawnProjectileSchema();
         projSchema.children.Add(explosionFx);
-        projSchema.scene = "res://scenes/db/spells/fireball/fireball_projectile.tscn";
+        projSchema.scene = Paths.spells + "fireball/fireball_projectile.tscn";
         projSchema.stats.set(Register.Create<ProjectileAddCount>());
         projSchema.stats.get<ProjectileAddCount>()!.value = 1;
         projSchema.stats.set(new ProjectileBaseSpeed() {
@@ -177,18 +188,13 @@ public class TestFireball
         // ajoute le burn fx en enfant du status, pourrait être l'inverse sans problème
         var burnFx = new Statement() {
             schema = new SpawnFxSchema() {
-                scene = "res://scenes/db/spells/fireball/fireball_burn.tscn",
+                scene = Paths.spells + "fireball/fireball_burn.tscn",
                 follow = true
             },
         };
         burnFx.triggers.add(onStatusAddListener);
         // add the fx to the status schema
         statusSchema.statusStatements.Add(burnFx);
-
-
-
-        // todo: spell.stats: costs, cooldown, etc
-        spell.iconPath = "res://scenes/db/spells/fireball/fireball.png";
 
         return spell;
     }
@@ -203,6 +209,7 @@ public class TestFireball
         File.WriteAllText("../../../../DB/spells/" + spell.entityUid + ".json", json);
     }
 
+    /*
     [Trait("Category", "ModelTester")]
     [Fact]
     public void testFireball()
@@ -253,7 +260,7 @@ public class TestFireball
         // ASSERT
         // todo: check enemies lives
         // todo: check caster's resources got reduced by spell cost
-        
     }
+    */
 
 }

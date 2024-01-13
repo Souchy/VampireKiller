@@ -48,9 +48,18 @@ public class SmartList<T> : Identifiable
     }
     public bool removeAt(int index)
     {
-        if (index >= 0 && index < list.Count)
-            return remove(list[index]);
-        return false;
+        lock(this)
+        {
+            if(index >= 0 && index < list.Count)
+            {
+                var value = this.list[index];
+                this.list.RemoveAt(index);
+                this.GetEntityBus().publish(nameof(remove), this, value);
+                this.GetEntityBus().unsubscribe(value);
+                return true;
+            }
+            return  false;
+        }
     }
     public T? getAt(int index)
     {
@@ -60,14 +69,7 @@ public class SmartList<T> : Identifiable
     }
     public bool remove(T value)
     {
-        //if(value is null) return false;
-        var result = list.Remove(value);
-        if(result)
-        {
-            this.GetEntityBus().publish(nameof(remove), this, value);
-            this.GetEntityBus().unsubscribe(value);
-        }
-        return result;
+        return removeAt(list.IndexOf(value));
     }
 
     public void Dispose()

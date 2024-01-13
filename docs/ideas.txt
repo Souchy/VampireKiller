@@ -1,0 +1,59 @@
+
+
+Event:
+	Transform a skill into a permanent passive with a base frequency
+	Upgrade a passive frequency to be lower
+
+
+
+
+Stats
+	max value of zoom = "light radius" = distance you can see can get upgraded through items/buff stats.
+	phasing
+	invisibility -> no, fuck that, there's no point. in pve it would just be monster detection but it's not great enough
+	evasion/dodge
+	block/suppress
+	crit chance -> can go >100% for chance of bigger crits. (ex: crit [0-100]% = 1.5x dmg, crit [101-200]% = 2x dmg, etc + dmg color changes to darker red)
+	thorns / return damage
+	lifesteal
+	life gain on hit (or other resource)
+	life gain on damage taken
+	When taking Damage from Hits, 40% of Life loss below half Life is Prevented, then (100-81)% of Life loss prevented this way is lost over 4 seconds
+	regen
+	recharge
+	spell damage + attack damage
+	cast speed + attack speed
+	flat damage reduction (perma ward)
+
+Skills
+	shockwave 
+	tremors
+
+
+
+Passives - Some of them permanent frequency, some of them cwdt 
+	petrified blood / progenesis / death's dance
+
+	heavy steps creating tremors 
+	bubonic boots
+	shock nova
+	arc / freezing pulse automated
+	storm call / lightning conduit
+	galvanic field
+	spark
+	righteous fire
+	ethereal knives nova
+	toxic rain
+	rain of arrows
+	vortex
+
+
+	Honestly it's all a big wardloop
+
+
+Statements
+
+	 
+
+
+

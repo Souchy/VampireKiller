@@ -49,7 +49,7 @@ public class StatInt : IStat
     }
     public IStat copy()
     {
-        var copy = new StatInt();
+        var copy = (StatInt) Activator.CreateInstance(this.GetType(), true)!;
         copy.value = this.value;
         foreach(var cond in conditions)
             copy.conditions.Add(cond.copy());
@@ -89,7 +89,7 @@ public class StatType : IStat
     }
     public IStat copy()
     {
-        var copy = new StatType();
+        var copy = (StatType) Activator.CreateInstance(this.GetType(), true)!;
         copy.value = this.value;
         foreach (var cond in conditions)
             copy.conditions.Add(cond.copy());
@@ -128,7 +128,7 @@ public class StatDate : IStat
     }
     public IStat copy()
     {
-        var copy = new StatDate();
+        var copy = (StatDate) Activator.CreateInstance(this.GetType(), true)!;
         copy.value = this.value;
         foreach (var cond in conditions)
             copy.conditions.Add(cond.copy());
@@ -169,7 +169,7 @@ public class StatTimeSpan : IStat
     }
     public IStat copy()
     {
-        var copy = new StatTimeSpan();
+        var copy = (StatTimeSpan) Activator.CreateInstance(this.GetType(), true)!;
         copy.value = this.value;
         foreach (var cond in conditions)
             copy.conditions.Add(cond.copy());
@@ -210,7 +210,7 @@ public class StatDouble : IStat
     }
     public IStat copy()
     {
-        var copy = new StatDouble();
+        var copy = (StatDouble) Activator.CreateInstance(this.GetType(), true)!;
         copy.value = this.value;
         foreach (var cond in conditions)
             copy.conditions.Add(cond.copy());
@@ -257,7 +257,7 @@ public class StatBool : IStat
     }
     public IStat copy()
     {
-        var copy = new StatBool();
+        var copy = (StatBool) Activator.CreateInstance(this.GetType(), true)!;
         copy.value = this.value;
         foreach (var cond in conditions)
             copy.conditions.Add(cond.copy());

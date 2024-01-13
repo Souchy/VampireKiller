@@ -25,16 +25,12 @@ public class DamageScript : IStatementScript
     public Type schemaType => typeof(DamageSchema);
 
     /// <summary>
-    /// Petit problème à méditer: les entity source/target peuvent être des projectile (ex proj attack crea ou crea attack proj)
-    /// Donc, sachant que les proj ont des stats aussi,
-    /// On peut mettre les stats en component de Entity (.set<StatsDic>(stats), .get<StatsDic>())
-    /// Mais l'extension getTotalStat est actuellement seulement sur CreatureInstance.
-    /// Pourrait rajouter une extension .getTotalStat pour les projectiles aussi qui prendrait le total des stats de proj + stats de son propriétaire
+    /// 
     /// </summary>
     public void apply(ActionStatementTarget action)
     {
         var currentTarget = action.currentTargetEntity as CreatureInstance;
-        var source = action.getSourceEntity(); // as CreatureInstance;
+        var source = action.getSourceEntity();
         if (source == null || currentTarget == null)
             return;
         var statement = action.getParentStatement();
@@ -68,7 +64,7 @@ public class DamageScript : IStatementScript
         var addLife = Math.Clamp(dam, -totalCurrentLife.value, totalMaxLife.value - totalCurrentLife.value);
         currentTarget.fightStats.addedLife.value += addLife; //+= dam;
 
-        currentTarget.GetEntityBus().publish("damage", addLife);
+        currentTarget.GetEntityBus().publish(DomainEvents.EventDamage, addLife);
 
         if (addLife == -totalCurrentLife.value)
         {

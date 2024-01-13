@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://7xpl7dyo1wbv"]
+
+[ext_resource type="PackedScene" uid="uid://daod1aymjtg26" path="res://old.assets/synty/creatures/PFRCharacterBR.gltf" id="1_juysb"]
+
+[node name="PFRCharacterBR" instance=ExtResource("1_juysb")]
+
+[node name="Skeleton3D" parent="." index="0"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="Character_ElementalGolem_01" parent="Skeleton3D" index="0"]
+lod_bias = 128.0
+
+[node name="Character_FortGolem_01" parent="Skeleton3D" index="1"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Troll_01" parent="Skeleton3D" index="2"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_MechanicalGolem_01" parent="Skeleton3D" index="3"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Slayer_01" parent="Skeleton3D" index="4"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_BarbarianGiant_01" parent="Skeleton3D" index="5"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Big_Ork_01" parent="Skeleton3D" index="6"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_MutantGuy_01" parent="Skeleton3D" index="7"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Pig_Butcher_01" parent="Skeleton3D" index="8"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_RedDemon_01" parent="Skeleton3D" index="9"]
+visible = false
+lod_bias = 128.0
+
+[node name="Character_Dwarf_01" parent="Skeleton3D" index="10"]
+visible = false
+lod_bias = 128.0

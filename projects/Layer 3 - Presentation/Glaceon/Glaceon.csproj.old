@@ -1,0 +1,20 @@
+<Project Sdk="Godot.NET.Sdk/4.2.0">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
+    <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="GodotSharpExtras" Version="0.4.0" />
+    <PackageReference Include="GodotSharpKit.Generator" Version="1.2.1" />
+    <PackageReference Include="SimpleInjector" Version="5.4.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Layer 0 - Domain\Eevee\Eevee.csproj" />
+    <ProjectReference Include="..\..\Layer 2 - Application\Espeon\Espeon.csproj" />
+    <ProjectReference Include="..\..\Layer 2 - Application\Umbreon\Umbreon.csproj" />
+    <ProjectReference Include="..\..\Layer 2 - Application\Logia\Logia.csproj" />
+  </ItemGroup>
+</Project>

@@ -15,6 +15,7 @@ using VampireKiller.eevee.vampirekiller.eevee.statements.schemas;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 using vampirekiller.eevee.stats.schemas.resources;
 using Eevee.vampirekiller.eevee.stats.schemas;
+using vampirekiller.logia;
 
 namespace vampirekiller.gems.spells;
 
@@ -25,13 +26,20 @@ public class IceShield
     {
         var spell = Register.Create<SpellModel>();
         spell.entityUid = "spell_ice_shield";
+        spell.iconPath = Paths.spells + "iceshield/SpellBook01_59.PNG";
+        spell.skins.Add(new()
+        {
+            animationLibraries = new() { "pro_magic_pack" },
+            sourceAnimation = "pro_magic_pack/Standing 1H Magic Attack 01"
+        });
+
 
         // Base spell FX
         var spellFx = new Statement()
         {
             schema = new SpawnFxSchema()
             {
-                scene = "res://scenes/db/spells/iceshield/iceshield_spell.tscn"
+                scene = Paths.spells + "iceshield/iceshield_spell.tscn"
             }
         };
         spell.statements.add(spellFx);
@@ -50,14 +58,10 @@ public class IceShield
         {
             schema = new SpawnFxSchema()
             {
-                scene = "res://scenes/db/spells/iceshield/iceshield_status.tscn"
+                scene = Paths.spells + "iceshield/iceshield_status.tscn"
             }
         };
         createStatusStatement.statements.add(statusFx);
-
-
-
-        spell.iconPath = "res://scenes/db/spells/iceshield/iceshield.png";
 
         return spell;
     }

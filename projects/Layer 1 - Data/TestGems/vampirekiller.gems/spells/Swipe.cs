@@ -23,6 +23,7 @@ using vampirekiller.eevee.triggers.schemas;
 using vampirekiller.eevee.enums;
 using vampirekiller.logia.extensions;
 using vampirekiller.eevee.actions;
+using vampirekiller.logia;
 
 namespace vampirekiller.gems.spells;
 
@@ -32,6 +33,14 @@ public class Swipe
     {
         var spell = Register.Create<SpellModel>();
         spell.entityUid = "spell_swipe";
+        spell.iconPath = Paths.spells + "swipe/SpellBook01_77.PNG";
+        spell.skins.Add(new()
+        {
+            animationLibraries = new() { "great_sword_pack" },
+            sourceAnimation = "great_sword_pack/great sword slash (4)"
+        });
+        spell.stats.set(new SpellBaseCastTime() { value = 0.7 });
+        spell.stats.set(new SpellBaseCostMana() { value = 1 });
 
         var swipeAoe = new Statement() {
             zone = new Zone() {

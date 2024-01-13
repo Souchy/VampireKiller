@@ -3,6 +3,12 @@
 **/DB/**/*.json
 launchSettings.json
 other/
+projects/Layer 3 - Presentation/Properties/
+projects/Layer 3 - Presentation/Glaceon/bin/
+projects/Layer 3 - Presentation/Glaceon/vampireassets
+projects/Layer 3 - Presentation/Glaceon/Assets
+projects/Layer 3 - Presentation/Glaceon/addons/unidot_importer
+projects/Layer 3 - Presentation/Glaceon/addons/myplugin
 
 # Godot 4+ specific ignores
 .godot/

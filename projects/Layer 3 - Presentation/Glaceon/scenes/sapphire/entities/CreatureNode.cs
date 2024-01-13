@@ -15,6 +15,12 @@ using Util.structures;
 using vampirekiller.eevee.util;
 using VampireKiller.eevee;
 using vampirekiller.eevee.spells;
+using vampirekiller.umbreon.commands;
+using vampirekiller.eevee.actions;
+using vampirekiller.eevee.creature;
+using scenes.sapphire.entities.component;
+using static System.Collections.Specialized.BitVector32;
+using vampirekiller.logia;
 
 /// <summary>
 /// Properties that need to be shown:
@@ -30,27 +36,41 @@ public abstract partial class CreatureNode : CharacterBody3D
     public CreatureInstance creatureInstance;
 
     [NodePath]
-    public Node3D Model { get; set; }
-    [NodePath]
-    public CreatureNodeAnimationPlayer CreatureNodeAnimationPlayer { get; set; }
+    public CharacterModelNode Model { get; set; }
+    public CreatureNodeAnimationPlayer CreatureNodeAnimationPlayer { get => Model.AnimationPlayer as CreatureNodeAnimationPlayer; }
 
-    // [NodePath]
     [NodePath]
     public NavigationAgent3D NavigationAgent3D { get; set; }
 
+    [NodePath]
+    public Sprite3D ResourceBars { get; set; }
+
     [NodePath("SubViewport/UiResourceBars")]
     public MarginContainer UiResourceBars { get; set; }
-    [NodePath("SubViewport/UiResourceBars/VBoxContainer/Healthbar")]
+    [NodePath("SubViewport/UiResourceBars/VBoxContainer/HealthBar")]
     public ProgressBar Healthbar { get; set; }
+    //[NodePath("SubViewport/UiResourceBars/VBoxContainer/ShieldBar")]
+    //public ProgressBar Shieldbar { get; set; }
     [NodePath]
     public Label3D LabelOwner { get; set; }
     [NodePath]
     public Node3D StatusEffects { get; set; }
     [NodePath]
+    public MultiplayerSynchronizer MultiplayerSynchronizer { get; set; }
+    [NodePath]
     public MultiplayerSpawner StatusEffectsSpawner { get; set; }
+    [NodePath]
+    public MultiplayerSpawner ModelSpawner { get; set; }
 
-    public float Speed = 5.0f;
-    public float JumpVelocity = 6.0f;
+    /// <summary>
+    /// In seconds
+    /// </summary>
+    private const double cacheRefreshTime = 1;
+    private double cacheRefreshDelta = 0;
+
+    protected float defaultSpeed { get; } = 5.0f;
+    private float cachedTotalMovementSpeed = 0;
+    private float cachedIncreasedMovementSpeed;
 
     public override void _EnterTree()
     {
@@ -66,32 +86,41 @@ public abstract partial class CreatureNode : CharacterBody3D
             this.GlobalPosition = creatureInstance.spawnPosition;
         }
     }
+
     public override void _Ready()
     {
         this.OnReady();
         // GD.Print(this.Name + " ready");
         if (creatureInstance != null)
         {
-            // this.GlobalPosition = creatureInstance.spawnPosition;
             updateHPBar();
             LabelOwner.Text = "" + creatureInstance.playerId;
+
+            // Load creature skin & skill skins
+            setSkin(creatureInstance.currentSkin);
         }
-        StatusEffectsSpawner.AddSpawnableScene("res://scenes/db/spells/fireball/fireball_burn.tscn");
+
+        if (Universe.isOnline && !this.Multiplayer.IsServer())
+            return;
+        ModelSpawner._SpawnableScenes = AssetCache.models.ToArray();
+        StatusEffectsSpawner._SpawnableScenes = AssetCache.skills.ToArray();
+        //StatusEffectsSpawner.AddSpawnableScene("res://vampireassets/spells/fireball/fireball_burn.tscn");
     }
+
     public void init(CreatureInstance crea)
     {
         // GD.Print(this.Name + " init");
         creatureInstance = crea;
+        // Subscribe to all events
         creatureInstance.GetEntityBus().subscribe(this);
         creatureInstance.statuses.GetEntityBus().subscribe(this);
         creatureInstance.activeSkills.GetEntityBus().subscribe(this);
         creatureInstance.items.GetEntityBus().subscribe(this);
-
+        // Set components
         creatureInstance.set<CreatureNode>(this);
-        //creatureInstance.getPositionHook = () => this.GlobalPosition;
-        //creatureInstance.setPositionHook = (Vector3 v) => this.GlobalPosition = v;
-        //creatureInstance.set<Func<Vector3>>(() => this.GlobalPosition);
         creatureInstance.set<PositionGetter>(() => this.GlobalPosition);
+        // Cache stats
+        recalculateCache();
     }
 
     public override void _ExitTree()
@@ -101,127 +130,49 @@ public abstract partial class CreatureNode : CharacterBody3D
         creatureInstance?.remove<PositionGetter>();
     }
 
-
-    public override void _PhysicsProcess(double delta)
+    /// <summary>
+    /// Permet de debounce le calcul de certaines stats a un interval de temps (ex: 1000ms) plutot que chaque frame
+    /// </summary>
+    private void refreshCache(double delta)
     {
-        base._PhysicsProcess(delta);
-        
-        if (Universe.isOnline && !this.IsMultiplayerAuthority()) 
-            return;
-
-        var direction = getNextDirection();
-
-        var velocity = this.Velocity;
-        if (direction != Vector3.Zero)
+        cacheRefreshDelta += delta;
+        if(cacheRefreshDelta > cacheRefreshTime)
         {
-            velocity.X = direction.X * Speed;
-            velocity.Z = direction.Z * Speed;
-        }
-        // If no input, slow down 
-        else
-        {
-            velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-            velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
-        }
-        // Add the gravity.
-        if (!IsOnFloor())
-        {
-            // Vector3 velocity = this.Velocity;
-            velocity.Y -= gravity * (float)delta;
-            this.Velocity = velocity;
-        }
-        this.Velocity = velocity;
-
-        Vector3 fowardPoint = this.Position + Velocity * 1;
-        Vector3 lookAtTarget = new Vector3(fowardPoint.X, 0, fowardPoint.Z);
-        betterLookAt(lookAtTarget);
-        MoveAndSlide();
-
-        if (this.Velocity.IsZeroApprox())
-        {
-            this.CreatureNodeAnimationPlayer.playAnimation(CreatureNodeAnimationPlayer.SupportedAnimation.Idle);
-        } else
-        {
-            this.CreatureNodeAnimationPlayer.playAnimation(CreatureNodeAnimationPlayer.SupportedAnimation.Walk);
+            cacheRefreshDelta = 0;
+            recalculateCache();
         }
     }
-
-    protected abstract Vector3 getNextDirection();
-
-    protected Vector3 getNextNavigationDirection()
+    private void recalculateCache()
     {
-        // If point & click, set velocity
-        if (!NavigationAgent3D.IsNavigationFinished())
+        cachedTotalMovementSpeed = (float) (creatureInstance?.getTotalStat<CreatureTotalMovementSpeed>().value ?? defaultSpeed);
+        cachedIncreasedMovementSpeed = (float) (creatureInstance?.getTotalStat<CreatureIncreasedMovementSpeed>().value ?? 0);
+    }
+
+    public void setSkin(CreatureSkin skin)
+    {
+        var oldModel = Model;
+        var scriptPath = Paths.entities + "component/" + nameof(CharacterModelNode) + ".cs";
+        var scene = AssetCache.Load<PackedScene>(skin.scenePath, ".tscn", ".glb", ".gltf").Instantiate<Node3D>();
+        CharacterModelNode newModel = scene.SafelySetScript<CharacterModelNode>(scriptPath);
+        newModel.Name = "Model";
+
+        // Replace model node
+        this.RemoveChild(oldModel);
+        Model = newModel;
+        this.AddChild(Model, true);
+        oldModel.QueueFree();
+
+        // Set skin for animations
+        this.CreatureNodeAnimationPlayer.skin = creatureInstance.currentSkin;
+        // Load animation libraries in the new model's animation player
+        foreach (var lib in skin.animationLibraries)
         {
-            var nextPos = NavigationAgent3D.GetNextPathPosition();
-            nextPos.Y = 0;
-            var direction = GlobalPosition.DirectionTo(nextPos);
-            direction.Y = 0;
-            return direction;
+            this.CreatureNodeAnimationPlayer.loadLibrary(lib);
         }
-        return Vector3.Zero;
-    }
-
-    protected void betterLookAt(Vector3 nextPos)
-    {
-        // check is to avoid following warning: Up vector and direction between node origin and target are aligned, look_at() failed
-        if (!Position.IsEqualApprox(nextPos) && !Vector3.Up.Cross(nextPos - this.Position).IsZeroApprox())
+        foreach (var skill in creatureInstance.activeSkills.values)
         {
-            Model.LookAt(nextPos);
-            Model.RotateY(Mathf.Pi);
+            onActiveSkillAdd(creatureInstance.activeSkills, skill);
         }
-    }
-    
-    protected void playAttack(Action attackCallback)
-    {
-        this.CreatureNodeAnimationPlayer.playAnimation(CreatureNodeAnimationPlayer.SupportedAnimation.Attack, attackCallback);
-    }
-
-    // TODO regroupe les action de cast. 
-    // protected void inpuCastSkill(int slot, raycast) {
-	// 		if (raycast == Vector3.Zero)
-	// 			raycast = getRayCast();
-	// 		var cmd = new CommandCast(this.creatureInstance, raycast, 0); //-this.Transform.Basis.Z, 1);
-	// 		this.attack(() => this.publisher.publish(cmd));
-    // }
-
-    [Subscribe(DomainEvents.EventDeath)]
-    public void onDeath(CreatureInstance crea) {
-        this.CreatureNodeAnimationPlayer.playAnimation(CreatureNodeAnimationPlayer.SupportedAnimation.Death);
-    }
-
-    [Subscribe(CreatureInstance.EventUpdateStats)]
-    public void onStatChanged(CreatureInstance crea, IStat stat)
-    {
-        // GD.Print("CreatureNode: onStatChanged: " + stat.GetType().Name + " = " + stat.genericValue);
-        // todo regrouper les life stats en une liste<type> automatique genre / avoir une annotation [Life] p.ex, etc
-        if (stat is CreatureAddedLife || stat is CreatureAddedLifeMax || stat is CreatureBaseLife || stat is CreatureBaseLifeMax || stat is CreatureIncreasedLife || stat is CreatureIncreasedLifeMax)
-        {
-            updateHPBar();
-        }
-    }
-
-    // [Subscribe]
-    // public void onItemListAdd(object list, object item)
-    // {
-    //     // check all statements 
-    //     //      modify mesh / material / etc si nécessaire
-    // }
-    // [Subscribe]
-    // public void onItemListRemove(object list, object item)
-    // {
-
-    // }
-    // [Subscribe]
-    // public void onStatusListAdd(object list, object item)
-    // {
-
-    // }
-
-    [Subscribe(nameof(SmartList<Status>.remove))]
-    public void onStatusListRemove(SmartList<Status> list, Status item)
-    {
-
     }
 
     private void updateHPBar()
@@ -231,14 +182,11 @@ public abstract partial class CreatureNode : CharacterBody3D
         double value = ((double) life.value / (double) max.value) * 100;
         // GD.Print("Crea (" + this.Name + ") update hp %: " + value); // + "............" + Healthbar + " vs " + hpbar);
         Healthbar.Value = value;
+        if(value != 100 && !ResourceBars.Visible)
+            ResourceBars.Visible = true;
+
+        // shield bar?
     }
 
-    [Subscribe("damage")]
-    public void onDamage(int value)
-    {
-        var popup = AssetCache.Load<PackedScene>("res://scenes/sapphire/ui/components/UiResourcePopup.tscn").Instantiate<UiResourcePopup>();
-        popup.value = value;
-        this.AddChild(popup);
-    }
 
 }

@@ -55,7 +55,7 @@ public partial class Glaceon : Node
         //CallDeferred(nameof(setNet), node);
         this.net?.QueueFree();
         this.net = node; // == "espeon" ? new EspeonNet() : new UmbreonNet();
-        this.AddChild(this.net);
+        this.AddChild(this.net, true);
         this.Multiplayer.MultiplayerPeer = this.net.Multiplayer.MultiplayerPeer;
         GD.Print("Glaceon add net: " + this.net);
         this.net._Ready();
@@ -101,7 +101,7 @@ public partial class Glaceon : Node
     private void changeScene(Node newScene)
     {
         this.RemoveChild(this.currentScene);
-        this.AddChild(newScene);
+        this.AddChild(newScene, true);
         this.currentScene = newScene;
     }
 

@@ -25,16 +25,27 @@ RpcClient="*res://vampirekiller.glaceon/autoload/RpcClient.cs"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/vsync/vsync_mode=0
 
 [dotnet]
 
 project/assembly_name="Glaceon"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/myplugin/plugin.cfg", "res://addons/unidot_importer/plugin.cfg")
+
 [file_customization]
 
 folder_colors={
-"res://assets/": "purple",
-"res://scenes/": "pink"
+"res://Assets/": "purple",
+"res://addons/": "orange",
+"res://old.assets/": "purple",
+"res://scenes/": "blue",
+"res://scenes/lapis/": "blue",
+"res://scenes/sapphire/": "blue",
+"res://vampireassets/": "pink",
+"res://vampirekiller.glaceon/": "blue"
 }
 
 [input]
@@ -78,14 +89,24 @@ lock_camera={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":67,"key_label":0,"unicode":99,"echo":false,"script":null)
 ]
 }
+cast_slot_0={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":49,"key_label":0,"unicode":49,"echo":false,"script":null)
+]
+}
 cast_slot_1={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":81,"key_label":0,"unicode":113,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":50,"key_label":0,"unicode":50,"echo":false,"script":null)
 ]
 }
 cast_slot_2={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":51,"key_label":0,"unicode":51,"echo":false,"script":null)
+]
+}
+cast_slot_3={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":52,"key_label":0,"unicode":52,"echo":false,"script":null)
 ]
 }
 clear_projs={
@@ -111,6 +132,8 @@ zoom_out={
 
 [rendering]
 
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=4
+lights_and_shadows/positional_shadow/soft_shadow_filter_quality=4
 anti_aliasing/quality/msaa_2d=3
 anti_aliasing/quality/msaa_3d=3
 anti_aliasing/quality/screen_space_aa=1
