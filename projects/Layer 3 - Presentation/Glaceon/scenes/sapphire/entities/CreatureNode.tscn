@@ -43,6 +43,7 @@ shape = SubResource("CapsuleShape3D_pwek4")
 
 [node name="TeamRing" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+visible = false
 mesh = SubResource("TorusMesh_335yn")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
