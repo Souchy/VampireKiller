@@ -2,6 +2,7 @@
 using Logia.vampirekiller.logia;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,8 +61,15 @@ public class ActivationTimer
     {
         //GD.Print("ActivationTimer: Remove");
         status.GetEntityBus().unsubscribe(this);
-        this._timer.CallThreadSafe(Godot.Timer.MethodName.Stop);
-        this._timer.CallThreadSafe(Godot.Timer.MethodName.QueueFree);
+        try
+        {
+            this._timer.CallThreadSafe(Godot.Timer.MethodName.Stop);
+            this._timer.CallThreadSafe(Godot.Timer.MethodName.QueueFree);
+        } catch (Exception e)
+        {
+            Debug.WriteLine(e);
+            GD.PrintErr(e);
+        }
         //this._timer?.Stop();
     }
 }

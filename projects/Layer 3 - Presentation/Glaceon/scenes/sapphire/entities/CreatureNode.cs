@@ -157,6 +157,8 @@ public abstract partial class CreatureNode : CharacterBody3D
         this.AddChild(Model, true);
         oldModel.QueueFree();
 
+        // Set skin for animations
+        this.CreatureNodeAnimationPlayer.skin = creatureInstance.currentSkin;
         // Load animation libraries in the new model's animation player
         foreach (var lib in skin.animationLibraries)
         {

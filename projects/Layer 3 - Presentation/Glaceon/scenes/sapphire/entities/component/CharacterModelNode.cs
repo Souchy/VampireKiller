@@ -29,15 +29,18 @@ public partial class CharacterModelNode : Node3D
     public IEnumerable<MeshInstance3D> MeshInstances { get; set; }
     public IEnumerable<BoneAttachment3D> BoneAttachments { get; set; }
 
+    public override void _EnterTree()
+    {
+        // Animation script
+        this.AnimationPlayer = GetNode(nameof(AnimationPlayer)).SafelySetScript<CreatureNodeAnimationPlayer>(Paths.entities + nameof(CreatureNodeAnimationPlayer) + ".cs");
+    }
+
     public override void _Ready()
     {
         this.OnReady();
         // Meshs & BoneAttachments
         MeshInstances = GeneralSkeleton.GetChildren<MeshInstance3D>().Where(n => n != null);
         BoneAttachments = GeneralSkeleton.GetChildren<BoneAttachment3D>().Where(n => n != null);
-        // Animation script
-        this.AnimationPlayer = this.AnimationPlayer.SafelySetScript<CreatureNodeAnimationPlayer>(Paths.entities + nameof(CreatureNodeAnimationPlayer) + ".cs");
-        this.AnimationPlayer._Ready();
 
         if (Universe.isOnline && !this.Multiplayer.IsServer())
             return;

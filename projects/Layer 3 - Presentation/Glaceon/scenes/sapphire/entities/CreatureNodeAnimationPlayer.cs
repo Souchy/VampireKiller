@@ -8,13 +8,14 @@ using System.Linq;
 using static Godot.Animation;
 using vampirekiller.logia;
 using Godot.Collections;
-
+using vampirekiller.eevee.creature;
 
 public enum AnimationState
 {
     idle,
     idle_gesture,
     moving,
+
     casting,
     receiveHit,
     death
@@ -22,10 +23,19 @@ public enum AnimationState
 
 public partial class CreatureNodeAnimationPlayer : AnimationPlayer
 {
+    public CreatureSkin skin { get; set; }
     private Action currentCallback;
     private string previousAnimation;
     private AnimationState state = AnimationState.idle;
-    //private double gestureTimer = 5;
+    private double gestureTimer = 5;
+    private bool isLooping = false;
+    private Random random = new Random();
+    // idle -> moving
+    // idle -> gesture
+    // moving -> idle
+
+    // gesture -> no idle
+    // gesture -> moving instant
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -38,18 +48,20 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
     /// <summary>
     /// TODO: add Random idle "looking" animations. AnimationPlayer.process doesn't process.
     /// </summary>
-    //public override void _Process(double delta)
-    //{
-    //    if(state == AnimationState.idle)
-    //    {
-    //        gestureTimer -= delta;
-    //        if(gestureTimer < 0)
-    //        {
-    //            if(playAnimationOneShot(AnimationState.idle_gesture, "action_adventure/idle"))
-    //                gestureTimer = 5;
-    //        }
-    //    }
-    //}
+    public override void _Process(double delta)
+    {
+        if (state == AnimationState.idle)
+        {
+            gestureTimer -= delta;
+            if (gestureTimer < 0)
+            {
+                var i = random.Next(skin.animations.idleOneShots.Length);
+                var gesture = skin.animations.idleOneShots[i];
+                if (playAnimationOneShot(AnimationState.idle_gesture, gesture))
+                    gestureTimer = 5;
+            }
+        }
+    }
 
     public void loadLibrary(string libraryPath)
     {
@@ -90,8 +102,9 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
 
     public bool playAnimationLoop(AnimationState state, string animation, double increasedSpeedPercent = 0)
     {
-        if(!canPlayAnimation(state, animation))
+        if(!canPlayAnimation(state, animation, true))
             return false;
+        isLooping = true;
         this.state = state;
         this.currentCallback = null;
         // TODO: transitions? ex: if(this.state = running && newState == idle) -> play("run_to_stop") + on finish play("idle") ou animationTree...
@@ -114,21 +127,21 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
         {
             this.Play(animation);
         }
-        var asd = this.CurrentAnimation;
         return true;
     }
 
-    private bool canPlayAnimation(AnimationState newState, string animation)
+    private bool canPlayAnimation(AnimationState newState, string animation, bool isLoop = false)
     {
-        if(newState < this.state && this.state > AnimationState.moving)
+        if (!this.IsPlaying())
+            return true;
+
+        if(this.state > newState || isLooping && isLoop) // && this.state > AnimationState.moving)
             return false;
 
         // Make sure animation exists
         if (!this.HasAnimation(animation))
             return false;
 
-        if (!this.IsPlaying())
-            return true;
 
         // If the animation is the same as current one, do not override
         if (this.CurrentAnimation == animation)
