@@ -13,6 +13,7 @@ using vampirekiller.eevee.actions;
 using vampirekiller.eevee.enums;
 using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.util;
+using vampirekiller.glaceon.sapphire.entities;
 using vampirekiller.glaceon.util;
 using vampirekiller.logia;
 using vampirekiller.logia.extensions;
@@ -68,7 +69,14 @@ public partial class Sapphire : Node
             return;
         EventBus.centralBus.subscribe(this);
     }
-    
+
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+        var map = GetNode(nameof(Environment)).GetChild(0);
+        map.SafelySetScript<MapNode>("res://vampirekiller.glaceon/sapphire/entities/MapNode.cs");
+    }
+
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)

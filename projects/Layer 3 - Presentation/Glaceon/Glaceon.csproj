@@ -17,4 +17,7 @@
     <ProjectReference Include="..\..\Layer 2 - Application\Umbreon\Umbreon.csproj" />
     <ProjectReference Include="..\..\Layer 2 - Application\Logia\Logia.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="vampirekiller.glaceon\sapphire\ui\" />
+  </ItemGroup>
 </Project>
