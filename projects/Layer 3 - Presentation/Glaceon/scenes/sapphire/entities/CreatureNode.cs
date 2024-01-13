@@ -42,10 +42,15 @@ public abstract partial class CreatureNode : CharacterBody3D
     [NodePath]
     public NavigationAgent3D NavigationAgent3D { get; set; }
 
+    [NodePath]
+    public Sprite3D ResourceBars { get; set; }
+
     [NodePath("SubViewport/UiResourceBars")]
     public MarginContainer UiResourceBars { get; set; }
-    [NodePath("SubViewport/UiResourceBars/VBoxContainer/Healthbar")]
+    [NodePath("SubViewport/UiResourceBars/VBoxContainer/HealthBar")]
     public ProgressBar Healthbar { get; set; }
+    //[NodePath("SubViewport/UiResourceBars/VBoxContainer/ShieldBar")]
+    //public ProgressBar Shieldbar { get; set; }
     [NodePath]
     public Label3D LabelOwner { get; set; }
     [NodePath]
@@ -177,6 +182,10 @@ public abstract partial class CreatureNode : CharacterBody3D
         double value = ((double) life.value / (double) max.value) * 100;
         // GD.Print("Crea (" + this.Name + ") update hp %: " + value); // + "............" + Healthbar + " vs " + hpbar);
         Healthbar.Value = value;
+        if(value != 100 && !ResourceBars.Visible)
+            ResourceBars.Visible = true;
+
+        // shield bar?
     }
 
 

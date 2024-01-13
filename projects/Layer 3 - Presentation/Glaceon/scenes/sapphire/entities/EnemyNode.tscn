@@ -24,9 +24,10 @@ script = ExtResource("2_7iw2f")
 mesh = SubResource("TorusMesh_p21iv")
 
 [node name="ResourceBars" parent="." index="5"]
+visible = false
 texture = SubResource("ViewportTexture_prtnn")
 
-[node name="AreaOfAttack" type="Area3D" parent="." index="10"]
+[node name="AreaOfAttack" type="Area3D" parent="." index="11"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaOfAttack" index="0"]

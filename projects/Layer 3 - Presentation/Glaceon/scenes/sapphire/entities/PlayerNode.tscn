@@ -26,14 +26,14 @@ mesh = SubResource("TorusMesh_4rlo3")
 [node name="ResourceBars" parent="." index="5"]
 texture = SubResource("ViewportTexture_k4asa")
 
-[node name="PlayerCamera" type="Camera3D" parent="." index="10"]
+[node name="PlayerCamera" type="Camera3D" parent="." index="11"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 10, 5.5)
 
-[node name="UiSapphire" parent="." index="11" instance=ExtResource("5_du3oj")]
+[node name="UiSapphire" parent="." index="12" instance=ExtResource("5_du3oj")]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." index="13"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.27939, 0)
 light_color = Color(1, 0.956863, 0.780392, 1)
-light_volumetric_fog_energy = 0.2
+light_volumetric_fog_energy = 0.5
 omni_range = 8.279

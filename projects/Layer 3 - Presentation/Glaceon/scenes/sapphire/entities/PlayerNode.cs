@@ -77,6 +77,7 @@ public partial class PlayerNode : CreatureNode
 
 	public override void _Input(InputEvent @event)
     {
+        base._Input(@event);
         // todo control authority
         if (Universe.isOnline && !this.IsMultiplayerAuthority())
             return;
