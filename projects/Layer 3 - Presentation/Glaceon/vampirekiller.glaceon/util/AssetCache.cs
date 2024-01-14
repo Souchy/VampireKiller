@@ -16,7 +16,7 @@ public static class AssetCache
 {
     public static Dictionary<string, Resource> resources = new();
 
-    public static Dictionary<string, List<string>> filesByExtension = new();
+    //public static Dictionary<string, List<string>> filesByExtension = new();
 
     public static List<string> models = new();
     public static List<string> skills = new();
@@ -24,13 +24,13 @@ public static class AssetCache
     public static List<string> animations = new();
 
     public static void loadResources() {
-        recurse(Paths.creatures, models);
-        recurse(Paths.spells, skills);
-        recurse(Paths.maps, maps);
-        recurse(Paths.animations, animations);
+        recurse(Paths.creatures, models, "tscn", "glb");
+        recurse(Paths.spells, skills, "tscn");
+        recurse(Paths.maps, maps, "tscn");
+        recurse(Paths.animations, animations, "glb");
     }
 
-    private static void recurse(string dirPath, List<string> list)
+    private static void recurse(string dirPath, List<string> list, params string[] extensionsToLoad)
     {
         var dir = DirAccess.Open(dirPath);
         if(dir == null) {
@@ -43,15 +43,17 @@ public static class AssetCache
             var ext = file.Split(".").Last();
             if(ext.Contains("import"))
                 continue;
-            if(!filesByExtension.ContainsKey(ext))
-                filesByExtension.Add(ext, new());
-            filesByExtension[ext].Add(filePath);
+            //if(!filesByExtension.ContainsKey(ext))
+            //    filesByExtension.Add(ext, new());
+            //filesByExtension[ext].Add(filePath);
 
-            // list for spawners
-            list.Add(filePath);
-
-            // Preload?
-            // Load<Resource>(filePath);
+            if(extensionsToLoad.Contains(ext))
+            {
+                // list for spawners
+                list.Add(filePath);
+                // Preload?
+                Load<Resource>(filePath);
+            }
         }
         foreach(var sub in dir.GetDirectories())
         {

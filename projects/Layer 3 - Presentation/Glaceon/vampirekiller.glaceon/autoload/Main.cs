@@ -23,7 +23,7 @@ public partial class Main : Node
         // DisplayServer.GetName() == "headless"
         Universe.root = GetTree().Root;
         LogiaDiamonds.loadTypes();
-        //AssetCache.loadResources();
+        AssetCache.loadResources();
 
         if (Universe.isServer)
             Espeon.main();
