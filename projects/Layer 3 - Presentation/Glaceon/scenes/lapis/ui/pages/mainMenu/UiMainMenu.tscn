@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://y4taei5hmpa5"]
+[gd_scene load_steps=2 format=3 uid="uid://dys8logousfvl"]
 
 [ext_resource type="Script" path="res://scenes/lapis/ui/pages/mainMenu/UiMainMenu.cs" id="1_ivhjp"]
 

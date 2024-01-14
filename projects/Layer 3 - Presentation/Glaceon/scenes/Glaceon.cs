@@ -25,13 +25,15 @@ namespace Glaceon;
 public partial class Glaceon : Node
 {
 
-    [NodePath]
+    [NodePath] 
     public Lapis Lapis { get; set; }
-    //[NodePath]
+    [NodePath] 
+    public EscapeMenu EscapeMenu { get; set; }
+    [NodePath] 
+    public Control UiSettings { get; set; }
+
     private Sapphire Sapphire { get; set; }
-
-    public Node net { get; set; }
-
+    private Node net { get; set; }
     private Node currentScene { get; set; }
 
     [Inject]
@@ -61,6 +63,22 @@ public partial class Glaceon : Node
         this.net._Ready();
     }
 
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        base._UnhandledInput(@event);
+        if(Input.IsActionJustPressed("escape"))
+        {
+            if(this.UiSettings.Visible)
+            {
+                this.UiSettings.Visible = false;
+            }
+            else
+            {
+                this.EscapeMenu.Visible = !this.EscapeMenu.Visible;
+            }
+        }
+    }
+
 
     [Subscribe(Events.EventChangeScene)]
     public void onChangeSceneEvent(string sceneName)
@@ -68,6 +86,8 @@ public partial class Glaceon : Node
         GetNode("UiLobby")?.QueueFree();
         if(sceneName == Events.SceneMain)
         {
+            this.Sapphire?.QueueFree();
+            this.Sapphire = null;
             changeScene(Lapis);
         }
         if(sceneName == Events.SceneFight)
@@ -77,26 +97,11 @@ public partial class Glaceon : Node
             this.changeScene(this.Sapphire);
             this.Sapphire.onSetFight(Universe.fight);
         }
+        if(sceneName == Events.SceneSettings)
+        {
+            this.UiSettings.Visible = true;
+        }
     }
-
-    //[Subscribe(Fight.EventSet)]
-    //public void onFigthStarted(Fight fight)
-    //{
-    //    if(fight == null)
-    //    {
-    //        this.changeScene(this.Lapis);
-    //    } 
-    //    else
-    //    {
-    //        this.Sapphire = AssetCache.Load<PackedScene>("res://scenes/sapphire/Sapphire.tscn").Instantiate<Sapphire>();
-    //        this.changeScene(this.Sapphire);
-    //        this.Sapphire.onSetFight(fight);
-    //    }
-    //    //else if (this.currentScene != this.Sapphire)
-    //    //{
-    //    //    this.changeScene(this.Sapphire);
-    //    //}
-    //}
 
     private void changeScene(Node newScene)
     {

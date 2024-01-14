@@ -1,0 +1,169 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjctmh82tx3a4"]
+
+[ext_resource type="Script" path="res://scenes/lapis/ui/pages/settings/UiSettingsInputs.cs" id="1_nm6iq"]
+
+[node name="UiSettingsInputs" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nm6iq")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+
+[node name="TitleMovement" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Movement"
+
+[node name="GridContainer2" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
+text = "Move to target"
+
+[node name="Button" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "LeftClick"
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
+text = "Move forward"
+
+[node name="Button2" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "W"
+
+[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
+text = "Move backward"
+
+[node name="Button3" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "S"
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
+text = "Move left"
+
+[node name="Button4" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "A"
+
+[node name="Label5" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+layout_mode = 2
+text = "Move right"
+
+[node name="Button5" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer2"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "D"
+
+[node name="TitleSkills" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Skils"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Active Skill 1"
+
+[node name="Button5" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "1"
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Active Skill 2"
+
+[node name="Button6" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "2"
+
+[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Active Skill 3"
+
+[node name="Button7" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "3"
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Active Skill 4"
+
+[node name="Button8" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "4"
+
+[node name="TitleOthers" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Others"
+
+[node name="GridContainer3" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer3"]
+layout_mode = 2
+text = "Escape Menu"
+
+[node name="Button5" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Escape"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer3"]
+layout_mode = 2
+text = "Options Menu"
+
+[node name="Button6" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "O"
+
+[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer3"]
+layout_mode = 2
+text = "Zoom in"
+
+[node name="Button7" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Scroll 1"
+
+[node name="Label4" type="Label" parent="ScrollContainer/VBoxContainer/GridContainer3"]
+layout_mode = 2
+text = "Zoom out"
+
+[node name="Button8" type="Button" parent="ScrollContainer/VBoxContainer/GridContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Scroll 2"

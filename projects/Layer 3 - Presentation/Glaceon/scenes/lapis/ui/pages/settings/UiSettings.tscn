@@ -1,4 +1,51 @@
-[gd_scene format=3 uid="uid://ojjlqvj3nsq0"]
+[gd_scene load_steps=9 format=3 uid="uid://ojjlqvj3nsq0"]
+
+[ext_resource type="PackedScene" uid="uid://bjctmh82tx3a4" path="res://scenes/lapis/ui/pages/settings/UiSettingsInputs.tscn" id="1_xb7a0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hrqrh"]
+content_margin_left = 5.0
+content_margin_top = 15.0
+content_margin_right = 5.0
+draw_center = false
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q6x3a"]
+content_margin_left = 5.0
+content_margin_top = 15.0
+content_margin_right = 5.0
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_872du"]
+content_margin_left = 5.0
+content_margin_top = 15.0
+content_margin_right = 5.0
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xetid"]
+content_margin_left = 5.0
+content_margin_top = 15.0
+content_margin_right = 5.0
+draw_center = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qe1ue"]
+content_margin_top = 15.0
+content_margin_right = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yy5xd"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 0.376471)
+border_width_left = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.8, 0.8, 0.8, 0)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ei2sd"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 0.376471)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_color = Color(0.8, 0.8, 0.8, 0)
+border_blend = true
 
 [node name="UiSettings" type="Control"]
 layout_mode = 3
@@ -7,3 +54,67 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -365.0
+offset_right = 370.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_selected_color = Color(0.92549, 0.737255, 0.305882, 1)
+theme_override_colors/font_hovered_color = Color(0.329412, 0.647059, 0.792157, 1)
+theme_override_colors/font_unselected_color = Color(0.952941, 0.952941, 0.952941, 1)
+theme_override_colors/font_disabled_color = Color(0.27451, 0.27451, 0.27451, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_hrqrh")
+theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_q6x3a")
+theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_872du")
+theme_override_styles/tab_disabled = SubResource("StyleBoxFlat_xetid")
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_qe1ue")
+theme_override_styles/panel = SubResource("StyleBoxFlat_yy5xd")
+theme_override_styles/tabbar_background = SubResource("StyleBoxFlat_ei2sd")
+tab_alignment = 1
+current_tab = 1
+clip_tabs = false
+
+[node name="General" type="MarginContainer" parent="MarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="Inputs" type="MarginContainer" parent="MarginContainer/TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="UiSettingsInputs" parent="MarginContainer/TabContainer/Inputs" instance=ExtResource("1_xb7a0")]
+layout_mode = 2
+
+[node name="Graphics" type="MarginContainer" parent="MarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="Audio" type="MarginContainer" parent="MarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
