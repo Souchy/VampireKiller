@@ -54,20 +54,28 @@ public abstract partial class CreatureNode : CharacterBody3D
         refreshCache(delta);
 
         var direction = getNextDirection();
-        var speed = cachedTotalMovementSpeed;
+        //var speed = cachedTotalMovementSpeed;
 
         var velocity = this.Velocity;
-        if (direction != Vector3.Zero)
-        {
-            velocity.X = direction.X * speed;
-            velocity.Z = direction.Z * speed;
-        }
-        // If no input, slow down 
-        else
-        {
-            velocity.X = Mathf.MoveToward(Velocity.X, 0, speed);
-            velocity.Z = Mathf.MoveToward(Velocity.Z, 0, speed);
-        }
+
+        AnimationTree.Set("parameters/conditions/moving", direction != Vector3.Zero);
+        AnimationTree.Set("parameters/conditions/idle", direction == Vector3.Zero);
+        AnimationTree.Set("parameters/BlendSpace2D/blend_position", new Vector2(-direction.X, -direction.Z));
+        
+        velocity = AnimationTree.GetRootMotionPosition() / (float) delta;
+        //if (direction != Vector3.Zero)
+        //{
+        //    velocity.X = direction.X * speed;
+        //    velocity.Z = direction.Z * speed;
+        //}
+        //// If no input, slow down 
+        //else
+        //{
+        //    velocity.X = Mathf.MoveToward(Velocity.X, 0, speed);
+        //    velocity.Z = Mathf.MoveToward(Velocity.Z, 0, speed);
+        //}
+
+        var velo = this.Velocity.Length();
         // Add the gravity.
         if (!IsOnFloor())
         {
@@ -79,30 +87,32 @@ public abstract partial class CreatureNode : CharacterBody3D
         MoveAndSlide();
 
         // Look at
-        if(Velocity.Length() > 0)
+        if(velo >= 0.05)
         {
-            Vector3 fowardPoint = this.GlobalPosition + Velocity * 1;
-            Vector3 lookAtTarget = new Vector3(fowardPoint.X, 0, fowardPoint.Z);
-            betterLookAt(lookAtTarget);
+            // new root motion
+            Model.Rotation = new Vector3(Model.Rotation.X, MathF.Atan2(-direction.X, -direction.Z), Model.Rotation.Z);
+            // old
+            //    Vector3 fowardPoint = this.GlobalPosition + Velocity * 1;
+            //    Vector3 lookAtTarget = new Vector3(fowardPoint.X, 0, fowardPoint.Z);
+            //    betterLookAt(lookAtTarget);
         }
 
         // Animation idle/walk
-        if(creatureInstance == null)
+        if (creatureInstance == null)
             return;
-        var velo = this.Velocity.Length();
-        if (velo <= 0.001)
-        {
-            this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.idle, this.creatureInstance.currentSkin.animations.idle);
-        }
-        else
-        if (velo >= 1 && velo < 2)
-        {
-            this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.moving, this.creatureInstance.currentSkin.animations.walk, cachedIncreasedMovementSpeed);
-        }
-        else
-        if (velo >= 2)
-        {
-            this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.moving, this.creatureInstance.currentSkin.animations.run, cachedIncreasedMovementSpeed);
-        }
+        //if (velo < 0.05)
+        //{
+        //    this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.idle, this.creatureInstance.currentSkin.animations.idle);
+        //}
+        //else
+        //if (velo >= 0.05 && velo < 2)
+        //{
+        //    this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.moving, this.creatureInstance.currentSkin.animations.walk, cachedIncreasedMovementSpeed);
+        //}
+        //else
+        //if (velo >= 2)
+        //{
+        //    this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.moving, this.creatureInstance.currentSkin.animations.run, cachedIncreasedMovementSpeed);
+        //}
     }
 }

@@ -10,15 +10,26 @@ using vampirekiller.logia;
 using Godot.Collections;
 using vampirekiller.eevee.creature;
 
-public enum AnimationState
-{
-    idle,
-    idle_gesture,
-    moving,
+//public enum AnimationState
+//{
+//    idle,
+//    idle_gesture,
+//    moving,
 
-    casting,
-    receiveHit,
-    death
+//    casting,
+//    receiveHit,
+//    death
+//}
+public record AnimationState(int idx, bool loop, params int[] restrictedStatesSource)
+{
+    public static readonly AnimationState idle = new(0, true);
+    public static readonly AnimationState idle_gesture = new(1, false, 0);
+    public static readonly AnimationState moving = new(2, true);
+
+    public static readonly AnimationState casting = new(3, false);
+    public static readonly AnimationState receiveHit = new(4, false);
+    public static readonly AnimationState death = new(5, false);
+    public static readonly AnimationState dance = new(6, false);
 }
 
 public partial class CreatureNodeAnimationPlayer : AnimationPlayer
@@ -27,7 +38,8 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
     private Action currentCallback;
     private string previousAnimation;
     private AnimationState state = AnimationState.idle;
-    private double gestureTimer = 5;
+    private double gestureTimer = 10;
+    private double gestureDelta = 0;
     private bool isLooping = false;
     private Random random = new Random();
     // idle -> moving
@@ -36,6 +48,54 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
 
     // gesture -> no idle
     // gesture -> moving instant
+    private AnimationNodeStateMachine m;
+    private AnimationNodeBlendSpace2D b;
+    private AnimationNodeAnimation walking;
+    private AnimationNodeAnimation run;
+    private AnimationNodeAnimation idle;
+    private List<AnimationNodeAnimation> gestures;
+    private double animationTimer = 0;
+    private double animationLength = 0;
+
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+    }
+
+    public void loadSkin()
+    {
+        m = new AnimationNodeStateMachine();
+        m.AddNode("idle", new AnimationNodeAnimation()
+        {
+            Animation = skin.animations.idle
+        });
+        m.AddTransition("", "", new AnimationNodeStateMachineTransition()
+        {
+            AdvanceCondition = "idle"
+        });
+        int i = 0;
+        foreach (var gesture in skin.animations.idleOneShots)
+        {
+            m.AddNode("idle_gesture" + (i++), new AnimationNodeAnimation()
+            {
+                Animation = gesture
+            });
+        }
+
+
+        b = new AnimationNodeBlendSpace2D();
+        walking = new AnimationNodeAnimation()
+        {
+            Animation = skin.animations.walk
+        };
+        run = new AnimationNodeAnimation()
+        {
+            Animation = skin.animations.run
+        };
+        b.AddBlendPoint(walking, new Vector2(0, 1));
+        b.AddBlendPoint(run, new Vector2(0, 1));
+
+    }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -50,15 +110,16 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
     /// </summary>
     public override void _Process(double delta)
     {
+        animationTimer += delta;
         if (state == AnimationState.idle)
         {
-            gestureTimer -= delta;
-            if (gestureTimer < 0)
+            gestureDelta += delta;
+            if (gestureDelta >= gestureTimer)
             {
                 var i = random.Next(skin.animations.idleOneShots.Length);
                 var gesture = skin.animations.idleOneShots[i];
                 if (playAnimationOneShot(AnimationState.idle_gesture, gesture))
-                    gestureTimer = 5;
+                    gestureDelta = 0;
             }
         }
     }
@@ -104,9 +165,11 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
     {
         if(!canPlayAnimation(state, animation, true))
             return false;
-        isLooping = true;
         this.state = state;
+        this.isLooping = true;
         this.currentCallback = null;
+        this.animationTimer = 0;
+        this.animationLength = this.GetAnimation(animation).Length;
         // TODO: transitions? ex: if(this.state = running && newState == idle) -> play("run_to_stop") + on finish play("idle") ou animationTree...
         this.Play(animation, customSpeed: (float) (increasedSpeedPercent + 100f) / 100f);
         return true;
@@ -117,7 +180,10 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
         if (!canPlayAnimation(state, animation))
             return false;
         this.state = state;
+        this.isLooping = false;
         this.currentCallback = callback;
+        this.animationTimer = 0;
+        this.animationLength = this.GetAnimation(animation).Length;
         if (animationTime != 0)
         {
             //this.GetAnimation(animation).Length = (float) animationTime;
@@ -135,17 +201,35 @@ public partial class CreatureNodeAnimationPlayer : AnimationPlayer
         if (!this.IsPlaying())
             return true;
 
-        if(this.state > newState || isLooping && isLoop) // && this.state > AnimationState.moving)
+        // Dont override self if looping
+        if(state == newState && isLooping)
             return false;
+
+        // Allow to cancel the rest of an animation after the callback is called
+        // Should have a timeBegin and timeEnd so you can cancel before and cancel after but not during.
+        //  ~~Maybe add an animationTrack at 20% its timelength to call "setAnimationLocked(true)" then "setAnimationLocked(false)" at the end.~~
+        //  Would be a problem if the false never gets called + this prob adds overhead.
+        //  
+        //if (state == newState && currentCallback != null)
+        //    return false;
+
+        // can cancel first 20% and last 80%
+        if(!isLooping && this.animationTimer > animationLength * 0.2d && this.animationTimer < animationLength * 0.8d)
+            return false;
+
+        if(newState.restrictedStatesSource.Length > 0 && !newState.restrictedStatesSource.Contains(state.idx))
+            return false;
+
+        //if (this.state.idx > newState.idx)
+        //    return false;
 
         // Make sure animation exists
         if (!this.HasAnimation(animation))
             return false;
 
-
         // If the animation is the same as current one, do not override
-        if (this.CurrentAnimation == animation)
-            return false;
+        //if (this.CurrentAnimation == animation)
+        //    return false;
 
         // TODO: check animation cancelling timer
 
