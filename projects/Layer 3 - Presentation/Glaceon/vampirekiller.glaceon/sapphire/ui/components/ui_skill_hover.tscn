@@ -1,0 +1,222 @@
+[gd_scene load_steps=6 format=3 uid="uid://m0dj3kxkn76"]
+
+[ext_resource type="StyleBox" uid="uid://dyobp7tr34k0u" path="res://vampirekiller.glaceon/sapphire/ui/style/background_blue.tres" id="1_c7mdk"]
+[ext_resource type="StyleBox" uid="uid://by141ycketuki" path="res://vampirekiller.glaceon/sapphire/ui/style/background_dark.tres" id="1_svkr6"]
+[ext_resource type="Texture2D" uid="uid://ch5b3x4sjif6a" path="res://icon.svg" id="2_o2h7y"]
+[ext_resource type="Theme" uid="uid://gnsm0odr5gys" path="res://vampirekiller.glaceon/sapphire/ui/style/theme.tres" id="4_qv0gy"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4nnxb"]
+
+[node name="UiSkillHover" type="PanelContainer"]
+anchors_preset = -1
+anchor_right = 0.321875
+anchor_bottom = 0.340278
+offset_bottom = -1.52588e-05
+theme = ExtResource("4_qv0gy")
+theme_override_styles/panel = ExtResource("1_svkr6")
+metadata/_edit_use_anchors_ = true
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Header" type="PanelContainer" parent="Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_c7mdk")
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/VBoxContainer/Header"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Margin/VBoxContainer/Header/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Icon" type="TextureRect" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_stretch_ratio = 87.5
+texture = ExtResource("2_o2h7y")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Line1" type="HBoxContainer" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LblName" type="Label" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer/Line1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_type_variation = &"HeaderMedium"
+text = "Sporeburst"
+
+[node name="Spacer" type="Control" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer/Line1"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Level" type="HBoxContainer" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer/Line1"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="LblLevel" type="Label" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer/Line1/Level"]
+layout_mode = 2
+theme_type_variation = &"HeaderStat"
+text = "Level:"
+
+[node name="LblLevelValue" type="Label" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer/Line1/Level"]
+layout_mode = 2
+text = "5"
+
+[node name="Line2" type="HBoxContainer" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LblTags" type="Label" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer/Line2"]
+layout_mode = 2
+theme_type_variation = &"HeaderStat"
+text = "Spell, Projectile, Chaos"
+
+[node name="Spacer" type="Control" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer/Line2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Cost" type="HBoxContainer" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer/Line2"]
+layout_mode = 2
+
+[node name="LblCost" type="Label" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer/Line2/Cost"]
+layout_mode = 2
+theme_type_variation = &"HeaderStat"
+text = "Cost:"
+
+[node name="LblCostValue" type="Label" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer/Line2/Cost"]
+layout_mode = 2
+text = "23"
+
+[node name="LblCostResource" type="Label" parent="Margin/VBoxContainer/Header/MarginContainer/HBoxContainer/VBoxContainer/Line2/Cost"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "mana"
+justification_flags = 162
+
+[node name="Stats" type="PanelContainer" parent="Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_c7mdk")
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/VBoxContainer/Stats"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Margin/VBoxContainer/Stats/MarginContainer"]
+layout_mode = 2
+
+[node name="Column1" type="VBoxContainer" parent="Margin/VBoxContainer/Stats/MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Column2" type="VBoxContainer" parent="Margin/VBoxContainer/Stats/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CastTime" type="HBoxContainer" parent="Margin/VBoxContainer/Stats/MarginContainer/HBoxContainer/Column2"]
+layout_mode = 2
+
+[node name="LblCastTime" type="Label" parent="Margin/VBoxContainer/Stats/MarginContainer/HBoxContainer/Column2/CastTime"]
+layout_mode = 2
+theme_type_variation = &"HeaderStat"
+text = "Cast Time:"
+
+[node name="LblCastTimeValue" type="Label" parent="Margin/VBoxContainer/Stats/MarginContainer/HBoxContainer/Column2/CastTime"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0.65"
+
+[node name="LblSec" type="Label" parent="Margin/VBoxContainer/Stats/MarginContainer/HBoxContainer/Column2/CastTime"]
+layout_mode = 2
+text = "sec"
+
+[node name="CooldownTime" type="HBoxContainer" parent="Margin/VBoxContainer/Stats/MarginContainer/HBoxContainer/Column2"]
+layout_mode = 2
+
+[node name="LblCooldownTime" type="Label" parent="Margin/VBoxContainer/Stats/MarginContainer/HBoxContainer/Column2/CooldownTime"]
+layout_mode = 2
+theme_type_variation = &"HeaderStat"
+text = "Cooldown Time:"
+
+[node name="LblCooldownTimeValue" type="Label" parent="Margin/VBoxContainer/Stats/MarginContainer/HBoxContainer/Column2/CooldownTime"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1"
+
+[node name="LblSec" type="Label" parent="Margin/VBoxContainer/Stats/MarginContainer/HBoxContainer/Column2/CooldownTime"]
+layout_mode = 2
+text = "sec"
+
+[node name="Effects" type="PanelContainer" parent="Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_c7mdk")
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/VBoxContainer/Effects"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="StatsContainer" type="VBoxContainer" parent="Margin/VBoxContainer/Effects/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Margin/VBoxContainer/Effects/MarginContainer/StatsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/VBoxContainer/Effects/MarginContainer/StatsContainer/HBoxContainer"]
+layout_mode = 2
+text = "Deals 10 damage"
+
+[node name="Spacer" type="Control" parent="Margin/VBoxContainer/Effects/MarginContainer/StatsContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="IconAoe" type="TextureRect" parent="Margin/VBoxContainer/Effects/MarginContainer/StatsContainer/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("NoiseTexture2D_4nnxb")
+expand_mode = 2
+
+[node name="LblAoe" type="Label" parent="Margin/VBoxContainer/Effects/MarginContainer/StatsContainer/HBoxContainer"]
+layout_mode = 2
+text = "3"
+
+[node name="Description" type="PanelContainer" parent="Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_c7mdk")
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/VBoxContainer/Description"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="LblDescription" type="RichTextLabel" parent="Margin/VBoxContainer/Description/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "This skill really sucks, dont use it."
+fit_content = true

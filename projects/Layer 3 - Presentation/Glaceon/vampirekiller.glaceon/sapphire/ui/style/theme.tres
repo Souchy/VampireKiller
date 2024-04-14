@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://gnsm0odr5gys"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pfwlr"]
+
+[resource]
+HeaderStat/base_type = &"Label"
+HeaderStat/colors/font_color = Color(0, 0, 0, 0.588235)
+PanelContainer/styles/panel = SubResource("StyleBoxEmpty_pfwlr")

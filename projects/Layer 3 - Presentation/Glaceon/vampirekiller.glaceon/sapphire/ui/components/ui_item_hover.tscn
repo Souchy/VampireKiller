@@ -1,0 +1,136 @@
+[gd_scene load_steps=6 format=3 uid="uid://cdeeadh8kdi2y"]
+
+[ext_resource type="Theme" uid="uid://gnsm0odr5gys" path="res://vampirekiller.glaceon/sapphire/ui/style/theme.tres" id="1_a3531"]
+[ext_resource type="StyleBox" uid="uid://by141ycketuki" path="res://vampirekiller.glaceon/sapphire/ui/style/background_dark.tres" id="1_qbw0r"]
+[ext_resource type="StyleBox" uid="uid://dyobp7tr34k0u" path="res://vampirekiller.glaceon/sapphire/ui/style/background_blue.tres" id="1_v230h"]
+[ext_resource type="Texture2D" uid="uid://ch5b3x4sjif6a" path="res://icon.svg" id="1_vf8at"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sktcp"]
+
+[node name="UiItemHover" type="PanelContainer"]
+anchors_preset = -1
+anchor_right = 0.279687
+anchor_bottom = 0.3625
+theme = ExtResource("1_a3531")
+theme_override_styles/panel = ExtResource("1_qbw0r")
+metadata/_edit_use_anchors_ = true
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Header" type="PanelContainer" parent="Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_v230h")
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/VBoxContainer/Header"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="PanelContainer" type="HBoxContainer" parent="Margin/VBoxContainer/Header/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Icon" type="TextureRect" parent="Margin/VBoxContainer/Header/MarginContainer/PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_stretch_ratio = 87.5
+texture = ExtResource("1_vf8at")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin/VBoxContainer/Header/MarginContainer/PanelContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="LblName" type="Label" parent="Margin/VBoxContainer/Header/MarginContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"HeaderMedium"
+text = "MyItem"
+
+[node name="LblPrice" type="Label" parent="Margin/VBoxContainer/Header/MarginContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "💎 3000"
+
+[node name="PanelContainer2" type="PanelContainer" parent="Margin/VBoxContainer/Header/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_sktcp")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Margin/VBoxContainer/Header/MarginContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="LblQuantity" type="Label" parent="Margin/VBoxContainer/Header/MarginContainer/PanelContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"HeaderStat"
+text = "Quantity:"
+
+[node name="LblQuantityValue" type="Label" parent="Margin/VBoxContainer/Header/MarginContainer/PanelContainer2/HBoxContainer"]
+layout_mode = 2
+text = "3"
+
+[node name="Stats" type="PanelContainer" parent="Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_v230h")
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/VBoxContainer/Stats"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="StatsContainer" type="VBoxContainer" parent="Margin/VBoxContainer/Stats/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/VBoxContainer/Stats/MarginContainer/StatsContainer"]
+layout_mode = 2
+text = "⚡ +10% increased damage"
+
+[node name="Label2" type="Label" parent="Margin/VBoxContainer/Stats/MarginContainer/StatsContainer"]
+layout_mode = 2
+text = "⌛ +10% increased cooldown recovery rate"
+
+[node name="Label3" type="Label" parent="Margin/VBoxContainer/Stats/MarginContainer/StatsContainer"]
+layout_mode = 2
+text = "🛡 +45 defence"
+
+[node name="Label4" type="RichTextLabel" parent="Margin/VBoxContainer/Stats/MarginContainer/StatsContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Grants the skill [color=#000000ff]Sporeburst[/color]"
+fit_content = true
+
+[node name="Description" type="PanelContainer" parent="Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_v230h")
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/VBoxContainer/Description"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="LblDescription" type="RichTextLabel" parent="Margin/VBoxContainer/Description/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "This item really sucks, dont use it."
+fit_content = true

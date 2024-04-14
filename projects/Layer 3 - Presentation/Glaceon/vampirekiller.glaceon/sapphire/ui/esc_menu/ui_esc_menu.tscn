@@ -1,0 +1,150 @@
+[gd_scene load_steps=7 format=3 uid="uid://iyuaa1smsp0b"]
+
+[ext_resource type="Theme" uid="uid://gnsm0odr5gys" path="res://vampirekiller.glaceon/sapphire/ui/style/theme.tres" id="1_wqup2"]
+[ext_resource type="PackedScene" uid="uid://fm2jhloymycy" path="res://vampirekiller.glaceon/sapphire/ui/esc_menu/inventory/ui_inventory_items.tscn" id="2_6sdhn"]
+[ext_resource type="PackedScene" uid="uid://clnmer0jmn6j2" path="res://vampirekiller.glaceon/sapphire/ui/esc_menu/inventory/ui_inventory_skills.tscn" id="3_e8jb4"]
+[ext_resource type="PackedScene" uid="uid://cgw0g1xmnlddo" path="res://vampirekiller.glaceon/sapphire/ui/esc_menu/ui_passives.tscn" id="4_m8r3o"]
+[ext_resource type="PackedScene" uid="uid://bhlyclieub64e" path="res://vampirekiller.glaceon/sapphire/ui/esc_menu/ui_map.tscn" id="5_p0dub"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4wx3i"]
+bg_color = Color(0.105882, 0.105882, 0.105882, 1)
+skew = Vector2(0.145, 0)
+
+[node name="UiEscMenu" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_wqup2")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 20
+
+[node name="MarginCharacter" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 50
+
+[node name="BtnCharacter" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginCharacter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4wx3i")
+text = "Passives"
+
+[node name="MarginItems" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 40
+
+[node name="BtnItems" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginItems"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4wx3i")
+text = "Items"
+
+[node name="MarginSkills" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 30
+
+[node name="BtnSkills" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginSkills"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4wx3i")
+text = "Skills"
+
+[node name="MarginMap" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 20
+
+[node name="BtnMap" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginMap"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4wx3i")
+text = "Map"
+
+[node name="Spacer" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginOptions" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 10
+
+[node name="BtnOptions" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginOptions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4wx3i")
+text = "Options"
+
+[node name="MarginExit" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 0
+
+[node name="BtnExit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginExit"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4wx3i")
+text = "Exit"
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UiInventoryItems" parent="MarginContainer/HBoxContainer/PanelContainer" instance=ExtResource("2_6sdhn")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UiInventorySkills" parent="MarginContainer/HBoxContainer/PanelContainer" instance=ExtResource("3_e8jb4")]
+visible = false
+layout_mode = 2
+
+[node name="UiPassives" parent="MarginContainer/HBoxContainer/PanelContainer" instance=ExtResource("4_m8r3o")]
+visible = false
+layout_mode = 2
+
+[node name="UiMap" parent="MarginContainer/HBoxContainer/PanelContainer" instance=ExtResource("5_p0dub")]
+layout_mode = 2
+size_flags_horizontal = 1
