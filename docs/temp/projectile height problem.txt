@@ -1,0 +1,10 @@
+
+
+problème de projectile qui va pas au curseur:
+
+- pcq on vise une entitée
+- et on met Y = 0, donc ça va à ses pieds
+- ce qui descend le proj vers le bas de l'écran
+- et p-e le fait tomber en pente
+- et vu qu'on utilise des capsules, ça peut manquer 
+- faut mettre y = 1 ou 0.9 (half creature height de 1.8m) ou y = 0.5
