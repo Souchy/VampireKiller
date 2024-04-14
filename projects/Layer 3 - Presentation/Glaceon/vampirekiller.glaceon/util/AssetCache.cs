@@ -60,16 +60,17 @@ public static class AssetCache
     }
 
     public static T Load<T>(string path) where T : Resource
-    {
-        if(path == null)
-            return default;
-        if (!resources.ContainsKey(path))
-        {
-            var scene = GD.Load<T>(path);
-            resources[path] = scene;
-        }
-        return (T)resources[path];
-    }
+        => GD.Load<T>(path);
+    //{
+    //    if (path == null)
+    //        return default;
+    //    if (!resources.ContainsKey(path))
+    //    {
+    //        var scene = GD.Load<T>(path);
+    //        resources[path] = scene;
+    //    }
+    //    return (T)resources[path];
+    //}
     /// <summary>
     /// Load a file with one of the extensions with order of priority.
     /// </summary>

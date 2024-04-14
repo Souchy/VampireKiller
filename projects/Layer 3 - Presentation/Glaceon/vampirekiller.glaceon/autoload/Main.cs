@@ -3,8 +3,11 @@ using Logia.vampirekiller.logia;
 using System;
 using System.Linq;
 using vampierkiller.espeon;
+using vampirekiller.eevee.util.json;
+using vampirekiller.glaceon.configs;
 using vampirekiller.glaceon.util;
 using vampirekiller.logia;
+using vampirekiller.logia.configs;
 using vampirekiller.umbreon;
 
 namespace vampirekiller.glaceon.autoload;
@@ -14,6 +17,10 @@ namespace vampirekiller.glaceon.autoload;
 /// </summary>
 public partial class Main : Node
 {
+    public static ConfigDev configDev { get; set; }
+    public static ConfigGeneral configGeneral { get; set; }
+    public static ConfigUser configUser { get; set; }
+
     public override void _EnterTree()
     {
         // DOC: https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_dedicated_servers.html#doc-exporting-for-dedicated-servers
@@ -21,6 +28,17 @@ public partial class Main : Node
         // Sinon:
         // OS.HasFeature("dedicated_server")
         // DisplayServer.GetName() == "headless"
+
+        configDev = Config.load<ConfigDev>();
+        configGeneral = Config.load<ConfigGeneral>();
+        configUser = Config.load<ConfigUser>("profiles/" + configGeneral.lastProfileUsed + ".json");
+
+        ResourceLoader.SetResPathReplacement("res://Assets", Paths.vampireAssetsSources);
+        ResourceLoader.SetResPathReplacement("res://vampireassets", Paths.vampireAssets);
+        GD.Print("Override paths: " + Paths.vampireAssetsSources);
+        GD.Print("Override paths: " + Paths.vampireAssets);
+        //ResourceLoader.SetResPathReplacement("res://addons", ConfigDev.Instance.vampireAssetsPath + "addons/"); // maybe
+
         Universe.root = GetTree().Root;
         LogiaDiamonds.loadTypes();
         //AssetCache.loadResources();

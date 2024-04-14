@@ -22,6 +22,8 @@ public partial class UiSapphire : Control
     public Label LblLastRaycast { get; set; }
     [NodePath]
     public Label LblProjCount { get; set; }
+    [NodePath]
+    public Label LblCreatureCount { get; set; }
     
 
     [NodePath]
@@ -80,6 +82,7 @@ public partial class UiSapphire : Control
         if (Universe.isOnline && !this.IsMultiplayerAuthority())
             return;
         LblProjCount.Text = "projectiles: " + Universe.fight?.projectiles.size();
+        LblCreatureCount.Text = "creatures: " + Universe.fight?.creatures.size();
     }
 
     /// <summary>

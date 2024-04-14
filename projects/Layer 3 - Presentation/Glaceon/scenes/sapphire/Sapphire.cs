@@ -79,13 +79,13 @@ public partial class Sapphire : Node
 
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
-    {
-        if (Universe.isOnline && !this.IsMultiplayerAuthority())
-            return;
-        //var action = new ActionProcessTick(delta);
-        //Universe.fight.procTriggers(action);
-    }
+    //public override void _Process(double delta)
+    //{
+    //    if (Universe.isOnline && !this.IsMultiplayerAuthority())
+    //        return;
+    //    //var action = new ActionProcessTick(delta);
+    //    //Universe.fight.procTriggers(action);
+    //}
 
 
     [Subscribe(Fight.EventSet)]

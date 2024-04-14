@@ -8,13 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GodotSharp" Version="4.2.0" />
+    <PackageReference Include="GodotSharp" Version="4.2.3-dev" />
     <PackageReference Include="GodotSharpExtras" Version="0.4.0" />
     <PackageReference Include="SimpleInjector" Version="5.4.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Layer 0 - Domain\Eevee\Eevee.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="vampirekiller.logia\util\" />
   </ItemGroup>
 
 </Project>

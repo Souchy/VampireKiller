@@ -132,3 +132,7 @@ text = "raycast:"
 [node name="LblProjCount" type="Label" parent="MarginContainer3/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="LblCreatureCount" type="Label" parent="MarginContainer3/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
