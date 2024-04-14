@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://fm2jhloymycy"]
+
+[ext_resource type="PackedScene" uid="uid://dgyt627ghh1ef" path="res://vampirekiller.glaceon/sapphire/ui/components/ui_item_cell.tscn" id="1_cd7dl"]
+[ext_resource type="Theme" uid="uid://gnsm0odr5gys" path="res://vampirekiller.glaceon/sapphire/ui/style/theme.tres" id="1_ldv7q"]
+
+[node name="UiInventoryItems" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ldv7q")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="LblTitle" type="Label" parent="MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+text = "Items"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="HFlowContainer" type="HFlowContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="UiItemCell" parent="MarginContainer/VBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("1_cd7dl")]
+layout_mode = 2
+
+[node name="UiItemCell2" parent="MarginContainer/VBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("1_cd7dl")]
+layout_mode = 2
+
+[node name="UiItemCell3" parent="MarginContainer/VBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("1_cd7dl")]
+layout_mode = 2
+
+[node name="UiItemCell4" parent="MarginContainer/VBoxContainer/ScrollContainer/HFlowContainer" instance=ExtResource("1_cd7dl")]
+layout_mode = 2
