@@ -76,7 +76,7 @@ public class Subscription
 public interface IEventBus : IDisposable
 {
     /// <summary>
-    /// Creates a new Subscription for each method that has the [Subscribe] attribute and for each path in the attribute.
+    /// Creates a new Subscription for each method in the subscriber that has the [Subscribe] attribute and for each path in the attribute.
     /// </summary>
     /// <param name="subscriber">Subscriber object who will receive events</param>
     /// <param name="methodNames">Leave empty if you want to subcsribe all methods. Add method names to subscribe only few.</param>

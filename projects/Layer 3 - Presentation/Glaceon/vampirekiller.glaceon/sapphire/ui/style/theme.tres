@@ -1,8 +1,40 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://gnsm0odr5gys"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://gnsm0odr5gys"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q1dkv"]
+bg_color = Color(0.105882, 0.105882, 0.105882, 0.627451)
+skew = Vector2(0.145, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dt7qf"]
+bg_color = Color(1, 1, 1, 1)
+skew = Vector2(0.145, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q25xo"]
+bg_color = Color(0.847059, 0.847059, 0.847059, 1)
+skew = Vector2(0.145, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0uswg"]
+bg_color = Color(0.105882, 0.105882, 0.105882, 1)
+skew = Vector2(0.145, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ykvwm"]
+bg_color = Color(1, 1, 1, 1)
+skew = Vector2(0.145, 0)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pfwlr"]
 
 [resource]
+EscMenuButton/base_type = &"Button"
+EscMenuButton/colors/font_color = Color(1, 1, 1, 1)
+EscMenuButton/colors/font_disabled_color = Color(1, 1, 1, 0.627451)
+EscMenuButton/colors/font_focus_color = Color(0, 0, 0, 1)
+EscMenuButton/colors/font_hover_color = Color(0, 0, 0, 1)
+EscMenuButton/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+EscMenuButton/colors/font_pressed_color = Color(0, 0, 0, 1)
+EscMenuButton/styles/disabled = SubResource("StyleBoxFlat_q1dkv")
+EscMenuButton/styles/focus = SubResource("StyleBoxFlat_dt7qf")
+EscMenuButton/styles/hover = SubResource("StyleBoxFlat_q25xo")
+EscMenuButton/styles/normal = SubResource("StyleBoxFlat_0uswg")
+EscMenuButton/styles/pressed = SubResource("StyleBoxFlat_ykvwm")
 HeaderStat/base_type = &"Label"
 HeaderStat/colors/font_color = Color(0, 0, 0, 0.588235)
 PanelContainer/styles/panel = SubResource("StyleBoxEmpty_pfwlr")
