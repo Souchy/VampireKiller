@@ -43,7 +43,11 @@ public class Room
     public SmartList<IStatement> MonsterModifiers { get; set; } = SmartList<IStatement>.Create();
     public SmartList<IStatement> PlayerModifiers { get; set; } = SmartList<IStatement>.Create();
 
+
+    public Room() { }
+    public Room(int index) => Index = index;
     public Biome GetBiome() => Diamonds.biomes[BiomeId];
+    public bool HasConnection(int index) => Connections.Contains(index);
 }
 
 /// <summary>

@@ -19,6 +19,10 @@ public class Floor
     {
         return Rooms.Where(r => Math.Abs(r.Index - roomIndex) <= 1);
     }
+    public Room? GetRoomAt(int index)
+    {
+        return Rooms.FirstOrDefault(r => r.Index == index);
+    }
 }
 
 public enum FloorType

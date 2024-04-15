@@ -31,6 +31,10 @@ public class MapGenerationSettings
     public int VisibleRoomRewardsChance { get; set; } = 100;
     public int VisibleRoomBiomeChance { get; set; } = 100;
 
-    public Random Random() => Seed.HasValue ? new Random(Seed.Value) : new Random();
+    private Random _rnd;
+    public Random Random()
+    {
+        return _rnd ??= Seed.HasValue ? new Random(Seed.Value) : new Random();
+    }
 
 }
