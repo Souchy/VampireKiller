@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GodotSharp" Version="4.2.0" />
+    <PackageReference Include="GodotSharp" Version="4.2.3-dev" />
     <PackageReference Include="GodotSharpExtras" Version="0.4.0" />
   </ItemGroup>
 

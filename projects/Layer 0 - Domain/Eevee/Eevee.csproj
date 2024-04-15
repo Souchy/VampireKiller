@@ -6,7 +6,7 @@
     <RootNamespace />
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GodotSharp" Version="4.2.0" />
+    <PackageReference Include="GodotSharp" Version="4.2.3-dev" />
     <PackageReference Include="SimpleInjector" Version="5.4.3" />
   </ItemGroup>
   <ItemGroup>

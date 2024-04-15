@@ -1,0 +1,15 @@
+
+
+
+
+EnemyNode
+- Remove CharacterBody3D, Use only Area3D ?
+	- ppl in tut videos do use characterbody3d, but may not be optimized
+- creaturenode physprocess issue
+
+
+Animations
+- play multiple times?
+- limit event rate?
+- string comparison too long? -> pourrait être nice de passer à des ID si possible
+- canplay() return false si state == newState? -> can't cancel an attack with another attack 

@@ -26,22 +26,30 @@ public static class Extensions
         return SafelySetScript<T>(obj, ResourceLoader.Load(resource));
     }
 
+
     public static (CreatureNode?, Vector3?) getRayCast(this Camera3D PlayerCamera)
     {
+        //var rayLength = 100;
+        var floorHeight = 0;
         var mousePos = PlayerCamera.GetViewport().GetMousePosition();
-        var rayLength = 100;
-        var from = PlayerCamera.ProjectRayOrigin(mousePos);
-        var to = from + PlayerCamera.ProjectRayNormal(mousePos) * rayLength;
+        var origin = PlayerCamera.ProjectRayOrigin(mousePos);
+        var direction = PlayerCamera.ProjectRayNormal(mousePos);
+
+        //var to = origin + direction * rayLength;
+        var distance = (floorHeight - origin.Y) / direction.Y;
+        Vector3 floorPos = direction * distance + origin;
+
         var space = PlayerCamera.GetWorld3D().DirectSpaceState;
         var ray = new PhysicsRayQueryParameters3D()
         {
-            From = from,
-            To = to,
-            CollideWithAreas = true
+            From = origin,
+            To = floorPos //to,
+            //CollideWithAreas = false,
+            //CollideWithBodies = false,
         };
         var result = space.IntersectRay(ray);
         CreatureNode? raycastEntity = null;
-        Vector3? raycastPosition = null;
+        //Vector3? raycastPosition = null;
         if (result.ContainsKey("collider"))
         {
             // Different colliders: ground (StaticBody3D), creature (CreatureNode).
@@ -50,14 +58,14 @@ public static class Extensions
             if (collider is CreatureNode crea)
                 raycastEntity = crea;
         }
-        if (result.ContainsKey("position"))
-        {
-            Vector3 pos = (Vector3) result["position"];
-            pos.Y = 0;
-            raycastPosition = pos;
-        }
-        EventBus.centralBus.publish(nameof(UiSapphire.onRaycast), raycastEntity, raycastPosition);
-        return (raycastEntity, raycastPosition);
+        //if (result.ContainsKey("position"))
+        //{
+        //    Vector3 pos = (Vector3) result["position"];
+        //    pos.Y = 0;
+        //    raycastPosition = pos;
+        //}
+        EventBus.centralBus.publish(nameof(UiSapphire.onRaycast), raycastEntity, floorPos);
+        return (raycastEntity, floorPos);
     }
 
 }

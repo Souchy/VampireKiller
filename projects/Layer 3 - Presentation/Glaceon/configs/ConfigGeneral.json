@@ -1,0 +1,10 @@
+{
+  "$type": "vampirekiller.glaceon.configs.ConfigGeneral, Glaceon",
+  "lastProfileUsed": "default",
+  "profiles": {
+    "$type": "System.Collections.Generic.List`1[[System.String, System.Private.CoreLib]], System.Private.CoreLib",
+    "$values": [
+      "default"
+    ]
+  }
+}

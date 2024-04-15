@@ -23,6 +23,7 @@ namespace vampirekiller.logia.stub;
 
 public class StubFight : Fight
 {
+    // "action_adventure_pack", 
     private static List<String> animLibraries = new() { "action_adventure_pack", "pro_longbow_pack", "pro_magic_pack" }; // "pro_magic_pack" };
     private static CreatureAnimationData anims = new()
     {
@@ -100,7 +101,7 @@ public class StubFight : Fight
         var skin = new CreatureSkin()
         {
             iconPath = "res://icon.svg",
-            scenePath = Paths.creatures + "rivals/small/Character_AncientQueen_01",
+            scenePath = Paths.creatures + "rivals/small/character_medusa_01",
             animationLibraries = StubFight.animLibraries,
             animations = StubFight.anims
         };

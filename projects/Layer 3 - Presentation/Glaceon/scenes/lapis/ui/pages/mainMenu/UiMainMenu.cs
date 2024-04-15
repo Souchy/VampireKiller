@@ -17,9 +17,6 @@ public partial class UiMainMenu : Node
 	public Button BtnLobbies { get; set; }
 	[NodePath]
 	public Button BtnSettings { get; set; }
-	[NodePath]
-	public Camera3D Camera3D { get; set; }
-
 
 	[Inject]
 	public ICommandPublisher publisher { get; set; }
