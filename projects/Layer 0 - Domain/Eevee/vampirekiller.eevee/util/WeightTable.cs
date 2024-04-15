@@ -44,6 +44,26 @@ public class WeightTable<T> where T : notnull
         return _table.First().Key;
     }
 
+    public HashSet<T> Pick(int? seed = null, int quantity = 1)
+    {
+        var rnd = seed.HasValue ? new Random(seed.Value) : new Random();
+        var size = Size();
+
+        HashSet<T> picked = new();
+        while(picked.Count < quantity)
+        {
+            var sum = 0;
+            var i = rnd.Next(0, size);
+            foreach (var pair in _table)
+            {
+                sum += pair.Value;
+                if (i < sum)
+                    picked.Add(pair.Key);
+            }
+        }
+        return picked;
+    }
+
     /// <summary>
     /// Adds the loot table to this one and returns this. No copy
     /// </summary>

@@ -8,8 +8,17 @@ namespace vampirekiller.eevee.campaign.map;
 
 public class Floor
 {
+    public int Index { get; set; } = 0;
     public FloorType FloorType { get; set; }
     public List<Room> Rooms {  get; set; } = new();
+    public bool HasRoomClose(int roomIndex)
+    {
+        return Rooms.Any(r => Math.Abs(r.Index - roomIndex) <= 1);
+    }
+    public IEnumerable<Room> GetRoomClose(int roomIndex)
+    {
+        return Rooms.Where(r => Math.Abs(r.Index - roomIndex) <= 1);
+    }
 }
 
 public enum FloorType

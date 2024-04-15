@@ -17,9 +17,13 @@ public class Biome : Identifiable
     /// </summary>
     public List<ID> SpawnableCreatures { get; set; } = new();
     /// <summary>
-    /// <ItemID, Weight>
+    /// <ItemID, Weight> on monsters
     /// </summary>
     public WeightTable<ID> LootTable {  get; set; } = new();
+    /// <summary>
+    /// <ItemID, Weight> on room rewards
+    /// </summary>
+    public WeightTable<ID> RewardsWeights { get; set; } = new();
 
     public void Dispose()
     {

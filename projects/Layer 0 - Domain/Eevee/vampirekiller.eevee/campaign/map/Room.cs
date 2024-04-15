@@ -1,7 +1,6 @@
 ﻿using Godot;
 using Util.entity;
 using Util.structures;
-using VampireKiller.eevee.vampirekiller.eevee.equipment;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 
 namespace vampirekiller.eevee.campaign.map;
@@ -26,24 +25,25 @@ public class Room
 
     public RoomType RoomType { get; set; }
     /// <summary>
-    /// Item rewards
-    /// </summary>
-    public List<ID> Rewards { get; set; } = new();
-    /// <summary>
     /// Based on the biome type, we should have different bosses, merchants, treasures, rewards... on top of the biomes properties already changing
     /// </summary>
     public ID BiomeId { get; set; }
-    //public BiomeType BiomeType { get; set; }
+    /// <summary>
+    /// Item rewards
+    /// </summary>
+    public HashSet<ID> Rewards { get; set; } = new();
     /// <summary>
     /// Room indices that are connected on the next floor 
     /// </summary>
-    public List<int> Connections { get; set; } = new();
+    public HashSet<int> Connections { get; set; } = new();
 
     /// <summary>
     /// 
     /// </summary>
     public SmartList<IStatement> MonsterModifiers { get; set; } = SmartList<IStatement>.Create();
     public SmartList<IStatement> PlayerModifiers { get; set; } = SmartList<IStatement>.Create();
+
+    public Biome GetBiome() => Diamonds.biomes[BiomeId];
 }
 
 /// <summary>
