@@ -8,5 +8,22 @@ namespace vampirekiller.eevee.campaign.map;
 
 public class Floor
 {
+    public FloorType FloorType { get; set; }
     public List<Room> Rooms {  get; set; } = new();
+}
+
+public enum FloorType
+{
+    /// <summary>
+    /// Each room is random
+    /// </summary>
+    Normal,
+    /// <summary>
+    /// Only one room, which is a boss
+    /// </summary>
+    Boss, 
+    /// <summary>
+    /// Proposes a choice of x different treasure. Pokemon moment, ex choose str vs dex vs int
+    /// </summary>
+    Treasure,
 }

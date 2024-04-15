@@ -1,12 +1,8 @@
 ﻿using Godot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Util.entity;
-using vampirekiller.eevee.util;
+using Util.structures;
 using VampireKiller.eevee.vampirekiller.eevee.equipment;
+using VampireKiller.eevee.vampirekiller.eevee.statements;
 
 namespace vampirekiller.eevee.campaign.map;
 
@@ -15,17 +11,39 @@ public class Room
    
     // Like Sanctum, we can turn on/off showing room type, rewards, etc. But I dont think this goes in the Room, but rather in the Player creature passives.
     // Or I guess some rooms could be naturally "Unknown"
-
     public bool ShowRoomType { get; set; }
-    public bool ShowRewards { get; set; }
-    public bool ShowBiome { get; set; }
+    public bool ShowRoomRewards { get; set; }
+    public bool ShowRoomBiome { get; set; }
+
+    /// <summary>
+    /// Offset from the index
+    /// </summary>
+    public Vector2 VisualOffset { get; set; }
+    /// <summary>
+    /// Index, X, Position of the room on the floor
+    /// </summary>
+    public int Index {  get; set; }
 
     public RoomType RoomType { get; set; }
-    public List<Item> Rewards { get; set; } = new();
+    /// <summary>
+    /// Item rewards
+    /// </summary>
+    public List<ID> Rewards { get; set; } = new();
     /// <summary>
     /// Based on the biome type, we should have different bosses, merchants, treasures, rewards... on top of the biomes properties already changing
     /// </summary>
-    public BiomeType BiomeType { get; set; }
+    public ID BiomeId { get; set; }
+    //public BiomeType BiomeType { get; set; }
+    /// <summary>
+    /// Room indices that are connected on the next floor 
+    /// </summary>
+    public List<int> Connections { get; set; } = new();
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public SmartList<IStatement> MonsterModifiers { get; set; } = SmartList<IStatement>.Create();
+    public SmartList<IStatement> PlayerModifiers { get; set; } = SmartList<IStatement>.Create();
 }
 
 /// <summary>
@@ -36,41 +54,12 @@ public class Room
 public enum RoomType
 {
     //Unknown, // = ShowRoomType == false ? 
+    Boss,
     Fight,
     Merchant, // Can have different merchants based on biome type
     Market, // all the merchants together
+    Nurse,
+    Inn,
     Treasure, // just rewards, no fight
     Campfire, // 
-    Inn,
-    Nurse,
-    Boss,
 }
-
-/// <summary>
-/// For each biome, we have a different tileset, mobs, drops, etc
-/// </summary>
-public enum BiomeType
-{
-    Dungeon, // ⛓
-    Castle, // 👑
-    Plains, // 🌿
-    Mountain, // ⛰
-    Desert, // 🌵
-    Snow, // ❄
-    Caverns, // 🍄💣
-    Lava, // 🔥
-}
-
-public class Biome
-{
-    public BiomeType BiomeType { get; set; }
-    /// <summary>
-    /// <CreatureModelID>
-    /// </summary>
-    public List<ID> SpawnableCreatures { get; set; } = new();
-    /// <summary>
-    /// <ItemID, Weight>
-    /// </summary>
-    public LootTable LootTable {  get; set; } = new();
-}
-

@@ -3,31 +3,42 @@ using Util.entity;
 
 namespace vampirekiller.eevee.util;
 
-public class LootTable
+public class WeightTable<T> where T : notnull
 {
+    /// <summary>
+    /// Previously SortedDictionary. 
+    /// </summary>
     [JsonProperty("loot")]
-    private readonly SortedDictionary<ID, int> _table = new();
+    private readonly Dictionary<T, int> _table = new(); 
+
+    public WeightTable() { }
+    public WeightTable(Dictionary<T, int> table)
+    {
+        _table = table;
+    }
 
     /// <summary>
     /// Total weight
     /// </summary>
-    public int Size() 
+    public int Size()
         => _table.Values.Sum();
 
-    public void Add(ID itemID, int weight)
-        => _table.Add(itemID, weight);
+    public void Add(T itemId, int weight)
+        => _table.Add(itemId, weight);
 
     /// <summary>
     /// Pick a random item ID
     /// </summary>
-    public ID Pick()
+    public T Pick(int? seed = null)
     {
-        var i = new Random().Next(0, Size());
+        var rnd = seed.HasValue ? new Random(seed.Value) : new Random();
+        var i = rnd.Next(0, Size());
+
         var sum = 0;
         foreach (var pair in _table)
         {
             sum += pair.Value;
-            if(i < sum)
+            if (i < sum)
                 return pair.Key;
         }
         return _table.First().Key;
@@ -36,7 +47,7 @@ public class LootTable
     /// <summary>
     /// Adds the loot table to this one and returns this. No copy
     /// </summary>
-    public LootTable Add(LootTable other)
+    public WeightTable<T> Add(WeightTable<T> other)
     {
         foreach (var pair in other._table)
         {
@@ -48,9 +59,9 @@ public class LootTable
         return this;
     }
 
-    public LootTable Copy()
+    public WeightTable<T> Copy()
     {
-        LootTable copy = new();
+        WeightTable<T> copy = new();
         foreach (var pair in _table)
         {
             copy._table[pair.Key] = pair.Value;

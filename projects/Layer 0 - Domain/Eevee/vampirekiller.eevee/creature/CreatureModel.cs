@@ -13,7 +13,7 @@ public class CreatureModel : Identifiable
 {
     public ID entityUid { get; set; }
     public List <CreatureSkin> skins { get; set; } = new();
-    public LootTable LootTable { get; set; }
+    public WeightTable<ID> LootTable { get; set; }
     public StatsDic baseStats { get; set; } = Register.Create<StatsDic>();
 
     protected CreatureModel()
