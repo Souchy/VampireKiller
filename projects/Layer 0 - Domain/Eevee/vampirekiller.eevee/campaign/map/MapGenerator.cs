@@ -117,7 +117,7 @@ public class MapGenerator
         room.ShowRoomType = rnd.Next(1, 100) >= settings.VisibleRoomTypeChance;
         room.ShowRoomBiome = rnd.Next(1, 100) >= settings.VisibleRoomBiomeChance;
         room.ShowRoomRewards = rnd.Next(1, 100) >= settings.VisibleRoomRewardsChance;
-        room.VisualOffset = new Vector2(rnd.NextSingle() - 0.5f, rnd.NextSingle() - 0.5f);
+        room.VisualOffset = new Vector2((rnd.NextSingle() - 0.5f) / 2f, (rnd.NextSingle() - 0.5f) / 2f);
     }
 
     /// <summary>

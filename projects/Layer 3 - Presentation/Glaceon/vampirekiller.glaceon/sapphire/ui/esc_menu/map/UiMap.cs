@@ -71,19 +71,28 @@ public partial class UiMap : PanelContainer
             for (int j = 0; j < floor.Rooms.Count; j++)
             {
                 var room = floor.Rooms[j];
-                int xPos = room.Index * xGap + xInit;
-                int yPos = i * yGap + yInit;
+                //float xPos = (room.Index) * xGap + xInit;
+                //float yPos = (i + room.VisualOffset.Y) * yGap + yInit;
+                float xPos1 = (room.Index) * xGap + xInit;
+                float yPos1 = (i) * yGap + yInit;
+                float dx1 = room.VisualOffset.X * xGap;
+                float dy1 = room.VisualOffset.Y * yGap;
 
                 foreach (var connection in room.Connections)
                 {
+                    var nextRoom = campaign.Map.Floors[i + 1].GetRoomAt(connection);
+                    var nextX = xGap * (connection - room.Index + nextRoom.VisualOffset.X);
+                    var nextY = yGap * (1 + nextRoom.VisualOffset.Y);
+
                     var line = new Line2D();
-                    line.AddPoint(new Vector2(25, 25));
-                    line.AddPoint(new Vector2((connection - room.Index) * xGap + 25, yGap + 25));
+                    line.AddPoint(new Vector2(dx1 + 25, dy1 + 25));
+                    line.AddPoint(new Vector2(nextX + 25, nextY + 25));
                     line.DefaultColor = new Color("1b1b1baa");
                     line.Width = 5;
                     line.JointMode = Line2D.LineJointMode.Round;
                     MapCanvas.AddChild(line);
-                    line.Position = new Vector2(xPos, yPos);
+
+                    line.Position = new Vector2(xPos1, yPos1);
                 }
 
                 var packedScene = AssetCache.Load<PackedScene>("res://vampirekiller.glaceon/sapphire/ui/esc_menu/map/ui_map_node.tscn");
@@ -91,7 +100,7 @@ public partial class UiMap : PanelContainer
                 //var roomNode = new UiMapNode();
                 this.MapCanvas.AddChild(roomNode);
                 roomNode.Label.Text = icons[(int) room.RoomType];
-                roomNode.Position = new Vector2(xPos, yPos);
+                roomNode.Position = new Vector2(xPos1 + dx1, yPos1 + dy1);
             }
         }
     }
