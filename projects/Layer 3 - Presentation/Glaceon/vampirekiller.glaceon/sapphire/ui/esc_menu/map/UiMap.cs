@@ -9,6 +9,7 @@ using vampirekiller.eevee.campaign;
 using vampirekiller.eevee.campaign.map;
 using vampirekiller.glaceon.sapphire.ui.esc_menu.map;
 using vampirekiller.glaceon.util;
+using vampirekiller.logia.generation;
 using VampireKiller.eevee.vampirekiller.eevee;
 
 /// <summary>
@@ -19,6 +20,7 @@ using VampireKiller.eevee.vampirekiller.eevee;
 public partial class UiMap : PanelContainer
 {
     private Campaign campaign = new();
+    private static List<string> icons = new() { "👾", "👻", "👳‍", "🧙‍", "👨‍🍳", "🏫", "🔥", "🧚‍", "💎", "❓" };
 
     [NodePath]
     public Panel MapCanvas { get; set; }
@@ -42,26 +44,23 @@ public partial class UiMap : PanelContainer
 
     public void generate()
     {
+
+        // Settings
         campaign.settings.MapGenerationSettings.MaxFloorWidth = 5;
         campaign.settings.MapGenerationSettings.AutoDistributeBranchCountWeights();
+        // Generate
+        campaign.Map = new MapGenerator().GenerateByPaths(campaign.settings.MapGenerationSettings, 10);
+        //new MapGenerator().AddFloors(campaign.settings.MapGenerationSettings, campaign.Map, 10);
+        // Make nodes
+        renderToGodot();
+    }
 
+    private void renderToGodot()
+    {
         int xInit = 50;
         int xGap = 100;
         int yInit = 50;
         int yGap = 100;
-
-        //Boss,
-        //Fight,
-        //Merchant, // Can have different merchants based on biome type
-        //Market, // all the merchants together
-        //Campfire, // small rest
-        //Nurse, // giga heal
-        //Inn, // giga rest
-        //Treasure, // just rewards, no fight
-        var icons = new List<String>() { "👾", "👻", "👳‍", "🧙‍", "👨‍🍳", "🏫", "🔥", "🧚‍", "💎", "❓" };
-
-        campaign.Map = new MapGenerator().GenerateByPaths(campaign.settings.MapGenerationSettings, 10);
-        //new MapGenerator().AddFloors(campaign.settings.MapGenerationSettings, campaign.Map, 10);
 
         MapCanvas.RemoveAndQueueFreeChildren();
 

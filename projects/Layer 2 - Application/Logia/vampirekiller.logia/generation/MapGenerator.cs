@@ -1,8 +1,9 @@
 ﻿using Godot;
 using System.Drawing;
+using vampirekiller.eevee.campaign.map;
 using vampirekiller.eevee.util;
 
-namespace vampirekiller.eevee.campaign.map;
+namespace vampirekiller.logia.generation;
 
 public class MapGenerator
 {
