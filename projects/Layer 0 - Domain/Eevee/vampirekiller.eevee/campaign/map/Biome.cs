@@ -25,6 +25,11 @@ public class Biome : Identifiable
     /// </summary>
     public WeightTable<ID> RewardsWeights { get; set; } = new();
 
+    /// <summary>
+    /// Use Register.Create<Biome>();
+    /// </summary>
+    private Biome() { }
+
     public void Dispose()
     {
         throw new NotImplementedException();

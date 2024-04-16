@@ -9,20 +9,20 @@ namespace Util;
 public static class Util
 {
 
-    public static HashSet<int> PickUniques(Random rnd, List<int> list, int min, int max)
+    public static HashSet<int> PickUniques(Random rnd, List<int> list, int count) //int min, int max)
     {
         // Make keys distinct
-        HashSet<int> keys = list.ToHashSet();
+        List<int> keys = list; //.ToList();
         // Pick a count to return
-        int randomCount = rnd.Next(min, max);
-        randomCount = Math.Clamp(randomCount, 0, list.Count);
+        //int count = rnd.Next(min, max);
+        count = Math.Clamp(count, 0, list.Count);
         // Remove random keys until we get the correct count
-        while (keys.Count > randomCount)
+        while (keys.Count > count)
         {
             var ra = rnd.Next(keys.Count);
-            keys.Remove(ra);
+            keys.RemoveAt(ra);
         }
-        return keys;
+        return keys.ToHashSet();
     }
 
 }

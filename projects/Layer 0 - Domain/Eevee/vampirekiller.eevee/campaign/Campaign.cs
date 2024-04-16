@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 using vampirekiller.eevee.campaign.map;
 using VampireKiller.eevee.creature;
 
@@ -36,6 +32,11 @@ public class Campaign
     /// 
     /// </summary>
     public CreatureInstance PlayerCreature { get; set; }
+
+    /// <summary>
+    /// Current player position on the map [x = room, y = floor]
+    /// </summary>
+    public Vector2 CurrentRoom { get; set; } = new(0, 0);
 
     public CampaignSettings settings {  get; set; } = new();
 

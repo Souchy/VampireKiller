@@ -1,20 +1,11 @@
 ﻿using Godot;
 using System.Drawing;
+using vampirekiller.eevee.util;
 
 namespace vampirekiller.eevee.campaign.map;
 
 public class MapGenerator
 {
-    //public Map GenerateMap(MapGenerationSettings settings, int floorCount)
-    //{
-    //    Map map = new Map();
-    //    for (int i = 0; i < floorCount; i++)
-    //    {
-    //        var floor = GenerateFloor(settings);
-    //        map.Floors.Add(floor);
-    //    }
-    //    return map;
-    //}
 
     public Map GenerateByPaths(MapGenerationSettings settings, int floorCount)
     {
@@ -23,12 +14,14 @@ public class MapGenerator
         return map;
     }
 
-    public void AddFloors(MapGenerationSettings settings, Map map, int floorCount)
+    public void AddFloors(MapGenerationSettings settings, Map map, int addCount)
     {
-        var rnd = settings.Random();
-        for (int i = map.Floors.Count; i < map.Floors.Count + floorCount; i++)
+        //var rnd = settings.Random();
+        int initialCount = map.Floors.Count;
+        for (int i = initialCount; i < initialCount + addCount; i++)
         {
             Floor floor = new Floor();
+            floor.Index = i;
             map.Floors.Add(floor);
             GenFloor(settings, map, floor);
             if (i == 0)
@@ -44,17 +37,29 @@ public class MapGenerator
             {
                 _addRoomsToRegularFloor(settings, map, floor);
             }
+            foreach (var room in floor.Rooms)
+                GenRoom(settings, map, floor, room);
         }
     }
     private void _addRoomsToStartingFloor(MapGenerationSettings settings, Floor floor)
     {
-        floor.Rooms.Add(new Room(settings.Random().Next(settings.MaxFloorWidth)));
+        var startIndex = GetMiddleIndex(settings);
+        floor.Rooms.Add(new Room(startIndex));
+    }
+    private int GetMiddleIndex(MapGenerationSettings settings)
+    {
+        var a = settings.MaxFloorWidth - 1;
+        double b = a / 2.0;
+        int middle = settings.Random().Next((int) Math.Floor(b), (int) Math.Ceiling(b));
+        return middle;
     }
     private void _addRoomsToBossFloor(MapGenerationSettings settings, Map map, Floor floor)
     {
         var room = new Room(settings.Random().Next(settings.MaxFloorWidth));
         floor.Rooms.Add(room);
-        GenRoom(settings, map, floor, room);
+
+        room.Index = GetMiddleIndex(settings);
+
         Floor previous = map.Floors[floor.Index - 1];
         foreach (Room previousRoom in previous.Rooms)
         {
@@ -64,15 +69,18 @@ public class MapGenerator
     private void _addRoomsToRegularFloor(MapGenerationSettings settings, Map map, Floor floor)
     {
         Floor previous = map.Floors[floor.Index - 1];
-        foreach (Room previousRoom in previous.Rooms)
+        List<Room> previousRooms = previous.Rooms.ToList();
+        while (previousRooms.Count > 0)
         {
-            Branch(settings, map, floor.Index, previousRoom.Index);
+            var id = settings.Random().Next(previousRooms.Count);
+            var previousRoom = previousRooms[id];
+            previousRooms.Remove(previousRoom);
+            Branch(settings, map, floor.Index - 1, previousRoom.Index);
             foreach (int connection in previousRoom.Connections)
                 if (floor.GetRoomAt(connection) == null)
                 {
                     var room = new Room(connection);
                     floor.Rooms.Add(room);
-                    GenRoom(settings, map, floor, room);
                 }
         }
     }
@@ -80,7 +88,12 @@ public class MapGenerator
 
     private void GenFloor(MapGenerationSettings settings, Map map, Floor floor)
     {
-        floor.FloorType = settings.FloorTypeWeights.Pick(settings.Seed);
+        do
+        {
+            floor.FloorType = settings.FloorTypeWeights.Pick(settings.Seed);
+        }
+        // Dont pick a boss floor twice in a row
+        while (floor.FloorType == FloorType.Boss && map.Floors[floor.Index - 1].FloorType == FloorType.Boss);
     }
 
     private void GenRoom(MapGenerationSettings settings, Map map, Floor floor, Room room)
@@ -107,6 +120,11 @@ public class MapGenerator
         room.VisualOffset = new Vector2(rnd.NextSingle() - 0.5f, rnd.NextSingle() - 0.5f);
     }
 
+    /// <summary>
+    /// Branch from a floor to the next
+    /// </summary>
+    /// <param name="floor">floor - 1</param>
+    /// <param name="room">room on floor - 1</param>
     private void Branch(MapGenerationSettings settings, Map map, int floor, int room)
     {
         var possiblePaths = new List<int>();
@@ -127,8 +145,12 @@ public class MapGenerator
             .Where(i => i >= 0 && i < settings.MaxFloorWidth) // horizontal edge
             .Where(i => !IsCrossingPath(map, floor, room, i)) // no crossing
             .ToList();
-        // Pick at least 1 and maximum 3 random paths out of the possibilities.
-        var chosenPaths = Util.Util.PickUniques(settings.Random(), possiblePaths, 1, 3);
+        // If the floor has only 1 room, we want at least 2 outgoing connections
+        int branchCount = settings.BranchCountWeights.Pick(settings.Seed);
+        if (map.Floors[floor].Rooms.Count == 1)
+            branchCount = Math.Max(2, branchCount);
+        // Pick x random paths out of the possibilities.
+        var chosenPaths = Util.Util.PickUniques(settings.Random(), possiblePaths, branchCount);
         // Set connections
         map.Floors[floor].GetRoomAt(room)!.Connections = chosenPaths;
     }
@@ -137,7 +159,10 @@ public class MapGenerator
     {
         if (map.Floors.Count <= floor1 + 1)
             return false;
-        return map.Floors[floor1 + 1].GetRoomAt(room2).HasConnection(room1);
+        var floor = map.Floors[floor1];
+        var nextRoom = floor.GetRoomAt(room2);
+        var hasConnection = nextRoom?.HasConnection(room1);
+        return hasConnection ?? false;
     }
 
     /*

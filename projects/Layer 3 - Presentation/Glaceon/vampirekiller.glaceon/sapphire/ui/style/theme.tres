@@ -5,7 +5,7 @@ bg_color = Color(0.105882, 0.105882, 0.105882, 0.627451)
 skew = Vector2(0.145, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dt7qf"]
-bg_color = Color(1, 1, 1, 1)
+bg_color = Color(0.105882, 0.105882, 0.105882, 1)
 skew = Vector2(0.145, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q25xo"]
@@ -26,7 +26,7 @@ skew = Vector2(0.145, 0)
 EscMenuButton/base_type = &"Button"
 EscMenuButton/colors/font_color = Color(1, 1, 1, 1)
 EscMenuButton/colors/font_disabled_color = Color(1, 1, 1, 0.627451)
-EscMenuButton/colors/font_focus_color = Color(0, 0, 0, 1)
+EscMenuButton/colors/font_focus_color = Color(0.937255, 0.937255, 0.937255, 1)
 EscMenuButton/colors/font_hover_color = Color(0, 0, 0, 1)
 EscMenuButton/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
 EscMenuButton/colors/font_pressed_color = Color(0, 0, 0, 1)

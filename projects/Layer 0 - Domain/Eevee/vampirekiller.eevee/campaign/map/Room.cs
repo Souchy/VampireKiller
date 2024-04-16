@@ -61,9 +61,11 @@ public enum RoomType
     Boss,
     Fight,
     Merchant, // Can have different merchants based on biome type
+    ScrollVendor,
+    FoodVendor,
     Market, // all the merchants together
-    Nurse,
-    Inn,
+    Campfire, // small rest
+    Nurse, // giga heal
+    //Inn, // giga rest
     Treasure, // just rewards, no fight
-    Campfire, // 
 }

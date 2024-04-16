@@ -49,6 +49,8 @@ public class WeightTable<T> where T : notnull
         var rnd = seed.HasValue ? new Random(seed.Value) : new Random();
         var size = Size();
 
+        quantity = Math.Clamp(quantity, 0, this._table.Count);
+
         HashSet<T> picked = new();
         while(picked.Count < quantity)
         {
@@ -87,6 +89,11 @@ public class WeightTable<T> where T : notnull
             copy._table[pair.Key] = pair.Value;
         }
         return copy;
+    }
+
+    public void Clear()
+    {
+        _table.Clear();
     }
 
 }

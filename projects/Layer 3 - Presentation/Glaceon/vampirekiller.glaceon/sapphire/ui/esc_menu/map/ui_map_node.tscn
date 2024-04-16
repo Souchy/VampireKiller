@@ -1,10 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://c6o08cmwmfm26"]
+[gd_scene load_steps=5 format=3 uid="uid://c6o08cmwmfm26"]
 
 [ext_resource type="Script" path="res://vampirekiller.glaceon/sapphire/ui/esc_menu/map/UiMapNode.cs" id="2_24ipc"]
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_clspe"]
-width = 24
-height = 24
+[sub_resource type="Gradient" id="Gradient_6ff2p"]
+offsets = PackedFloat32Array(0, 0.442308, 0.677885)
+colors = PackedColorArray(0.0546875, 0.0546875, 0.0546875, 1, 0.0627451, 0.0627451, 0.0627451, 0.631373, 0.0666667, 0.0666667, 0.0666667, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sl3ka"]
+gradient = SubResource("Gradient_6ff2p")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_a6efc"]
 
@@ -14,18 +20,34 @@ anchors_preset = 0
 script = ExtResource("2_24ipc")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 26.0
 offset_bottom = 26.0
-texture = SubResource("NoiseTexture2D_clspe")
+texture = SubResource("GradientTexture2D_sl3ka")
 expand_mode = 2
+
+[node name="Label" type="Label" parent="TextureRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "👻"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
 texture = SubResource("NoiseTexture2D_a6efc")
 
 [node name="TextureButton" type="TextureButton" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 33.0
 offset_top = 1.0
