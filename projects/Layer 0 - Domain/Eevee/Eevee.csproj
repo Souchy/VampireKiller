@@ -6,6 +6,9 @@
     <RootNamespace />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="vampirekiller.eevee\zones\PointsGenerator.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="GodotSharp" Version="4.2.3-dev" />
     <PackageReference Include="SimpleInjector" Version="5.4.3" />
   </ItemGroup>
