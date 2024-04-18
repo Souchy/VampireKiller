@@ -55,11 +55,13 @@ public class RoomGenerator
 
         // Generate Room Shape
         Points points = new();
-        points.Add(PointsGenerator.rectangleRing(10, 10, 1));
-        points.Add(PointsGenerator.circleHalf(10).offset(0, 10).rotate(Rotation4Type.top));
-        points.Add(PointsGenerator.circleHalf(10).offset(10, 0).rotate(Rotation4Type.right));
-        points.Add(PointsGenerator.circleHalf(10).offset(-10, 0).rotate(Rotation4Type.left));
-        points.Add(PointsGenerator.circleHalf(10).offset(0, -10).rotate(Rotation4Type.bottom));
+        points.Add(PointsGenerator.rectangle(15, 10).tag(VoxelTag.Floor));
+        points.Add(PointsGenerator.circleHalf(15).offset(0, 10).rotate(Rotation4Type.top).tag(VoxelTag.Wall));
+        points.Add(PointsGenerator.circleHalf(10).offset(15, 0).rotate(Rotation4Type.right).tag(VoxelTag.Wall));
+        points.Add(PointsGenerator.circleHalf(10).offset(-10, 0).rotate(Rotation4Type.left).tag(VoxelTag.Wall));
+        points.Add(PointsGenerator.line(15).offset(0, -10).rotate(Rotation4Type.bottom).tag(VoxelTag.Wall, VoxelTag.Portals)); // portal line
+        //points.Add(PointsGenerator.circleHalf(10).offset(0, -10).rotate(Rotation4Type.bottom));
+
 
         // Points as Set
         HashSet<(float, float)> set = points.toSet();

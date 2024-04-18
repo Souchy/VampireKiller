@@ -4,22 +4,10 @@ namespace vampirekiller.eevee.zones;
 
 public static class PointsGenerator
 {
-    public static Vector3 From()
-    {
-        return new Vector3();
-    }
-    public static Vector3 From(float x, float z)
-    {
-        return new Vector3(x, 0, z);
-    }
-    public static Vector3 From(float x, float y, float z)
-    {
-        return new Vector3(x, y, z);
-    }
 
     public static Points point()
     {
-        return new() { From() };
+        return new() { new Voxel() };
     }
     public static Points pointRing() => point();
 
@@ -28,14 +16,14 @@ public static class PointsGenerator
     {
         Points points = new();
         for (int i = 0; i < length; i++)
-            points.Add(From(0, i));
+            points.Add(new Voxel(0, i));
         return points;
     }
     public static Points diagonal(int length)
     {
         Points points = new();
         for (int i = 0; i < length; i++)
-            points.Add(From(i, i));
+            points.Add(new Voxel(i, i));
         return points;
     }
     #endregion
@@ -45,9 +33,9 @@ public static class PointsGenerator
     {
         Points points = new();
         for (int i = -radiusForward; i <= radiusForward; i++)
-            points.Add(From(0, i));
+            points.Add(new Voxel(0, i));
         for (int i = -radiusSide; i <= radiusSide; i++)
-            points.Add(From(i, 0));
+            points.Add(new Voxel(i, 0));
         return points;
     }
     public static Points crossHalf(int radiusSide, int radiusForward)
@@ -55,9 +43,9 @@ public static class PointsGenerator
         Points points = new();
         
         for (int i = -radiusForward; i <= radiusForward; i++)
-            points.Add(From(0, i));
+            points.Add(new Voxel(0, i));
         for (int i = -radiusSide; i <= radiusSide; i++)
-            points.Add(From(i, 0));
+            points.Add(new Voxel(i, 0));
         return points;
     }
     public static Points crossRing(int radiusSide, int radiusForward)
@@ -65,9 +53,9 @@ public static class PointsGenerator
         Points points = new();
         
         for (int i = -radiusForward; i <= radiusForward; i++)
-            points.Add(From(0, i));
+            points.Add(new Voxel(0, i));
         for (int i = -radiusSide; i <= radiusSide; i++)
-            points.Add(From(i, 0));
+            points.Add(new Voxel(i, 0));
         return points;
     }
     public static Points crossHalfRing(int radiusSide, int radiusForward)
@@ -75,9 +63,9 @@ public static class PointsGenerator
         Points points = new();
         
         for (int i = -radiusForward; i <= radiusForward; i++)
-            points.Add(From(0, i));
+            points.Add(new Voxel(0, i));
         for (int i = -radiusSide; i <= radiusSide; i++)
-            points.Add(From(i, 0));
+            points.Add(new Voxel(i, 0));
         return points;
     }
 
@@ -86,9 +74,9 @@ public static class PointsGenerator
         Points points = new();
         
         for (int i = -radiusForward; i <= radiusForward; i++)
-            points.Add(From(i, i));
+            points.Add(new Voxel(i, i));
         for (int j = -radiusSide; j <= radiusSide; j++)
-            points.Add(From(j, -j));
+            points.Add(new Voxel(j, -j));
         return points;
     }
     public static Points xcrossRing(int radiusSide, int radiusForward)
@@ -96,9 +84,9 @@ public static class PointsGenerator
         Points points = new();
         
         for (int i = -radiusForward; i <= radiusForward; i++)
-            points.Add(From(i, i));
+            points.Add(new Voxel(i, i));
         for (int j = -radiusSide; j <= radiusSide; j++)
-            points.Add(From(j, -j));
+            points.Add(new Voxel(j, -j));
         return points;
     }
 
@@ -117,7 +105,7 @@ public static class PointsGenerator
         for (int i = -radius; i <= radius; i++)
             for (int j = -radius; j <= radius; j++)
                 if (Math.Abs(i) + Math.Abs(j) <= radius)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
         return points;
     }
     public static Points circleHalf(int radius)
@@ -127,7 +115,7 @@ public static class PointsGenerator
         for (int i = -radius; i <= radius; i++)
             for (int j = 0; j <= radius; j++)
                 if (Math.Abs(i) + Math.Abs(j) <= radius)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
         return points;
     }
     public static Points circleRing(int radius, int ringWidth)
@@ -139,7 +127,7 @@ public static class PointsGenerator
             {
                 var r = Math.Abs(i) + Math.Abs(j);
                 if (r <= radius && r > radius - ringWidth)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
             }
         return points;
     }
@@ -152,7 +140,7 @@ public static class PointsGenerator
             {
                 var r = Math.Abs(i) + Math.Abs(j);
                 if (r <= radius && r > radius - ringWidth)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
             }
         return points;
     }
@@ -165,7 +153,7 @@ public static class PointsGenerator
         
         for (int i = -radius; i <= radius; i++)
             for (int j = -radius; j <= radius; j++)
-                points.Add(From(i, j));
+                points.Add(new Voxel(i, j));
         return points;
     }
     public static Points squareHalf(int radius)
@@ -174,7 +162,7 @@ public static class PointsGenerator
         
         for (int i = -radius; i <= radius; i++)
             for (int j = 0; j <= radius; j++)
-                points.Add(From(i, j));
+                points.Add(new Voxel(i, j));
         return points;
     }
     public static Points squareRing(int radius, int ringWidth)
@@ -186,7 +174,7 @@ public static class PointsGenerator
             {
                 var r = Math.Max(Math.Abs(i), Math.Abs(j));
                 if (r <= radius && r > radius - ringWidth)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
             }
         return points;
     }
@@ -199,7 +187,7 @@ public static class PointsGenerator
             {
                 var r = Math.Max(Math.Abs(i), Math.Abs(j));
                 if (r <= radius && r > radius - ringWidth)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
             }
         return points;
     }
@@ -212,7 +200,7 @@ public static class PointsGenerator
         
         for (int i = -radiusSide; i <= radiusSide; i++)
             for (int j = -radiusForward; j <= radiusForward; j++)
-                points.Add(From(i, j));
+                points.Add(new Voxel(i, j));
         return points;
     }
     public static Points rectangleRing(int radiusSide, int radiusForward, int ringWidth)
@@ -224,7 +212,7 @@ public static class PointsGenerator
                 var side = (Math.Abs(i) <= radiusSide && Math.Abs(i) > radiusSide - ringWidth);
                 var forward = (Math.Abs(j) <= radiusForward && Math.Abs(j) > radiusForward - ringWidth);
                 if (side || forward)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
             }
         return points;
     }
@@ -239,7 +227,7 @@ public static class PointsGenerator
                 var side = (ai <= radiusSide && ai > radiusSide - ringWidth);
                 var forward = (aj <= radiusForward && aj > radiusForward - ringWidth);
                 if (side || forward)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
             }
         return points;
     }
@@ -255,7 +243,7 @@ public static class PointsGenerator
             {
                 var r = Math.Abs(i) + Math.Abs(j);
                 if (r <= maxRadius)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
             }
         return points;
     }
@@ -268,7 +256,7 @@ public static class PointsGenerator
             {
                 var r = Math.Abs(i) + Math.Abs(j);
                 if (r <= maxRadius)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
             }
         return points;
     }
@@ -286,11 +274,11 @@ public static class PointsGenerator
                 if (r > maxRadius)
                     continue;
                 if (r > maxRadius - ringWidth)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
                 if (minRadius == radiusSide && ai > radiusSide - ringWidth)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
                 if (minRadius == radiusForward && aj > radiusForward - ringWidth)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
             }
         return points;
     }
@@ -309,11 +297,11 @@ public static class PointsGenerator
                 if (r > maxRadius)
                     continue;
                 if (r > maxRadius - ringWidth)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
                 if (minRadius == radiusSide && ai > radiusSide - ringWidth)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
                 if (minRadius == radiusForward && aj > radiusForward - ringWidth)
-                    points.Add(From(i, j));
+                    points.Add(new Voxel(i, j));
             }
         return points;
     }

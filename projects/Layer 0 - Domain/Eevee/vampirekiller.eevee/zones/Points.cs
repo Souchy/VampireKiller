@@ -60,11 +60,45 @@ public static class PointsExtensions
     }
 }
 
+public class Voxel
+{
+    public Vector3 pos {  get; set; }
+    public List<VoxelTag> tags {  get; set; }
+    public Direction4 direction {  get; set; }
+    public float X => pos.X;
+    public float Y => pos.Y;
+    public float Z => pos.Z;
+    public Voxel() => pos = new Vector3();
+    public Voxel(float xyz) => pos = new Vector3(xyz, xyz, xyz);
+    public Voxel(float x, float z) => pos = new Vector3(x, 0, z);
+    public Voxel(float x, float y, float z) => pos = new Vector3(x, y, z);
+}
+
+public enum VoxelTag
+{
+    Wall,
+    Portals,
+    Corner,
+    Floor,
+
+}
+public enum Direction4
+{
+
+}
+
 /// <summary>
 /// TODO: Convert to HashSet ? 
 /// </summary>
-public class Points : List<Vector3>
+public class Points : List<Voxel>
 {
+    public Points tag(params VoxelTag[] tags)
+    {
+        foreach(var v in this)
+            v.tags.AddRange(tags);
+        return this;
+    }
+
     public HashSet<(float x, float z)> toSet()
     {
         return this.Select(p => (p.X, p.Z)).ToHashSet();
@@ -74,7 +108,7 @@ public class Points : List<Vector3>
     /// <summary>
     /// Grid[x][z]
     /// </summary>
-    public Vector3[][] toGrid()
+    public Voxel[][] toGrid()
     {
         var bounds = boundingSize();
         var width = (int) (bounds.max.X - bounds.min.X);
@@ -87,22 +121,22 @@ public class Points : List<Vector3>
 
         var dic = this.ToDictionary(p => ((int) p.X, (int) p.Z));
 
-        Vector3[][] grid = new Vector3[width][];
+        Voxel[][] grid = new Voxel[width][];
         for (int i = 0; i < this.Count; i++)
         {
             var p = this[i];
             if (grid[(int) p.X] == null)
-                grid[(int) p.X] = new Vector3[depth];
+                grid[(int) p.X] = new Voxel[depth];
             grid[(int) p.X][(int) p.Z] = p;
         }
         return grid;
     }
 
-    public bool isEdge(Vector3 v)
+    public bool isEdge(Voxel v)
     {
         int count = 0;
         foreach (var p in this)
-            if ((p - v).Length() == 1)
+            if ((p.pos - v.pos).Length() == 1)
                 count++;
         return count < 4;
     }
@@ -122,7 +156,7 @@ public class Points : List<Vector3>
             var p = this[i];
             float xb = (float) Math.Round(p.X * Math.Cos(angle) - p.Z * Math.Sin(angle));
             float zb = (float) Math.Round(p.Z * Math.Cos(angle) + p.X * Math.Sin(angle));
-            this[i] = new Vector3(xb, p.Y, zb);
+            this[i].pos = new Vector3(xb, p.Y, zb);
         }
         return this;
     }
@@ -157,7 +191,7 @@ public class Points : List<Vector3>
     public Points offset(float x, float z)
     {
         for (int i = 0; i < Count; i++)
-            this[i] += new Vector3(x, 0, z);
+            this[i].pos += new Vector3(x, 0, z);
         return this;
     }
     public Points Add(Points points2)
@@ -166,13 +200,13 @@ public class Points : List<Vector3>
             Add(p);
         return this;
     }
-    public new List<Vector3> AddRange(IEnumerable<Vector3> points2)
+    public new List<Voxel> AddRange(IEnumerable<Voxel> points2)
     {
         foreach (var p in points2)
             Add(p);
         return this;
     }
-    public new void Add(Vector3 p)
+    public new void Add(Voxel p)
     {
         if (!this.Any(v => v == p))
             base.Add(p);
