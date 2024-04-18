@@ -21,6 +21,24 @@ namespace vampirekiller.logia.generation;
  *      
  */
 
+public partial class DbLibrary
+{
+    public List<PropRes> Models;
+    public List<object> Materials;
+}
+
+public partial class DbTexture
+{
+    public string path;
+    public string use;
+}
+
+public class DbModelCollection
+{
+    public string name;
+    public List<PropRes> Models;
+}
+
 [GlobalClass]
 public partial class PropRes : Resource
 {
@@ -36,10 +54,16 @@ public partial class PropRes : Resource
     public int PlacementHeight { get; set; } = 0;
     [Export(PropertyHint.Range, "0,100")]
     public int PlacementHeightRandomness { get; set; } = 0;
+    /// <summary>
+    /// Ex: walls, roofs, floors, carpets, paintings, glass, dirt
+    /// </summary>
+    [Export]
+    public Resource Texture {  get; set; }
 
     public bool RandomXRotation { get; set; } = false;
     public bool RandomYRotation { get; set; } = false;
     public bool RandomZRotation { get; set; } = false;
+
 
     public bool Collides => CollisionBox != null;
 }

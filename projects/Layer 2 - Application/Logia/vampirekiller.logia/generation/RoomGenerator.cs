@@ -61,34 +61,33 @@ public class RoomGenerator
         points.Add(PointsGenerator.circleHalf(10).offset(-10, 0).rotate(Rotation4Type.left));
         points.Add(PointsGenerator.circleHalf(10).offset(0, -10).rotate(Rotation4Type.bottom));
 
-        DetectEdges(points);
+        // Points as Set
+        HashSet<(float, float)> set = points.toSet();
 
-        //List<Points> floors = new()
-        //{
-        //    PointsGenerator.rectangleRing(10, 10, 1),
-        //    PointsGenerator.circleHalf(10).offset(0, 10).rotate(Rotation4Type.top),
-        //    PointsGenerator.circleHalf(10).offset(10, 0).rotate(Rotation4Type.right),
-        //    PointsGenerator.circleHalf(10).offset(-10, 0).rotate(Rotation4Type.left),
-        //    PointsGenerator.circleHalf(10).offset(0, -10).rotate(Rotation4Type.bottom),
-        //};
-        //// i think we need an algorithm to detect the outer edges of the floors instead
-        //List<Points> walls = new()
-        //{
-        //    PointsGenerator.circleHalf(10).offset(0, 10).rotate(Rotation4Type.top),
-        //    PointsGenerator.circleHalf(10).offset(10, 0).rotate(Rotation4Type.right),
-        //    PointsGenerator.circleHalf(10).offset(-10, 0).rotate(Rotation4Type.left),
-        //    PointsGenerator.circleHalf(10).offset(0, -10).rotate(Rotation4Type.bottom),
-        //};
+        // Get outer walls placements
+        Points edges = DetectEdges(points, set);
+
+        
 
 
         return root;
     }
 
-    public Points DetectEdges(Points points)
+    public Points DetectEdges(Points points, HashSet<(float, float)> set)
     {
         Points edges = new();
-
-
+        foreach (var point in points)
+        {
+            if (set.Contains((point.X + 1, point.Z)))
+                continue;
+            if (set.Contains((point.X - 1, point.Z)))
+                continue;
+            if (set.Contains((point.X, point.Z + 1)))
+                continue;
+            if (set.Contains((point.X + 1, point.Z - 1)))
+                continue;
+            edges.Add(point);
+        }
         return edges;
     }
 
