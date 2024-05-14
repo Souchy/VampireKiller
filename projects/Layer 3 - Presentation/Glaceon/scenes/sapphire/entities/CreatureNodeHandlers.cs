@@ -10,6 +10,7 @@ using vampirekiller.eevee.actions;
 using vampirekiller.eevee.spells;
 using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.stats.schemas.resources;
+using vampirekiller.glaceon.sapphire.entities;
 using vampirekiller.glaceon.util;
 using vampirekiller.logia.extensions;
 using vampirekiller.umbreon.commands;
@@ -39,13 +40,15 @@ public abstract partial class CreatureNode : CharacterBody3D
         {
             anim = action.getSourceCreature().currentSkin.animations.cast;
         }
-        this.CreatureNodeAnimationPlayer.playAnimationOneShot(AnimationState.casting, anim, action.applyActionCast, (float) castTime);
+        stateMachine.setState(AnimationState2.casting);
+        //this.CreatureNodeAnimationPlayer.playAnimationOneShot(AnimationState.casting, anim, action.applyActionCast, (float) castTime);
     }
 
     [Subscribe(DomainEvents.EventDeath)]
     public void onDeath(CreatureInstance crea)
     {
-        this.CreatureNodeAnimationPlayer.playAnimationOneShot(AnimationState.death, creatureInstance.currentSkin.animations.death); //.playAnimation(SupportedAnimation.Death);
+        stateMachine.setState(AnimationState2.dying);
+        //this.CreatureNodeAnimationPlayer.playAnimationOneShot(AnimationState.death, creatureInstance.currentSkin.animations.death); //.playAnimation(SupportedAnimation.Death);
     }
 
     [Subscribe(CreatureInstance.EventUpdateStats)]

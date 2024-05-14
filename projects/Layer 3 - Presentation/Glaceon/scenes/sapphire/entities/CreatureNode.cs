@@ -21,6 +21,7 @@ using vampirekiller.eevee.creature;
 using scenes.sapphire.entities.component;
 using static System.Collections.Specialized.BitVector32;
 using vampirekiller.logia;
+using vampirekiller.glaceon.sapphire.entities;
 
 /// <summary>
 /// Properties that need to be shown:
@@ -34,6 +35,7 @@ public abstract partial class CreatureNode : CharacterBody3D
     public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
     
     public CreatureInstance creatureInstance;
+    public CreatureStateMachine stateMachine { get; set; }
 
     [NodePath]
     public CharacterModelNode Model { get; set; }
@@ -61,6 +63,7 @@ public abstract partial class CreatureNode : CharacterBody3D
     public MultiplayerSpawner StatusEffectsSpawner { get; set; }
     [NodePath]
     public MultiplayerSpawner ModelSpawner { get; set; }
+
 
     /// <summary>
     /// In seconds

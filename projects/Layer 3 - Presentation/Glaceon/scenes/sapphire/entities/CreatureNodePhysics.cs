@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using vampirekiller.glaceon.sapphire.entities;
 
 public abstract partial class CreatureNode : CharacterBody3D
 {
@@ -87,22 +88,25 @@ public abstract partial class CreatureNode : CharacterBody3D
         }
 
         // Animation idle/walk
-        if(creatureInstance == null)
-            return;
-        var velo = this.Velocity.Length();
-        if (velo <= 0.001)
-        {
-            this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.idle, this.creatureInstance.currentSkin.animations.idle);
-        }
-        else
-        if (velo >= 1 && velo < 2)
-        {
-            this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.moving, this.creatureInstance.currentSkin.animations.walk, cachedIncreasedMovementSpeed);
-        }
-        else
-        if (velo >= 2)
-        {
-            this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.moving, this.creatureInstance.currentSkin.animations.run, cachedIncreasedMovementSpeed);
-        }
+        //if(creatureInstance == null)
+        //    return;
+        //var velo = this.Velocity.Length();
+        //if (velo <= 0.001)
+        //{
+        //    this.stateMachine.setState(AnimationState2.idle);
+        //    this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.idle, this.creatureInstance.currentSkin.animations.idle);
+        //}
+        //else
+        //if (velo >= 1 && velo < 2)
+        //{
+        //    this.stateMachine.setState(AnimationState2.moving);
+        //    this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.moving, this.creatureInstance.currentSkin.animations.walk, cachedIncreasedMovementSpeed);
+        //}
+        //else
+        //if (velo >= 2)
+        //{
+        //    this.stateMachine.setState(AnimationState2.moving);
+        //    this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.moving, this.creatureInstance.currentSkin.animations.run, cachedIncreasedMovementSpeed);
+        //}
     }
 }

@@ -8,6 +8,7 @@ using Util.communication.commands;
 using Util.communication.events;
 using vampierkiller.logia;
 using vampirekiller.glaceon.autoload;
+using vampirekiller.glaceon.sapphire.entities;
 using vampirekiller.glaceon.util;
 using vampirekiller.logia.commands;
 using vampirekiller.logia.net;
@@ -87,6 +88,7 @@ public partial class PlayerNode : CreatureNode
         // Directional inputs
         if (isAnyActionPressed(directionInputs))
         {
+            stateMachine.setState(AnimationState2.moving);
             // stop the point & click navigation
             NavigationAgent3D.TargetPosition = GlobalPosition;
         }
@@ -98,7 +100,10 @@ public partial class PlayerNode : CreatureNode
             if (raycast == null)
                 raycast = PlayerCamera.getRayCast();
             if (raycast.Value.raycastPosition != null)
+            {
+                stateMachine.setState(AnimationState2.moving);
                 NavigationAgent3D.TargetPosition = (Vector3) raycast.Value.raycastPosition;
+            }
         }
 
         // Cast inputs

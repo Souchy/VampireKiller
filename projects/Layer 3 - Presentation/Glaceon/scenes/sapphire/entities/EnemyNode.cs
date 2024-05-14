@@ -10,6 +10,7 @@ using vampierkiller.logia;
 using vampirekiller.eevee.actions;
 using vampirekiller.eevee.ai;
 using vampirekiller.eevee.creature;
+using vampirekiller.glaceon.sapphire.entities;
 using vampirekiller.logia.commands;
 using vampirekiller.logia.extensions;
 
@@ -48,10 +49,13 @@ public partial class EnemyNode : CreatureNode
             if(creaInstance != null) {
                 var player = creaInstance.get<CreatureNode>();
                 this.trackingTarget = player;
+                stateMachine.setState(AnimationState2.moving);
             }
         }
         if (this.trackingTarget != null)
+        {
             this.NavigationAgent3D.TargetPosition = this.trackingTarget.GlobalPosition;
+        }
 
         if (playersInRange.Count > 0)
         {
