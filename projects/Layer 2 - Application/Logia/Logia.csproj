@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Layer 0 - Domain\Eevee\Eevee.csproj" />
-    <ProjectReference Include="..\..\Util\Util.csproj" />
   </ItemGroup>
 
   <ItemGroup>
