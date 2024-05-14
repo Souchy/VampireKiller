@@ -5,40 +5,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vampirekiller.eevee.util.json;
+namespace Util.json;
 
 public class Config
 {
     [JsonIgnore]
-    private string path = "";
+    private string savePath = "";
+
+    public static string BaseDirectory { get; set; }
 
     public static T load<T>(string name = "") where T : Config, new()
     {
-        if(name == "")
-            name = typeof(T).Name + ".json";
-        string path;
-        #if DEBUG
-            path = "configs/" + name;
-        #else
-            path = "res://configs/" + name;
-        #endif
-        if(!File.Exists(path))
+        if (name == "")
+            name = typeof(T).Name;
+        if (!name.Contains('.'))
+            name += ".json";
+
+        string path = name;
+        if(!string.IsNullOrEmpty(BaseDirectory))
+            path = string.Join('/', BaseDirectory, name);
+
+        if (!File.Exists(path))
         {
             var t = new T();
-            t.path = path;
+            t.savePath = path;
             t.save();
             return t;
         }
         string json = File.ReadAllText(path);
         T config = Json.deserialize<T>(json);
-        config.path = path;
+        config.savePath = path;
         return config;
     }
 
     public void save()
     {
         string json = Json.serialize(this);
-        File.WriteAllText(path, json);
+        File.WriteAllText(savePath, json);
     }
 
 }

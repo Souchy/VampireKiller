@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Util.communication.commands;
 using vampierkiller.logia;
 using vampirekiller.eevee.util.json;
-using Json = vampirekiller.eevee.util.json.Json;
+using Json = Util.json.Json;
 
 namespace vampirekiller.logia.net;
 

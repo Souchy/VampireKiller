@@ -13,7 +13,7 @@ using vampierkiller.logia;
 using vampirekiller.eevee.util.json;
 using vampirekiller.logia.net;
 using vampirekiller.logia.stub;
-using Json = vampirekiller.eevee.util.json.Json;
+using Json = Util.json.Json;
 
 namespace vampirekiller.espeon;
 

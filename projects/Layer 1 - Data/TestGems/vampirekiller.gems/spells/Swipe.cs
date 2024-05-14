@@ -24,6 +24,7 @@ using vampirekiller.eevee.enums;
 using vampirekiller.logia.extensions;
 using vampirekiller.eevee.actions;
 using vampirekiller.logia;
+using Util.json;
 
 namespace vampirekiller.gems.spells;
 

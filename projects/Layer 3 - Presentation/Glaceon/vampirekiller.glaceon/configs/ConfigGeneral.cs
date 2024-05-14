@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using vampirekiller.eevee.util.json;
+﻿using System.Collections.Generic;
+using Util.json;
 
 namespace vampirekiller.glaceon.configs;
 

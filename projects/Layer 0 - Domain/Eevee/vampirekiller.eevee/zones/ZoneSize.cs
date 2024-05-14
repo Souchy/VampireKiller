@@ -10,7 +10,7 @@ namespace vampirekiller.eevee.zones;
 public abstract class IZoneSize
 {
     public Vector3 sizeParams;
-    public float ringWidth { get => sizeParams.y; set => sizeParams.y = value; }
+    public float ringWidth { get => sizeParams.Y; set => sizeParams.Y = value; }
 }
 public class ZoneSizePoint : IZoneSize
 {

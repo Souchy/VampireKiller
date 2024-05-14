@@ -2,6 +2,7 @@
 
 using System.Collections.Immutable;
 using Util.entity;
+using Util.json;
 using vampirekiller.eevee.campaign.map;
 using vampirekiller.eevee.statements;
 using vampirekiller.eevee.statements.schemas;

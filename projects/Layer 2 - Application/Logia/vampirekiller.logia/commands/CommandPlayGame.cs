@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Util.communication.commands;
 using Util.entity;
+using Util.json;
 using vampirekiller.eevee.util.json;
 
 namespace vampierkiller.logia.commands;

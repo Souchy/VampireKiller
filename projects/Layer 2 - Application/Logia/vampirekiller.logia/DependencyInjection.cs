@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Container = SimpleInjector.Container;
-//using CreatureData = souchy.celebi.eevee.impl.objects.Creature;
 
 namespace vampierkiller.logia;
 
@@ -20,19 +19,21 @@ public interface IDependencyInjectionSystem
 
 public static class NodeExtensions
 {
+    private const string disPath = "/root/DependencyInjectionSystem";
+    private static IDependencyInjectionSystem dis;
+    private static readonly Type at = typeof(InjectAttribute);
+
     public static void Inject(this Node node)
     {
-        var disPath = "/root/DependencyInjectionSystem";
-        var dis = node.GetNode<IDependencyInjectionSystem>(disPath);
-        var at = typeof(InjectAttribute);
+        dis ??= node.GetNode<IDependencyInjectionSystem>(disPath);
+
         var fields = node.GetType()
-            .GetProperties()
-            //.GetRuntimeFields()
+            .GetMembers()
             .Where(f => f.GetCustomAttributes(at, true).Any());
         // GD.Print("DI Inject in " + node.Name + ", fields: " + string.Join(", ", fields.Select(f => f.Name)));
         foreach (var field in fields)
         {
-            var obj = dis.Resolve(field.PropertyType); //.FieldType);
+            var obj = dis.Resolve(field.MemberType());
             // GD.Print("DI resolved: " + field.Name + " = " + obj + ", in " + node.Name);
             try
             {
@@ -42,11 +43,34 @@ public static class NodeExtensions
             {
                 GD.PrintErr($"Error converting value " +
                     $"{obj} ({obj.GetType()})" +
-                    $" to {field.PropertyType}");
+                    $" to {field.MemberType()}");
                 throw;
             }
         }
     }
+
+    private static Type MemberType(this MemberInfo member)
+    {
+        if (member is PropertyInfo prop)
+            return prop.PropertyType;
+        else
+        if (member is FieldInfo field)
+            return field.FieldType;
+        else
+            throw new Exception("[Inject] attribute on a wrong member type");
+    }
+
+    private static void SetValue(this MemberInfo member, object? obj, object? value)
+    {
+        if (member is PropertyInfo prop)
+            prop.SetValue(obj, value);
+        else
+        if (member is FieldInfo field)
+            field.SetValue(obj, value);
+        else
+            throw new Exception("[Inject] attribute on a wrong member type");
+    }
+
 }
 #endregion
 

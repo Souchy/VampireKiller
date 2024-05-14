@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Util.json;
 using vampirekiller.eevee.util.json;
 
 namespace vampirekiller.logia.configs;

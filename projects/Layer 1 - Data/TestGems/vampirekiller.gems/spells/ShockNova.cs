@@ -22,7 +22,7 @@ using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 using VampireKiller.eevee.vampirekiller.eevee.statements.schemas;
 using VampireKiller.eevee.vampirekiller.eevee.zones;
-using Json = vampirekiller.eevee.util.json.Json;
+using Json = Util.json.Json;
 
 namespace vampirekiller.gems.spells;
 

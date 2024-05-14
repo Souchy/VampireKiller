@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace vampirekiller.eevee.util.json;
+namespace Util.json;
+
 public static class Json
 {
 
@@ -14,6 +15,7 @@ public static class Json
         Formatting = Formatting.Indented,
         TypeNameHandling = TypeNameHandling.All,
         NullValueHandling = NullValueHandling.Ignore,
+        ObjectCreationHandling = ObjectCreationHandling.Replace,
         //Converters = new List<JsonConverter> { new SmartListStatementConverter() }
     };
 
