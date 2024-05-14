@@ -21,10 +21,11 @@ Holds the game, entities, game ui...
    2. projects\Layer 1 - Data\VampireAssets
 
 2. Build Godot fork
-   1. > cd projects\Layer 2 - Application\Godot
-   2. > ./build_net.bat
-   3. Now use this build as your godot executable: "projects\Layer 2 - Application\Godot\bin\godot.windows.editor.dev.x86_64.mono.exe"
-   4. It is important to import characters with the right bonemap. Otherwise Godot will try to reimport scenes sometimes and it will break characters bones.
+   1. > cd "projects\Layer 2 - Application\Godot"
+   2. Edit ./build_net.bat location for nuget source
+   3. > ./build_net.bat
+   4. Now use this build as your godot executable: "projects\Layer 2 - Application\Godot\bin\godot.windows.editor.dev.x86_64.mono.exe"
+   5. It is important to import characters with the right bonemap. Otherwise Godot will try to reimport scenes sometimes and it will break characters bones.
 
 3. Create the following symlinks in that order. The res:// paths do need to be exactly the same and can be case-sensitive, just use your own absolute target path. Godot supports symlinks outside of res:// only with absolute path, not relative path.
    1. Unidot importer addon:

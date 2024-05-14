@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Util.communication.events;
 using Util.entity;
 using VampireKiller.eevee.vampirekiller.eevee.conditions;
@@ -12,6 +13,7 @@ namespace VampireKiller.eevee.vampirekiller.eevee.stats;
 public interface IStat : Identifiable
 {
     public const string EventSet = "stat.set";
+    [JsonIgnore]
     public object genericValue { get; }
     public List<ICondition> conditions { get; set; }
     public IStat copy();

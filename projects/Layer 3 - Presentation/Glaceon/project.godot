@@ -33,7 +33,7 @@ project/assembly_name="Glaceon"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/myplugin/plugin.cfg", "res://addons/unidot_importer/plugin.cfg")
+enabled=PackedStringArray()
 
 [file_customization]
 

@@ -12,8 +12,9 @@ public static class Json
     public static JsonSerializerSettings settings = new JsonSerializerSettings()
     {
         Formatting = Formatting.Indented,
-        TypeNameHandling = TypeNameHandling.All,
+        TypeNameHandling = TypeNameHandling.Auto,
         NullValueHandling = NullValueHandling.Ignore,
+        DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
         //Converters = new List<JsonConverter> { new SmartListStatementConverter() }
     };
 
