@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=12 format=3 uid="uid://gnsm0odr5gys"]
+[gd_resource type="Theme" load_steps=17 format=3 uid="uid://gnsm0odr5gys"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dqn6b"]
 content_margin_left = 5.0
@@ -14,7 +14,6 @@ content_margin_bottom = 5.0
 bg_color = Color(0.231373, 0.231373, 0.231373, 0.345098)
 draw_center = false
 shadow_color = Color(0.52549, 0.647059, 0.729412, 0.6)
-shadow_size = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8kye"]
 content_margin_left = 8.0
@@ -44,16 +43,29 @@ content_margin_right = 5.0
 content_margin_bottom = 5.0
 bg_color = Color(0.309804, 0.713726, 1, 1)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rniy0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_di63a"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gh2yg"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aycge"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tfg57"]
+bg_color = Color(1, 1, 1, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q1dkv"]
 bg_color = Color(0.105882, 0.105882, 0.105882, 0.627451)
 skew = Vector2(0.145, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dt7qf"]
-bg_color = Color(0.105882, 0.105882, 0.105882, 1)
+bg_color = Color(1, 1, 1, 1)
 skew = Vector2(0.145, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q25xo"]
-bg_color = Color(0.847059, 0.847059, 0.847059, 1)
+bg_color = Color(1, 1, 1, 1)
 skew = Vector2(0.145, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0uswg"]
@@ -71,7 +83,6 @@ Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
 Button/colors/font_focus_color = Color(0.94902, 0.94902, 0.94902, 1)
 Button/colors/font_hover_color = Color(0.309804, 0.713726, 1, 1)
 Button/colors/font_hover_pressed_color = Color(0.105882, 0.105882, 0.105882, 1)
-Button/colors/font_outline_color = Color(1, 1, 1, 1)
 Button/colors/font_pressed_color = Color(0.105882, 0.105882, 0.105882, 1)
 Button/colors/icon_disabled_color = Color(1, 1, 1, 0.4)
 Button/colors/icon_focus_color = Color(1, 1, 1, 1)
@@ -84,6 +95,18 @@ Button/styles/focus = SubResource("StyleBoxFlat_a2j86")
 Button/styles/hover = SubResource("StyleBoxFlat_a8kye")
 Button/styles/normal = SubResource("StyleBoxFlat_wfi67")
 Button/styles/pressed = SubResource("StyleBoxFlat_51wkp")
+ButtonEmpty/base_type = &"Button"
+ButtonEmpty/colors/font_color = Color(1, 1, 1, 1)
+ButtonEmpty/colors/font_disabled_color = Color(0.607843, 0.607843, 0.607843, 0.870588)
+ButtonEmpty/colors/font_focus_color = Color(0, 0, 0, 1)
+ButtonEmpty/colors/font_hover_color = Color(0, 0, 0, 1)
+ButtonEmpty/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+ButtonEmpty/colors/font_pressed_color = Color(0, 0, 0, 1)
+ButtonEmpty/styles/disabled = SubResource("StyleBoxEmpty_rniy0")
+ButtonEmpty/styles/focus = SubResource("StyleBoxFlat_di63a")
+ButtonEmpty/styles/hover = SubResource("StyleBoxFlat_gh2yg")
+ButtonEmpty/styles/normal = SubResource("StyleBoxEmpty_aycge")
+ButtonEmpty/styles/pressed = SubResource("StyleBoxFlat_tfg57")
 EscMenuButton/base_type = &"Button"
 EscMenuButton/colors/font_color = Color(1, 1, 1, 1)
 EscMenuButton/colors/font_disabled_color = Color(1, 1, 1, 0.627451)
