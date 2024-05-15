@@ -7,6 +7,7 @@ using Util.communication.events;
 using Util.ecs;
 using Util.entity;
 using Util.structures;
+using vampirekiller.eevee.creature;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.equipment;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
@@ -22,6 +23,7 @@ public class Fight : IDisposable
     public SmartSet<ProjectileInstance> projectiles { get; init; } = SmartSet<ProjectileInstance>.Create();
     public SmartSet<Item> items { get; init; } = SmartSet<Item>.Create();
     public SmartSet<SpellInstance> spells { get; init; } = SmartSet<SpellInstance>.Create();
+    public SmartDictionary<ID, CrowdInstance> crowds { get; init; } = SmartDictionary<ID, CrowdInstance>.Create();
 
     public Fight() {
         EventBus.centralBus.subscribe(entities);
