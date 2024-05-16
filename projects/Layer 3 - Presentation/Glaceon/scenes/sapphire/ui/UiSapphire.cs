@@ -82,7 +82,8 @@ public partial class UiSapphire : Control
         if (Universe.isOnline && !this.IsMultiplayerAuthority())
             return;
         LblProjCount.Text = "projectiles: " + Universe.fight?.projectiles.size();
-        LblCreatureCount.Text = "creatures: " + Universe.fight?.creatures.size();
+        var crowdsCreatureCount = Universe.fight?.crowds.values.Sum(c => c.Instances.size());
+        LblCreatureCount.Text = "creatures: " + (Universe.fight?.creatures.size() + crowdsCreatureCount);
     }
 
     /// <summary>

@@ -37,7 +37,7 @@ public abstract partial class CreatureNode : CharacterBody3D
 
     [NodePath]
     public CharacterModelNode Model { get; set; }
-    public CreatureNodeAnimationPlayer CreatureNodeAnimationPlayer { get => Model.AnimationPlayer as CreatureNodeAnimationPlayer; }
+    public CreatureNodeAnimationPlayer CreatureNodeAnimationPlayer { get => Model?.AnimationPlayer as CreatureNodeAnimationPlayer; }
 
     [NodePath]
     public NavigationAgent3D NavigationAgent3D { get; set; }
@@ -97,7 +97,7 @@ public abstract partial class CreatureNode : CharacterBody3D
             LabelOwner.Text = "" + creatureInstance.playerId;
 
             // Load creature skin & skill skins
-            setSkin(creatureInstance.currentSkin);
+            //setSkin(creatureInstance.currentSkin);
         }
 
         if (Universe.isOnline && !this.Multiplayer.IsServer())
@@ -160,7 +160,7 @@ public abstract partial class CreatureNode : CharacterBody3D
         this.RemoveChild(oldModel);
         Model = newModel;
         this.AddChild(Model, true);
-        oldModel.QueueFree();
+        oldModel?.QueueFree();
 
         // Set skin for animations
         this.CreatureNodeAnimationPlayer.skin = creatureInstance.currentSkin;

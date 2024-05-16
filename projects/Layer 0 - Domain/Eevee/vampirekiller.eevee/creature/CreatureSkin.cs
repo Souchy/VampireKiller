@@ -22,6 +22,7 @@ public class CreatureSkin : Identifiable
     public string iconPath { get; set; }
     /// <summary>
     /// Skin/Model scene containing the mesh + animation player + bone attachments
+    /// Or just Mesh resource for crowd nodes
     /// </summary>
     public string scenePath { get; set; }
     /// <summary>

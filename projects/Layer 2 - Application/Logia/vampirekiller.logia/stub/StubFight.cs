@@ -43,18 +43,19 @@ public class StubFight : Fight
         var player = spawnStubPlayer();
         player.playerId = 1;
         creatures.add(player);
+
         // entities.add(player);
-        int count = 4;
-        for (int i = 0; i < count; i++)
-        {
-            int radius = 14;
-            double deg = (360.0 / count) * (Math.PI / 180.0);
-            var z = (float) Math.Sin(i * deg) * radius;
-            var x = (float) Math.Cos(i * deg) * radius;
-            var enemy = spawnStubCreature(new(x, 0, z));
-            creatures.add(enemy);
-            // entities.add(enemy);
-        }
+        //int count = 4;
+        //for (int i = 0; i < count; i++)
+        //{
+        //    int radius = 14;
+        //    double deg = (360.0 / count) * (Math.PI / 180.0);
+        //    var z = (float) Math.Sin(i * deg) * radius;
+        //    var x = (float) Math.Cos(i * deg) * radius;
+        //    var enemy = spawnStubCreature(new(x, 0, z));
+        //    creatures.add(enemy);
+        //    // entities.add(enemy);
+        //}
     }
 
     public static CreatureInstance spawnStubPlayer()
@@ -95,25 +96,18 @@ public class StubFight : Fight
         return crea;
     }
 
+    public static CreatureModel enemyModel;
+
     public static CreatureInstance spawnStubCreature(Vector3 vec)
     {
-        var creaModel = Register.Create<EnemyModel>();
-        var skin = new CreatureSkin()
+        if(enemyModel == null)
         {
-            iconPath = "res://icon.svg",
-            scenePath = Paths.creatures + "rivals/small/character_medusa_01",
-            animationLibraries = StubFight.animLibraries,
-            animations = StubFight.anims
-        };
-        creaModel.skins.Add(skin);
-        creaModel.ai = new AiMelee();
-        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
-        creaModel.baseStats.get<CreatureBaseLife>()!.value = 100;
-        creaModel.baseStats.set(new CreatureBaseMovementSpeed() { value = 3 });
+            initEnemyModel();
+        }
 
         var crea = Register.Create<CreatureInstance>();
-        crea.model = creaModel;
-        crea.currentSkin = creaModel.skins[0];
+        crea.model = enemyModel;
+        crea.currentSkin = enemyModel.skins[0];
         crea.spawnPosition = vec;
         crea.creatureGroup = EntityGroupType.Enemies;
         crea.set<Team>(Team.B);
@@ -122,6 +116,39 @@ public class StubFight : Fight
         crea.activeSkills.add(swipe);
 
         return crea;
+    }
+
+    public static CreatureModel initEnemyModel()
+    {
+        var creaModel = Register.Create<EnemyModel>();
+        var skin = new CreatureSkin()
+        {
+            iconPath = "res://icon.svg",
+            scenePath = Paths.creatures + "rivals/small/character_medusa_01",
+            //animationLibraries = StubFight.animLibraries,
+            animationLibraries = new() { "baked/combined.baked" },
+            //animations = StubFight.anims
+            animations = new()
+            {
+                idle = "1-7",
+                idleOneShots = Array.Empty<string>(),
+                run = "1-10",
+                walk = "1-12",
+                cast = "1-1",
+                receiveHit = "1-9",
+                death = "1-6",
+                victory = "",
+                defeat = "1-5"
+            }
+        };
+
+        creaModel.skins.Add(skin);
+        creaModel.ai = new AiMelee();
+        creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
+        creaModel.baseStats.get<CreatureBaseLife>()!.value = 100;
+        creaModel.baseStats.set(new CreatureBaseMovementSpeed() { value = 3 });
+        enemyModel = creaModel;
+        return enemyModel;
     }
 
 }

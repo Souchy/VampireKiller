@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://blovcywatgmkk"]
+[gd_scene load_steps=4 format=3 uid="uid://blovcywatgmkk"]
 
 [ext_resource type="Script" path="res://scenes/sapphire/Sapphire.cs" id="1_wcjfi"]
-[ext_resource type="PackedScene" uid="uid://ceighns6tmsc4" path="res://vampireassets/maps/somedarkmap.tscn" id="4_dudiv"]
 [ext_resource type="PackedScene" uid="uid://hdx0iag2udn1" path="res://scenes/sapphire/entities/EnemyNode.tscn" id="4_umtg5"]
 [ext_resource type="PackedScene" uid="uid://dkiytyp1g7pjx" path="res://scenes/sapphire/entities/PlayerNode.tscn" id="5_cwgfj"]
 
@@ -10,8 +9,6 @@ script = ExtResource("1_wcjfi")
 
 [node name="Environment" type="Node" parent="."]
 unique_name_in_owner = true
-
-[node name="Somedarkmap" parent="Environment" instance=ExtResource("4_dudiv")]
 
 [node name="Entities" type="Node" parent="."]
 unique_name_in_owner = true

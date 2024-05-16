@@ -90,6 +90,11 @@ public abstract partial class CreatureNode : CharacterBody3D
         if(creatureInstance == null)
             return;
         var velo = this.Velocity.Length();
+        SetAnimationFromVelocity(velo);
+    }
+
+    protected virtual void SetAnimationFromVelocity(float velo)
+    {
         if (velo <= 0.001)
         {
             this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.idle, this.creatureInstance.currentSkin.animations.idle);
@@ -105,4 +110,5 @@ public abstract partial class CreatureNode : CharacterBody3D
             this.CreatureNodeAnimationPlayer.playAnimationLoop(AnimationState.moving, this.creatureInstance.currentSkin.animations.run, cachedIncreasedMovementSpeed);
         }
     }
+
 }

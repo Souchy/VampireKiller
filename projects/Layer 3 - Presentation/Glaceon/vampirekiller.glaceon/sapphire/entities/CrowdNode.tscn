@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://diipru2oidk4a"]
+
+[ext_resource type="Material" uid="uid://dpwt8n4f3g1ws" path="res://vampirekiller.glaceon/sapphire/entities/new_shader_material.tres" id="1_5kc6f"]
+[ext_resource type="Script" path="res://vampirekiller.glaceon/sapphire/entities/CrowdNode.cs" id="1_8khyv"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_twvxb"]
+transform_format = 1
+use_custom_data = true
+
+[node name="CrowdNode" type="Node3D"]
+script = ExtResource("1_8khyv")
+
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]
+material_override = ExtResource("1_5kc6f")
+multimesh = SubResource("MultiMesh_twvxb")
+
+[node name="CreatureNodes" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../CreatureNodes")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]

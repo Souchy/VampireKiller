@@ -3,6 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://mmu2tpnln6i1" path="res://scenes/sapphire/entities/CreatureNode.tscn" id="1_0fsy2"]
 [ext_resource type="Script" path="res://scenes/sapphire/entities/EnemyNode.cs" id="2_7iw2f"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_prtnn"]
+viewport_path = NodePath("SubViewport")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2eine"]
 albedo_color = Color(1, 0.333333, 0.286275, 1)
 
@@ -11,21 +14,20 @@ material = SubResource("StandardMaterial3D_2eine")
 inner_radius = 0.7
 outer_radius = 0.75
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_prtnn"]
-viewport_path = NodePath("SubViewport")
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_cxr0b"]
 radius = 2.5
 
 [node name="EnemyNode" groups=["Enemies"] instance=ExtResource("1_0fsy2")]
+collision_layer = 2
+collision_mask = 0
 script = ExtResource("2_7iw2f")
 
-[node name="TeamRing" parent="." index="2"]
-mesh = SubResource("TorusMesh_p21iv")
-
-[node name="ResourceBars" parent="." index="5"]
+[node name="ResourceBars" parent="." index="4"]
 visible = false
 texture = SubResource("ViewportTexture_prtnn")
+
+[node name="TeamRing" parent="." index="7"]
+mesh = SubResource("TorusMesh_p21iv")
 
 [node name="AreaOfAttack" type="Area3D" parent="." index="11"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

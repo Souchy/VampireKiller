@@ -1,0 +1,180 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dpwt8n4f3g1ws"]
+
+[ext_resource type="Texture2D" uid="uid://ptjk0daqt4c7" path="res://vampirekiller.glaceon/sapphire/entities/Polygon_Fantasy_Characters_Texture_02_A.png" id="1_hwcjq"]
+[ext_resource type="Texture2D" uid="uid://djewvlstfoolt" path="res://vampirekiller.glaceon/sapphire/entities/Polygon_Fantasy_Characters_Texture_Emmision.png" id="2_qt68s"]
+
+[sub_resource type="Shader" id="Shader_rr8tg"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.3.dev's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform sampler2D texture_emission : source_color, hint_default_black, filter_linear_mipmap, repeat_enable;
+uniform vec4 emission : source_color;
+uniform float emission_energy : hint_range(0.0, 100.0, 0.01);
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+uniform sampler2D animation_data;
+
+vec4 sample_lib_data(int index) {
+	float f = float(index);
+	float h = floor(f / 2048.0);
+	index = int(mod(f, 2048.0));
+	return texelFetch(animation_data, ivec2(index, int(h)), 0);
+}
+
+int get_lib_index(int lib_id) {
+	int lib_index = 0;
+	vec4 lib_data;
+	for(int i = 0; i <= lib_id; i++) {
+		lib_data = sample_lib_data(lib_index);
+		if(i != lib_id) {
+			int lib_size = int(lib_data.w) / 4;
+			lib_index += lib_size;
+			continue;
+		}
+	}
+	return lib_index;
+}
+
+vec4 get_anim_data(int bone_count, int lib_index, int anim_id) {
+	int anim_index = lib_index + 1;
+	vec4 anim_data;
+	for(int i = 0; i <= anim_id; i++) {
+		anim_data = sample_lib_data(anim_index);
+		int frame_count = int(anim_data.b);
+		anim_index += 1 + frame_count * bone_count * 3;
+	}
+	return anim_data;
+}
+
+mat4 get_bone_transform(int lib_index, vec4 anim_data, int bone_count, uint bone_id, int frame) {
+	float anim_length = anim_data.r;
+	float loop_mode = anim_data.g;
+	float anim_frame_count = anim_data.b;
+	float anim_pixel_index = anim_data.a;
+	int anim_index = lib_index + int(anim_pixel_index) / 4;
+	anim_index += 1 + (int(bone_id) * 3) + (frame * bone_count * 3);
+	vec4 row0 = sample_lib_data(anim_index);
+	vec4 row1 = sample_lib_data(anim_index + 1);
+	vec4 row2 = sample_lib_data(anim_index + 2);
+	return mat4(row0, row1, row2, vec4(0.0, 0.0, 0.0, 1.0));
+}
+
+mat4 get_matrix(int lib_index, vec4 anim_data, int bone_count, int frame, uvec4 bone_indices, vec4 bone_weights) {
+	mat4 bone_transform_0 = get_bone_transform(lib_index, anim_data, bone_count, bone_indices.x, frame);
+	mat4 bone_transform_1 = get_bone_transform(lib_index, anim_data, bone_count, bone_indices.y, frame);
+	mat4 bone_transform_2 = get_bone_transform(lib_index, anim_data, bone_count, bone_indices.z, frame);
+	mat4 bone_transform_3 = get_bone_transform(lib_index, anim_data, bone_count, bone_indices.w, frame);
+	mat4 total = bone_transform_0 * bone_weights.x +
+				 bone_transform_1 * bone_weights.y +
+				 bone_transform_2 * bone_weights.z +
+				 bone_transform_3 * bone_weights.w;
+	return total;
+}
+
+void vertex() {
+	UV = UV * uv1_scale.xy + uv1_offset.xy;
+
+	vec4 custom_data = INSTANCE_CUSTOM;
+	int vertex_id = VERTEX_ID;
+	// float id = float(INSTANCE_ID);
+
+	int lib_id = int(INSTANCE_CUSTOM.r);
+	int anim_id = int(INSTANCE_CUSTOM.g);
+	float time = INSTANCE_CUSTOM.b;
+	//float empty = INSTANCE_CUSTOM.a;
+	// VERTEX.x += INSTANCE_CUSTOM.r; // anim_id
+	// VERTEX.x += time;
+
+	int lib_index = get_lib_index(lib_id);
+	vec4 lib_data = sample_lib_data(lib_index);
+	//vec4 lib_data = texelFetch(animation_data, ivec2(0, 0), 0);
+	int lib_count = int(lib_data.r);
+	int anim_count = int(lib_data.g);
+	int bone_count = int(lib_data.b);
+	float lib_end_index = lib_data.a;
+	//VERTEX.x += lib_data.r;
+	//VERTEX.x += lib_data.g;
+
+	vec4 anim_data = get_anim_data(bone_count, lib_index, anim_id);
+	//VERTEX.x += anim_data.x; // anim_length
+
+	float anim_length = anim_data.r;
+	float loop_mode = anim_data.g;
+	float anim_frame_count = anim_data.b;
+	float anim_pixel_index = anim_data.a;
+	float progress = (time / anim_length) * anim_frame_count;
+	float frame0 = floor(progress);
+	float frame1 = frame0 + 1.0;
+	float frac = fract(progress);
+	if(frame1 >= anim_frame_count) {
+		frame1 = 0.0;
+	}
+	
+	mat4 mat0 = get_matrix(lib_index, anim_data, bone_count, int(frame0), BONE_INDICES, BONE_WEIGHTS);
+	mat4 mat1 = get_matrix(lib_index, anim_data, bone_count, int(frame1), BONE_INDICES, BONE_WEIGHTS);
+	vec3 vertex0 = (vec4(VERTEX, 1.0) * mat0).xyz;
+	vec3 vertex1 = (vec4(VERTEX, 1.0) * mat1).xyz;
+	// linear interpolation
+	VERTEX = vertex0 * (1.0 - frac) + vertex1 * (frac);
+	
+	//VERTEX = smoothstep(vertex0, vertex1, vec3(frac));
+	//VERTEX.x += time;
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+
+	vec4 albedo_tex = texture(texture_albedo, base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+
+	// Emission: Enabled
+	vec3 emission_tex = texture(texture_emission, base_uv).rgb;
+	// Emission Operator: Add
+	EMISSION = (emission.rgb + emission_tex) * emission_energy;
+}
+"
+
+[resource]
+resource_name = "Polygon_Fantasy_Characters_Mat_02_A"
+render_priority = 0
+shader = SubResource("Shader_rr8tg")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 0.5
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/emission = Color(0, 0, 0, 1)
+shader_parameter/emission_energy = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/texture_albedo = ExtResource("1_hwcjq")
+shader_parameter/texture_emission = ExtResource("2_qt68s")

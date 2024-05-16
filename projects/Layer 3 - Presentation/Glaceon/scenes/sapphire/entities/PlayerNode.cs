@@ -26,7 +26,7 @@ public partial class PlayerNode : CreatureNode
 	private Sapphire _game;
 	private bool isCamLocked = true;
 	private int CAMERA_MAX_ZOOM = 25;
-	private int CAMERA_MIN_ZOOM = 8;
+	private int CAMERA_MIN_ZOOM = 3;
 
     [Inject]
 	public ICommandPublisher publisher { get; set; }

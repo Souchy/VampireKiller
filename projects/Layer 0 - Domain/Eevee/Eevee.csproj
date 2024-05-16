@@ -13,6 +13,6 @@
     <PackageReference Include="SimpleInjector" Version="5.4.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Git\common\SouchyUtils\Util\Util.csproj" />
+    <ProjectReference Include="..\..\..\..\..\Git\common\SouchyUtil\Util\Util.csproj" />
   </ItemGroup>
 </Project>

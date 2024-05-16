@@ -23,6 +23,9 @@ public class Fight : IDisposable
     public SmartSet<ProjectileInstance> projectiles { get; init; } = SmartSet<ProjectileInstance>.Create();
     public SmartSet<Item> items { get; init; } = SmartSet<Item>.Create();
     public SmartSet<SpellInstance> spells { get; init; } = SmartSet<SpellInstance>.Create();
+    /// <summary>
+    /// <CreatureModelId, Crowd>
+    /// </summary>
     public SmartDictionary<ID, CrowdInstance> crowds { get; init; } = SmartDictionary<ID, CrowdInstance>.Create();
 
     public Fight() {

@@ -23,7 +23,8 @@ public static class AssetCache
     public static List<string> maps = new();
     public static List<string> animations = new();
 
-    public static void loadResources() {
+    public static void loadResources()
+    {
         recurse(Paths.creatures, models);
         recurse(Paths.spells, skills);
         recurse(Paths.maps, maps);
@@ -33,17 +34,18 @@ public static class AssetCache
     private static void recurse(string dirPath, List<string> list)
     {
         var dir = DirAccess.Open(dirPath);
-        if(dir == null) {
+        if (dir == null)
+        {
             GD.PrintErr("AssetCache could not find directory: " + dirPath);
             return;
         }
-        foreach(var file in dir.GetFiles())
+        foreach (var file in dir.GetFiles())
         {
             var filePath = dirPath + file;
             var ext = file.Split(".").Last();
-            if(ext.Contains("import"))
+            if (ext.Contains("import"))
                 continue;
-            if(!filesByExtension.ContainsKey(ext))
+            if (!filesByExtension.ContainsKey(ext))
                 filesByExtension.Add(ext, new());
             filesByExtension[ext].Add(filePath);
 
@@ -53,14 +55,16 @@ public static class AssetCache
             // Preload?
             // Load<Resource>(filePath);
         }
-        foreach(var sub in dir.GetDirectories())
+        foreach (var sub in dir.GetDirectories())
         {
             recurse(dirPath + sub + "/", list);
         }
     }
 
     public static T Load<T>(string path) where T : Resource
-        => GD.Load<T>(path);
+    {
+        return GD.Load<T>(path);
+    }
     //{
     //    if (path == null)
     //        return default;
@@ -82,11 +86,11 @@ public static class AssetCache
     {
         if (path == null)
             throw new Exception($"Couldn't find resource with path [{path}] and extensions [{string.Join(", ", extensions)}]");
-        if (extensions.Length == 0) 
+        if (extensions.Length == 0)
             return Load<T>(path);
         foreach (var extension in extensions)
         {
-            if(path.Contains(extension)) 
+            if (path.Contains(extension))
                 return Load<T>(path);
         }
         foreach (var extension in extensions)
@@ -95,7 +99,7 @@ public static class AssetCache
             // GD.Print("Look for resource: " + filepath);
             if (resources.ContainsKey(filepath))
                 return (T) resources[filepath];
-            if (!FileAccess.FileExists(filepath)) 
+            if (!FileAccess.FileExists(filepath))
                 continue;
             var scene = GD.Load<T>(filepath);
             resources[filepath] = scene;
@@ -104,5 +108,27 @@ public static class AssetCache
         throw new Exception($"Couldn't find resource with path [{path}] and extensions [{string.Join(", ", extensions)}]");
         //return (T) resources[path];
     }
+
+    public static AnimationLibrary LoadAnimationLibrary(string libraryPath)
+    {
+        if (!libraryPath.Contains("res://"))
+            libraryPath = Paths.animations + libraryPath;
+        AnimationLibrary lib = Load<AnimationLibrary>(libraryPath, ".glb");
+        return lib;
+    }
+
+    private static Dictionary<string, float[]> BakedAnimationData = new();
+    public static float[] LoadBakedAnimationData(string libraryPath)
+    {
+        if (!libraryPath.Contains("res://"))
+            libraryPath = Paths.animations + libraryPath;
+        if(BakedAnimationData.ContainsKey(libraryPath))
+            return BakedAnimationData[libraryPath];
+        var file = Godot.FileAccess.Open(libraryPath, Godot.FileAccess.ModeFlags.Read);
+        var data = (float[]) file.GetVar();
+        BakedAnimationData[libraryPath] = data;
+        return data;
+    }
+
 }
 

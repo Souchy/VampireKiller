@@ -14,7 +14,7 @@
     <PackageReference Include="SimpleInjector" Version="5.4.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Git\common\SouchyUtils\GodotUtil\GodotUtil.csproj" />
+    <ProjectReference Include="..\..\..\..\..\Git\common\SouchyUtil\GodotUtil\GodotUtil.csproj" />
     <ProjectReference Include="..\..\Layer 0 - Domain\Eevee\Eevee.csproj" />
     <ProjectReference Include="..\..\Layer 2 - Application\Espeon\Espeon.csproj" />
     <ProjectReference Include="..\..\Layer 2 - Application\Umbreon\Umbreon.csproj" />

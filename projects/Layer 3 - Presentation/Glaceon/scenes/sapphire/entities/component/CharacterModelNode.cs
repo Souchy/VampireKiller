@@ -32,11 +32,15 @@ public partial class CharacterModelNode : Node3D
     public override void _EnterTree()
     {
         // Animation script
-        this.AnimationPlayer = GetNode(nameof(AnimationPlayer)).SafelySetScript<CreatureNodeAnimationPlayer>(Paths.entities + nameof(CreatureNodeAnimationPlayer) + ".cs");
+        if(!this.HasNode(nameof(AnimationPlayer))) 
+            return;
+        this.AnimationPlayer = this.GetNode(nameof(AnimationPlayer)).SafelySetScript<CreatureNodeAnimationPlayer>(Paths.entities + nameof(CreatureNodeAnimationPlayer) + ".cs");
     }
 
     public override void _Ready()
     {
+        if (!this.HasNode(nameof(AnimationPlayer)))
+            return;
         this.OnReady();
         // Meshs & BoneAttachments
         MeshInstances = GeneralSkeleton.GetChildren<MeshInstance3D>().Where(n => n != null);

@@ -1,9 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://mmu2tpnln6i1"]
+[gd_scene load_steps=8 format=3 uid="uid://mmu2tpnln6i1"]
 
 [ext_resource type="PackedScene" uid="uid://dp0me8ewcg2sp" path="res://scenes/sapphire/ui/components/UiResourceBars.tscn" id="2_hhil7"]
 [ext_resource type="Script" path="res://scenes/sapphire/entities/component/CharacterModelNode.cs" id="3_jyxfq"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_uwjf7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pwek4"]
 height = 1.8
@@ -30,14 +28,12 @@ properties/2/spawn = true
 properties/2/replication_mode = 1
 
 [node name="CreatureNode" type="CharacterBody3D"]
-collision_mask = 3
 axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 
-[node name="Model" type="MeshInstance3D" parent="."]
+[node name="Model" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_uwjf7")
 script = ExtResource("3_jyxfq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
