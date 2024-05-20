@@ -122,8 +122,10 @@ public partial class EnemyNode : CreatureNode
             var crowd = this.creatureInstance.get<CrowdNode>();
             var anim = crowd.AnimationHeaders[libId][animId];
 
-            AnimationHeader toCurrent = anim;
+            AnimationHeader toCurrent = null;
             AnimationHeader toLoop = null;
+            if(InstanceData.CurrentAnimation == null || InstanceData.CurrentAnimation.LoopMode != Animation.LoopModeEnum.None) 
+                toCurrent = anim;
             if (anim.LoopMode != Animation.LoopModeEnum.None)
                 toLoop = anim;
             // if attacking -> set current headers.attack

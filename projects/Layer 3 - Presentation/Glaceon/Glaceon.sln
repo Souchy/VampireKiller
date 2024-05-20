@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Espeon", "..\..\Layer 2 - A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Umbreon", "..\..\Layer 2 - Application\Umbreon\Umbreon.csproj", "{AA5F3256-24BC-4F84-8DF6-F14EF55CD71C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Util", "..\..\..\..\..\Git\common\SouchyUtils\Util\Util.csproj", "{D096E7F2-B90C-4467-AD04-4A02FFB50EA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Util", "..\..\..\..\..\Git\common\SouchyUtil\Util\Util.csproj", "{D096E7F2-B90C-4467-AD04-4A02FFB50EA2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GodotUtil", "..\..\..\..\..\Git\common\SouchyUtils\GodotUtil\GodotUtil.csproj", "{9B436B7D-B2A0-46C9-BEA7-32000878B2DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GodotUtil", "..\..\..\..\..\Git\common\SouchyUtil\GodotUtil\GodotUtil.csproj", "{9B436B7D-B2A0-46C9-BEA7-32000878B2DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "util", "util", "{6D646FD8-3D3F-4104-A654-E137B3202F44}"
 EndProject

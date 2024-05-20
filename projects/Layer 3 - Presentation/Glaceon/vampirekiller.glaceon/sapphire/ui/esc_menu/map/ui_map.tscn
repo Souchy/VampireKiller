@@ -162,7 +162,7 @@ text = "💎 Treasure"
 layout_mode = 2
 text = "👾 Boss"
 
-[node name="Button" type="Button" parent="."]
+[node name="BtnGenerate" type="Button" parent="."]
 custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -170,4 +170,4 @@ size_flags_vertical = 0
 theme_type_variation = &"ButtonEmpty"
 text = "Debug generate"
 
-[connection signal="pressed" from="Button" to="." method="generate"]
+[connection signal="pressed" from="BtnGenerate" to="." method="generate"]

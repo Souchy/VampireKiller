@@ -3,6 +3,7 @@
 using System.Collections.Immutable;
 using Util.entity;
 using Util.json;
+using Util.structures;
 using vampirekiller.eevee.campaign.map;
 using vampirekiller.eevee.statements;
 using vampirekiller.eevee.statements.schemas;
@@ -10,6 +11,7 @@ using vampirekiller.eevee.triggers;
 using vampirekiller.eevee.util.json;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.conditions;
+using VampireKiller.eevee.vampirekiller.eevee.equipment;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 
@@ -26,6 +28,8 @@ public static class Diamonds
     public static Dictionary<ID, CreatureModel> creatureModels { get; } = new();
     public static Dictionary<ID, Status> statusModels { get; } = new();
     public static Dictionary<ID, Biome> biomes { get; } = new();
+    public static Dictionary<ID, Item> items { get; } = new();
+    //public static Dictionary<ID, SpellInstance> spells { get; } = new();
 
     static Diamonds()
     {

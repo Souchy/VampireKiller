@@ -27,7 +27,8 @@ public static class ActionExtensions
         // TODO: update les ressources du player, update le nombre de charges dans le spellinstance, update le cooldown, 
         // l'action devrait déjà contenir le raycast mousetarget depuis la root action
         // apply
-        skill.applyStatementContainer(action);
+        skill.cast(action);
+        //skill.getModel().applyStatementContainer(action);
     }
 
     /// <summary>

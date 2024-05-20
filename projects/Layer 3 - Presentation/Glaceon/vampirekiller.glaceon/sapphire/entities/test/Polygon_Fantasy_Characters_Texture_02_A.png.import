@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djewvlstfoolt"
-path.s3tc="res://.godot/imported/Polygon_Fantasy_Characters_Texture_Emmision.png-dba9c1e56d43983971c385a46a59a45d.s3tc.ctex"
+uid="uid://ptjk0daqt4c7"
+path.s3tc="res://.godot/imported/Polygon_Fantasy_Characters_Texture_02_A.png-8425dd46f3bf9b21bd21d5e030699f16.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://vampirekiller.glaceon/sapphire/entities/Polygon_Fantasy_Characters_Texture_Emmision.png"
-dest_files=["res://.godot/imported/Polygon_Fantasy_Characters_Texture_Emmision.png-dba9c1e56d43983971c385a46a59a45d.s3tc.ctex"]
+source_file="res://vampirekiller.glaceon/sapphire/entities/test/Polygon_Fantasy_Characters_Texture_02_A.png"
+dest_files=["res://.godot/imported/Polygon_Fantasy_Characters_Texture_02_A.png-8425dd46f3bf9b21bd21d5e030699f16.s3tc.ctex"]
 
 [params]
 

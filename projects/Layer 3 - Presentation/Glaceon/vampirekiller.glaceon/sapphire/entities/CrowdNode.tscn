@@ -1,17 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://diipru2oidk4a"]
+[gd_scene load_steps=5 format=3 uid="uid://diipru2oidk4a"]
 
-[ext_resource type="Material" uid="uid://dpwt8n4f3g1ws" path="res://vampirekiller.glaceon/sapphire/entities/new_shader_material.tres" id="1_5kc6f"]
 [ext_resource type="Script" path="res://vampirekiller.glaceon/sapphire/entities/CrowdNode.cs" id="1_8khyv"]
+[ext_resource type="ArrayMesh" uid="uid://uck8x8s15fg" path="res://vampirekiller.glaceon/sapphire/entities/test/forest_guardian.tres" id="2_0awb4"]
+[ext_resource type="Material" uid="uid://dpwt8n4f3g1ws" path="res://vampirekiller.glaceon/sapphire/entities/test/new_shader_material.tres" id="2_nrde7"]
 
 [sub_resource type="MultiMesh" id="MultiMesh_twvxb"]
 transform_format = 1
 use_custom_data = true
+instance_count = 1
+mesh = ExtResource("2_0awb4")
+buffer = PackedFloat32Array(1, 0, 0, 0, 0, 1, 0, 0, 2.38221e-44, 2.24208e-44, 1, 0, 2.38221e-44, 2.94273e-44, 2.52234e-44, 2.38221e-44)
 
 [node name="CrowdNode" type="Node3D"]
 script = ExtResource("1_8khyv")
 
 [node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]
-material_override = ExtResource("1_5kc6f")
+material_override = ExtResource("2_nrde7")
 multimesh = SubResource("MultiMesh_twvxb")
 
 [node name="CreatureNodes" type="Node3D" parent="."]

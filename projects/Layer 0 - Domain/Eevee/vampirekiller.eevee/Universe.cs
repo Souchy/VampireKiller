@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Util.communication.commands;
 using Util.communication.events;
+using vampirekiller.eevee.campaign;
 using VampireKiller.eevee.vampirekiller.eevee;
 using Container = SimpleInjector.Container;
 
@@ -20,6 +21,9 @@ public class Universe
     public static Container container { get; set; }
 
     //public static Node root;
+
+    public SaveAccount CurrentAccount { get; set; }
+    public Campaign CurrentCampaign { get; set; }
 
     private static Fight _fight;
     public static Fight fight

@@ -21,21 +21,20 @@ public class Fight : IDisposable
     public EntityFamily entities {get; init;} = Register.Create<EntityFamily>();
     public SmartSet<CreatureInstance> creatures { get; init; } = SmartSet<CreatureInstance>.Create();
     public SmartSet<ProjectileInstance> projectiles { get; init; } = SmartSet<ProjectileInstance>.Create();
-    public SmartSet<Item> items { get; init; } = SmartSet<Item>.Create();
-    public SmartSet<SpellInstance> spells { get; init; } = SmartSet<SpellInstance>.Create();
     /// <summary>
     /// <CreatureModelId, Crowd>
     /// </summary>
     public SmartDictionary<ID, CrowdInstance> crowds { get; init; } = SmartDictionary<ID, CrowdInstance>.Create();
 
     public Fight() {
-        EventBus.centralBus.subscribe(entities);
+        //EventBus.centralBus.subscribe(entities);
     }
 
     public void Dispose()
     {
         creatures.Dispose();
         projectiles.Dispose();
+        crowds.Dispose();
         EventBus.centralBus.publish(nameof(Dispose), this);
     }
 }

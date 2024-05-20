@@ -6,15 +6,32 @@ namespace vampirekiller.eevee.campaign;
 
 public class Campaign
 {
+    public CampaignSettings settings {  get; set; } = new();
+
+    public int seed {  get; init; }
+
+    public string Name { get; set; }
+
     /// <summary>
-    /// Map
+    /// Current floor level on the map
     /// </summary>
-    public Map Map { get; set; } = new();
+    public int CurrentFloor { get; set; }
+    /// <summary>
+    /// CurrentRoom set when only you enter it.
+    /// You can stay & save in a room after you completed it. 
+    /// Then can choose the next floor's room.
+    /// </summary>
+    public int CurrentRoom { get; set; }
 
     /// <summary>
     /// Gold might be managed only by the owner of the campaign
     /// </summary>
     public int Gold { get; set; }
+
+    /// <summary>
+    /// Map containing all the floors and rooms
+    /// </summary>
+    public Map Map { get; set; } = new();
 
     /// <summary>
     /// How the fuck do we do multiplayer campaign? Each player has their items, skills..
@@ -26,18 +43,19 @@ public class Campaign
     /// 
     /// I think a creature is tied to a campaign.
     /// 
-    /// You can just other people's campaign with your own creatures, but if you die, you lose it. You can get PK'd that way.
+    /// You can just join other people's campaign with your own creatures, but if you die, you lose it. You can get PK'd that way.
     /// 
+    /// ---
     /// 
+    /// Maybe can't join campaigns that are 10+ levels (floors) apart from yours
     /// 
     /// </summary>
     public CreatureInstance PlayerCreature { get; set; }
 
     /// <summary>
-    /// Current player position on the map [x = room, y = floor]
+    /// To differentiate depth ladders.
+    /// People who duo queued or grinded levels in lower level campaigns have an advantage.
     /// </summary>
-    public Vector2 CurrentRoom { get; set; } = new(0, 0);
-
-    public CampaignSettings settings {  get; set; } = new();
+    public bool PlayedMultiplayer {  get; set; }
 
 }

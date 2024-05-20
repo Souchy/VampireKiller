@@ -112,8 +112,13 @@ public class StubFight : Fight
         crea.creatureGroup = EntityGroupType.Enemies;
         crea.set<Team>(Team.B);
 
-        var swipe = Diamonds.spellModels["spell_swipe"].createInstance();
-        crea.activeSkills.add(swipe);
+        foreach(var skillId in enemyModel.baseSkillIds)
+        {
+            var skill = Diamonds.spellModels[skillId].createInstance();
+            crea.activeSkills.add(skill);
+        }
+        //var swipe = Diamonds.spellModels["spell_swipe"].createInstance();
+        //crea.activeSkills.add(swipe);
 
         return crea;
     }
@@ -147,6 +152,7 @@ public class StubFight : Fight
         creaModel.baseStats.get<CreatureBaseLifeMax>()!.value = 100;
         creaModel.baseStats.get<CreatureBaseLife>()!.value = 100;
         creaModel.baseStats.set(new CreatureBaseMovementSpeed() { value = 3 });
+        creaModel.baseSkillIds.Add("spell_swipe");
         enemyModel = creaModel;
         return enemyModel;
     }

@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="GodotSharp" Version="4.2.3-dev" />
+    <PackageReference Include="GodotSharp" Version="4.2.4-s" />
     <PackageReference Include="GodotSharpExtras" Version="0.4.0" />
   </ItemGroup>
 
