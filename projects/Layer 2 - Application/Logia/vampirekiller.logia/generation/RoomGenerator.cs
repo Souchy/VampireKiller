@@ -6,11 +6,46 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Util.json;
 using vampirekiller.eevee.campaign.map;
 using vampirekiller.eevee.zones;
 
 namespace vampirekiller.logia.generation;
 
+public enum WallShapes
+{
+    Rectangle,
+    Donut,
+    CorridorH,
+    CorridorV,
+    DemiCircle,
+    Circle,
+    ShapeH,
+    ShapeArchn
+}
+
+/// <summary>
+/// DecorShape.json files? Blender scene files? Godot scene file?
+/// In godot you can have MeshLibraries, each mesh has a transform, collision and navigation setup.
+/// Things that can swap:
+/// - Mesh (but we dont have many and chairs at a table need to be the same)
+/// - Material (every chair needs at a table the same material tho)
+/// - Orientation Y (chairs shouldnt face too away from table tho)
+/// - Orientation X (cant sit in a fallen chair tho)
+/// - Position (cant clip tho)
+/// </summary>
+public enum DecorShapes
+{
+    Church,
+    KingRoom,
+    Hall,
+    Barracks,
+    Storage,
+    Cemetery,
+    Crypt,
+    Camp,
+    TrainingRoom,
+}
 
 public class RoomGenerator
 {
@@ -48,9 +83,14 @@ public class RoomGenerator
     // 8. add vfx: fog, sparks on fire...
     //      - dark fog around the player, in its node, to delimit his light radius ? nah just the light from the player himself i think. also it shouldn't affect the player model (different layer)
 
+    
 
     public Node3D Generate(Room room)
     {
+        string assetConfig = "C:\\Robyn\\godot\\VampireKiller\\projects\\Layer 1 - Data\\VampireAssets\\Assets\\PolygonDungeon\\Models\\assetfolder.json";
+        AssetPack assetPack = Config.load<AssetPack>(assetConfig);
+
+
         Node3D root = new Node3D();
 
         // Generate Room Shape
@@ -69,7 +109,6 @@ public class RoomGenerator
         // Get outer walls placements
         Points edges = DetectEdges(points, set);
 
-        
 
 
         return root;

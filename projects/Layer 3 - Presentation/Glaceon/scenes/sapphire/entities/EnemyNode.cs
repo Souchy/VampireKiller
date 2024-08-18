@@ -24,6 +24,9 @@ public partial class EnemyNode : CreatureNode
 
     private Node3D trackingTarget;
 
+    /// <summary>
+    /// TODO: Check if we're adding the same player multiple times to this. Might be worth to make it a HashSet instead.
+    /// </summary>
     private List<CreatureNode> playersInRange = new();
     public InstanceData InstanceData { get; set; }
 
