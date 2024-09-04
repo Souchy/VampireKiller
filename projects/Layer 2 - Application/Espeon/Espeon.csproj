@@ -9,13 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GodotSharp" Version="4.2.3-dev" />
+    <PackageReference Include="GodotSharp" Version="4.2.4-s" />
     <PackageReference Include="GodotSharpExtras" Version="0.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Layer 0 - Domain\Eevee\Eevee.csproj" />
-    <ProjectReference Include="..\..\Util\Util.csproj" />
     <ProjectReference Include="..\Logia\Logia.csproj" />
   </ItemGroup>
 

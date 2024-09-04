@@ -17,8 +17,8 @@ namespace VampireKiller.eevee.vampirekiller.eevee.equipment;
 public class Item : Identifiable, IStatementContainer
 {
     public ID entityUid { get; set; }
-    public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
     public int quantity { get; set; }
+    public SmartList<IStatement> statements { get; set; } = SmartList<IStatement>.Create();
 
     private Item() {}
 

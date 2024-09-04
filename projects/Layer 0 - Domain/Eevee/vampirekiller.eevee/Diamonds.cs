@@ -2,12 +2,16 @@
 
 using System.Collections.Immutable;
 using Util.entity;
+using Util.json;
+using Util.structures;
+using vampirekiller.eevee.campaign.map;
 using vampirekiller.eevee.statements;
 using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.triggers;
 using vampirekiller.eevee.util.json;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.conditions;
+using VampireKiller.eevee.vampirekiller.eevee.equipment;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
 using VampireKiller.eevee.vampirekiller.eevee.statements;
 
@@ -23,6 +27,9 @@ public static class Diamonds
     public static Dictionary<ID, SpellModel> spellModels { get; } = new();
     public static Dictionary<ID, CreatureModel> creatureModels { get; } = new();
     public static Dictionary<ID, Status> statusModels { get; } = new();
+    public static Dictionary<ID, Biome> biomes { get; } = new();
+    public static Dictionary<ID, Item> items { get; } = new();
+    //public static Dictionary<ID, SpellInstance> spells { get; } = new();
 
     static Diamonds()
     {
@@ -35,6 +42,7 @@ public static class Diamonds
         const string pathSpells = pathDb + "spells/";
         const string pathCreatures = pathDb + "creatures/";
         const string pathStatuses = pathDb + "status/";
+        const string pathBiomes = pathDb + "biomes/";
         Diamonds.spellModels.Clear();
         Diamonds.creatureModels.Clear();
 
@@ -60,6 +68,14 @@ public static class Diamonds
             var json = File.ReadAllText(path);
             var status = Json.deserialize<Status>(json);
             Diamonds.statusModels.Add(status.entityUid, status);
+        }
+
+        string[] biomes = Directory.GetFiles(pathBiomes);
+        foreach (var path in biomes)
+        {
+            var json = File.ReadAllText(path);
+            var biome = Json.deserialize<Biome>(json);
+            Diamonds.biomes.Add(biome.entityUid, biome);
         }
     }
 

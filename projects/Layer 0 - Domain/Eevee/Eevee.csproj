@@ -6,10 +6,14 @@
     <RootNamespace />
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GodotSharp" Version="4.2.3-dev" />
+    <Compile Remove="vampirekiller.eevee\zones\PointsGenerator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Facepunch.Steamworks" Version="2.3.3" />
+    <PackageReference Include="GodotSharp" Version="4.2.4-s" />
     <PackageReference Include="SimpleInjector" Version="5.4.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Util\Util.csproj" />
+    <ProjectReference Include="..\..\..\..\..\Git\common\SouchyUtil\Util\Util.csproj" />
   </ItemGroup>
 </Project>

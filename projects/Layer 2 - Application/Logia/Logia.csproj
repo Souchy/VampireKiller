@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GodotSharp" Version="4.2.3-dev" />
+    <PackageReference Include="Facepunch.Steamworks" Version="2.3.3" />
+    <PackageReference Include="GodotSharp" Version="4.2.4-s" />
     <PackageReference Include="GodotSharpExtras" Version="0.4.0" />
     <PackageReference Include="SimpleInjector" Version="5.4.3" />
   </ItemGroup>

@@ -1,0 +1,173 @@
+[gd_scene load_steps=9 format=3 uid="uid://bhlyclieub64e"]
+
+[ext_resource type="Theme" uid="uid://gnsm0odr5gys" path="res://vampirekiller.glaceon/sapphire/ui/style/theme.tres" id="1_d2psf"]
+[ext_resource type="Script" path="res://vampirekiller.glaceon/sapphire/ui/esc_menu/map/UiMap.cs" id="2_eqa8y"]
+[ext_resource type="StyleBox" uid="uid://by141ycketuki" path="res://vampirekiller.glaceon/sapphire/ui/style/background_dark.tres" id="2_g8hpw"]
+[ext_resource type="PackedScene" uid="uid://c6o08cmwmfm26" path="res://vampirekiller.glaceon/sapphire/ui/esc_menu/map/ui_map_node.tscn" id="3_y2kht"]
+
+[sub_resource type="Gradient" id="Gradient_pyym7"]
+colors = PackedColorArray(0.707031, 0.577358, 0.337811, 1, 0.329742, 0.562818, 0.800781, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_g0xyb"]
+gradient = SubResource("Gradient_pyym7")
+width = 512
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3mxxk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7epcw"]
+bg_color = Color(0.129412, 0.129412, 0.129412, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[node name="UiMap" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_d2psf")
+script = ExtResource("2_eqa8y")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+
+[node name="BackgroundTexture" type="TextureRect" parent="ScrollContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("GradientTexture1D_g0xyb")
+metadata/_edit_use_anchors_ = true
+
+[node name="MapCanvas" type="Panel" parent="ScrollContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_3mxxk")
+
+[node name="Line2D" type="Line2D" parent="ScrollContainer/PanelContainer/MapCanvas"]
+points = PackedVector2Array(75.955, 179, 118, 343, 248.31, 411)
+width = 5.0
+default_color = Color(0.105882, 0.105882, 0.105882, 0.666667)
+joint_mode = 2
+
+[node name="Line2D2" type="Line2D" parent="ScrollContainer/PanelContainer/MapCanvas"]
+points = PackedVector2Array(238, 175, 292, 320, 249, 411)
+
+[node name="Button2" type="Button" parent="ScrollContainer/PanelContainer/MapCanvas"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 0
+offset_left = 54.0
+offset_top = 150.0
+offset_right = 102.0
+offset_bottom = 198.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_7epcw")
+text = "2"
+
+[node name="Button3" type="Button" parent="ScrollContainer/PanelContainer/MapCanvas"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 0
+offset_left = 225.0
+offset_top = 395.0
+offset_right = 273.0
+offset_bottom = 443.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_7epcw")
+text = "2"
+
+[node name="Button4" type="Button" parent="ScrollContainer/PanelContainer/MapCanvas"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 0
+offset_left = 215.0
+offset_top = 150.0
+offset_right = 263.0
+offset_bottom = 198.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_7epcw")
+text = "2"
+
+[node name="UiMapNode" parent="ScrollContainer/PanelContainer/MapCanvas" instance=ExtResource("3_y2kht")]
+offset_left = 150.0
+offset_right = 150.0
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+
+[node name="Legend" type="PanelContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/panel = ExtResource("2_g8hpw")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/Legend"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/Legend/MarginContainer"]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="PanelContainer/Legend/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "Legend"
+horizontal_alignment = 1
+
+[node name="LblUnkown" type="Label" parent="PanelContainer/Legend/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "❓ Unkown"
+
+[node name="LblFight" type="Label" parent="PanelContainer/Legend/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "👻 Fight"
+
+[node name="LblCampire" type="Label" parent="PanelContainer/Legend/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "🔥 Campire"
+
+[node name="LblMerchant" type="Label" parent="PanelContainer/Legend/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "👳‍♂️ Merchant"
+
+[node name="LblScrollVendor" type="Label" parent="PanelContainer/Legend/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "🧙‍♂️ Scroll vendor"
+
+[node name="LblFoodVendor" type="Label" parent="PanelContainer/Legend/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "👨‍🍳 Food vendor"
+
+[node name="LblMarket" type="Label" parent="PanelContainer/Legend/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "🏫Market"
+
+[node name="LblNurse" type="Label" parent="PanelContainer/Legend/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "🧚‍♀️ Nurse"
+
+[node name="LblTreasure" type="Label" parent="PanelContainer/Legend/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "💎 Treasure"
+
+[node name="LblBoss" type="Label" parent="PanelContainer/Legend/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "👾 Boss"
+
+[node name="BtnGenerate" type="Button" parent="."]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_type_variation = &"ButtonEmpty"
+text = "Debug generate"
+
+[connection signal="pressed" from="BtnGenerate" to="." method="generate"]

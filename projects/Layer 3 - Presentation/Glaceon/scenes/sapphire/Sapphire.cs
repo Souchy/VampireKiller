@@ -10,6 +10,7 @@ using Util.entity;
 using Util.structures;
 using vampierkiller.logia.commands;
 using vampirekiller.eevee.actions;
+using vampirekiller.eevee.creature;
 using vampirekiller.eevee.enums;
 using vampirekiller.eevee.statements.schemas;
 using vampirekiller.eevee.util;
@@ -47,6 +48,15 @@ public partial class Sapphire : Node
     {
     }
 
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+        //var map = GetNode(nameof(Environment)).GetChild(0);
+        var map = AssetCache.Load<PackedScene>("res://vampireassets/maps/somedarkmap.tscn").Instantiate<Node3D>();
+        GetNode(nameof(Environment)).AddChild(map);
+        map.SafelySetScript<MapNode>("res://vampirekiller.glaceon/sapphire/entities/MapNode.cs");
+    }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -70,14 +80,6 @@ public partial class Sapphire : Node
         EventBus.centralBus.subscribe(this);
     }
 
-    public override void _EnterTree()
-    {
-        base._EnterTree();
-        var map = GetNode(nameof(Environment)).GetChild(0);
-        map.SafelySetScript<MapNode>("res://vampirekiller.glaceon/sapphire/entities/MapNode.cs");
-    }
-
-
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     //public override void _Process(double delta)
     //{
@@ -97,6 +99,7 @@ public partial class Sapphire : Node
             return;
         fight.creatures.GetEntityBus().subscribe(this);
         fight.projectiles.GetEntityBus().subscribe(this);
+        fight.crowds.GetEntityBus().subscribe(this);
 
         // Instantiate already existing creatures
         foreach (var creature in fight.creatures.values)
@@ -190,6 +193,22 @@ public partial class Sapphire : Node
     {
         ProjectileNode node = inst.get<ProjectileNode>();
         // GD.Print("Game on remove proj: " + node);
+        node.QueueFree();
+    }
+
+
+    [Subscribe(SmartDictionary<ID, CrowdInstance>.EventSet)]
+    public void onAddCrowd(SmartDictionary<ID, CrowdInstance> dic, ID creatureModelId, CrowdInstance inst)
+    {
+        CrowdNode node = AssetCache.Load<PackedScene>("res://vampirekiller.glaceon/sapphire/entities/CrowdNode.tscn").Instantiate<CrowdNode>();
+        //var node = new CrowdNode();
+        node.init(inst);
+        Entities.AddChild(node, true);
+    }
+    [Subscribe(SmartDictionary<ID, CrowdInstance>.EventRemove)]
+    public void onRemoveCrowd(SmartDictionary<ID, CrowdInstance> dic, ID creatureModelId, CrowdInstance inst)
+    {
+        var node = inst.get<CrowdNode>();
         node.QueueFree();
     }
 

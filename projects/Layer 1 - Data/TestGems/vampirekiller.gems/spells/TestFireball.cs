@@ -25,7 +25,7 @@ using VampireKiller.eevee.vampirekiller.eevee.statements;
 using VampireKiller.eevee.vampirekiller.eevee.statements.schemas;
 using VampireKiller.eevee.vampirekiller.eevee.zones;
 using Xunit.Abstractions;
-using Json = vampirekiller.eevee.util.json.Json;
+using Json = Util.json.Json;
 using JsonConverter = Newtonsoft.Json.JsonConverter;
 
 namespace vampirekiller.gems.spells;

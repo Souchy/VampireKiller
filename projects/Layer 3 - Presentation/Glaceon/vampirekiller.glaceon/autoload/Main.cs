@@ -1,11 +1,12 @@
 ﻿using Godot;
 using Logia.vampirekiller.logia;
 using System;
+using System.IO;
 using System.Linq;
+using System.Xml.Linq;
+using Util.json;
 using vampierkiller.espeon;
-using vampirekiller.eevee.util.json;
 using vampirekiller.glaceon.configs;
-using vampirekiller.glaceon.util;
 using vampirekiller.logia;
 using vampirekiller.logia.configs;
 using vampirekiller.umbreon;
@@ -28,6 +29,12 @@ public partial class Main : Node
         // Sinon:
         // OS.HasFeature("dedicated_server")
         // DisplayServer.GetName() == "headless"
+
+#if DEBUG
+        Config.BaseDirectory = "configs/";
+#else
+        Config.BaseDirectory = "res://configs/";
+#endif
 
         configDev = Config.load<ConfigDev>();
         configGeneral = Config.load<ConfigGeneral>();

@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdooh02msp8ee"]
+
+[ext_resource type="Theme" uid="uid://gnsm0odr5gys" path="res://vampirekiller.glaceon/sapphire/ui/style/theme.tres" id="1_0bcjw"]
+[ext_resource type="StyleBox" uid="uid://by141ycketuki" path="res://vampirekiller.glaceon/sapphire/ui/style/background_dark.tres" id="2_7uo4q"]
+
+[node name="UiRoomGeneratorTool" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_0bcjw")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="Properties" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = ExtResource("2_7uo4q")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Properties"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Properties/MarginContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="MarginContainer/Properties/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Generate"
+
+[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer/Properties/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Properties/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Decorations"
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/Properties/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 10.0
+
+[node name="HBoxContainer2" type="VBoxContainer" parent="MarginContainer/Properties/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Properties/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "WidthX"
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/Properties/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="VBoxContainer" parent="MarginContainer/Properties/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Properties/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "DepthZ"
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/Properties/MarginContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2

@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://si5n7260glnp"]
+
+[node name="RoomGeneratorTool" type="Node3D"]

@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 using Util.communication.commands;
 using Util.ecs;
 using Util.entity;
-using vampirekiller.eevee.util.json;
 using VampireKiller.eevee.creature;
 using VampireKiller.eevee.vampirekiller.eevee.spells;
-using Json = vampirekiller.eevee.util.json.Json;
+using Json = Util.json.Json;
 
 namespace vampirekiller.logia.commands;
 

@@ -12,7 +12,7 @@ using VampireKiller.eevee.vampirekiller.eevee.stats;
 
 namespace VampireKiller.eevee.vampirekiller.eevee.spells;
 
-public class SpellInstance : Identifiable, IStatementContainer
+public class SpellInstance : Identifiable //, IStatementContainer
 {
     public ID entityUid { get; set; }
     public ID modelUid { get; set; }
@@ -21,7 +21,10 @@ public class SpellInstance : Identifiable, IStatementContainer
     /// </summary>
     public SkillSkin skin { get; set; } 
 
-    public SmartList<IStatement> statements { get => getModel().statements; set => throw new NotImplementedException(); }
+    //public SmartList<IStatement> statements { 
+    //    get => getModel().statements; 
+    //    set => throw new NotImplementedException(); 
+    //}
 
     public StatsDic stats = Register.Create<StatsDic>();
 

@@ -16,6 +16,7 @@ using VampireKiller.eevee.vampirekiller.eevee.statements;
 using vampirekiller.eevee.stats.schemas.resources;
 using Eevee.vampirekiller.eevee.stats.schemas;
 using vampirekiller.logia;
+using Util.json;
 
 namespace vampirekiller.gems.spells;
 
