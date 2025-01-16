@@ -193,7 +193,7 @@ public static class PointsGenerator
     }
     #endregion
 
-    #region rectangles
+    #region rectcrowd.directions
     public static Points rectangle(int radiusSide, int radiusForward)
     {
         Points points = new();

@@ -45,6 +45,10 @@ public partial class EnemyNode : CreatureNode
     {
         base._Process(delta);
 
+#if BOIDS
+            return;
+#endif
+
         if (Universe.isOnline && !this.Multiplayer.IsServer())
             return;
 
@@ -60,7 +64,7 @@ public partial class EnemyNode : CreatureNode
             }
         }
 
-        if(true)
+        if (true)
             return;
 
         if (this.trackingTarget != null)
@@ -98,12 +102,20 @@ public partial class EnemyNode : CreatureNode
 
     }
 
+
+#if BOIDS
+    public override void _PhysicsProcess(double delta)
+    {
+            return;
+    }
+#endif
+
     protected override void SetAnimationFromVelocity(float velo)
     {
         if (InstanceData != null)
         {
             InstanceData.Transform3D = Model.GlobalTransform;
-            if(InstanceData.LoopAnimation != null)
+            if (InstanceData.LoopAnimation != null)
                 return;
             //var moveAnim = "";
             //if (velo <= 0.001)
@@ -127,7 +139,7 @@ public partial class EnemyNode : CreatureNode
 
             AnimationHeader toCurrent = null;
             AnimationHeader toLoop = null;
-            if(InstanceData.CurrentAnimation == null || InstanceData.CurrentAnimation.LoopMode != Animation.LoopModeEnum.None) 
+            if (InstanceData.CurrentAnimation == null || InstanceData.CurrentAnimation.LoopMode != Animation.LoopModeEnum.None)
                 toCurrent = anim;
             if (anim.LoopMode != Animation.LoopModeEnum.None)
                 toLoop = anim;
@@ -152,7 +164,7 @@ public partial class EnemyNode : CreatureNode
 
     protected override Vector3 getNextDirection()
     {
-        if(trackingTarget == null)
+        if (trackingTarget == null)
             return Vector3.Zero;
         return this.trackingTarget.GlobalPosition - this.GlobalPosition;
         //return getNextNavigationDirection();

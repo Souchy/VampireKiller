@@ -68,11 +68,25 @@ public partial class MapNode : Node3D
     {
         if (Universe.fight != null)
         {
-            CrowdInstance crowd = Universe.fight.crowds.get(modelId); //StubFight.enemyModel.entityUid); //crea.model.entityUid);
-            if (crowd?.Instances.size() >= 100)
-                return;
+            CrowdInstance? crowd = Universe.fight.crowds.get(modelId); //StubFight.enemyModel.entityUid); //crea.model.entityUid);
+            bool newCrowd = false;
+            if (crowd == null)
+            {
+                newCrowd = true;
+                crowd = Register.Create<CrowdInstance>();
+                for(int i = 0; i < CrowdInstance.maxCreatureCount; i++)
+                {
+                    var crea = StubFight.spawnStubCreature(new Vector3());
+                    crea.poolId = i;
+                    crowd.Instances.add(crea);
+                }
+                Universe.fight.crowds.add(modelId, crowd);
+            }
+            //if (crowd.Instances.size() >= CrowdInstance.maxCreatureCount)
+            //    return;
 
-            int packSize = 10;
+            // spawn a whole pack
+            int packSize = 9; //Math.Min(9, CrowdInstance.maxCreatureCount - crowd.Instances.size());
             int width = (int) Math.Sqrt(packSize);
             int height = packSize / width;
             for (int i = 0; i < packSize; i++)
@@ -81,12 +95,15 @@ public partial class MapNode : Node3D
                 int z = i / width - width / 2;
                 Vector3 creaPos = new(pos.X + x, pos.Y, pos.Z + z);
 
-                var crea = StubFight.spawnStubCreature(creaPos);
-                if (crowd == null)
-                {
-                    crowd = Register.Create<CrowdInstance>();
-                    Universe.fight.crowds.add(modelId, crowd);
+                //var crea = StubFight.spawnStubCreature(creaPos);
+                int poolId = crowd.poolCreatureInstance();
+                // all creatures are active
+                if(poolId == -1)
+                    return;
+                var crea = crowd.Instances.getAt(poolId);
 
+                if (newCrowd)
+                {
                     var node = crowd.get<CrowdNode>();
                     // Set Mesh
                     var scene = AssetCache.Load<PackedScene>(crea.currentSkin.scenePath, ".tscn", ".glb", ".gltf").Instantiate<Node3D>();
@@ -98,10 +115,10 @@ public partial class MapNode : Node3D
                     var data = AssetCache.LoadBakedAnimationData(crea.currentSkin.animationLibraries[0]);
                     node.SetAnimationLibrary(data);
                 }
-                if (crowd.Instances.size() < 100)
-                    crowd.Instances.add(crea);
+
+                //crowd.Instances.add(crea);
+                //crowd.actualCreatureCount++;
             }
-            //Universe.fight.creatures.add(crea);
         }
     }
 

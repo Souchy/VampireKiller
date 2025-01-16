@@ -69,6 +69,13 @@ public class CreatureInstance : Entity, Identifiable
     /// </summary>
     public CreatureSkin currentSkin { get; set; }
 
+    /// <summary>
+    /// For pooling instances, isActive means the instance is in the scene tree and gets updated.
+    /// </summary>
+    public bool isActive { get; set; }
+    public int poolId {  get; set; }
+
+
     private CreatureInstance() { }
 
     public void initialize()

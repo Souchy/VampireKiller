@@ -1,6 +1,8 @@
-﻿using System;
+﻿#define BOIDS
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Util.communication.events;
@@ -18,7 +20,7 @@ public class Fight : IDisposable
 {
     public const string EventSet = "set";
 
-    public EntityFamily entities {get; init;} = Register.Create<EntityFamily>();
+    public EntityFamily entities { get; init; } = Register.Create<EntityFamily>();
     public SmartSet<CreatureInstance> creatures { get; init; } = SmartSet<CreatureInstance>.Create();
     public SmartSet<ProjectileInstance> projectiles { get; init; } = SmartSet<ProjectileInstance>.Create();
     /// <summary>
@@ -26,8 +28,15 @@ public class Fight : IDisposable
     /// </summary>
     public SmartDictionary<ID, CrowdInstance> crowds { get; init; } = SmartDictionary<ID, CrowdInstance>.Create();
 
-    public Fight() {
+    public Thread crowdThread;
+
+    public Fight()
+    {
+#if BOIDS
         //EventBus.centralBus.subscribe(entities);
+        // crowdThread = new Thread(new ThreadStart(updateThread));
+        // crowdThread.Start();
+#endif
     }
 
     public void Dispose()
@@ -37,4 +46,6 @@ public class Fight : IDisposable
         crowds.Dispose();
         EventBus.centralBus.publish(nameof(Dispose), this);
     }
+
+
 }

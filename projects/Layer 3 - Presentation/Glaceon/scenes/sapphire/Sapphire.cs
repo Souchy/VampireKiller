@@ -38,7 +38,7 @@ public partial class Sapphire : Node
     public Node Players { get; set; }
     [NodePath]
     public Node Effects { get; set; }
-
+    
     [NodePath] public MultiplayerSpawner EntitySpawner { get; set; }
     [NodePath] public MultiplayerSpawner PlayerSpawner { get; set; }
     [NodePath] public MultiplayerSpawner EffectSpawner { get; set; }
